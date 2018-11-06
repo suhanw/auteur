@@ -15,7 +15,7 @@ Sample State
           tags: [5, 6, 7],
           createdAt: ...,
           updatedAt: ...,
-          blogId: 1
+          blog: 1
         },
         ...
       },

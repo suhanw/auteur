@@ -19,7 +19,8 @@ const userSchema = new mongoose.Schema(
     blogs: [{
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Blog',
-      required: false,
+      required: true,
+      default: 1,
     }],
     following: [
       {
