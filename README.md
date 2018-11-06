@@ -52,6 +52,7 @@ Sample State
           description: '...',
           avatarImageUrl: '...', // same as user image if primary blog
           backgroundImageUrl: '...',
+          members: [1, 2, 3],
           followerCount: 123,
         }
       },
