@@ -105,6 +105,7 @@ Sample State
       allIds: [500, 600]
     }
   },
+
   ui: {
     loading: {
       loadingPostIndex: true/false,
@@ -132,7 +133,12 @@ Sample State
       blogShowSidebar: true/false
     },
     searchText: '...'
-  }
+  },
+
+  errors: {
+    signupErrors: [],
+    loginErrors: [],
+  },
 
   session: {
     currentUser: {
