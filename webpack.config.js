@@ -1,10 +1,10 @@
 const path = require('path');
+const LiveReloadPlugin = require('webpack-livereload-plugin');
 
 module.exports = {
-  context: __dirname,
   entry: './src/client/index.jsx',
   output: {
-    path: path.resolve(__dirname, 'src', 'client'),
+    path: path.resolve(__dirname, 'src', 'client', 'public', 'scripts'),
     filename: 'bundle.js'
   },
   module: {
@@ -29,15 +29,11 @@ module.exports = {
       }
     ]
   },
-  devServer: {
-    port: 3000,
-    open: false,
-    proxy: {
-      '/api': 'http://localhost:8080'
-    }
-  },
   devtool: 'source-map',
   resolve: {
     extensions: ['.jsx', '.js', '*']
-  }
+  },
+  plugins: [
+    new LiveReloadPlugin({port: 8080, hostname: 'localhost'})
+  ]
 }

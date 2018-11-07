@@ -29,7 +29,7 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, '/views'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(methodOverride());
-app.use(express.static(path.join(__dirname + '/../client')));
+app.use(express.static(path.join(__dirname + '/../client/public')));
 // APP CONFIG=============================
 
 // AUTH CONFIG============================

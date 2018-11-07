@@ -3,7 +3,11 @@ import ReactDOM from 'react-dom';
 
 document.addEventListener('DOMContentLoaded', function() {
   const rootDOM = document.querySelector('#root');
-  ReactDOM.render(<h1>test tess</h1>, rootDOM);
+  ReactDOM.render((
+    <h1>
+      {window.currentUser ? 'welcome back' : 'not logged in'}
+    </h1>
+  ), rootDOM);
 });
 
 // TESTING===========================
