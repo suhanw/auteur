@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const rootDOM = document.querySelector('#root');
   ReactDOM.render((
     <h1>
-      {window.currentUser ? 'welcome back' : 'not logged in'}
+      {window.currentUser ? 'welcome back sir' : 'not logged in'}
     </h1>
   ), rootDOM);
 });
