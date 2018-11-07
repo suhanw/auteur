@@ -6,15 +6,15 @@ const Post = require('../models/post');
 const seedDB = function() {
   clearDB();
 
-  User.create({
-    email: 'suhanw@gmail.com',
-    username: 'suhanw',
-  }, function(err, createdUser) {
-    if (err) {
-      return console.log(err);
-    }
-    createBlog(createdUser);
-  });
+  // User.create({
+  //   email: 'suhanw@gmail.com',
+  //   username: 'suhanw',
+  // }, function(err, createdUser) {
+  //   if (err) {
+  //     return console.log(err);
+  //   }
+  //   createBlog(createdUser);
+  // });
 };
 
 const clearDB = function() {

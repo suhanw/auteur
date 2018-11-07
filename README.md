@@ -29,7 +29,7 @@ Sample State
           author: 456,
           body: null,
           createdAt: ...
-          post: 234,
+          post  : 234,
         },
         2: {
           id: 2,
