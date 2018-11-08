@@ -1,4 +1,6 @@
 import React from 'react';
+import {Route, Switch} from 'react-router-dom';
+import SessionFormContainer from './session/session_form_container';
 
 class App extends React.Component {
   constructor(props) {
@@ -9,7 +11,8 @@ class App extends React.Component {
 
     return (
       <div>
-        This is App.
+        <Route path='/login' component={SessionFormContainer} />
+        <Route path='/signup' component={SessionFormContainer} />
       </div>
     );
   }

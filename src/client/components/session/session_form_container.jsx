@@ -3,22 +3,24 @@ import {connect} from 'react-redux';
 import {merge} from 'lodash';
 import SessionForm from './session_form';
 import {selectCurrentUser} from '../../selectors/selectors';
+import {signup, login} from '../../actions/session_actions';
 
 const mapStateToProps = function(state, ownProps) {
-  let user = { //default if no current user logged in
-    email: '',
-    username: '',
-    password: '',
-  };
-  user = merge(user, selectCurrentUser(state));
-
+  const path = ownProps.match.path;
   return {
-    user,
+    path,
   };
 };
 
 const mapDispatchToProps = function(dispatch, ownProps) {
-  
+  const path = ownProps.match.path;
+  let submit = login;
+  if (path === '/signup') {
+    submit = signup;
+  }
+  return {
+    submit: (user) => dispatch(submit(user))
+  };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SessionForm);
