@@ -1,0 +1,47 @@
+.swipe-left {
+  animation-delay: 0.3s;
+  animation-duration: 0.3s;
+  animation-iteration-count: 1;
+  animation-timing-function: ease-out;
+  animation-name: animateswipeleft;
+  // will apply style from first and last keyframe before and after animation
+  animation-fill-mode: both;
+}
+
+@keyframes animateswipeleft {
+  0% {
+    margin-left: 200%;
+  }
+
+  100% {
+    margin-left: 0;
+  }
+}
+
+
+.slide-down {
+  animation-duration: 0.3s;
+  animation-iteration-count: 1;
+  animation-timing-function: ease-out;
+  // animation-name: animateslidedown;
+}
+
+@keyframes animateslidedown {
+  0% {
+    top: 0;
+    position: absolute;
+  }
+
+  20% {
+    top: 0;
+    position: absolute;
+  }
+
+
+  100% {
+    top: 300%;
+    position: absolute;
+    // // top: 200px;
+    // position: relative;
+  }
+}
