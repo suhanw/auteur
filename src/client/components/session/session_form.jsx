@@ -1,4 +1,5 @@
 import React from 'react';
+import {renderErrors} from '../../util/error_util';
 
 class SessionForm extends React.Component {
   constructor(prop) {
@@ -44,12 +45,15 @@ class SessionForm extends React.Component {
       );
       submitButton = (<input type='submit' value='Sign up' />);
     }
+    const errorMessage = renderErrors(this.props.errors);
 
     return (
       <form className='session-form' onSubmit={this.handleSubmit}>
+        {this.props.sessionId ? 'You are logged in' : ''}
         {emailField}
         {passwordField}
         {usernameField}
+        {errorMessage}
         {submitButton}
       </form>
     );
@@ -65,7 +69,11 @@ class SessionForm extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    this.props.submit(this.state);
+    const user = Object.assign({}, this.state);
+    this.props.submit(user).then(
+      () => console.log('success'),
+      () => console.log('error')
+    );
   }
 }
 

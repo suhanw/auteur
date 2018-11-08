@@ -6,8 +6,25 @@ import configureStore from './store/store';
 import './public/stylesheets/styles.scss'; // to use SASS compiled by webpack
 
 document.addEventListener('DOMContentLoaded', function() {
-  const store = configureStore();
-
+  let store;
+  if (window.currentUser) {
+    const preloadedState = {
+      entities: {
+        users: {
+          byId: {
+            [window.currentUser._id]: window.currentUser,
+          },
+          allIds: [window.currentUser._id],
+        }
+      },
+      session: {
+        id: window.currentUser._id,
+      }
+    }
+    store = configureStore(preloadedState);
+  } else {
+    store = configureStore();
+  }
 
   // TESTING===========================
   window.getState = store.getState;
@@ -20,9 +37,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // TESTING===========================
 // import {signup, login, logout} from './util/session_api_util';
-import {signup, login, logout} from './actions/session_actions';
+// import {signup, login, logout} from './actions/session_actions';
 
 // window.signup = signup;
-window.login = login;
-window.logout = logout;
+// window.login = login;
+// window.logout = logout;
 // TESTING===========================

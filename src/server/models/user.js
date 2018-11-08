@@ -33,6 +33,15 @@ const userSchema = new mongoose.Schema(
   { timestamps: {createdAt: 'createdAt'} }
 );
 
-userSchema.plugin(passportLocalMongoose, { usernameField: 'email' });
+userSchema.plugin(
+  passportLocalMongoose,
+  {
+    usernameField: 'email',
+    errorMessages: {
+      MissingUsernameError: 'You do have to fill this out, you know. ',
+      MissingPasswordError: 'You do have to fill this out, you know. '
+    }
+  }
+);
 
 module.exports = mongoose.model('User', userSchema);

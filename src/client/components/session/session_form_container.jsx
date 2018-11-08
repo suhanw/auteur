@@ -2,13 +2,17 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {merge} from 'lodash';
 import SessionForm from './session_form';
-import {selectCurrentUser} from '../../selectors/selectors';
+import {selectSessionErrors} from '../../selectors/selectors';
 import {signup, login} from '../../actions/session_actions';
 
 const mapStateToProps = function(state, ownProps) {
   const path = ownProps.match.path;
+  const errors = selectSessionErrors(state);
+  const sessionId = state.session.id;
   return {
     path,
+    errors,
+    sessionId,
   };
 };
 

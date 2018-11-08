@@ -6,3 +6,8 @@ export const selectCurrentUser = function(state) {
   const currentUser = state.entities.users.byId[currentUserId];
   return currentUser;
 };
+
+export const selectSessionErrors = function(state) {
+  const {errors: {sessionErrors}} = state;
+  return sessionErrors;
+}
