@@ -7,6 +7,7 @@ const path            = require('path');
 const passport        = require('passport');
 const session         = require('express-session');
 const LocalStrategy   = require('passport-local').Strategy;
+const flash           = require('connect-flash');
 
 const User = require('./models/user');
 const userRoutes = require('./routes/users');
@@ -46,6 +47,7 @@ if (app.get('env') === 'production') {
 }
 
 app.use(session(sessionOptions));
+app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
 passport.use(User.createStrategy());

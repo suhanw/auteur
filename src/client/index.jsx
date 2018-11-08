@@ -18,9 +18,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // TESTING===========================
 // import {signup, login, logout} from './util/session_api_util';
-import {signup} from './actions/session_actions';
+import {signup, login, logout} from './actions/session_actions';
 
-window.signup = signup;
-// window.login = login;
-// window.logout = logout;
+// window.signup = signup;
+window.login = login;
+window.logout = logout;
 // TESTING===========================

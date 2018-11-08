@@ -6,7 +6,7 @@ const User = require('../models/user');
 // POST api/users
 router.post('/users',
   function(req, res) {
-    User.register(
+    User.register( // method provided by passport-local-mongoose
       new User({ username: req.body.username, email: req.body.email }),
       req.body.password,
       function(err, createdUser) {
@@ -23,7 +23,8 @@ router.post('/users',
           const userJSON = {_id, email, username, avatarImageUrl, blogs, following};
           return res.json(userJSON);
         });
-    });
+      }
+    );
   }
 );
 
