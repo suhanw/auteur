@@ -21,6 +21,7 @@ document.addEventListener('DOMContentLoaded', function() {
         id: window.currentUser._id,
       }
     }
+    delete window.currentUser;
     store = configureStore(preloadedState);
   } else {
     store = configureStore();
@@ -37,9 +38,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // TESTING===========================
 // import {signup, login, logout} from './util/session_api_util';
-// import {signup, login, logout} from './actions/session_actions';
+import {signup, login, logout} from './actions/session_actions';
 
 // window.signup = signup;
 // window.login = login;
-// window.logout = logout;
+window.logout = logout;
 // TESTING===========================

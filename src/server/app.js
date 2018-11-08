@@ -38,7 +38,9 @@ const sessionOptions = {
   secret: 'renhao',
   resave: false,
   saveUninitialized: false,
-  cookie: {}
+  cookie: {
+    maxAge: 86400000,
+  }
 };
 
 if (app.get('env') === 'production') {
