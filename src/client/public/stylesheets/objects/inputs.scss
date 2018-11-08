@@ -1,3 +1,12 @@
-input {
-  font-family: $font-main;
+.input-text {
+  height: 40px;
+  border-radius: 2px;
+}
+
+.input-text-default {
+  background: $white;
+  color: $black;
+  font-size: 16px;
+  font-weight: 400;
+  letter-spacing: 0.5px;
 }

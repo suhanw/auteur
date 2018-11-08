@@ -17,7 +17,7 @@ class SessionForm extends React.Component {
 
   render() {
     const emailField = (
-      <input
+      <input className='input-text input-text-default'
         type='text'
         name='email'
         value={this.state.email}
@@ -25,7 +25,7 @@ class SessionForm extends React.Component {
         onChange={this.handleChange('email')} />
     );
     const passwordField = (
-      <input
+      <input className='input-text input-text-default'
         type='password'
         name='password'
         value={this.state.password}
@@ -33,17 +33,17 @@ class SessionForm extends React.Component {
         onChange={this.handleChange('password')} />
     );
     let usernameField = null;
-    let submitButton = (<input type='submit' value='Log in' />);
+    let submitButton = (<input className='btn btn-default btn-blue' type='submit' value='Log in' />);
     if (this.props.path === '/signup') {
       usernameField = (
-        <input
+        <input className='input-text input-text-default'
           type='text'
           name='username'
           value={this.state.username}
           placeholder='Username'
           onChange={this.handleChange('username')} />
       );
-      submitButton = (<input type='submit' value='Sign up' />);
+      submitButton = (<input className='btn btn-default btn-blue' type='submit' value='Sign up' />);
     }
     const errorMessage = renderErrors(this.props.errors);
 

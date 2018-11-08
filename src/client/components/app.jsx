@@ -13,10 +13,12 @@ class App extends React.Component {
   render() {
 
     return (
-      <div className='splash'>
+      <div>
         <Route path='/' component={NavbarContainer} />
-        <AuthRoute path='/login' component={SessionFormContainer} />
-        <AuthRoute path='/signup' component={SessionFormContainer} />
+        <section className='splash'>
+          <AuthRoute path='/login' component={SessionFormContainer} />
+          <AuthRoute path='/signup' component={SessionFormContainer} />
+        </section>
         <ProtectRoute path='/dashboard' component={Dashboard} />
       </div>
     );

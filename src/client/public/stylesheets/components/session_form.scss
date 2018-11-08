@@ -1,0 +1,23 @@
+.session-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 300px;
+  margin-top: 40vh;
+}
+
+.session-form .input-text, .session-form .btn {
+  width: 100%;
+  height: 40px;
+  min-height: 40px;
+  padding: 5px;
+}
+
+.session-form .input-text {
+  margin: 0.5px;
+}
+
+.session-form .btn {
+  margin-top: 5px;
+}

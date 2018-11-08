@@ -6,15 +6,14 @@ class Navbar extends React.Component {
     super(props);
 
     this.handleClick = this.handleClick.bind(this);
+    this.renderButtons = this.renderButtons.bind(this);
   }
 
   render() {
 
     return(
       <nav className='navbar'>
-        <Link to='/login' className='btn btn-regular btn-transparent'>Login</Link>
-        <Link to='/signup' className='btn btn-regular btn-white'>Sign up</Link>
-        <button onClick={this.handleClick} className='btn btn-regular btn-blue'>Logout</button>
+        {this.renderButtons()}
       </nav>
     );
   }
@@ -23,6 +22,44 @@ class Navbar extends React.Component {
     e.preventDefault();
     const {logout} = this.props;
     logout();
+  }
+
+  renderButtons() {
+    const {currentUser} = this.props;
+    const {pathname} = this.props.location;
+    if (currentUser) { 
+      return (
+        <button onClick={this.handleClick} className='btn btn-default btn-blue'>Logout</button>
+      );
+    } else if (pathname === '/signup'){
+      return (
+        <ul className='session-btn-group'>
+          <li className='btn btn-default btn-transparent'>
+            <Link to='/login'>Log in</Link>
+          </li>
+        </ul>
+      );
+    } else if (pathname === '/login') {
+      return (
+        <ul className='session-btn-group'>
+          <li className='btn btn-default btn-white'>
+            <Link to='/signup'>Sign up</Link>
+          </li>
+        </ul>
+      );
+    } else {
+      return (
+        <ul className='session-btn-group'>
+          <li className='btn btn-default btn-transparent'>
+            <Link to='/login'>Log in</Link>
+          </li>
+          <li className='btn btn-default btn-white'>
+            <Link to='/signup'>Sign up</Link>
+          </li>
+        </ul>
+      );
+
+    }
   }
 }
 
