@@ -6,7 +6,6 @@ import {selectSessionErrors} from '../../selectors/selectors';
 import {signup, login} from '../../actions/session_actions';
 
 const mapStateToProps = function(state, ownProps) {
-  debugger
   const path = ownProps.match.path;
   const errors = selectSessionErrors(state);
   const sessionId = state.session.id;

@@ -3,12 +3,10 @@ import {Route, Redirect, withRouter} from 'react-router-dom';
 import {connect} from 'react-redux';
 import {selectCurrentUser} from '../selectors/selectors';
 
-const AuthRoute = function(props) {
-  // const ({ component:Component, path, loggedIn, exact }) = props;
+const Auth = function(props) {
   const {component: Component, path, loggedIn, exact} = props;
-  // debugger
   return <Route path={path} exact={exact} render={function(props) {
-    if (!loggedIn) {
+    if (!loggedIn) { // if not logged in, then render the page
       return <Component {...props} />;
     } else {
       return <Redirect to='/dashboard' />;
@@ -16,7 +14,16 @@ const AuthRoute = function(props) {
   }} />
 };
 
-
+const Protect = function(props) {
+  const {component: Component, loggedIn, path, exact} = props;
+  return <Route path={path} exact={exact} render={function(props) {
+    if (loggedIn) { // if logged in, then render the page
+      return <Component {...props} />
+    } else {
+      return <Redirect to='/login' />
+    }
+  }} />
+}
 
 const mapStateToProps = function(state) {
   const loggedIn = selectCurrentUser(state);
@@ -25,6 +32,10 @@ const mapStateToProps = function(state) {
   };
 };
 
-export default withRouter( // need withRouter so AuthRoute listens for URL changes
-  connect(mapStateToProps, null)(AuthRoute)
+export const AuthRoute = withRouter( // need withRouter so AuthRoute listens for URL changes
+  connect(mapStateToProps, null)(Auth)
+);
+
+export const ProtectRoute = withRouter(
+  connect(mapStateToProps, null)(Protect)
 );

@@ -1,3 +1,30 @@
-button {
+.btn {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
   font-family: $font-main;
+  cursor: pointer;
+  border-radius: 2px;
+}
+
+.btn-regular {
+  height: 32px;
+  font-size: 14px;
+  padding: 5px 13px;
+}
+
+.btn-blue {
+  background: rgb(82, 158, 204);
+  color: #fff;
+}
+
+.btn-white {
+  background: #fff;
+  color: #444;
+}
+
+.btn-transparent {
+  background: rgba(0, 0, 0, 0.2);
+  color: #fff;
 }
