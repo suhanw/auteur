@@ -11,7 +11,7 @@ router.post('/users',
       req.body.password,
       function(err, createdUser) {
         if (err) {
-          return res.status(422).json({ errors: err.message });
+          return res.status(422).json([err.message]);
         }
 
         // invoking passport.authenticate() returns a middleware callback with the (req, res, next) signature.
@@ -19,7 +19,9 @@ router.post('/users',
 
         // so we need to execute that cb to complete the response.
         middlewareCallback(req, res, function() {
-          return res.json({message: 'Signup successful!'});
+          const {_id, email, username, avatarImageUrl, blogs, following} = createdUser;
+          const userJSON = {_id, email, username, avatarImageUrl, blogs, following};
+          return res.json(userJSON);
         });
     });
   }

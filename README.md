@@ -137,19 +137,11 @@ Sample State
   },
 
   errors: {
-    signupErrors: [],
-    loginErrors: [],
+    sessionErrors: [],
   },
 
   session: {
-    currentUser: {
-      id: 1,
-      email: 'dw@gmail.com',
-      username: 'dwash',
-      avatarImageUrl: '...'
-      blogs: [1, 2, 3]
-      following: [1, 2, 3, ...] // blogIds
-    }
+    id: 1
   }
 }
 ```
