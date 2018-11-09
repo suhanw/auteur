@@ -54,7 +54,9 @@ class SessionForm extends React.Component {
         {passwordField}
         {usernameField}
         {errorMessage}
-        {submitButton}
+        <div className='slide-down-container'>
+          {submitButton}
+        </div>
       </form>
     );
   }

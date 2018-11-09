@@ -1,8 +1,8 @@
 .swipe-left {
-  animation-delay: 0.3s;
+  animation-delay: 0.4s;
   animation-duration: 0.3s;
   animation-iteration-count: 1;
-  animation-timing-function: ease-out;
+  animation-timing-function: ease;
   animation-name: animateswipeleft;
   // will apply style from first and last keyframe before and after animation
   animation-fill-mode: both;
@@ -18,30 +18,39 @@
   }
 }
 
+.slide-down-container {
+  // display: inline;
+  // height: 100%;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  align-items: flex-end;
+  animation-duration: 0.5s;
+  animation-iteration-count: 1;
+  animation-timing-function: ease-in-out;
+  animation-name: animateslidedown;
+  animation-fill-mode: both;
+  z-index: -100;
+}
 
 .slide-down {
-  animation-duration: 0.3s;
-  animation-iteration-count: 1;
-  animation-timing-function: ease-out;
-  // animation-name: animateslidedown;
 }
 
 @keyframes animateslidedown {
   0% {
-    top: 0;
-    position: absolute;
-  }
-
-  20% {
-    top: 0;
-    position: absolute;
+    height: 40px;
+    // top: 0;
+    // position: relative;
   }
 
 
   100% {
-    top: 300%;
-    position: absolute;
-    // // top: 200px;
+    height: 100%;
+    // top: 300%;
+    // position: absolute;
+    // top: 200px;
     // position: relative;
   }
 }

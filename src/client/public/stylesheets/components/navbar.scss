@@ -2,11 +2,13 @@
   z-index: 10;
   position: absolute;
   width: 100%;
+  display: flex;
+  justify-content: flex-end;
 }
 
-.session-btn-group {
+.navbar-right {
   height: 54px;
-  display: flex;
+  display: inline-flex;
   flex-direction: row;
   align-items: center;
   background: transparent;

@@ -27,13 +27,13 @@ class Navbar extends React.Component {
   renderButtons() {
     const {currentUser} = this.props;
     const {pathname} = this.props.location;
-    if (currentUser) { 
+    if (currentUser) {
       return (
         <button onClick={this.handleClick} className='btn btn-default btn-blue'>Logout</button>
       );
     } else if (pathname === '/signup'){
       return (
-        <ul className='session-btn-group'>
+        <ul className='navbar-right'>
           <li className='btn btn-default btn-transparent'>
             <Link to='/login'>Log in</Link>
           </li>
