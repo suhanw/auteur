@@ -12,10 +12,10 @@ class Carousel extends React.Component {
     this.state = {
       activeSlide: 1,
       slideClasses: {
-        1: 'intro-slide active',
-        2: 'about-slide',
-        3: 'create-slide',
-        4: 'welcome-slide',
+        1: ' active',
+        2: '',
+        3: '',
+        4: '',
       },
     }
 
@@ -25,25 +25,25 @@ class Carousel extends React.Component {
 
   render() {
     const {activeSlide, slideClasses} = this.state;
-    console.log('current active slide', activeSlide);
+    // console.log('current active slide', activeSlide);
 
     return(
       <section className='carousel'>
-        <div  className={slideClasses[4]}
+        <div  className={'welcome-slide' + slideClasses[4]}
               onWheel={this.throttleWheel(200, this.scrollCarousel)}>
           This is welcome slide.
           <AuthRoute path='/login' component={SessionFormContainer} />
           <AuthRoute path='/signup' component={SessionFormContainer} />
         </div>
-        <div  className={slideClasses[3]}
+        <div  className={'create-slide' + slideClasses[3]}
               onWheel={this.throttleWheel(200, this.scrollCarousel)}>
           This is create slide.
         </div>
-        <div  className={slideClasses[2]}
+        <div  className={'about-slide' + slideClasses[2]}
               onWheel={this.throttleWheel(200, this.scrollCarousel)}>
           This is about slide.
         </div>
-        <div  className={slideClasses[1]}
+        <div  className={'intro-slide' + slideClasses[1]}
               onWheel={this.throttleWheel(200, this.scrollCarousel)}>
           <h1 className='logo'>auteur</h1>
           <AuthRoute path='/login' component={SessionFormContainer} />
@@ -69,10 +69,10 @@ class Carousel extends React.Component {
       }
       const timeElapsed = currTime - that.firstTouch;
       if (timeElapsed > delay ) { // only call handler when wheeling has occured for specified delay
-        console.log(timeElapsed, e.deltaY);
+        // console.log(timeElapsed, e.deltaY);
         handleWheel(e, currTime, delay);
       }
-      console.log(that.firstTouch);
+      // console.log(that.firstTouch);
     };
   }
 
@@ -84,21 +84,21 @@ class Carousel extends React.Component {
     // if user is wheeling up AND not at last slide
     if (e.deltaY > 0 && activeSlide < (Object.keys(slideClasses).length)) {
       // scroll to next slide
-      newSlideClasses[activeSlide] = newSlideClasses[activeSlide].replace(' active', '');
+      newSlideClasses[activeSlide] = ' slideup';
       newActiveSlide = activeSlide + 1;
-      newSlideClasses[newActiveSlide] = newSlideClasses[newActiveSlide] + ' active';
+      newSlideClasses[newActiveSlide] = ' active';
     }
     // else if user is wheeling down AND not at first slide
     else if (e.deltaY < 0 && activeSlide > 1) {
       // scroll to previous slide
-      newSlideClasses[activeSlide] = newSlideClasses[activeSlide].replace(' active', '');
+      newSlideClasses[activeSlide] = '';
       newActiveSlide = activeSlide -1;
-      newSlideClasses[newActiveSlide] = newSlideClasses[newActiveSlide] + ' active slidedown';
+      newSlideClasses[newActiveSlide] = ' active slidedown';
     } else { // when wheeling past first or last slide, don't re-render
       that.firstTouch = null
       return;
     }
-    console.log('new activeSlide', newActiveSlide);
+    // console.log('new activeSlide', newActiveSlide);
     that.setState({
       activeSlide: newActiveSlide,
       slideClasses: newSlideClasses
@@ -107,11 +107,11 @@ class Carousel extends React.Component {
   }
 
   componentDidMount() {
-    console.log('mounted');
+    // console.log('mounted');
   }
 
   componentWillUnmount() {
-    console.log('unmounting');
+    // console.log('unmounting');
   }
 
 }

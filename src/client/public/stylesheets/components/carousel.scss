@@ -60,3 +60,23 @@
     top: 0;
   }
 }
+
+
+.slideup {
+  display: flex;
+  animation-duration: 0.3s;
+  animation-iteration-count: 1;
+  animation-timing-function: ease;
+  animation-name: carouselslideup;
+  animation-fill-mode: both;
+}
+
+@keyframes carouselslideup {
+  0% {
+    top: 0;
+  }
+
+  100% {
+    top: -100vh;
+  }
+}
