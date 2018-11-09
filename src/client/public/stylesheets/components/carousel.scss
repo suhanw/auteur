@@ -30,7 +30,6 @@
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  display: flex;
   position: absolute;
   height: 100%;
   width: 100%;
@@ -41,6 +40,9 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.slidedown {
   animation-duration: 0.3s;
   animation-iteration-count: 1;
   animation-timing-function: ease;
