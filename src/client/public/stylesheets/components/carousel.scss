@@ -10,37 +10,51 @@
   align-items: center;
 }
 
-.intro-slide, .about-slide, .create-slide, .welcome-slide {
-  position: absolute;
-  height: 100%;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-
 .intro-slide {
   background: url('https://wallpapers.moviemania.io/desktop/movie/105/28f908/back-to-the-future-desktop-wallpaper.jpg?w=3000&h=1695');
 }
-
 .about-slide {
   background: $green;
-  display: none;
 }
-
 .create-slide {
   background: $orange;
-  display: none;
 }
-
 .welcome-slide {
   background: url('https://wallpapers.moviemania.io/desktop/movie/335984/e85174/blade-runner-2049-desktop-wallpaper.jpg?w=3000&h=1695');
-  display: none;
 }
 
-.intro-slide, .welcome-slide {
+.intro-slide,
+.about-slide,
+.create-slide,
+.welcome-slide {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+  display: flex;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  display: none;
+}
+
+.active {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation-duration: 0.3s;
+  animation-iteration-count: 1;
+  animation-timing-function: ease;
+  animation-name: carouselslidedown;
+  // will apply style from first and last keyframe before and after animation
+  animation-fill-mode: both;
+}
+
+@keyframes carouselslidedown {
+  0% {
+    top: -100vh;
+  }
+
+  100% {
+    top: 0;
+  }
 }

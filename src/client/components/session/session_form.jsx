@@ -73,8 +73,10 @@ class SessionForm extends React.Component {
     e.preventDefault();
     const user = Object.assign({}, this.state);
     this.props.submit(user).then(
-      () => console.log('success'),
-      () => console.log('error')
+      () => {
+        // if no error in redux state, clear fields
+        // else, clear password field
+      }
     );
   }
 }
