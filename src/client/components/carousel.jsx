@@ -13,9 +13,9 @@ class Carousel extends React.Component {
       activeSlide: 1,
       slideClasses: {
         1: ' active',
-        2: '',
-        3: '',
-        4: '',
+        2: ' inactive',
+        3: ' inactive',
+        4: ' inactive',
       },
     }
 
@@ -30,21 +30,21 @@ class Carousel extends React.Component {
     return(
       <section className='carousel'>
         <div  className={'welcome-slide' + slideClasses[4]}
-              onWheel={this.throttleWheel(200, this.scrollCarousel)}>
+              onWheel={this.throttleWheel(100, this.scrollCarousel)}>
           This is welcome slide.
           <AuthRoute path='/login' component={SessionFormContainer} />
           <AuthRoute path='/signup' component={SessionFormContainer} />
         </div>
         <div  className={'create-slide' + slideClasses[3]}
-              onWheel={this.throttleWheel(200, this.scrollCarousel)}>
+              onWheel={this.throttleWheel(100, this.scrollCarousel)}>
           This is create slide.
         </div>
         <div  className={'about-slide' + slideClasses[2]}
-              onWheel={this.throttleWheel(200, this.scrollCarousel)}>
+              onWheel={this.throttleWheel(100, this.scrollCarousel)}>
           This is about slide.
         </div>
         <div  className={'intro-slide' + slideClasses[1]}
-              onWheel={this.throttleWheel(200, this.scrollCarousel)}>
+              onWheel={this.throttleWheel(100, this.scrollCarousel)}>
           <h1 className='logo'>auteur</h1>
           <AuthRoute path='/login' component={SessionFormContainer} />
           <AuthRoute path='/signup' component={SessionFormContainer} />

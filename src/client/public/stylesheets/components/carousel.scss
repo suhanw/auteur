@@ -42,10 +42,31 @@
   align-items: center;
 }
 
+.slideup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation-duration: 0.3s;
+  animation-iteration-count: 1;
+  animation-timing-function: ease-out;
+  animation-name: carouselslideup;
+  animation-fill-mode: both;
+}
+
+@keyframes carouselslideup {
+  0% {
+    top: 0;
+  }
+
+  100% {
+    top: -100vh;
+  }
+}
+
 .slidedown {
   animation-duration: 0.3s;
   animation-iteration-count: 1;
-  animation-timing-function: ease;
+  animation-timing-function: ease-out;
   animation-name: carouselslidedown;
   // will apply style from first and last keyframe before and after animation
   animation-fill-mode: both;
@@ -58,25 +79,5 @@
 
   100% {
     top: 0;
-  }
-}
-
-
-.slideup {
-  display: flex;
-  animation-duration: 0.3s;
-  animation-iteration-count: 1;
-  animation-timing-function: ease;
-  animation-name: carouselslideup;
-  animation-fill-mode: both;
-}
-
-@keyframes carouselslideup {
-  0% {
-    top: 0;
-  }
-
-  100% {
-    top: -100vh;
   }
 }
