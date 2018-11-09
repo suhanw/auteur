@@ -24,6 +24,7 @@ class Carousel extends React.Component {
   }
 
   render() {
+
     const {activeSlide, slideClasses} = this.state;
     // console.log('current active slide', activeSlide);
 
@@ -87,6 +88,7 @@ class Carousel extends React.Component {
       newSlideClasses[activeSlide] = ' slideup';
       newActiveSlide = activeSlide + 1;
       newSlideClasses[newActiveSlide] = ' active';
+      // that.props.history.replace('/');
     }
     // else if user is wheeling down AND not at first slide
     else if (e.deltaY < 0 && activeSlide > 1) {
@@ -94,7 +96,9 @@ class Carousel extends React.Component {
       newSlideClasses[activeSlide] = '';
       newActiveSlide = activeSlide -1;
       newSlideClasses[newActiveSlide] = ' active slidedown';
-    } else { // when wheeling past first or last slide, don't re-render
+      // that.props.history.replace('/');
+    } // when wheeling past first or last slide, don't re-render
+    else {
       that.firstTouch = null
       return;
     }
@@ -112,6 +116,24 @@ class Carousel extends React.Component {
 
   componentWillUnmount() {
     // console.log('unmounting');
+  }
+
+  componentWillMount() {
+    // if (document.images) {
+		// 		let img1 = new Image();
+		// 		let img2 = new Image();
+    //
+		// 		img1.src = "https://wallpapers.moviemania.io/desktop/movie/105/28f908/back-to-the-future-desktop-wallpaper.jpg?w=3000&h=1695";
+		// 		img2.src = "https://wallpapers.moviemania.io/desktop/movie/335984/e85174/blade-runner-2049-desktop-wallpaper.jpg?w=3000&h=1695";
+		// };
+  }
+
+  componentWillReceiveProps(newProps) {
+    // const newPathname = newProps.location.pathname;
+    // const oldPathname = this.props.location.pathname;
+    // if (newPathname !== oldPathname && newPathname !== '/') {
+    //   window.location.reload();
+    // }
   }
 
 }

@@ -1,3 +1,4 @@
+
 .carousel {
   position: fixed;
   top: 0;
@@ -11,7 +12,7 @@
 }
 
 .intro-slide {
-  background: url('https://wallpapers.moviemania.io/desktop/movie/105/28f908/back-to-the-future-desktop-wallpaper.jpg?w=3000&h=1695');
+  background: $intro-slide-bg;
 }
 .about-slide {
   background: $green;
@@ -20,7 +21,7 @@
   background: $orange;
 }
 .welcome-slide {
-  background: url('https://wallpapers.moviemania.io/desktop/movie/335984/e85174/blade-runner-2049-desktop-wallpaper.jpg?w=3000&h=1695');
+  background: $welcome-slide-bg;
 }
 
 .intro-slide,
@@ -36,14 +37,10 @@
   // display: none;
   // transition: display 0s linear 0.3s;
   opacity: 0;
-  transition: opacity 0s linear 0.3s;
+  transition: opacity 0s linear 0.5s;
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-
-.inactive {
-  display: none;
 }
 
 .active {
@@ -55,9 +52,9 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  animation-duration: 0.3s;
+  animation-duration: 0.5s;
   animation-iteration-count: 1;
-  animation-timing-function: ease-out;
+  animation-timing-function: cubic-bezier(0.77, 0, 0.175, 1);
   animation-name: carouselslideup;
   animation-fill-mode: both;
 }
@@ -73,9 +70,9 @@
 }
 
 .slidedown {
-  animation-duration: 0.3s;
+  animation-duration: 0.5s;
   animation-iteration-count: 1;
-  animation-timing-function: ease-out;
+  animation-timing-function: cubic-bezier(0.77, 0, 0.175, 1);
   animation-name: carouselslidedown;
   // will apply style from first and last keyframe before and after animation
   animation-fill-mode: both;

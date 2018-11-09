@@ -5,7 +5,7 @@ class Navbar extends React.Component {
   constructor(props) {
     super(props);
 
-    this.handleClick = this.handleClick.bind(this);
+    this.logout = this.logout.bind(this);
     this.renderButtons = this.renderButtons.bind(this);
   }
 
@@ -19,7 +19,7 @@ class Navbar extends React.Component {
     );
   }
 
-  handleClick(e) {
+  logout(e) {
     e.preventDefault();
     const {logout} = this.props;
     logout();
@@ -31,7 +31,7 @@ class Navbar extends React.Component {
     let buttonsToRender;
     if (currentUser) {
       buttonsToRender = (
-        <button onClick={this.handleClick} className='btn btn-default btn-blue'>Logout</button>
+        <button onClick={this.logout} className='btn btn-default btn-blue'>Logout</button>
       );
     } else if (pathname === '/signup'){
       buttonsToRender = (
@@ -61,6 +61,20 @@ class Navbar extends React.Component {
       </ul>
     );
   }
+
+  reloadCarousel(path) {
+    const that = this;
+    return function(e) {
+      e.preventDefault();
+      that.prop.history.replace()
+    }
+  }
+
+  componentWillMount() {
+    
+  }
+
+
 }
 
 export default Navbar;
