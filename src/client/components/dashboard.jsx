@@ -1,4 +1,6 @@
 import React from 'react';
+import {Route} from 'react-router-dom';
+import NavbarContainer from './nav/navbar_container';
 
 class Dashboard extends React.Component {
   constructor(props) {
@@ -8,10 +10,11 @@ class Dashboard extends React.Component {
   render() {
 
     return(
-      <div className='dashboard'>
+      <section className='dashboard'>
+        <Route path='/' component={NavbarContainer} />
         <div className='dashboard-content'>
         </div>
-      </div>
+      </section>
     );
   }
 }

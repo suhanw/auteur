@@ -4,6 +4,7 @@ import {merge} from 'lodash';
 import {AuthRoute} from '../util/route_util';
 import {throttleWheelEvent} from '../util/carousel_util';
 import SessionFormContainer from './session/session_form_container';
+import NavbarContainer from './nav/navbar_container';
 
 class Carousel extends React.Component {
   constructor(props) {
@@ -26,26 +27,30 @@ class Carousel extends React.Component {
   render() {
 
     const {activeSlide, slideClasses} = this.state;
-    // console.log('current active slide', activeSlide);
 
     return(
       <section className='carousel'>
+        <Route path='/' render={(props) =>
+            <NavbarContainer {...props}
+              scrollCarousel={this.scrollCarousel}
+              activeSlide={activeSlide} />
+          } />
         <div  className={'welcome-slide' + slideClasses[4]}
-              onWheel={this.throttleWheel(100, this.scrollCarousel)}>
+              onWheel={this.throttleWheel(200, this.scrollCarousel)}>
           This is welcome slide.
           <AuthRoute path='/login' component={SessionFormContainer} />
           <AuthRoute path='/signup' component={SessionFormContainer} />
         </div>
         <div  className={'create-slide' + slideClasses[3]}
-              onWheel={this.throttleWheel(100, this.scrollCarousel)}>
+              onWheel={this.throttleWheel(200, this.scrollCarousel)}>
           This is create slide.
         </div>
         <div  className={'about-slide' + slideClasses[2]}
-              onWheel={this.throttleWheel(100, this.scrollCarousel)}>
+              onWheel={this.throttleWheel(200, this.scrollCarousel)}>
           This is about slide.
         </div>
         <div  className={'intro-slide' + slideClasses[1]}
-              onWheel={this.throttleWheel(100, this.scrollCarousel)}>
+              onWheel={this.throttleWheel(200, this.scrollCarousel)}>
           <h1 className='logo'>auteur</h1>
           <AuthRoute path='/login' component={SessionFormContainer} />
           <AuthRoute path='/signup' component={SessionFormContainer} />
@@ -71,69 +76,43 @@ class Carousel extends React.Component {
       const timeElapsed = currTime - that.firstTouch;
       if (timeElapsed > delay ) { // only call handler when wheeling has occured for specified delay
         // console.log(timeElapsed, e.deltaY);
-        handleWheel(e, currTime, delay);
+        const scrollDir = e.deltaY > 0 ? 'up' : 'down';
+        handleWheel(scrollDir);
+        that.firstTouch = null;
       }
       // console.log(that.firstTouch);
     };
   }
 
-  scrollCarousel(e, currTime, delay) {
+  scrollCarousel(scrollDir, nextSlide) {
     const that = this;
     const {activeSlide, slideClasses} = that.state;
-    let newActiveSlide;
+    let newActiveSlide = nextSlide;
     let newSlideClasses = merge({}, slideClasses);
     // if user is wheeling up AND not at last slide
-    if (e.deltaY > 0 && activeSlide < (Object.keys(slideClasses).length)) {
+    if (scrollDir === 'up' && activeSlide < (Object.keys(slideClasses).length)) {
       // scroll to next slide
       newSlideClasses[activeSlide] = ' slideup';
-      newActiveSlide = activeSlide + 1;
+      // use manually passed in active slide if provided
+      newActiveSlide = !newActiveSlide ? (activeSlide + 1) : newActiveSlide;
       newSlideClasses[newActiveSlide] = ' active';
-      // that.props.history.replace('/');
     }
     // else if user is wheeling down AND not at first slide
-    else if (e.deltaY < 0 && activeSlide > 1) {
+    else if (scrollDir === 'down' && activeSlide > 1) {
       // scroll to previous slide
       newSlideClasses[activeSlide] = '';
-      newActiveSlide = activeSlide -1;
+      newActiveSlide = !newActiveSlide ? (activeSlide -1) : newActiveSlide;
       newSlideClasses[newActiveSlide] = ' active slidedown';
-      // that.props.history.replace('/');
     } // when wheeling past first or last slide, don't re-render
     else {
       that.firstTouch = null
       return;
     }
-    // console.log('new activeSlide', newActiveSlide);
     that.setState({
       activeSlide: newActiveSlide,
       slideClasses: newSlideClasses
     });
-    that.firstTouch = null;
-  }
-
-  componentDidMount() {
-    // console.log('mounted');
-  }
-
-  componentWillUnmount() {
-    // console.log('unmounting');
-  }
-
-  componentWillMount() {
-    // if (document.images) {
-		// 		let img1 = new Image();
-		// 		let img2 = new Image();
-    //
-		// 		img1.src = "https://wallpapers.moviemania.io/desktop/movie/105/28f908/back-to-the-future-desktop-wallpaper.jpg?w=3000&h=1695";
-		// 		img2.src = "https://wallpapers.moviemania.io/desktop/movie/335984/e85174/blade-runner-2049-desktop-wallpaper.jpg?w=3000&h=1695";
-		// };
-  }
-
-  componentWillReceiveProps(newProps) {
-    // const newPathname = newProps.location.pathname;
-    // const oldPathname = this.props.location.pathname;
-    // if (newPathname !== oldPathname && newPathname !== '/') {
-    //   window.location.reload();
-    // }
+    // that.firstTouch = null;
   }
 
 }

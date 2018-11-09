@@ -1,12 +1,14 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
+import {withRouter} from 'react-router-dom';
 
-class Navbar extends React.Component {
+class NavbarGuest extends React.Component {
   constructor(props) {
     super(props);
 
     this.logout = this.logout.bind(this);
     this.renderButtons = this.renderButtons.bind(this);
+    this.scrollToIntroSlide = this.scrollToIntroSlide.bind(this);
   }
 
   render() {
@@ -26,32 +28,33 @@ class Navbar extends React.Component {
   }
 
   renderButtons() {
-    const {currentUser} = this.props;
-    const {pathname} = this.props.location;
+    const {currentUser, activeSlide} = this.props;
+    const {pathname} = this.props;
     let buttonsToRender;
     if (currentUser) {
       buttonsToRender = (
         <button onClick={this.logout} className='btn btn-default btn-blue'>Logout</button>
       );
-    } else if (pathname === '/signup'){
+    } else if (pathname === '/signup' && (activeSlide === 1 || activeSlide === 4)){
       buttonsToRender = (
           <li className='btn btn-default btn-transparent'>
             <Link to='/login'>Log in</Link>
           </li>
       );
-    } else if (pathname === '/login') {
+    } else if (pathname === '/login' && (activeSlide === 1 || activeSlide === 4)) {
       buttonsToRender = (
           <li className='btn btn-default btn-white'>
             <Link to='/signup'>Sign up</Link>
           </li>
       );
     } else {
+      // render both buttons if user is not at intro or welcome slide.
       buttonsToRender = [
           (<li key='login' className='btn btn-default btn-transparent'>
-            <Link to='/login'>Log in</Link>
+            <Link to='/login' onClick={this.scrollToIntroSlide}>Log in</Link>
           </li>),
           (<li key='signup' className='btn btn-default btn-white'>
-            <Link to='/signup'>Sign up</Link>
+            <Link to='/signup' onClick={this.scrollToIntroSlide}>Sign up</Link>
           </li>)
       ];
     }
@@ -62,19 +65,17 @@ class Navbar extends React.Component {
     );
   }
 
-  reloadCarousel(path) {
-    const that = this;
-    return function(e) {
-      e.preventDefault();
-      that.prop.history.replace()
-    }
+  scrollToIntroSlide(e) {
+    const {scrollCarousel} = this.props;
+    scrollCarousel('down', 1);
   }
 
+
   componentWillMount() {
-    
+
   }
 
 
 }
 
-export default Navbar;
+export default withRouter(NavbarGuest);

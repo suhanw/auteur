@@ -14,7 +14,7 @@ class App extends React.Component {
 
     return (
       <main>
-        <Route path='/' component={NavbarContainer} />
+        
         <Switch>
           <ProtectRoute path='/dashboard' component={Dashboard} />
           <AuthRoute path='/' component={Carousel} />
