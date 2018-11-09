@@ -16,11 +16,11 @@
 
 .btn-blue {
   background: rgb(82, 158, 204);
-  color: #fff;
+  color: $white;
 }
 
 .btn-white {
-  background: white;
+  background: $white;
   mix-blend-mode: screen;
   // -webkit-text-fill-color: transparent;
   // -webkit-background-clip: text;
@@ -32,5 +32,5 @@
 
 .btn-transparent {
   background: rgba(0, 0, 0, 0.2);
-  color: #fff;
+  color: $white;
 }

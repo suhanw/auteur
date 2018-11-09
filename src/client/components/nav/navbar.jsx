@@ -47,10 +47,10 @@ class Navbar extends React.Component {
       );
     } else {
       buttonsToRender = [
-          (<li className='btn btn-default btn-transparent'>
+          (<li key='login' className='btn btn-default btn-transparent'>
             <Link to='/login'>Log in</Link>
           </li>),
-          (<li className='btn btn-default btn-white'>
+          (<li key='signup' className='btn btn-default btn-white'>
             <Link to='/signup'>Sign up</Link>
           </li>)
       ];

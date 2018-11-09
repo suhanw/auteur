@@ -1,0 +1,46 @@
+.carousel {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.intro-slide, .about-slide, .create-slide, .welcome-slide {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+
+.intro-slide {
+  background: url('https://wallpapers.moviemania.io/desktop/movie/105/28f908/back-to-the-future-desktop-wallpaper.jpg?w=3000&h=1695');
+}
+
+.about-slide {
+  background: $green;
+  display: none;
+}
+
+.create-slide {
+  background: $orange;
+  display: none;
+}
+
+.welcome-slide {
+  background: url('https://wallpapers.moviemania.io/desktop/movie/335984/e85174/blade-runner-2049-desktop-wallpaper.jpg?w=3000&h=1695');
+  display: none;
+}
+
+.intro-slide, .welcome-slide {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}

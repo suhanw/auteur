@@ -2,7 +2,7 @@
   "name": "tumblr_clone",
   "version": "1.0.0",
   "description": "Sample State",
-  "main": "app.js",
+  "main": "src/server/app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "client": "webpack --mode=development --watch",

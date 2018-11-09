@@ -1,20 +1,19 @@
 body{
   font-family: $font-main;
-  background: rgb(54, 70, 93);
+  background: $bg-blue;
+  overflow: hidden; //so the screen doesn't move when mouse scroll
 }
 
-.splash {
+.dashboard {
   position: fixed;
   top: 0;
+  bottom: 0;
   left: 0;
-  width: 100vw;
-  height: 100vh;
-  // background: url('https://wallpapers.moviemania.io/desktop/movie/335984/e85174/blade-runner-2049-desktop-wallpaper.jpg?w=3000&h=1695');
-  background: url('https://wallpapers.moviemania.io/desktop/movie/105/28f908/back-to-the-future-desktop-wallpaper.jpg?w=3000&h=1695');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  right: 0;
+  overflow: scroll; // to allow scrolling thru content in div.dashboard-content even though body is set to overflow: hidden.
+  background: red;
+}
+
+.dashboard-content {
+  min-height: 200vh;
 }
