@@ -1,1 +1,8 @@
 $font-main: 'Helvetica Neue', HelveticaNeue, Helvetica, Arial, sans-serif;
+
+@fontface {
+  font-family: 'Bookman';
+  src: url('/typography/bookman-old-style-bold.ttf');
+};
+
+$font-logo: 'Bookman';

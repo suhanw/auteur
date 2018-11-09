@@ -13,6 +13,7 @@ class Navbar extends React.Component {
 
     return(
       <nav className='navbar'>
+        <div>Search bar</div>
         {this.renderButtons()}
       </nav>
     );
@@ -27,39 +28,38 @@ class Navbar extends React.Component {
   renderButtons() {
     const {currentUser} = this.props;
     const {pathname} = this.props.location;
+    let buttonsToRender;
     if (currentUser) {
-      return (
+      buttonsToRender = (
         <button onClick={this.handleClick} className='btn btn-default btn-blue'>Logout</button>
       );
     } else if (pathname === '/signup'){
-      return (
-        <ul className='navbar-right'>
+      buttonsToRender = (
           <li className='btn btn-default btn-transparent'>
             <Link to='/login'>Log in</Link>
           </li>
-        </ul>
       );
     } else if (pathname === '/login') {
-      return (
-        <ul className='session-btn-group'>
+      buttonsToRender = (
           <li className='btn btn-default btn-white'>
             <Link to='/signup'>Sign up</Link>
           </li>
-        </ul>
       );
     } else {
-      return (
-        <ul className='session-btn-group'>
-          <li className='btn btn-default btn-transparent'>
+      buttonsToRender = [
+          (<li className='btn btn-default btn-transparent'>
             <Link to='/login'>Log in</Link>
-          </li>
-          <li className='btn btn-default btn-white'>
+          </li>),
+          (<li className='btn btn-default btn-white'>
             <Link to='/signup'>Sign up</Link>
-          </li>
-        </ul>
-      );
-
+          </li>)
+      ];
     }
+    return (
+      <ul className='navbar-right'>
+        {buttonsToRender}
+      </ul>
+    );
   }
 }
 

@@ -16,6 +16,7 @@ class App extends React.Component {
       <div>
         <Route path='/' component={NavbarContainer} />
         <section className='splash'>
+          <h1 className='logo'>auteur</h1>
           <AuthRoute path='/login' component={SessionFormContainer} />
           <AuthRoute path='/signup' component={SessionFormContainer} />
         </section>
