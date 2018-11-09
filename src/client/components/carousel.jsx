@@ -13,9 +13,9 @@ class Carousel extends React.Component {
       activeSlide: 1,
       slideClasses: {
         1: ' active',
-        2: ' inactive',
-        3: ' inactive',
-        4: ' inactive',
+        2: '',
+        3: '',
+        4: '',
       },
     }
 
