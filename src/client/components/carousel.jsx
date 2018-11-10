@@ -22,6 +22,7 @@ class Carousel extends React.Component {
 
     this.scrollCarousel = this.scrollCarousel.bind(this);
     this.throttleWheel = this.throttleWheel.bind(this);
+    this.throttle = this.throttle.bind(this);
   }
 
   render() {
@@ -36,21 +37,21 @@ class Carousel extends React.Component {
               activeSlide={activeSlide} />
           } />
         <div  className={'welcome-slide' + slideClasses[4]}
-              onWheel={this.throttleWheel(200, this.scrollCarousel)}>
+              onWheel={activeSlide === 4 ? this.throttle(500, this.scrollCarousel) : null}>
           This is welcome slide.
           <AuthRoute path='/login' component={SessionFormContainer} />
           <AuthRoute path='/signup' component={SessionFormContainer} />
         </div>
         <div  className={'create-slide' + slideClasses[3]}
-              onWheel={this.throttleWheel(200, this.scrollCarousel)}>
+              onWheel={activeSlide === 3 ? this.throttle(500, this.scrollCarousel) : null}>
           This is create slide.
         </div>
         <div  className={'about-slide' + slideClasses[2]}
-              onWheel={this.throttleWheel(200, this.scrollCarousel)}>
+              onWheel={activeSlide === 2 ? this.throttle(500, this.scrollCarousel) : null}>
           This is about slide.
         </div>
         <div  className={'intro-slide' + slideClasses[1]}
-              onWheel={this.throttleWheel(200, this.scrollCarousel)}>
+              onWheel={activeSlide === 1 ? this.throttle(500, this.scrollCarousel) : null}>
           <h1 className='logo'>auteur</h1>
           <AuthRoute path='/login' component={SessionFormContainer} />
           <AuthRoute path='/signup' component={SessionFormContainer} />
@@ -82,6 +83,22 @@ class Carousel extends React.Component {
       }
       console.log(that.firstTouch);
     };
+  }
+
+  throttle (delay, handleWheel) {
+    let start = Date.now();
+    let currTarget = null;
+    return function(e) {
+      e.stopPropagation();
+      let currTime = Date.now();
+      let timeElapsed = currTime - start;
+      //only execute handler after specified delay AND a specified touchpad swipe 'size'
+      if (timeElapsed > delay && Math.abs(e.deltaY) > 80) {
+        let scrollDir = e.deltaY > 0 ? 'up': 'down';
+        handleWheel(scrollDir);
+        start = currTime; // restart countdown for next handler call.
+      }
+    }
   }
 
   scrollCarousel(scrollDir, nextSlide) {
