@@ -56,6 +56,16 @@ class Carousel extends React.Component {
           <AuthRoute path='/login' component={SessionFormContainer} />
           <AuthRoute path='/signup' component={SessionFormContainer} />
         </div>
+        <div className='carousel-indicator'>
+          This is carousel indicator.
+          <ul className='carousel-dots'>
+            <li className='carousel-dot 1'></li>
+            <li className='carousel-dot 2'></li>
+            <li className='carousel-dot 3'></li>
+            <li className='carousel-dot 4'></li>
+          </ul>
+        </div>
+
       </section>
     );
   }
