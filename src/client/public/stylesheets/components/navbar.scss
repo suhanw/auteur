@@ -6,12 +6,40 @@
   justify-content: space-between;
   align-items: center;
   // background: inherit;
+  max-width: 1580px;
+  padding-right: 20px;
 }
 
 .navbar-right {
   height: 54px;
-  display: inline-flex;
+  display: flex;
   flex-direction: row;
   align-items: center;
   background: inherit;
+}
+
+.navbar .btn {
+  display: none;
+}
+
+
+.navbar .btn.active {
+  display: flex;
+  margin: 0 5px;
+  width: 80px;
+  min-width: 80px;
+  animation: swipein 0.3s linear 1 normal both;
+}
+
+@keyframes swipein {
+  0% {
+    width: 0;
+    min-width: 0;
+  }
+
+  100% {
+    width: 80px;
+    min-width: 80px;
+  }
+
 }

@@ -36,24 +36,30 @@ class NavbarGuest extends React.Component {
         <button onClick={this.logout} className='btn btn-default btn-blue'>Logout</button>
       );
     } else if (pathname === '/signup' && (activeSlide === 1 || activeSlide === 4)){
-      buttonsToRender = (
-          <li className='btn btn-default btn-transparent'>
-            <Link to='/login'>Log in</Link>
-          </li>
-      );
+      buttonsToRender =
+          [(<li>
+            <Link to='/login' className='btn btn-default btn-transparent active'>Log in</Link>
+          </li>),
+          (<li>
+            <Link to='/signup' className='btn btn-default btn-white'>Sign up</Link>
+          </li>)]
+      ;
     } else if (pathname === '/login' && (activeSlide === 1 || activeSlide === 4)) {
-      buttonsToRender = (
-          <li className='btn btn-default btn-white'>
+      buttonsToRender =
+          [(<li className='btn btn-default btn-transparent'>
+            <Link to='/login'>Log in</Link>
+          </li>),
+          (<li className='btn btn-default btn-white active'>
             <Link to='/signup'>Sign up</Link>
-          </li>
-      );
+          </li>)]
+      ;
     } else {
       // render both buttons if user is not at intro or welcome slide.
       buttonsToRender = [
-          (<li key='login' className='btn btn-default btn-transparent'>
+          (<li key='login' className='btn btn-default btn-transparent active'>
             <Link to='/login' onClick={this.scrollToIntroSlide}>Log in</Link>
           </li>),
-          (<li key='signup' className='btn btn-default btn-white'>
+          (<li key='signup' className='btn btn-default btn-white active'>
             <Link to='/signup' onClick={this.scrollToIntroSlide}>Sign up</Link>
           </li>)
       ];

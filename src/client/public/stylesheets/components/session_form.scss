@@ -21,7 +21,8 @@ $session-form-input-text-height: 40px;
   visibility: hidden;
 }
 
-.session-form input {
+.session-form .input-text,
+.session-form .btn {
   min-width: 100%;
   min-height: $session-form-input-text-height;
   height: $session-form-input-text-height;
