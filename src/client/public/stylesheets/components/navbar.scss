@@ -26,20 +26,26 @@
 .navbar .btn.active {
   display: flex;
   margin: 0 5px;
-  width: 80px;
-  min-width: 80px;
-  animation: swipein 0.3s linear 1 normal both;
+  animation: swipein 0.2s ease-in 1 normal both;
 }
 
 @keyframes swipein {
   0% {
+    white-space: nowrap;
+    overflow: hidden;
     width: 0;
     min-width: 0;
+    padding: 0;
+    opacity: 0;
   }
 
   100% {
+    white-space: nowrap;
+    overflow: visible;
     width: 80px;
     min-width: 80px;
+    padding: 5px 13px;
+    opacity: 1;
   }
 
 }

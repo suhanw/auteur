@@ -37,19 +37,19 @@ class NavbarGuest extends React.Component {
       );
     } else if (pathname === '/signup' && (activeSlide === 1 || activeSlide === 4)){
       buttonsToRender =
-          [(<li>
-            <Link to='/login' className='btn btn-default btn-transparent active'>Log in</Link>
+          [(<li key='login' className='btn btn-default btn-transparent active'>
+            <Link to='/login'>Log in</Link>
           </li>),
-          (<li>
-            <Link to='/signup' className='btn btn-default btn-white'>Sign up</Link>
+          (<li key='signup' className='btn btn-default btn-white'>
+            <Link to='/signup'>Sign up</Link>
           </li>)]
       ;
     } else if (pathname === '/login' && (activeSlide === 1 || activeSlide === 4)) {
       buttonsToRender =
-          [(<li className='btn btn-default btn-transparent'>
+          [(<li key='login' className='btn btn-default btn-transparent'>
             <Link to='/login'>Log in</Link>
           </li>),
-          (<li className='btn btn-default btn-white active'>
+          (<li key='signup' className='btn btn-default btn-white active'>
             <Link to='/signup'>Sign up</Link>
           </li>)]
       ;
