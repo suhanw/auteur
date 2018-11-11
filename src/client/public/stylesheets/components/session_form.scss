@@ -13,10 +13,10 @@ $session-form-input-text-height: 40px;
   z-index: 0;
 }
 
-// to create placehodler space for the button to end up in
+// to create placeholder space for the submit button to end up in
 .session-form::after {
   display: inline-block;
-  height: $session-form-input-text-height + 10px;
+  height: $session-form-input-text-height + 5px;
   content: 'text';
   visibility: hidden;
 }
@@ -30,5 +30,4 @@ $session-form-input-text-height: 40px;
 
 .session-form .input-text {
   margin-bottom: 1px;
-  position: relative;
 }

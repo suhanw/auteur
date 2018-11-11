@@ -23,6 +23,7 @@ class Carousel extends React.Component {
     this.scrollCarousel = this.scrollCarousel.bind(this);
     this.throttleWheel = this.throttleWheel.bind(this);
     this.throttle = this.throttle.bind(this);
+    this.handleClick = this.handleClick.bind(this);
   }
 
   render() {
@@ -57,15 +58,13 @@ class Carousel extends React.Component {
           <AuthRoute path='/signup' component={SessionFormContainer} />
         </div>
         <div className='carousel-indicator'>
-          This is carousel indicator.
           <ul className='carousel-dots'>
-            <li className='carousel-dot 1'></li>
-            <li className='carousel-dot 2'></li>
-            <li className='carousel-dot 3'></li>
-            <li className='carousel-dot 4'></li>
+            <li className={'carousel-dot' + slideClasses[1]} onClick={this.handleClick(1)}></li>
+            <li className={'carousel-dot' + slideClasses[2]} onClick={this.handleClick(2)}></li>
+            <li className={'carousel-dot' + slideClasses[3]} onClick={this.handleClick(3)}></li>
+            <li className={'carousel-dot' + slideClasses[4]} onClick={this.handleClick(4)}></li>
           </ul>
         </div>
-
       </section>
     );
   }
@@ -108,6 +107,16 @@ class Carousel extends React.Component {
         handleWheel(scrollDir);
         start = currTime; // restart countdown for next handler call.
       }
+    }
+  }
+
+  handleClick(dotNum) {
+    const that = this;
+    return function(e) {
+      e.preventDefault();
+      const {activeSlide} = that.state;
+      const scrollDir = activeSlide < dotNum ? 'up': 'down';
+      that.scrollCarousel(scrollDir, dotNum);
     }
   }
 
