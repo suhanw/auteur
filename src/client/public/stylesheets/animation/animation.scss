@@ -44,3 +44,17 @@
     height: 100%;
   }
 }
+
+@keyframes fadein {
+  0% {
+    position: relative;
+    top: 20px;
+    opacity: 0;
+  }
+
+  100% {
+    position: relative;
+    top: 0;
+    opacity: 1;
+  }
+}

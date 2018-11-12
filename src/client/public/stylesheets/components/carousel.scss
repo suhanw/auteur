@@ -82,6 +82,26 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  animation-delay: 0.1s;
+  animation-duration: 0.5s;
+  animation-iteration-count: 1;
+  animation-timing-function: ease-out;
+  animation-name: fadein;
+  animation-fill-mode: both;
+}
+
+@keyframes fadein {
+  0% {
+    position: relative;
+    top: 20px;
+    opacity: 0;
+  }
+
+  100% {
+    position: relative;
+    top: 0;
+    opacity: 1;
+  }
 }
 
 .active {
