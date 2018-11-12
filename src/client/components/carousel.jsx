@@ -53,9 +53,17 @@ class Carousel extends React.Component {
         </div>
         <div  className={'intro-slide' + slideClasses[1]}
               onWheel={activeSlide === 1 ? this.throttle(500, this.scrollCarousel) : null}>
-          <h1 className='logo'>auteur</h1>
-          <AuthRoute path='/login' component={SessionFormContainer} />
-          <AuthRoute path='/signup' component={SessionFormContainer} />
+          <div className='intro-slide-content'>
+            <h1 className='logo'>auteur</h1>
+            <p>
+              Come for what you love.
+            </p>
+            <p>
+              Stay for what you discover.
+            </p>
+            <AuthRoute path='/login' component={SessionFormContainer} />
+            <AuthRoute path='/signup' component={SessionFormContainer} />
+          </div>
         </div>
         <div className='carousel-indicator'>
           <ul className='carousel-dots'>

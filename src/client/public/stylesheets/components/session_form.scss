@@ -1,9 +1,9 @@
 $session-form-input-text-height: 40px;
 
 .session-form {
-  position: absolute;
-  top: 40vh;
-  display: inline-flex;
+  position: sticky;
+  // top: 40vh;
+  display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -11,6 +11,7 @@ $session-form-input-text-height: 40px;
   max-width: 300px;
   overflow: hidden;
   z-index: 0;
+  margin-top: 20px;
 }
 
 // to create placeholder space for the submit button to end up in
