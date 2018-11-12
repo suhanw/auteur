@@ -74,39 +74,16 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-}
-
-.intro-slide-content{
-  color: white;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  animation-delay: 0.1s;
-  animation-duration: 0.5s;
-  animation-iteration-count: 1;
-  animation-timing-function: ease-out;
-  animation-name: fadein;
-  animation-fill-mode: both;
-}
-
-@keyframes fadein {
-  0% {
-    position: relative;
-    top: 20px;
-    opacity: 0;
-  }
-
-  100% {
-    position: relative;
-    top: 0;
-    opacity: 1;
-  }
+  // top: -100vh;
+  z-index: 0;
 }
 
 .active {
+  top: 0vh;
   opacity: 1;
+  z-index: 1;
   transition: opacity 0s linear;
+  transition: z-index 0s linear 0.5s;
 }
 
 .slideup {
@@ -147,4 +124,31 @@
   100% {
     top: 0;
   }
+}
+
+.intro-slide-content,
+.welcome-slide-content {
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+
+
+.intro-slide-footer {
+  position: absolute;
+  bottom: 0;
+  height: 50px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-weight: 500;
+  background: $green;
+  box-shadow: inset 0 3px 0 rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  cursor: pointer;
 }

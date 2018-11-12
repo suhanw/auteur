@@ -39,21 +39,7 @@ class Carousel extends React.Component {
           } />
         <div  className={'welcome-slide' + slideClasses[4]}
               onWheel={activeSlide === 4 ? this.throttle(500, this.scrollCarousel) : null}>
-          This is welcome slide.
-          <AuthRoute path='/login' component={SessionFormContainer} />
-          <AuthRoute path='/signup' component={SessionFormContainer} />
-        </div>
-        <div  className={'create-slide' + slideClasses[3]}
-              onWheel={activeSlide === 3 ? this.throttle(500, this.scrollCarousel) : null}>
-          This is create slide.
-        </div>
-        <div  className={'about-slide' + slideClasses[2]}
-              onWheel={activeSlide === 2 ? this.throttle(500, this.scrollCarousel) : null}>
-          This is about slide.
-        </div>
-        <div  className={'intro-slide' + slideClasses[1]}
-              onWheel={activeSlide === 1 ? this.throttle(500, this.scrollCarousel) : null}>
-          <div className='intro-slide-content'>
+          <div className='welcome-slide-content fade-in'>
             <h1 className='logo'>auteur</h1>
             <p>
               Come for what you love.
@@ -66,6 +52,33 @@ class Carousel extends React.Component {
             <AuthRoute path='/signup' component={SessionFormContainer} />
           </div>
         </div>
+        <div  className={'create-slide' + slideClasses[3]}
+              onWheel={activeSlide === 3 ? this.throttle(500, this.scrollCarousel) : null}>
+          This is create slide.
+        </div>
+        <div  className={'about-slide' + slideClasses[2]}
+              onWheel={activeSlide === 2 ? this.throttle(500, this.scrollCarousel) : null}>
+          This is about slide.
+        </div>
+        <div  className={'intro-slide' + slideClasses[1]}
+              onWheel={activeSlide === 1 ? this.throttle(500, this.scrollCarousel) : null}>
+          <div className='intro-slide-content fade-in'>
+            <h1 className='logo'>auteur</h1>
+            <p>
+              Come for what you love.
+            </p>
+            <p>
+              Stay for what you discover.
+            </p>
+            <Route exact path='/' component={SessionFormContainer} />
+            <AuthRoute path='/login' component={SessionFormContainer} />
+            <AuthRoute path='/signup' component={SessionFormContainer} />
+          </div>
+          <footer className='intro-slide-footer footer-slide-up' onClick={this.handleClick(2)}>
+            What is Auteur?
+          </footer>
+        </div>
+
         <div className='carousel-indicator'>
           <ul className='carousel-dots'>
             <li className={'carousel-dot' + slideClasses[1]} onClick={this.handleClick(1)}></li>

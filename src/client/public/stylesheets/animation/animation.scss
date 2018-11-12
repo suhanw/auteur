@@ -45,6 +45,15 @@
   }
 }
 
+.fade-in {
+  animation-delay: 0.1s;
+  animation-duration: 0.5s;
+  animation-iteration-count: 1;
+  animation-timing-function: ease-out;
+  animation-name: fadein;
+  animation-fill-mode: both;
+}
+
 @keyframes fadein {
   0% {
     position: relative;
@@ -56,5 +65,24 @@
     position: relative;
     top: 0;
     opacity: 1;
+  }
+}
+
+.footer-slide-up {
+  animation-delay: 0.5s;
+  animation-duration: 0.5s;
+  animation-iteration-count: 1;
+  animation-timing-function: ease-out;
+  animation-name: footerslideup;
+  animation-fill-mode: both;
+}
+
+@keyframes footerslideup {
+  0% {
+    bottom: -50px;
+  }
+
+  100% {
+    bottom: 0;
   }
 }
