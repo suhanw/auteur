@@ -33,7 +33,7 @@ class NavbarGuest extends React.Component {
     let buttonsToRender;
     if (currentUser) {
       buttonsToRender = (
-        <button onClick={this.logout} className='btn btn-default btn-blue'>Logout</button>
+        <li onClick={this.logout} className='btn btn-default btn-blue active'>Logout</li>
       );
     } else if (pathname === '/signup' && (activeSlide === 1 || activeSlide === 4)){
       buttonsToRender =

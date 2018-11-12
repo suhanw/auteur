@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from 'react-router-dom';
 import {renderErrors} from '../../util/error_util';
 
 class SessionForm extends React.Component {
@@ -16,6 +17,22 @@ class SessionForm extends React.Component {
   }
 
   render() {
+    if (this.props.match.path === '/') {
+      return (
+        <ul className='session-form get-started'>
+          <Link to ='/signup' className='btn btn-default btn-blue'>
+            <li>
+              Get Started
+            </li>
+          </Link>
+          <Link to='/login' className='btn btn-default btn-white'>
+            <li>
+              Log In
+            </li>
+          </Link>
+        </ul>
+      );
+    }
     const emailField = (
       <input className='input-text input-text-default swipe-left'
         type='text'
@@ -49,7 +66,6 @@ class SessionForm extends React.Component {
 
     return (
       <form className='session-form' onSubmit={this.handleSubmit}>
-        {this.props.sessionId ? 'You are logged in' : ''}
         {emailField}
         {passwordField}
         {usernameField}

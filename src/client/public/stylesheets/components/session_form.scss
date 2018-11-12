@@ -22,6 +22,15 @@ $session-form-input-text-height: 40px;
   visibility: hidden;
 }
 
+.session-form.get-started {
+  display: inline-block;
+  height: 168px;
+}
+
+.session-form.get-started .btn {
+  margin-bottom: 10px;
+}
+
 .session-form .input-text,
 .session-form .btn {
   min-width: 100%;

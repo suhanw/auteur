@@ -1,5 +1,5 @@
 import React from 'react';
-import {Route} from 'react-router-dom'
+import {Route, Link} from 'react-router-dom'
 import {merge} from 'lodash';
 import {AuthRoute} from '../util/route_util';
 import {throttleWheelEvent} from '../util/carousel_util';
@@ -61,6 +61,7 @@ class Carousel extends React.Component {
             <p>
               Stay for what you discover.
             </p>
+            <Route exact path='/' component={SessionFormContainer} />
             <AuthRoute path='/login' component={SessionFormContainer} />
             <AuthRoute path='/signup' component={SessionFormContainer} />
           </div>

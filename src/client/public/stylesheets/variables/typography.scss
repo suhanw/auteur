@@ -1,3 +1,11 @@
 $font-main: 'Helvetica Neue', HelveticaNeue, Helvetica, Arial, sans-serif;
 
-$font-logo: 'Bookman Old Style';
+// $font-logo: 'Bookman Old Style';
+
+$font-logo: Custom;
+
+@font-face {
+  font-family: Custom;
+  // src: url('https://s3.us-east-2.amazonaws.com/tumblr-clone-dev/bookman-old-style-bold.ttf') format('ttf');
+  src: url('/bookman-old-style-bold.ttf') format('ttf');
+}
