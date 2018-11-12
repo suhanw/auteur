@@ -2,7 +2,6 @@ import React from 'react';
 import {Route, Link} from 'react-router-dom'
 import {merge} from 'lodash';
 import {AuthRoute} from '../util/route_util';
-import {throttleWheelEvent} from '../util/carousel_util';
 import SessionFormContainer from './session/session_form_container';
 import NavbarContainer from './nav/navbar_container';
 
@@ -22,7 +21,6 @@ class Carousel extends React.Component {
 
     this.scrollCarousel = this.scrollCarousel.bind(this);
     this.throttleWheel = this.throttleWheel.bind(this);
-    this.throttle = this.throttle.bind(this);
     this.handleClick = this.handleClick.bind(this);
   }
 
@@ -38,7 +36,7 @@ class Carousel extends React.Component {
               activeSlide={activeSlide} />
           } />
         <div  className={'welcome-slide' + slideClasses[4]}
-              onWheel={activeSlide === 4 ? this.throttle(500, this.scrollCarousel) : null}>
+              onWheel={activeSlide === 4 ? this.throttleWheel(500, this.scrollCarousel) : null}>
           <div className='welcome-slide-content fade-in'>
             <h1 className='logo'>auteur</h1>
             <p>
@@ -53,15 +51,15 @@ class Carousel extends React.Component {
           </div>
         </div>
         <div  className={'create-slide' + slideClasses[3]}
-              onWheel={activeSlide === 3 ? this.throttle(500, this.scrollCarousel) : null}>
+              onWheel={activeSlide === 3 ? this.throttleWheel(500, this.scrollCarousel) : null}>
           This is create slide.
         </div>
         <div  className={'about-slide' + slideClasses[2]}
-              onWheel={activeSlide === 2 ? this.throttle(500, this.scrollCarousel) : null}>
+              onWheel={activeSlide === 2 ? this.throttleWheel(500, this.scrollCarousel) : null}>
           This is about slide.
         </div>
         <div  className={'intro-slide' + slideClasses[1]}
-              onWheel={activeSlide === 1 ? this.throttle(500, this.scrollCarousel) : null}>
+              onWheel={activeSlide === 1 ? this.throttleWheel(500, this.scrollCarousel) : null}>
           <div className='intro-slide-content fade-in'>
             <h1 className='logo'>auteur</h1>
             <p>
@@ -91,32 +89,7 @@ class Carousel extends React.Component {
     );
   }
 
-  throttleWheel(delay, handleWheel) {
-    const that = this;
-    return  function(e) {
-      e.stopPropagation();
-      const currTime = Date.now(); // capture time at current event firing
-      that.currTarget = e.target;
-      if (!e.target.className.includes('active')) { //if slide already inactive...
-        that.firstTouch = null; // stop throttling and triggering event handler.
-        return;
-      } else if (!that.firstTouch || e.target !== that.currTarget) { // if this is the start of wheeling OR this is a new slide
-        that.currTarget = e.target; // capture slide (will update if new slide)
-        that.firstTouch = currTime; // capture start time, but don't fire event handler yet.
-        return;
-      }
-      const timeElapsed = currTime - that.firstTouch;
-      if (timeElapsed > delay ) { // only call handler when wheeling has occured for specified delay
-        console.log(timeElapsed, e.deltaY);
-        const scrollDir = e.deltaY > 0 ? 'up' : 'down';
-        handleWheel(scrollDir);
-        that.firstTouch = null;
-      }
-      console.log(that.firstTouch);
-    };
-  }
-
-  throttle (delay, handleWheel) {
+  throttleWheel (delay, handleWheel) {
     let start = Date.now();
     let currTarget = null;
     return function(e) {
@@ -124,7 +97,7 @@ class Carousel extends React.Component {
       let currTime = Date.now();
       let timeElapsed = currTime - start;
       //only execute handler after specified delay AND a specified touchpad swipe 'size'
-      if (timeElapsed > delay && Math.abs(e.deltaY) > 80) {
+      if (timeElapsed > delay && Math.abs(e.deltaY) > 60) {
         let scrollDir = e.deltaY > 0 ? 'up': 'down';
         handleWheel(scrollDir);
         start = currTime; // restart countdown for next handler call.
