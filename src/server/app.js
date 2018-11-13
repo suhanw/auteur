@@ -12,6 +12,7 @@ const flash = require('connect-flash');
 const User = require('./models/user');
 const userRoutes = require('./routes/users');
 const sessionRoutes = require('./routes/session');
+const blogRoutes = require('./routes/blogs');
 const seedDB = require('./util/seeds');
 
 // DB CONFIG==============================
@@ -22,7 +23,7 @@ var dbOptions = {
   useCreateIndex: true,
 };
 mongoose.connect(dbUrl, dbOptions);
-// seedDB();
+seedDB();
 // DB CONFIG==============================
 
 // APP CONFIG=============================
@@ -62,8 +63,9 @@ app.get("/", function (req, res) {
   res.render('index', { currentUser: req.user });
 });
 
-app.use('/api', userRoutes);
 app.use('/api', sessionRoutes);
+app.use('/api', userRoutes);
+app.use('/api', blogRoutes);
 // API ROUTES==============================
 
 // switch between dev (local) or prod
