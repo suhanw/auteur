@@ -38,12 +38,9 @@ class Carousel extends React.Component {
         <div  className={'welcome-slide' + slideClasses[4]}
               onWheel={activeSlide === 4 ? this.throttleWheel(500, this.scrollCarousel) : null}>
           <div className='welcome-slide-content fade-in'>
-            <h1 className='logo'>auteur</h1>
+            <h1 className='welcome-slide-title'>Okay, it's not actually hard to explain.</h1>
             <p>
-              Come for what you love.
-            </p>
-            <p>
-              Stay for what you discover.
+              We lied. But now you understand this thing. So come on in.
             </p>
             <Route exact path='/' component={SessionFormContainer} />
             <AuthRoute path='/login' component={SessionFormContainer} />

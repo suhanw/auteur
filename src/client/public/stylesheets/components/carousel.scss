@@ -132,9 +132,8 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  max-width: 800px;
 }
-
-
 
 .intro-slide-footer {
   position: absolute;
@@ -150,4 +149,9 @@
   box-shadow: inset 0 3px 0 rgba(0, 0, 0, 0.1);
   overflow: hidden;
   cursor: pointer;
+}
+
+.welcome-slide-title {
+  font-size: 60px;
+  text-align: center;
 }
