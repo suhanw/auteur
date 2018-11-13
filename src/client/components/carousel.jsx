@@ -37,7 +37,7 @@ class Carousel extends React.Component {
           } />
         <div  className={'welcome-slide' + slideClasses[4]}
               onWheel={activeSlide === 4 ? this.throttleWheel(500, this.scrollCarousel) : null}>
-          <div className='welcome-slide-content fade-in'>
+          <div className='welcome-slide-content object-fade-in'>
             <h1 className='welcome-slide-title'>Okay, it's not actually hard to explain.</h1>
             <p>
               We lied. But now you understand this thing. So come on in.
@@ -57,7 +57,7 @@ class Carousel extends React.Component {
         </div>
         <div  className={'intro-slide' + slideClasses[1]}
               onWheel={activeSlide === 1 ? this.throttleWheel(500, this.scrollCarousel) : null}>
-          <div className='intro-slide-content fade-in'>
+          <div className='intro-slide-content object-fade-in'>
             <h1 className='logo'>auteur</h1>
             <p>
               Come for what you love.

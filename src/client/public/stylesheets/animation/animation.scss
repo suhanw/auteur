@@ -45,16 +45,17 @@
   }
 }
 
-.fade-in {
+
+.object-fade-in {
   animation-delay: 0.1s;
   animation-duration: 0.5s;
   animation-iteration-count: 1;
   animation-timing-function: ease-out;
-  animation-name: fadein;
+  animation-name: objectfadein;
   animation-fill-mode: both;
 }
 
-@keyframes fadein {
+@keyframes objectfadein {
   0% {
     position: relative;
     top: 20px;

@@ -1,18 +1,18 @@
-const express         = require('express');
-const app             = express();
-const mongoose        = require('mongoose');
-const bodyParser      = require('body-parser');
-const methodOverride  = require('method-override');
-const path            = require('path');
-const passport        = require('passport');
-const session         = require('express-session');
-const LocalStrategy   = require('passport-local').Strategy;
-const flash           = require('connect-flash');
+const express = require('express');
+const app = express();
+const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
+const methodOverride = require('method-override');
+const path = require('path');
+const passport = require('passport');
+const session = require('express-session');
+const LocalStrategy = require('passport-local').Strategy;
+const flash = require('connect-flash');
 
 const User = require('./models/user');
 const userRoutes = require('./routes/users');
 const sessionRoutes = require('./routes/session');
-const seedDB    = require('./util/seeds');
+const seedDB = require('./util/seeds');
 
 // DB CONFIG==============================
 // switch between dev or prod
@@ -58,8 +58,8 @@ passport.deserializeUser(User.deserializeUser());
 // AUTH CONFIG============================
 
 // API ROUTES==============================
-app.get("/", function(req, res) {
-  res.render('index', {currentUser: req.user});
+app.get("/", function (req, res) {
+  res.render('index', { currentUser: req.user });
 });
 
 app.use('/api', userRoutes);
@@ -68,6 +68,6 @@ app.use('/api', sessionRoutes);
 
 // switch between dev (local) or prod
 var port = process.env.PORT || 3000;
-app.listen(port, function() {
+app.listen(port, function () {
   console.log('Server started');
 });

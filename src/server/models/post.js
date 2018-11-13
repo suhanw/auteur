@@ -34,7 +34,7 @@ const postSchema = new mongoose.Schema(
       ref: 'Blog',
       required: true,
     },
-  }, {timestamps: {createdAt: 'createdAt'}}
+  }, { timestamps: { createdAt: 'createdAt' } }
 );
 
 module.exports = mongoose.model('Post', postSchema);

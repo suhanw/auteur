@@ -40,7 +40,7 @@ const blogSchema = new mongoose.Schema(
       ref: 'User',
     }]
   },
-  { timestamps: {createdAt: 'createdAt'} }
+  { timestamps: { createdAt: 'createdAt' } }
 );
 
 module.exports = mongoose.model('Blog', blogSchema);

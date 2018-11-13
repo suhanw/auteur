@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const passportLocalMongoose = require('passport-local-mongoose');
+const uniqueValidator = require('mongoose-unique-validator');
 
 const userSchema = new mongoose.Schema(
   {
@@ -10,7 +11,7 @@ const userSchema = new mongoose.Schema(
     },
     username: {
       type: String,
-      unique: true,
+      unique: [true, 'Username has already been taken.'],
       required: true,
     },
     avatarImageUrl: {
@@ -21,7 +22,6 @@ const userSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Blog',
       required: true,
-      default: 1,
     }],
     following: [
       {
@@ -30,7 +30,7 @@ const userSchema = new mongoose.Schema(
       }
     ]
   },
-  { timestamps: {createdAt: 'createdAt'} }
+  { timestamps: { createdAt: 'createdAt' } }
 );
 
 userSchema.plugin(
@@ -39,9 +39,15 @@ userSchema.plugin(
     usernameField: 'email',
     errorMessages: {
       MissingUsernameError: 'You do have to fill this out, you know. ',
-      MissingPasswordError: 'You do have to fill this out, you know. '
+      MissingPasswordError: 'You do have to fill this out, you know. ',
+      UserExistsError: 'A user with the given email has already signed up. '
     }
   }
+);
+
+userSchema.plugin(
+  uniqueValidator,
+  { message: 'Another user has used the {PATH}.' }
 );
 
 module.exports = mongoose.model('User', userSchema);
