@@ -15,6 +15,11 @@ const postSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    media: [
+      {
+        type: String
+      }
+    ],
     likeCount: {
       type: Number,
       required: true,

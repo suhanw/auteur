@@ -16,7 +16,7 @@ router.get('/posts', middleware.isLoggedIn, function (req, res) {
             let posts = {};
             Post.find()
                 .where('blog').in(lodash.concat(foundUser.following, foundUser.blogs))
-                .select('_id type title body blog createdAt')
+                .select('_id type title body media blog createdAt')
                 .sort({ 'createdAt': 'desc' })
                 .populate({ path: 'blog', select: '_id avatarImageUrl title' })
                 .exec(function (err, foundPosts) {

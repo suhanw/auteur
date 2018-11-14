@@ -8,12 +8,12 @@ class PostShowText extends React.Component {
   render() {
     const { post } = this.props;
     return (
-      <div>
+      <main className='post-main'>
         <h1 className='post-title'>{post.title}</h1>
         <p className='post-body'>
           {post.body}
         </p>
-      </div>
+      </main>
     )
   }
 }

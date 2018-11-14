@@ -1,6 +1,6 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
-import {renderErrors} from '../../util/error_util';
+import { Link } from 'react-router-dom';
+import { renderErrors } from '../../util/error_util';
 
 class SessionForm extends React.Component {
   constructor(prop) {
@@ -20,7 +20,7 @@ class SessionForm extends React.Component {
     if (this.props.match.path === '/') {
       return (
         <ul className='session-form get-started'>
-          <Link to ='/signup' className='btn btn-default btn-blue'>
+          <Link to='/signup' className='btn btn-default btn-blue'>
             <li>
               Get Started
             </li>
@@ -39,6 +39,7 @@ class SessionForm extends React.Component {
         name='email'
         value={this.state.email}
         placeholder='Email'
+        autoFocus
         onChange={this.handleChange('email')} />
     );
     const passwordField = (
@@ -79,9 +80,9 @@ class SessionForm extends React.Component {
 
   handleChange(inputField) {
     const that = this;
-    return function(e) {
+    return function (e) {
       e.preventDefault();
-      that.setState({[inputField]: e.target.value});
+      that.setState({ [inputField]: e.target.value });
     };
   }
 

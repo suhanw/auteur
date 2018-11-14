@@ -16,18 +16,17 @@ $post-content-width: 540px;
 .post-menu,
 .post-content {
   width: $post-content-width;
-  border-radius: 2px;
+  border-radius: 3px;
   padding-top: 15px;
 }
 
 // to delete
 .post-menu {
-  background: purple;
+  background: white;
 }
 
 .post-content {
   background: white;
-  border-radius: 2px;
 }
 
 .post-header, 
@@ -42,21 +41,36 @@ $post-content-width: 540px;
   font-weight: bold;
 }
 
+.post-main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
 
 .post-title, 
-.post-body {
+.post-body,
+.post-photo {
   margin-bottom: 10px;
 }
 
 .post-title {
   font-size: 36px;
+  align-self: flex-start;
 }
 
 .post-body {
   font-size: 14px;
   font-weight: 400;
   font-stretch: 100%;
+  margin-top: 15px;
 }
+
+.post-photo {
+  width: calc(100% + 40px); // to cover width of post-content
+}
+
+
 
 .tag-index {
   font-size: 13px;

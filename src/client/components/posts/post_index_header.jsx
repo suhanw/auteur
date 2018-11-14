@@ -10,8 +10,8 @@ class PostIndexHeader extends React.Component {
     const { currentUser } = this.props;
     return (
       <header className='post-index-header'>
-        <picture className='avatar avatar-default'>
-          <img src={currentUser.avatarImageUrl} />
+        <picture className='avatar-container'>
+          <img className='avatar avatar-default' src={currentUser.avatarImageUrl} />
         </picture>
         <PostMenu />
       </header>

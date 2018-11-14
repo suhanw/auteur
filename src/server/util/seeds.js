@@ -31,7 +31,7 @@ const clearDB = function () {
 
 const createUser = function (user) {
   User.register(
-    new User({ username: user.username, email: user.email }),
+    new User({ username: user.username, email: user.email, avatarImageUrl: user.avatarImageUrl }),
     user.password,
     function (err, createdUser) {
       if (err) {
@@ -50,6 +50,7 @@ const createBlog = function (author) {
     author: author._id,
     primary: true,
     title: author.username,
+    avatarImageUrl: author.avatarImageUrl,
   });
   newBlog.save(function (err, createdBlog) {
     if (err) {
@@ -93,16 +94,19 @@ let users = [
     email: 'suhanw@gmail.com',
     username: 'suhanw',
     password: 'testing',
+    avatarImageUrl: faker.image.avatar(),
   },
   {
     email: 'vzhang@gmail.com',
     username: 'vzhang',
     password: 'testing',
+    avatarImageUrl: faker.image.avatar(),
   },
   {
     email: 'noah@gmail.com',
     username: 'noah',
     password: 'testing',
+    avatarImageUrl: faker.image.avatar(),
   }
 ]
 
@@ -112,8 +116,12 @@ let posts = [
     body: faker.lorem.paragraphs(),
   },
   {
-    type: 'text',
+    type: 'photo',
     body: faker.lorem.paragraphs(),
+    media: [
+      '/images/Zhang-10.jpg',
+      '/images/IMG-0250.JPG',
+    ],
   },
   {
     type: 'text',
