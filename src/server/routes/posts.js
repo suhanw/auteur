@@ -12,6 +12,7 @@ router.get('/posts', middleware.isLoggedIn, function (req, res) {
             if (err || !foundUser) return res.status(404).json(['User not found.']);
 
             // query posts from current user's own blog and followed blogs
+            let posts = {};
             Post.find()
                 .where('blog').in(lodash.concat(foundUser.following, foundUser.blogs))
                 .select('_id type body blog createdAt')

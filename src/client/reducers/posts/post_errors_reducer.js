@@ -1,9 +1,11 @@
-import { RECEIVE_POST_ERRORS } from '../../actions/post_actions';
+import { RECEIVE_POST_ERRORS, RECEIVE_POSTS } from '../../actions/post_actions';
 
 const postErrorsReducer = function (state = [], action) {
     switch (action.type) {
-        // case RECEIVE_POST_ERRORS: 
-
+        case RECEIVE_POST_ERRORS:
+            return action.payload;
+        case RECEIVE_POSTS:
+            return [];
         default:
             return state;
     };

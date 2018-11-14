@@ -6,14 +6,14 @@ export const RECEIVE_POST_ERRORS = 'RECEIVE_POST_ERRORS';
 export const receivePosts = function (posts) {
     return {
         type: RECEIVE_POSTS,
-        posts,
+        payload: posts,
     };
 };
 
 export const receivePostErrors = function (errors) {
     return {
         type: RECEIVE_POST_ERRORS,
-        errors,
+        payload: errors,
     }
 }
 

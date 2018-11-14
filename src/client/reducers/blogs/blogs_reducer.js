@@ -1,13 +1,13 @@
 import { normalize, schema } from 'normalizr';
 import { merge, union } from 'lodash';
-import { RECEIVE_POSTS, RECEIVE_POST_ERRORS } from '../../actions/post_actions';
+import { RECEIVE_POSTS } from '../../actions/post_actions';
 
 const defaultState = {
     byId: {},
     allIds: [],
 };
 
-const postsReducer = function (state = defaultState, action) {
+const blogsReducer = function (state = defaultState, action) {
     let newState = {};
     switch (action.type) {
         case RECEIVE_POSTS:
@@ -22,11 +22,11 @@ const postsReducer = function (state = defaultState, action) {
             newState.byId = merge(
                 {},
                 state.byId,
-                normalizedPayload.entities.posts,
+                normalizedPayload.entities.blogs,
             );
             newState.allIds = union(
                 state.allIds,
-                action.payload.map((post) => post._id),
+                Object.keys(normalizedPayload.entities.blogs),
             );
             return newState;
         default:
@@ -34,4 +34,4 @@ const postsReducer = function (state = defaultState, action) {
     };
 };
 
-export default postsReducer;
+export default blogsReducer;
