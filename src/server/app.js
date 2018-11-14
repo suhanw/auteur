@@ -20,7 +20,7 @@ var dbOptions = {
   useCreateIndex: true,
 };
 mongoose.connect(dbUrl, dbOptions);
-seedDB();
+// seedDB();
 // DB CONFIG==============================  
 
 // APP CONFIG=============================
