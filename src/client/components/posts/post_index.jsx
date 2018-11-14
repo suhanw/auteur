@@ -19,7 +19,7 @@ class PostIndex extends React.Component {
     const { postsArr, blogs } = this.props;
     let postLis = postsArr.map(function (post) {
       return (
-        <li>{post._id}</li>
+        <li key={post._id}>{post._id}</li>
       );
     });
     return postLis;
