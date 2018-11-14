@@ -27,7 +27,7 @@ router.post('/users',
           if (err) {
             return res.status(422).json([err.message]);
           }
-          createdUser.blogs.push(createdBlog);
+          createdUser.primaryBlog = createdBlog._id;
           createdUser.save();
           return;
         });
@@ -37,8 +37,8 @@ router.post('/users',
 
         // so we need to execute that cb to complete the response.
         middlewareCallback(req, res, function () {
-          const { _id, email, username, avatarImageUrl, blogs, following } = createdUser;
-          const userJSON = { _id, email, username, avatarImageUrl, blogs, following };
+          const { _id, email, username, avatarImageUrl, primaryBlog, blogs, following } = createdUser;
+          const userJSON = { _id, email, username, avatarImageUrl, primaryBlog, blogs, following };
           return res.json(userJSON);
         });
       }

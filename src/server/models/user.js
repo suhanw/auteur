@@ -18,10 +18,13 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: 'images/defaultUserAvatar.svg'
     },
+    primaryBlog: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Blog',
+    },
     blogs: [{
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Blog',
-      required: true,
     }],
     following: [
       {

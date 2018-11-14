@@ -15,8 +15,8 @@ router.post('/session',
     })(req, res, next);
   },
   function (req, res) {
-    const { _id, email, username, avatarImageUrl, blogs, following } = req.user;
-    const userJSON = { _id, email, username, avatarImageUrl, blogs, following };
+    const { _id, email, username, avatarImageUrl, primaryBlog, blogs, following } = req.user;
+    const userJSON = { _id, email, username, avatarImageUrl, primaryBlog, blogs, following };
     res.json(userJSON);
   }
 );

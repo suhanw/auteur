@@ -2,6 +2,7 @@ import React from 'react';
 import { Route } from 'react-router-dom';
 import NavbarContainer from './navbar/navbar_container';
 import PostIndexContainer from './posts/post_index_container';
+import SidemenuContainer from './sidemenu/sidemenu_container';
 
 class Dashboard extends React.Component {
   constructor(props) {
@@ -18,7 +19,7 @@ class Dashboard extends React.Component {
             <PostIndexContainer />
           </div>
           <div className='side-column'>
-            This is side column.
+            <SidemenuContainer />
           </div>
         </div>
       </div>

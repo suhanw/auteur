@@ -15,7 +15,10 @@ router.get('/posts', middleware.isLoggedIn, function (req, res) {
             // query posts from current user's own blog and followed blogs
             let posts = {};
             Post.find()
-                .where('blog').in(lodash.concat(foundUser.following, foundUser.blogs))
+                .where('blog').in(lodash.concat(
+                    [foundUser.primaryBlog], // user's primary blog
+                    foundUser.following, // blogs that user follows
+                    foundUser.blogs)) // add'l blogs that user created
                 .select('_id type title body media blog createdAt')
                 .sort({ 'createdAt': 'desc' })
                 .populate({ path: 'blog', select: '_id avatarImageUrl name title' })

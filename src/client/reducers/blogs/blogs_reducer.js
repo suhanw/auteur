@@ -19,6 +19,10 @@ const blogsReducer = function (state = defaultState, action) {
                 { idAttribute: '_id' });
             const payloadSchema = [postSchema];
             const normalizedPayload = normalize(action.payload, payloadSchema);
+            let blogIdsArr = [];
+            if (action.payload.length > 0) {
+                blogIdsArr = Object.keys(normalizedPayload.entities.blogs);
+            }
             newState.byId = merge(
                 {},
                 state.byId,
@@ -26,7 +30,7 @@ const blogsReducer = function (state = defaultState, action) {
             );
             newState.allIds = union(
                 state.allIds,
-                Object.keys(normalizedPayload.entities.blogs),
+                blogIdsArr,
             );
             return newState;
         default:

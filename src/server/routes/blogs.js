@@ -22,7 +22,6 @@ router.get('/blogs/:id', function (req, res) {
                     foundBlog.posts = posts; // add posts array as key to blog JSON
                     return res.json(foundBlog);
                 });
-            // return res.json(foundBlog);
         });
 });
 

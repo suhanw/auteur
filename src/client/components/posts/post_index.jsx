@@ -24,6 +24,9 @@ class PostIndex extends React.Component {
 
   renderPostShowItems() {
     const { postsArr, blogs } = this.props;
+    if (postsArr.length === 0 || !postsArr) {
+      return (<div>Start blogging or following blogs!</div>);
+    }
     let postIndexItems = postsArr.map(function (post) {
       let blog = blogs[post.blog];
       return (

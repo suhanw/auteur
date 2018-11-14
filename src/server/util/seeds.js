@@ -56,7 +56,7 @@ const createBlog = function (author) {
     if (err) {
       return console.log(err);
     }
-    author.blogs.push(createdBlog._id);
+    author.primaryBlog = createdBlog._id;
     author.save();
     // make Suhan follow blogs
     User.findOne({ email: 'suhanw@gmail.com' })
@@ -68,6 +68,8 @@ const createBlog = function (author) {
 
           foundUser.following.push(createdBlog._id);
           foundUser.save();
+          createdBlog.followerCount += 1;
+          createdBlog.save();
           console.log('Suhan followed blog ' + createdBlog._id);
         }
       });
