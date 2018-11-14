@@ -1,7 +1,7 @@
 import React from 'react';
 
 import PostIndexHeader from './post_index_header';
-import PostIndexItem from './post_index_item';
+import PostShowItem from './post_show_item';
 
 class PostIndex extends React.Component {
   constructor(props) {
@@ -27,7 +27,7 @@ class PostIndex extends React.Component {
     let postIndexItems = postsArr.map(function (post) {
       let blog = blogs[post.blog];
       return (
-        <PostIndexItem key={post._id} post={post} blog={blog} />
+        <PostShowItem key={post._id} post={post} blog={blog} />
       );
     });
     return postIndexItems;
