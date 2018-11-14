@@ -1,6 +1,7 @@
 import { normalize, schema } from 'normalizr';
 import { merge, union } from 'lodash';
 import { RECEIVE_POSTS } from '../../actions/post_actions';
+import { REMOVE_CURRENT_USER } from '../../actions/session_actions';
 
 const defaultState = {
     byId: {},
@@ -8,6 +9,7 @@ const defaultState = {
 };
 
 const blogsReducer = function (state = defaultState, action) {
+    Object.freeze(state);
     let newState = {};
     switch (action.type) {
         case RECEIVE_POSTS:
@@ -33,6 +35,8 @@ const blogsReducer = function (state = defaultState, action) {
                 blogIdsArr,
             );
             return newState;
+        case REMOVE_CURRENT_USER:
+            return defaultState;
         default:
             return state;
     };

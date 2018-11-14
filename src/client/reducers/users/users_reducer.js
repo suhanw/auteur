@@ -1,6 +1,7 @@
 import { schema, normalize } from 'normalizr';
 import { merge, union } from 'lodash';
 import { RECEIVE_CURRENT_USER } from '../../actions/session_actions';
+import { REMOVE_CURRENT_USER } from '../../actions/session_actions';
 
 const defaultState = {
   byId: {},
@@ -17,6 +18,8 @@ const usersReducer = function (state = defaultState, action) {
         allIds: union(state.allIds, [action.payload._id]),
       };
       return newState;
+    case REMOVE_CURRENT_USER:
+      return defaultState;
     default:
       return state;
   }
