@@ -9,6 +9,9 @@
   text-align: inherit;
   color: inherit;
   background: transparent;
+  font-smooth: always;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 li {

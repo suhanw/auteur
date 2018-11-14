@@ -7,7 +7,7 @@ class PostIndex extends React.Component {
   constructor(props) {
     super(props);
 
-    this.renderPostIndexItems = this.renderPostIndexItems.bind(this);
+    this.renderPostShowItems = this.renderPostShowItems.bind(this);
   }
 
   render() {
@@ -16,13 +16,13 @@ class PostIndex extends React.Component {
       <div className='post-index'>
         <PostIndexHeader currentUser={currentUser} />
         <ul className='post-container'>
-          {this.renderPostIndexItems()}
+          {this.renderPostShowItems()}
         </ul>
       </div>
     );
   }
 
-  renderPostIndexItems() {
+  renderPostShowItems() {
     const { postsArr, blogs } = this.props;
     let postIndexItems = postsArr.map(function (post) {
       let blog = blogs[post.blog];

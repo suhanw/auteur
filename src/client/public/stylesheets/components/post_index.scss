@@ -8,15 +8,16 @@ $post-content-width: 540px;
 
 .post-index-header, 
 .post-show-item {
-  border: 1px solid yellow;
   display: flex;
   justify-content: space-between;
+  margin-bottom: 20px;
 }
 
 .post-menu,
 .post-content {
   width: $post-content-width;
   border-radius: 2px;
+  padding-top: 15px;
 }
 
 // to delete
@@ -25,5 +26,50 @@ $post-content-width: 540px;
 }
 
 .post-content {
-  background: green;
+  background: white;
+  border-radius: 2px;
+}
+
+.post-header, 
+.post-footer, 
+.post-main {
+  padding: 0px 20px;
+  margin-bottom: 10px;
+}
+
+.post-header {
+  font-size: 13px;
+  font-weight: bold;
+}
+
+
+.post-title, 
+.post-body {
+  margin-bottom: 10px;
+}
+
+.post-title {
+  font-size: 36px;
+}
+
+.post-body {
+  font-size: 14px;
+  font-weight: 400;
+  font-stretch: 100%;
+}
+
+.tag-index {
+  font-size: 13px;
+  color: #8f8f8f;
+  margin-top: 15px;
+}
+
+.note-menu {
+  font-size: 14px;
+  font-weight: 700;
+  color: #8f8f8f;
+  height: 45px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }

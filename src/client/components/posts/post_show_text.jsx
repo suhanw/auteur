@@ -9,11 +9,13 @@ class PostShowText extends React.Component {
     const { post } = this.props;
     return (
       <div>
-        <h1>Title</h1>
-        <p>
+        <h1 className='post-title'>{post.title}</h1>
+        <p className='post-body'>
           {post.body}
         </p>
       </div>
     )
   }
 }
+
+export default PostShowText;
