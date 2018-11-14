@@ -23,12 +23,12 @@ const blogSchema = new mongoose.Schema(
     avatarImageUrl: {
       type: String,
       required: true,
-      default: 'src/client/public/images/defaultBlogAvatar.svg',
+      default: 'images/defaultBlogAvatar.svg',
     },
     backgroundImageUrl: {
       type: String,
       required: true,
-      default: 'src/client/public/images/brick_bkgd-lime.png',
+      default: 'images/brick_bkgd-lime.png',
     },
     followerCount: {
       type: Number,

@@ -1,28 +1,36 @@
 import React from 'react';
 
+import PostIndexHeader from './post_index_header';
+import PostIndexItem from './post_index_item';
+
 class PostIndex extends React.Component {
   constructor(props) {
     super(props);
 
-    this.renderPostIndexItem = this.renderPostIndexItem.bind(this);
+    this.renderPostIndexItems = this.renderPostIndexItems.bind(this);
   }
 
   render() {
+    const { currentUser } = this.props;
     return (
-      <ul className='post-index'>
-        {this.renderPostIndexItem()}
-      </ul>
+      <div className='post-index'>
+        <PostIndexHeader currentUser={currentUser} />
+        <ul className='post-container'>
+          {this.renderPostIndexItems()}
+        </ul>
+      </div>
     );
   }
 
-  renderPostIndexItem() {
+  renderPostIndexItems() {
     const { postsArr, blogs } = this.props;
-    let postLis = postsArr.map(function (post) {
+    let postIndexItems = postsArr.map(function (post) {
+      let blog = blogs[post.blog];
       return (
-        <li key={post._id}>{post._id}</li>
+        <PostIndexItem key={post._id} post={post} blog={blog} />
       );
     });
-    return postLis;
+    return postIndexItems;
   }
 
   componentDidMount() {

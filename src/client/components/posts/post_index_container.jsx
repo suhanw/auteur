@@ -2,15 +2,17 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import PostIndex from './post_index';
-import { selectPosts, selectBlogs } from '../../selectors/selectors';
+import { selectPosts, selectBlogs, selectCurrentUser } from '../../selectors/selectors';
 import { fetchPosts } from '../../actions/post_actions';
 
 const mapStateToProps = function (state, ownProps) {
   const postsArr = selectPosts(state);
   const blogs = selectBlogs(state);
+  const currentUser = selectCurrentUser(state);
   return {
     postsArr,
     blogs,
+    currentUser,
   };
 };
 

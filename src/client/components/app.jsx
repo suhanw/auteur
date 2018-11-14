@@ -12,13 +12,10 @@ class App extends React.Component {
   render() {
 
     return (
-      <main>
-
-        <Switch>
-          <ProtectRoute path='/dashboard' component={Dashboard} />
-          <AuthRoute path='/' component={Carousel} />
-        </Switch>
-      </main>
+      <Switch>
+        <ProtectRoute path='/dashboard' component={Dashboard} />
+        <AuthRoute path='/' component={Carousel} />
+      </Switch>
     );
   }
 }

@@ -9,20 +9,6 @@ const seedDB = function () {
   users.forEach(function (user) {
     createUser(user);
   });
-
-  // make Suhan follow blogs
-  // User.findOne({ email: 'suhanw@gmail.com' })
-  //   .exec(function (err, foundUser) {
-  //     if (err) return console.log(err);
-  //     Blog.find({})
-  //       .cursor()
-  //       .on('data', function (blog) {
-  //         foundUser.blogs.push(blog._id);
-  //       })
-  //       .on('end', function () {
-  //         console.log('subscribed!');
-  //       });
-  //   });
 };
 
 const clearDB = function () {

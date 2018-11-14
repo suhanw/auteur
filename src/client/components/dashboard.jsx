@@ -14,12 +14,12 @@ class Dashboard extends React.Component {
       <div className='dashboard'>
         <Route path='/' component={NavbarContainer} />
         <div className='dashboard-content'>
-          <section className='main-column'>
+          <div className='main-column'>
             <PostIndexContainer />
-          </section>
-          <section className='side-column'>
+          </div>
+          <div className='side-column'>
             This is side column.
-          </section>
+          </div>
         </div>
       </div>
     );
