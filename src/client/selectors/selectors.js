@@ -1,4 +1,4 @@
-export const selectCurrentUser = function(state) {
+export const selectCurrentUser = function (state) {
   const currentUserId = state.session.id;
   if (!currentUserId) {
     return null;
@@ -7,7 +7,21 @@ export const selectCurrentUser = function(state) {
   return currentUser;
 };
 
-export const selectSessionErrors = function(state) {
-  const {errors: {sessionErrors}} = state;
+export const selectSessionErrors = function (state) {
+  const { errors: { sessionErrors } } = state;
   return sessionErrors;
-}
+};
+
+export const selectPosts = function (state) {
+  const { entities: { posts } } = state;
+  let postsArr = posts.allIds.map(function (postId) {
+    return posts.byId[postId];
+  });
+  return postsArr;
+};
+
+export const selectBlogs = function (state) {
+  const { entities: { blogs } } = state;
+  const blogsObj = blogs.byId;
+  return blogsObj;
+};

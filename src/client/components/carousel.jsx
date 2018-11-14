@@ -1,9 +1,9 @@
 import React from 'react';
-import {Route, Link} from 'react-router-dom'
-import {merge} from 'lodash';
-import {AuthRoute} from '../util/route_util';
+import { Route, Link } from 'react-router-dom'
+import { merge } from 'lodash';
+import { AuthRoute } from '../util/route_util';
 import SessionFormContainer from './session/session_form_container';
-import NavbarContainer from './nav/navbar_container';
+import NavbarContainer from './navbar/navbar_container';
 
 class Carousel extends React.Component {
   constructor(props) {
@@ -26,17 +26,17 @@ class Carousel extends React.Component {
 
   render() {
 
-    const {activeSlide, slideClasses} = this.state;
+    const { activeSlide, slideClasses } = this.state;
 
-    return(
+    return (
       <section className='carousel'>
         <Route path='/' render={(props) =>
-            <NavbarContainer {...props}
-              scrollCarousel={this.scrollCarousel}
-              activeSlide={activeSlide} />
-          } />
-        <div  className={'welcome-slide' + slideClasses[4]}
-              onWheel={activeSlide === 4 ? this.throttleWheel(500, this.scrollCarousel) : null}>
+          <NavbarContainer {...props}
+            scrollCarousel={this.scrollCarousel}
+            activeSlide={activeSlide} />
+        } />
+        <div className={'welcome-slide' + slideClasses[4]}
+          onWheel={activeSlide === 4 ? this.throttleWheel(500, this.scrollCarousel) : null}>
           <div className='welcome-slide-content object-fade-in'>
             <h1 className='welcome-slide-title'>Okay, it's not actually hard to explain.</h1>
             <p>
@@ -47,16 +47,16 @@ class Carousel extends React.Component {
             <AuthRoute path='/signup' component={SessionFormContainer} />
           </div>
         </div>
-        <div  className={'create-slide' + slideClasses[3]}
-              onWheel={activeSlide === 3 ? this.throttleWheel(500, this.scrollCarousel) : null}>
+        <div className={'create-slide' + slideClasses[3]}
+          onWheel={activeSlide === 3 ? this.throttleWheel(500, this.scrollCarousel) : null}>
           This is create slide.
         </div>
-        <div  className={'about-slide' + slideClasses[2]}
-              onWheel={activeSlide === 2 ? this.throttleWheel(500, this.scrollCarousel) : null}>
+        <div className={'about-slide' + slideClasses[2]}
+          onWheel={activeSlide === 2 ? this.throttleWheel(500, this.scrollCarousel) : null}>
           This is about slide.
         </div>
-        <div  className={'intro-slide' + slideClasses[1]}
-              onWheel={activeSlide === 1 ? this.throttleWheel(500, this.scrollCarousel) : null}>
+        <div className={'intro-slide' + slideClasses[1]}
+          onWheel={activeSlide === 1 ? this.throttleWheel(500, this.scrollCarousel) : null}>
           <div className='intro-slide-content object-fade-in'>
             <h1 className='logo'>auteur</h1>
             <p>
@@ -86,16 +86,16 @@ class Carousel extends React.Component {
     );
   }
 
-  throttleWheel (delay, handleWheel) {
+  throttleWheel(delay, handleWheel) {
     let start = Date.now();
     let currTarget = null;
-    return function(e) {
+    return function (e) {
       e.stopPropagation();
       let currTime = Date.now();
       let timeElapsed = currTime - start;
       //only execute handler after specified delay AND a specified touchpad swipe 'size'
       if (timeElapsed > delay && Math.abs(e.deltaY) > 60) {
-        let scrollDir = e.deltaY > 0 ? 'up': 'down';
+        let scrollDir = e.deltaY > 0 ? 'up' : 'down';
         handleWheel(scrollDir);
         start = currTime; // restart countdown for next handler call.
       }
@@ -104,17 +104,17 @@ class Carousel extends React.Component {
 
   handleClick(dotNum) {
     const that = this;
-    return function(e) {
+    return function (e) {
       e.preventDefault();
-      const {activeSlide} = that.state;
-      const scrollDir = activeSlide < dotNum ? 'up': 'down';
+      const { activeSlide } = that.state;
+      const scrollDir = activeSlide < dotNum ? 'up' : 'down';
       that.scrollCarousel(scrollDir, dotNum);
     }
   }
 
   scrollCarousel(scrollDir, nextSlide) {
     const that = this;
-    const {activeSlide, slideClasses} = that.state;
+    const { activeSlide, slideClasses } = that.state;
     console.log('curr active slide', activeSlide);
     let newActiveSlide = nextSlide;
     let newSlideClasses = merge({}, slideClasses);
@@ -130,7 +130,7 @@ class Carousel extends React.Component {
     else if (scrollDir === 'down' && activeSlide > 1) {
       // scroll to previous slide
       newSlideClasses[activeSlide] = '';
-      newActiveSlide = !newActiveSlide ? (activeSlide -1) : newActiveSlide;
+      newActiveSlide = !newActiveSlide ? (activeSlide - 1) : newActiveSlide;
       newSlideClasses[newActiveSlide] = ' active slidedown';
     } // when wheeling past first or last slide, don't re-render
     else {

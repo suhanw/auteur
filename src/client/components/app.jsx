@@ -1,9 +1,8 @@
 import React from 'react';
-import {Route, Switch, Link} from 'react-router-dom';
+import { Switch } from 'react-router-dom';
 import Dashboard from './dashboard';
-import NavbarContainer from './nav/navbar_container';
 import Carousel from './carousel';
-import {AuthRoute, ProtectRoute} from '../util/route_util';
+import { AuthRoute, ProtectRoute } from '../util/route_util';
 
 class App extends React.Component {
   constructor(props) {
@@ -14,7 +13,7 @@ class App extends React.Component {
 
     return (
       <main>
-        
+
         <Switch>
           <ProtectRoute path='/dashboard' component={Dashboard} />
           <AuthRoute path='/' component={Carousel} />
