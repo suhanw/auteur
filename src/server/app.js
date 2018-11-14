@@ -10,9 +10,6 @@ const LocalStrategy = require('passport-local').Strategy;
 const flash = require('connect-flash');
 
 const User = require('./models/user');
-const userRoutes = require('./routes/users');
-const sessionRoutes = require('./routes/session');
-const blogRoutes = require('./routes/blogs');
 const seedDB = require('./util/seeds');
 
 // DB CONFIG==============================
@@ -23,8 +20,8 @@ var dbOptions = {
   useCreateIndex: true,
 };
 mongoose.connect(dbUrl, dbOptions);
-seedDB();
-// DB CONFIG==============================
+// seedDB();
+// DB CONFIG==============================  
 
 // APP CONFIG=============================
 app.set('view engine', 'ejs');
@@ -59,13 +56,7 @@ passport.deserializeUser(User.deserializeUser());
 // AUTH CONFIG============================
 
 // API ROUTES==============================
-app.get("/", function (req, res) {
-  res.render('index', { currentUser: req.user });
-});
-
-app.use('/api', sessionRoutes);
-app.use('/api', userRoutes);
-app.use('/api', blogRoutes);
+app.use(require('./controllers/controllers'));
 // API ROUTES==============================
 
 // switch between dev (local) or prod

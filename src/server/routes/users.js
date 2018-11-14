@@ -1,8 +1,12 @@
 const express = require('express');
 const router = express.Router();
 const passport = require('passport');
+const lodash = require('lodash');
+
 const User = require('../models/user');
 const Blog = require('../models/blog');
+const Post = require('../models/post');
+const middleware = require('../middleware/middleware');
 
 // POST api/users
 router.post('/users',
@@ -20,6 +24,7 @@ router.post('/users',
           author: createdUser._id,
           primary: true,
           avatarImageUrl: createdUser.avatarImageUrl,
+          title: createdUser.username,
         }, function (err, createdBlog) {
           if (err) {
             return res.status(422).json([err.message]);
@@ -47,5 +52,34 @@ router.post('/users',
     );
   }
 );
+
+// GET api/users/:id - for user's dashboard feed
+router.get('/users/:id', middleware.isLoggedIn, function (req, res) {
+  User.findById(req.params.id)
+    .select('_id email blogs following')
+    .populate({
+      path: 'blogs',
+      select: 'avatarImageUrl title'
+    })
+    .populate({
+      path: 'following',
+      select: 'avatarImageUrl title'
+    })
+    .lean(true) // to return POJO instead of Document obj
+    .exec(function (err, foundUser) {
+      if (err || !foundUser) return res.status(404).json(['User not found.']);
+
+      // query posts from current user's own blog and followed blogs
+      Post.find()
+        .where('blog').in(lodash.concat(foundUser.following, foundUser.blogs))
+        .select('_id type body blog author createdAt')
+        .sort({ 'createdAt': 'desc' })
+        .exec(function (err, foundPosts) {
+          if (err) return res.json([err.message]);
+          foundUser.posts = foundPosts;
+          return res.json(foundUser);
+        });
+    });
+});
 
 module.exports = router;

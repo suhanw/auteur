@@ -6,19 +6,23 @@ const Post = require('../models/post');
 const seedDB = function () {
   clearDB();
 
-  // User.create({
-  //   email: 'suhanw@gmail.com',
-  //   username: 'suhanw',
-  // }, function(err, createdUser) {
-  //   if (err) {
-  //     return console.log(err);
-  //   }
-  //   createBlog(createdUser);
-  // });
-
   users.forEach(function (user) {
     createUser(user);
   });
+
+  // make Suhan follow blogs
+  // User.findOne({ email: 'suhanw@gmail.com' })
+  //   .exec(function (err, foundUser) {
+  //     if (err) return console.log(err);
+  //     Blog.find({})
+  //       .cursor()
+  //       .on('data', function (blog) {
+  //         foundUser.blogs.push(blog._id);
+  //       })
+  //       .on('end', function () {
+  //         console.log('subscribed!');
+  //       });
+  //   });
 };
 
 const clearDB = function () {
@@ -47,6 +51,8 @@ const createUser = function (user) {
       if (err) {
         return console.log(err);
       }
+      console.log(createdUser._id + ' ' + createdUser.email + ' user created');
+
       createBlog(createdUser);
     }
   );
@@ -57,6 +63,7 @@ const createBlog = function (author) {
   let newBlog = new Blog({
     author: author._id,
     primary: true,
+    title: author.username,
   });
   newBlog.save(function (err, createdBlog) {
     if (err) {
@@ -64,6 +71,19 @@ const createBlog = function (author) {
     }
     author.blogs.push(createdBlog._id);
     author.save();
+    // make Suhan follow blogs
+    User.findOne({ email: 'suhanw@gmail.com' })
+      .exec(function (err, foundUser) {
+        if (err) return console.log(err);
+        // debugger
+        if (author.email !== foundUser.email) {
+          console.log(author.email, foundUser.email);
+
+          foundUser.following.push(createdBlog._id);
+          foundUser.save();
+          console.log('Suhan followed blog ' + createdBlog._id);
+        }
+      });
     createPosts(author, createdBlog, posts);
   });
 };
@@ -73,26 +93,11 @@ const createPosts = function (author, blog, posts) {
   posts.forEach(function (post) {
     post.blog = blog._id;
     post.author = author._id;
-    //   Post.create(post, function (err, createdPost) {
-    //     if (err) {
-    //       return console.log(err);
-    //     }
-    //     // debugger
-    //     blog.posts.push(createdPost._id);
-    //     blog.save(function (err, savedBlog) {
-    //       if (err) return console.log(err);
-    //     });
-    //     console.log('seeded!');
-    //   })
   });
   Post.insertMany(posts, function (err, insertedPosts) {
     if (err) return console.log(err);
     insertedPosts.forEach(function (post) {
-      post.blog = blog._id;
-      post.author = author._id;
-      post.save();
       console.log('seeded!');
-
     });
   })
 }
