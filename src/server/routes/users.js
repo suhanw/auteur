@@ -5,8 +5,6 @@ const lodash = require('lodash');
 
 const User = require('../models/user');
 const Blog = require('../models/blog');
-const Post = require('../models/post');
-const middleware = require('../middleware/middleware');
 
 // POST api/users
 router.post('/users',
@@ -52,35 +50,5 @@ router.post('/users',
     );
   }
 );
-
-
-// GET api/users/:id/feed - generates the dashboard feed
-router.get('/users/:id/feed', middleware.isLoggedIn, function (req, res) {
-  User.findById(req.params.id)
-    .select('_id email blogs following')
-    .populate({
-      path: 'blogs',
-      select: 'avatarImageUrl title'
-    })
-    .populate({
-      path: 'following',
-      select: 'avatarImageUrl title'
-    })
-    .lean(true) // to return POJO instead of Document obj
-    .exec(function (err, foundUser) {
-      if (err || !foundUser) return res.status(404).json(['User not found.']);
-
-      // query posts from current user's own blog and followed blogs
-      Post.find()
-        .where('blog').in(lodash.concat(foundUser.following, foundUser.blogs))
-        .select('_id type body blog author createdAt')
-        .sort({ 'createdAt': 'desc' })
-        .exec(function (err, foundPosts) {
-          if (err) return res.json([err.message]);
-          foundUser.posts = foundPosts;
-          return res.json(foundUser);
-        });
-    });
-});
 
 module.exports = router;
