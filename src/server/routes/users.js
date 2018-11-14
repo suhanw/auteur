@@ -28,12 +28,7 @@ router.post('/users',
             return res.status(422).json([err.message]);
           }
           createdUser.blogs.push(createdBlog);
-          createdUser.save(function (err, savedUser) {
-            if (err) {
-              return res.status(422).json([err.message]);
-            }
-            return;
-          });
+          createdUser.save();
           return;
         });
 

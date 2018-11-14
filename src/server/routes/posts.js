@@ -6,6 +6,7 @@ const Post = require('../models/post');
 const User = require('../models/user');
 const middleware = require('../middleware/middleware');
 
+// GET api/posts - Index posts for current user's feed
 router.get('/posts', middleware.isLoggedIn, function (req, res) {
     User.findById(req.user._id)
         .exec(function (err, foundUser) {
