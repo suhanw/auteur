@@ -53,8 +53,9 @@ router.post('/users',
   }
 );
 
-// GET api/users/:id - for user's dashboard feed
-router.get('/users/:id', middleware.isLoggedIn, function (req, res) {
+
+// GET api/users/:id/feed - generates the dashboard feed
+router.get('/users/:id/feed', middleware.isLoggedIn, function (req, res) {
   User.findById(req.params.id)
     .select('_id email blogs following')
     .populate({

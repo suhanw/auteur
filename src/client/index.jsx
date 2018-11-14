@@ -5,7 +5,7 @@ import configureStore from './store/store';
 
 import './public/stylesheets/styles.scss'; // to use SASS compiled by webpack
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
   let store;
   if (window.currentUser) {
     const preloadedState = {
@@ -33,14 +33,16 @@ document.addEventListener('DOMContentLoaded', function() {
   // TESTING===========================
 
   const rootDOM = document.querySelector('#root');
-  ReactDOM.render(<Root store={store}/>, rootDOM);
+  ReactDOM.render(<Root store={store} />, rootDOM);
 });
 
 // TESTING===========================
 // import {signup, login, logout} from './util/session_api_util';
-import {signup, login, logout} from './actions/session_actions';
+// import {signup, login, logout} from './actions/session_actions';
+import * as APIUtil from './util/user_api_util';
 
+window.fetchUserFeed = APIUtil.fetchUserFeed;
 // window.signup = signup;
 // window.login = login;
-window.logout = logout;
+// window.logout = logout;
 // TESTING===========================
