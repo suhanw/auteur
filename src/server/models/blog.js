@@ -11,10 +11,14 @@ const blogSchema = new mongoose.Schema(
       type: Boolean,
       required: true,
     },
+    name: {
+      type: String,
+      required: true,
+    },
     title: {
       type: String,
       required: true,
-      default: 'Untitled'
+      default: 'Untitled blog'
     },
     description: {
       type: String,

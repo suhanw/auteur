@@ -49,7 +49,7 @@ const createBlog = function (author) {
   let newBlog = new Blog({
     author: author._id,
     primary: true,
-    title: author.username,
+    name: author.username,
     avatarImageUrl: author.avatarImageUrl,
   });
   newBlog.save(function (err, createdBlog) {

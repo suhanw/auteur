@@ -1,5 +1,7 @@
 $post-content-width: 540px;
 
+$dogear-grey: rgb(208, 208, 208);
+
 .post-index {
   display: flex;
   flex-direction: column;
@@ -18,16 +20,28 @@ $post-content-width: 540px;
   width: $post-content-width;
   border-radius: 3px;
   padding-top: 15px;
+  background: white;
+  position: relative;
 }
 
-// to delete
-.post-menu {
-  background: white;
+
+.dogear {
+  display: inline-block;
+  height: 0px;
+  width: 0px;
+  background: linear-gradient(45deg, $dogear-grey 50%, $bg-blue 50%);
+  position: absolute;
+  top: 0;
+  right: 0;
+  border-bottom-left-radius: 5px;
+  transition: 0.2s ease-out;
 }
 
-.post-content {
-  background: white;
+.post-content:hover .dogear{
+  height: 15px;
+  width: 15px;
 }
+
 
 .post-header, 
 .post-footer, 
@@ -49,8 +63,7 @@ $post-content-width: 540px;
 }
 
 .post-title, 
-.post-body,
-.post-photo {
+.post-body {
   margin-bottom: 10px;
 }
 
@@ -68,6 +81,7 @@ $post-content-width: 540px;
 
 .post-photo {
   width: calc(100% + 40px); // to cover width of post-content
+  margin-bottom: 5px;
 }
 
 

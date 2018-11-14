@@ -18,7 +18,7 @@ router.get('/posts', middleware.isLoggedIn, function (req, res) {
                 .where('blog').in(lodash.concat(foundUser.following, foundUser.blogs))
                 .select('_id type title body media blog createdAt')
                 .sort({ 'createdAt': 'desc' })
-                .populate({ path: 'blog', select: '_id avatarImageUrl title' })
+                .populate({ path: 'blog', select: '_id avatarImageUrl name title' })
                 .exec(function (err, foundPosts) {
                     if (err) return res.json([err.message]);
                     return res.json(foundPosts);

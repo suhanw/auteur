@@ -22,7 +22,7 @@ router.post('/users',
           author: createdUser._id,
           primary: true,
           avatarImageUrl: createdUser.avatarImageUrl,
-          title: createdUser.username,
+          name: createdUser.username,
         }, function (err, createdBlog) {
           if (err) {
             return res.status(422).json([err.message]);
