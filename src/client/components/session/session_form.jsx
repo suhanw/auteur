@@ -39,6 +39,7 @@ class SessionForm extends React.Component {
         name='email'
         value={this.state.email}
         placeholder='Email'
+        autoFocus
         onChange={this.handleChange('email')} />
     );
     const passwordField = (

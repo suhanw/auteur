@@ -29,15 +29,22 @@ class Navbar extends React.Component {
   }
 
   render() {
-    const { currentUser, scrollCarousel, activeSlide, logout } = this.props;
     const { pathname } = this.props.location;
+
+    if (pathname === '/' || pathname === '/login' || pathname === '/signup') {
+      const { currentUser, scrollCarousel, activeSlide, logout } = this.props;
+      return (
+        <NavmenuGuest
+          pathname={pathname}
+          currentUser={currentUser}
+          scrollCarousel={scrollCarousel}
+          activeSlide={activeSlide}
+          logout={logout} />
+      );
+    }
+
     return (
-      <NavmenuGuest
-        pathname={pathname}
-        currentUser={currentUser}
-        scrollCarousel={scrollCarousel}
-        activeSlide={activeSlide}
-        logout={logout} />
+      null
     );
   }
 }
