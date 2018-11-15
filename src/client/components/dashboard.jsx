@@ -1,17 +1,9 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import { Route } from 'react-router-dom';
 
 import NavbarContainer from './navbar/navbar_container';
 import PostIndexContainer from './posts/post_index_container';
 import SidemenuContainer from './sidemenu/sidemenu_container';
-import { detectScroll } from '../actions/ui_actions';
-
-const mapDispatchToProps = function (dispatch, ownProps) {
-  return {
-    detectScroll: (scrollTop) => dispatch(detectScroll(scrollTop)),
-  };
-};
 
 class Dashboard extends React.Component {
   constructor(props) {
@@ -41,4 +33,4 @@ class Dashboard extends React.Component {
   }
 }
 
-export default connect(null, mapDispatchToProps)(Dashboard);
+export default Dashboard;

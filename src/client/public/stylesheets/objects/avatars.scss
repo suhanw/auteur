@@ -6,8 +6,8 @@
 
 .avatar {
   border-radius: 3px;
-  // position: relative;
-  // top: 0;
+  position: sticky;
+  top: 70px; // it will 'stick' at position 70px below the closest parent container with overflow: scroll
 }
 
 .avatar-default {

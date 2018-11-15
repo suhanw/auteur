@@ -8,19 +8,10 @@ class PostShowItem extends React.Component {
   constructor(props) {
     super(props);
 
-    // component state used for avatar's inline style
-    this.state = {
-      position: 'relative',
-      top: 0,
-    };
-
     this.renderPostShow = this.renderPostShow.bind(this);
-    this.offsetAvatar = this.offsetAvatar.bind(this);
   }
 
   render() {
-    console.log('PostShowItem render');
-
     const { post, blog } = this.props;
     let postDate = new Date(post.createdAt);
     postDate = postDate.toString();
@@ -30,7 +21,6 @@ class PostShowItem extends React.Component {
           <img
             className='avatar avatar-default'
             src={blog.avatarImageUrl}
-            style={this.state}
             id={post._id} />
         </picture>
         <article className='post-content'>
@@ -60,38 +50,6 @@ class PostShowItem extends React.Component {
       default:
         return null;
     }
-  }
-
-  componentWillReceiveProps(newProps) {
-    // console.log(newProps);
-    const { scrollTop } = newProps;
-    const { post } = this.props;
-    const avatarElement = document.getElementById(post._id);
-    // if scrolling puts the avatar top less than 70 px from viewport top
-    console.log('avatarElement.offsetTop - scrollTop', avatarElement.offsetTop - scrollTop);
-    if (avatarElement.offsetTop - scrollTop < 70) {
-      console.log('offset avatar!');
-    }
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    // prevent re-render everytime scrollTop is updated, 
-    // instead, componentWillReceiveProps will decide when to re-render
-    if (this.props.scrollTop !== nextProps.scrollTop) {
-      return false;
-    }
-    return true;
-  }
-
-  offsetAvatar() {
-
-    // onscroll, detect avatar position
-    // if (dashboard.scrollTop - avatar.offsetTop < 70 &&
-    //   dashboard.scrollTop + avatar.clientHeight > avatar_container.offsetTop + avatar_container.clientHeight) {
-    //   avatar.style.top = `${dashboard.scrollTop - avatar.offsetTop}px`;
-    // }
-    // then increment avatar top position
-    // unless avatar bottom is at the bottom of the avatar container
   }
 }
 
