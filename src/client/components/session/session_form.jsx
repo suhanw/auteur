@@ -34,7 +34,7 @@ class SessionForm extends React.Component {
       );
     }
     const emailField = (
-      <input className='input-text input-text-default swipe-left'
+      <input className='input-text input-text-default'
         type='text'
         name='email'
         value={this.state.email}
@@ -43,7 +43,7 @@ class SessionForm extends React.Component {
         onChange={this.handleChange('email')} />
     );
     const passwordField = (
-      <input className='input-text input-text-default swipe-left'
+      <input className='input-text input-text-default'
         type='password'
         name='password'
         value={this.state.password}
@@ -54,23 +54,25 @@ class SessionForm extends React.Component {
     let submitButton = (<input className='btn btn-default btn-blue' type='submit' value='Log in' />);
     if (this.props.path === '/signup') {
       usernameField = (
-        <input className='input-text input-text-default swipe-left'
+        <input className='input-text input-text-default'
           type='text'
           name='username'
           value={this.state.username}
           placeholder='Username'
           onChange={this.handleChange('username')} />
       );
-      submitButton = (<input className='btn btn-default btn-blue slide-down' type='submit' value='Sign up' />);
+      submitButton = (<input className='btn btn-default btn-blue' type='submit' value='Sign up' />);
     }
     const errorMessage = renderErrors(this.props.errors);
 
     return (
       <form className='session-form' onSubmit={this.handleSubmit}>
-        {emailField}
-        {passwordField}
-        {usernameField}
-        {errorMessage}
+        <fieldset className='swipe-left-container'>
+          {emailField}
+          {passwordField}
+          {usernameField}
+          {errorMessage}
+        </fieldset>
         <div className='slide-down-container'>
           {submitButton}
         </div>
