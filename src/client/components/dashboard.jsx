@@ -8,13 +8,11 @@ import SidemenuContainer from './sidemenu/sidemenu_container';
 class Dashboard extends React.Component {
   constructor(props) {
     super(props);
-
-    this.handleScroll = this.handleScroll.bind(this);
   }
 
   render() {
     return (
-      <div className='dashboard' onScroll={this.handleScroll}>
+      <div className='dashboard'>
         <Route path='/' component={NavbarContainer} />
         <div className='dashboard-content'>
           <div className='main-column'>
@@ -26,10 +24,6 @@ class Dashboard extends React.Component {
         </div>
       </div>
     );
-  }
-
-  handleScroll(e) {
-    this.props.detectScroll(e.currentTarget.scrollTop);
   }
 }
 
