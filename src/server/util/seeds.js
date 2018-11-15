@@ -81,6 +81,8 @@ const createBlog = function (author) {
 const createPosts = function (author, blog, posts) {
   posts.forEach(function (post) {
     post.blog = blog._id;
+    blog.postCount += 1;
+    blog.save();
     post.author = author._id;
   });
   Post.insertMany(posts, function (err, insertedPosts) {

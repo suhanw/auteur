@@ -6,7 +6,6 @@ const methodOverride = require('method-override');
 const path = require('path');
 const passport = require('passport');
 const session = require('express-session');
-const LocalStrategy = require('passport-local').Strategy;
 const flash = require('connect-flash');
 
 const User = require('./models/user');
@@ -37,7 +36,7 @@ const sessionOptions = {
   resave: false,
   saveUninitialized: false,
   cookie: {
-    maxAge: 86400000,
+    maxAge: 86400000, // converts to 1 day
   }
 };
 
@@ -50,9 +49,9 @@ app.use(session(sessionOptions));
 app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
-passport.use(User.createStrategy());
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
+passport.use(User.createStrategy()); // method provided by passport-local-mongoose
+passport.serializeUser(User.serializeUser()); // method provided by passport-local-mongoose
+passport.deserializeUser(User.deserializeUser()); // method provided by passport-local-mongoose
 // AUTH CONFIG============================
 
 // API ROUTES==============================
