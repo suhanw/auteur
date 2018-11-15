@@ -34,6 +34,11 @@ const blogSchema = new mongoose.Schema(
       required: true,
       default: 'images/brick_bkgd-lime.png',
     },
+    postCount: {
+      type: Number,
+      required: true,
+      default: 0,
+    },
     followerCount: {
       type: Number,
       required: true,

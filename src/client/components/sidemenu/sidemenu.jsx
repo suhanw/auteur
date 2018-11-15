@@ -6,11 +6,45 @@ class Sidemenu extends React.Component {
   }
 
   render() {
+    const { blog, currentUser } = this.props;
+    if (!blog) {
+      return <div>Loading</div>;
+    }
+
     return (
       <aside>
-        This is Sidemenu.
+        <header className='sidemenu-header'>
+          <h1>{blog.name}</h1>
+          <h2>{blog.title}</h2>
+        </header>
+        <div className='sidemenu-link'>
+          <span className='sidemenu-item'>Posts</span>
+          <span className='sidemenu-count'>{blog.postCount}</span>
+        </div>
+        <div className='sidemenu-link'>
+          <span className='sidemenu-item'>Followers</span>
+          <span className='sidemenu-count'>{blog.followerCount}</span>
+        </div>
+        <div className='sidemenu-link'>
+          <span className='sidemenu-item'>Following</span>
+          <span className='sidemenu-count'>{currentUser.following.length}</span>
+        </div>
+        <div className='sidemenu-link'>
+          <span className='sidemenu-item'>Drafts</span>
+          <span className='sidemenu-count'>tbd</span>
+        </div>
+        <div className='sidemenu-link'>
+          <span className='sidemenu-item'>Edit Appearance</span>
+          <span className='sidemenu-count'>tbd</span>
+        </div>
       </aside>
     );
+  }
+
+  componentDidMount() {
+    const { fetchBlog, currentUser } = this.props;
+    // debugger
+    fetchBlog(currentUser.primaryBlog);
   }
 }
 

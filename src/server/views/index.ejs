@@ -1,38 +1,43 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <title>Auteur</title>
 
-    <!-- TO DELETE IN PROD -->
-    <script src="http://localhost:8080/livereload.js" charset="utf-8"></script>
-    <!-- TO DELETE IN PROD -->
+<head>
+  <meta charset="utf-8">
+  <title>Auteur</title>
+
+  <!-- TO DELETE IN PROD -->
+  <script src="http://localhost:8080/livereload.js" charset="utf-8"></script>
+  <!-- TO DELETE IN PROD -->
 
 
-    <link rel="shortcut icon" href="/favicon.ico">
-    <link rel="stylesheet" href="/stylesheets/styles.scss">
+  <link rel="shortcut icon" href="/favicon.ico">
+  <link rel="stylesheet" href="/stylesheets/styles.scss">
 
-    <% if (currentUser) { %>
-      <script type="text/javascript">
-        // to bootstrap current user logged in to add to Redux state
-        window.currentUser = {};
-        window.currentUser.username = '<%= currentUser.username %>';
-        window.currentUser.email = '<%= currentUser.email %>';
-        window.currentUser.avatarImageUrl = '<%= currentUser.avatarImageUrl %>';
-        window.currentUser.blogs = '<%= currentUser.blogs %>';
-        window.currentUser.following = '<%= currentUser.following %>';
-        window.currentUser._id = '<%= currentUser._id %>';
-      </script>
-    <% } %>
+  <% if (currentUser) { %>
+  <script type="text/javascript">
+    // to bootstrap current user logged in to add to Redux state
+    window.currentUser = {};
+    window.currentUser.username = '<%= currentUser.username %>';
+    window.currentUser.email = '<%= currentUser.email %>';
+    window.currentUser.avatarImageUrl = '<%= currentUser.avatarImageUrl %>';
+    window.currentUser.primaryBlog = '<%= currentUser.primaryBlog %>';
+    window.currentUser.blogs = '<%= currentUser.blogs %>';
+    window.currentUser.following = '<%= currentUser.following %>'; //ejs will cast array to string
+    window.currentUser.following = window.currentUser.following.split(','); // to turn string into array
+    window.currentUser._id = '<%= currentUser._id %>';
+  </script>
+  <% } %>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" charset="utf-8"></script>
-    <script src="/scripts/bundle.js" charset="utf-8"></script>
-  </head>
-  <body>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" charset="utf-8"></script>
+  <script src="/scripts/bundle.js" charset="utf-8"></script>
+</head>
 
-    <div id="root">
-      This is root.
-    </div>
+<body>
 
-  </body>
+  <div id="root">
+    This is root.
+  </div>
+
+</body>
+
 </html>

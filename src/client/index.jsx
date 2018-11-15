@@ -41,7 +41,10 @@ document.addEventListener('DOMContentLoaded', function () {
 // import {signup, login, logout} from './actions/session_actions';
 // import * as APIUtil from './util/post_api_util';
 // import { fetchPosts } from './actions/post_actions';
+// import { fetchBlog } from './util/blog_api_util';
+import { fetchBlog } from './actions/blog_actions';
 
+window.fetchBlog = fetchBlog;
 // window.fetchPosts = fetchPosts;
 // window.fetchPosts = APIUtil.fetchPosts;
 // window.signup = signup;

@@ -29,4 +29,6 @@ router.get('/posts', middleware.isLoggedIn, function (req, res) {
         });
 });
 
+
+
 module.exports = router;

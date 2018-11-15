@@ -44,4 +44,7 @@ router.get('/blogs/:id/posts', function (req, res) {
         });
 });
 
+// POST api/blogs/:id/posts
+// remember to increment postCount in blog model
+
 module.exports = router;

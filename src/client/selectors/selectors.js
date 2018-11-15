@@ -26,7 +26,8 @@ export const selectBlogs = function (state) {
   return blogsObj;
 };
 
-export const selectPrimaryBlog = function (state) {
-  const currentUserId = state.session.id;
-
+export const selectBlog = function (state, blogId) {
+  const { entities: { blogs } } = state;
+  const blog = blogs.byId[blogId];
+  return blog;
 }
