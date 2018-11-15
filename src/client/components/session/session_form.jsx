@@ -39,7 +39,6 @@ class SessionForm extends React.Component {
         name='email'
         value={this.state.email}
         placeholder='Email'
-        autoFocus
         onChange={this.handleChange('email')} />
     );
     const passwordField = (
@@ -95,6 +94,18 @@ class SessionForm extends React.Component {
         // else, clear password field
       }
     );
+  }
+
+  componentDidMount() {
+    const emailField = document.querySelector('.intro-slide input[name="email"]');
+    if (emailField) {
+      // focus on email field after animation
+      setTimeout(
+        () => emailField.focus(),
+        500
+      );
+    }
+    // debugger
   }
 }
 
