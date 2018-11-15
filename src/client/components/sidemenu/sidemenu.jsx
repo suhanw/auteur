@@ -43,7 +43,6 @@ class Sidemenu extends React.Component {
 
   componentDidMount() {
     const { fetchBlog, currentUser } = this.props;
-    // debugger
     fetchBlog(currentUser.primaryBlog);
   }
 }

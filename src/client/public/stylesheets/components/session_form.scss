@@ -1,38 +1,21 @@
 $session-form-input-text-height: 40px;
-$session-form-width: 300px;
 
 .session-form {
   position: relative;
-  border: 1px solid blue;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  // flex-wrap: nowrap;
-  // white-space: nowrap;
-  width: $session-form-width;
-  max-width: $session-form-width;
-  width: 500px;
+  width: 300px;
+  max-width: 300px;
   overflow: hidden;
   margin-top: 20px;
   z-index: 3;
-  // height: 500px;
-}
-
-.swipe-left-container {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  // align-items: center;
-  border: 1px solid red;
-  // overflow: hidden;
-  // position: absolute;
-  width: 900px;
-  // padding-left: 300px;
 }
 
 // to create placeholder space for the submit button to end up in
 .session-form::after {
+  display: inline-block;
   height: $session-form-input-text-height + 5px;
   content: 'text';
   visibility: hidden;
@@ -49,7 +32,7 @@ $session-form-width: 300px;
 
 .session-form .input-text,
 .session-form .btn {
-  min-width: $session-form-width;
+  min-width: 100%;
   min-height: $session-form-input-text-height;
   height: $session-form-input-text-height;
   padding: 5px;
@@ -57,19 +40,4 @@ $session-form-width: 300px;
 
 .session-form .input-text {
   margin-bottom: 1px;
-  // align-self: flex-start;
-  // margin-left: 100%;
-  // visibility: hidden;
-  display: inline;
-}
-
-input[name='email'] {
-  // align-self: flex-end;
-  // display: block;
-  // margin-left: 600px;
-  // margin-left: auto;
-  // position: absolute;
-  // align-self: end;
-  // margin-left: 260px;
-  // margin-left: $session-form-width * 1.5;
 }
