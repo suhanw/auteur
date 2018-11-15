@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import NavmenuGuest from './navmenu_guest';
+import Navmenu from './navmenu';
 import { logout } from '../../actions/session_actions';
 import { selectCurrentUser } from '../../selectors/selectors';
 
@@ -30,21 +31,20 @@ class Navbar extends React.Component {
 
   render() {
     const { pathname } = this.props.location;
-
+    const { currentUser, scrollCarousel, activeSlide, logout } = this.props;
     if (pathname === '/' || pathname === '/login' || pathname === '/signup') {
-      const { currentUser, scrollCarousel, activeSlide, logout } = this.props;
       return (
         <NavmenuGuest
           pathname={pathname}
-          currentUser={currentUser}
           scrollCarousel={scrollCarousel}
-          activeSlide={activeSlide}
-          logout={logout} />
+          activeSlide={activeSlide} />
       );
     }
 
     return (
-      null
+      <Navmenu
+        currentUser={currentUser}
+        logout={logout} />
     );
   }
 }

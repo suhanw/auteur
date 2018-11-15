@@ -6,7 +6,6 @@ class NavmenuGuest extends React.Component {
   constructor(props) {
     super(props);
 
-    this.logout = this.logout.bind(this);
     this.renderButtons = this.renderButtons.bind(this);
     this.scrollToIntroSlide = this.scrollToIntroSlide.bind(this);
   }
@@ -14,28 +13,18 @@ class NavmenuGuest extends React.Component {
   render() {
 
     return (
-      <nav className='navbar'>
+      <nav className='navbar guest'>
         <div>Search bar</div>
         {this.renderButtons()}
       </nav>
     );
   }
 
-  logout(e) {
-    e.preventDefault();
-    const { logout } = this.props;
-    logout();
-  }
-
   renderButtons() {
-    const { currentUser, activeSlide } = this.props;
+    const { activeSlide } = this.props;
     const { pathname } = this.props;
     let buttonsToRender;
-    if (currentUser) {
-      buttonsToRender = (
-        <li onClick={this.logout} className='btn btn-default btn-blue active'>Logout</li>
-      );
-    } else if (pathname === '/signup' && (activeSlide === 1 || activeSlide === 4)) {
+    if (pathname === '/signup' && (activeSlide === 1 || activeSlide === 4)) {
       buttonsToRender =
         [(<li key='login' className='btn btn-default btn-transparent active'>
           <Link to='/login'>Log in</Link>

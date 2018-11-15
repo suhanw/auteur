@@ -1,11 +1,11 @@
 import React from 'react';
-import {Route, Redirect, withRouter} from 'react-router-dom';
-import {connect} from 'react-redux';
-import {selectCurrentUser} from '../selectors/selectors';
+import { Route, Redirect, withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { selectCurrentUser } from '../selectors/selectors';
 
-const Auth = function(props) {
-  const {component: Component, path, loggedIn, exact} = props;
-  return <Route path={path} exact={exact} render={function(props) {
+const Auth = function (props) {
+  const { component: Component, path, loggedIn, exact } = props;
+  return <Route path={path} exact={exact} render={function (props) {
     if (!loggedIn) { // if not logged in, then render the page
       return <Component {...props} />;
     } else {
@@ -14,18 +14,18 @@ const Auth = function(props) {
   }} />
 };
 
-const Protect = function(props) {
-  const {component: Component, loggedIn, path, exact} = props;
-  return <Route path={path} exact={exact} render={function(props) {
+const Protect = function (props) {
+  const { component: Component, loggedIn, path, exact } = props;
+  return <Route path={path} exact={exact} render={function (props) {
     if (loggedIn) { // if logged in, then render the page
       return <Component {...props} />
     } else {
-      return <Redirect to='/login' />
+      return <Redirect to='/' />
     }
   }} />
 }
 
-const mapStateToProps = function(state) {
+const mapStateToProps = function (state) {
   const loggedIn = selectCurrentUser(state);
   return {
     loggedIn,
