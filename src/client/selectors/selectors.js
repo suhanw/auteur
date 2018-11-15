@@ -31,3 +31,8 @@ export const selectBlog = function (state, blogId) {
   const blog = blogs.byId[blogId];
   return blog;
 }
+
+export const selectScrollTop = function (state) {
+  const { ui: { scrollTop } } = state;
+  return scrollTop;
+}
