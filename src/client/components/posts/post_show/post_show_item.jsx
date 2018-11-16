@@ -40,14 +40,12 @@ class PostShowItem extends React.Component {
 
   renderPostShow() {
     const { post } = this.props;
-    switch (post.type) {
-      case 'text':
-        return <PostShowText post={post} />;
-      case 'photo':
-        return <PostShowPhoto post={post} />;
-      default:
-        return null;
-    }
+    const postShowComponents = {
+      'text': PostShowText,
+      'photo': PostShowPhoto,
+    };
+    const Component = postShowComponents[post.type];
+    return <Component post={post} />;
   }
 }
 

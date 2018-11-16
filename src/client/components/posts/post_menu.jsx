@@ -7,45 +7,51 @@ class PostMenu extends React.Component {
   }
 
   render() {
+    const { currentUser } = this.props;
     return (
-      <ul className='post-menu'>
-        <li className='post-menu-item'>
-          <Link to='/dashboard/new/text'>
-            <i className="fas fa-font"></i>
-            <span>Text</span>
-          </Link>
-        </li>
-        <li className='post-menu-item'>
-          <Link to='/dashboard/new/photo'>
-            <i className="fas fa-camera-retro"></i>
-            <span>Photo</span>
-          </Link>
-        </li>
-        <li className='post-menu-item'>
-          <Link to='/dashboard/new/quote'>
-            <i className="fas fa-quote-left"></i>
-            <span>Quote</span>
-          </Link>
-        </li>
-        <li className='post-menu-item'>
-          <Link to='/dashboard/new/link'>
-            <i className="fas fa-link"></i>
-            <span>Link</span>
-          </Link>
-        </li>
-        <li className='post-menu-item'>
-          <Link to='/dashboard/new/audio'>
-            <i className="fas fa-headphones-alt"></i>
-            <span>Audio</span>
-          </Link>
-        </li>
-        <li className='post-menu-item'>
-          <Link to='/dashboard/new/video'>
-            <i className="fas fa-video"></i>
-            <span>Video</span>
-          </Link>
-        </li>
-      </ul>
+      <div className='post-menu-container'>
+        <picture className='avatar-container'>
+          <img className='avatar avatar-default' src={currentUser.avatarImageUrl} />
+        </picture>
+        <ul className='post-menu'>
+          <li className='post-menu-item'>
+            <Link to='/dashboard/new/text'>
+              <i className="fas fa-font"></i>
+              <span>Text</span>
+            </Link>
+          </li>
+          <li className='post-menu-item'>
+            <Link to='/dashboard/new/photo'>
+              <i className="fas fa-camera-retro"></i>
+              <span>Photo</span>
+            </Link>
+          </li>
+          <li className='post-menu-item'>
+            <Link to='/dashboard/new/quote'>
+              <i className="fas fa-quote-left"></i>
+              <span>Quote</span>
+            </Link>
+          </li>
+          <li className='post-menu-item'>
+            <Link to='/dashboard/new/link'>
+              <i className="fas fa-link"></i>
+              <span>Link</span>
+            </Link>
+          </li>
+          <li className='post-menu-item'>
+            <Link to='/dashboard/new/audio'>
+              <i className="fas fa-headphones-alt"></i>
+              <span>Audio</span>
+            </Link>
+          </li>
+          <li className='post-menu-item'>
+            <Link to='/dashboard/new/video'>
+              <i className="fas fa-video"></i>
+              <span>Video</span>
+            </Link>
+          </li>
+        </ul>
+      </div>
     )
   }
 }

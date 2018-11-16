@@ -8,8 +8,9 @@ $dogear-grey: rgb(208, 208, 208);
   justify-content: center;
 }
 
-.post-index-header, 
-.post-show-item {
+.post-show-item,
+.post-menu-container,
+.post-form-container {
   display: flex;
   justify-content: space-between;
   margin-bottom: 20px;

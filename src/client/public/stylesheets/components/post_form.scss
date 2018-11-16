@@ -11,8 +11,18 @@
 
 .post-form {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
+}
+
+.post-form,
+.post-form-container .avatar {
   z-index: 6;
+}
+
+.post-form .post-body {
+  min-width: 500px;
+  min-height: 80px;
+  resize: none;
 }

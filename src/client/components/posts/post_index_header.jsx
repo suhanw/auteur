@@ -13,11 +13,9 @@ class PostIndexHeader extends React.Component {
     const { currentUser } = this.props;
     return (
       <header className='post-index-header'>
-        <picture className='avatar-container'>
-          <img className='avatar avatar-default' src={currentUser.avatarImageUrl} />
-        </picture>
         <Route exact path='/dashboard/new/:type' component={PostFormContainer} />
-        <Route exact path='/dashboard' component={PostMenu} />
+        <Route exact path='/dashboard'
+          render={(props) => <PostMenu {...props} currentUser={currentUser} />} />
       </header>
     );
   }

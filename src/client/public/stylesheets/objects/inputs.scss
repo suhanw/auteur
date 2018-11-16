@@ -10,3 +10,10 @@
   font-weight: 400;
   letter-spacing: 0.5px;
 }
+
+// to enable placeholder value for contentEditable divs
+div[contentEditable=true]:empty:before {
+  content: attr(placeholder);
+  display: block;
+  color: grey;
+}
