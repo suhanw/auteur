@@ -33,15 +33,10 @@ class PostForm extends React.Component {
 
     this.state = {
       closeForm: false,
-      newForm: {
-        title: '',
-        body: '',
-      }
     };
 
     this.renderPostForm = this.renderPostForm.bind(this);
     this.closePostForm = this.closePostForm.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   render() {
@@ -55,29 +50,19 @@ class PostForm extends React.Component {
         <picture className='avatar-container'>
           <img className='avatar avatar-default' src={currentUser.avatarImageUrl} />
         </picture>
-        <form className='post-form' onSubmit={this.handleSubmit}>
-          <header className='post-header'>{!blog ? 'Loading blog...' : blog.name}</header>
-          {this.renderPostForm()}
-          <footer className='post-footer'>Footer</footer>
-        </form>
+        {this.renderPostForm()}
       </div>
     );
   }
 
 
-  handleSubmit(e) {
-    e.preventDefault();
-    console.log('this will handle submit');
-  }
-
   renderPostForm() {
-    const { formType } = this.props;
-    const { title, body } = this.state;
+    const { formType, blog } = this.props;
     const postFormComponents = {
       'text': PostFormText,
     }
     const Component = postFormComponents[formType];
-    return <Component />;
+    return <Component blog={blog} closePostForm={this.closePostForm} />;
   }
 
   componentDidMount() {
@@ -89,8 +74,10 @@ class PostForm extends React.Component {
   }
 
   closePostForm(e) {
-    if (e.code === 'Escape') {
+    if (e.type === 'click' || // when user clicks 'Close' button
+      (e.type === 'keydown' && e.code === 'Escape')) { // when user hits Esc key
       this.setState({ closeForm: true });
+      return;
     }
   }
 }

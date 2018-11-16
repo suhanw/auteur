@@ -1,6 +1,8 @@
 import React from 'react';
 import ContentEditable from 'react-contenteditable';
-import { merge } from 'lodash';
+
+import PostFormHeader from './post_form_header';
+import PostFormFooter from './post_form_footer';
 
 class PostFormText extends React.Component {
   constructor(props) {
@@ -13,24 +15,36 @@ class PostFormText extends React.Component {
     };
 
     this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   render() {
+    const { blog, closePostForm } = this.props;
+    const { title, body } = this.state;
     return (
-      <div className='post-main'>
-        <input type='text'
-          className='post-title'
-          name='title'
-          value={this.state.title}
-          placeholder='Title'
-          onChange={this.handleChange('title')} />
-        <ContentEditable className='post-body'
-          html={this.state.body}
-          disabled={false}
-          onChange={this.handleChange('body')}
-          placeholder='Your text here.'
-          tagName='div' />
-      </div>
+      <form className='post-form' onSubmit={this.handleSubmit}>
+
+        <PostFormHeader blog={blog} />
+
+        <fieldset className='post-main'>
+          <input type='text'
+            className='post-title'
+            name='title'
+            value={title}
+            placeholder='Title'
+            autoFocus={true}
+            onChange={this.handleChange('title')} />
+          <ContentEditable className='post-body'
+            html={body}
+            disabled={false}
+            onChange={this.handleChange('body')}
+            placeholder='Your text here.'
+            tagName='div' />
+        </fieldset>
+
+        <PostFormFooter closePostForm={closePostForm} />
+
+      </form>
     );
   }
 
@@ -43,6 +57,11 @@ class PostFormText extends React.Component {
       newState[inputField] = e.target.value;
       that.setState(newState);
     };
+  }
+
+  handleSubmit(e) {
+    e.preventDefault();
+    console.log('this will handle submit');
   }
 }
 

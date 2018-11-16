@@ -18,8 +18,7 @@ class PostShowItem extends React.Component {
         <picture className='avatar-container'>
           <img
             className='avatar avatar-default'
-            src={blog.avatarImageUrl}
-            id={post._id} />
+            src={blog.avatarImageUrl} />
         </picture>
         <article className='post-content'>
           <div className='dogear'></div>
