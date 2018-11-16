@@ -32,10 +32,16 @@ const mapStateToProps = function (state) {
   };
 };
 
-export const AuthRoute = withRouter( // need withRouter so AuthRoute listens for URL changes
+// React components will initial render according to current location, 
+// but will not re-render on route transitions / location changes
+// because the new location is not passed in as prop, i.e. blocked updates.
+// Using withRouter is passing a prop that changes when location changes
+export const AuthRoute = withRouter(
   connect(mapStateToProps, null)(Auth)
 );
+
 
 export const ProtectRoute = withRouter(
   connect(mapStateToProps, null)(Protect)
 );
+

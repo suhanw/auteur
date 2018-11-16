@@ -27,8 +27,7 @@ export const selectBlogs = function (state) {
 };
 
 export const selectBlog = function (state, blogId) {
-  const { entities: { blogs } } = state;
-  const blog = blogs.byId[blogId];
+  const blog = selectBlogs(state)[blogId];
   return blog;
 }
 
