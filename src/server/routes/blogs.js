@@ -15,13 +15,6 @@ router.get('/blogs/:id', function (req, res) {
             if (err || !foundBlog) {
                 return res.status(404).json(['The blog does not exist.']);
             }
-            // Post.find({ blog: foundBlog._id })
-            //     .sort({ 'createdAt': 'desc' })
-            //     .exec(function (err, posts) {
-            //         if (err) return res.json([err.message]);
-            //         foundBlog.posts = posts; // add posts array as key to blog JSON
-            //         return res.json(foundBlog);
-            //     });
             return res.json(foundBlog);
         });
 });
@@ -45,6 +38,20 @@ router.get('/blogs/:id/posts', function (req, res) {
 });
 
 // POST api/blogs/:id/posts
-// remember to increment postCount in blog model
+router.post('/blogs/:id/posts', function (req, res) {
+    Blog.findOne({ _id: req.params.id })
+        .exec(function (err, foundBlog) {
+            if (err || !foundBlog) {
+                return res.status(404).json(['The blog does not exist.']);
+            }
+            // remember to increment postCount in blog model
+            foundBlog.postCount += 1;
+            foundBlog.save();
+            Post.create(req.body, function (err, createdPost) {
+                if (err) return res.status(422).json([err.message]);
+                return res.json(createdPost);
+            });
+        });
+});
 
 module.exports = router;

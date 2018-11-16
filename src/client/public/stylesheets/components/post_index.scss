@@ -66,12 +66,12 @@ $dogear-grey: rgb(208, 208, 208);
 
 .post-title, 
 .post-body {
+  align-self: flex-start;
   margin-bottom: 10px;
 }
 
 .post-title {
   font-size: 36px;
-  align-self: flex-start;
 }
 
 .post-body {

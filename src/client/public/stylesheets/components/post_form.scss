@@ -13,7 +13,6 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: flex-start;
 }
 
 .post-form,
@@ -24,7 +23,6 @@
 .post-form .post-body {
   min-width: 500px;
   min-height: 80px;
-  resize: none;
 }
 
 .post-form .post-footer {

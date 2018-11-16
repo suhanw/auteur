@@ -34,20 +34,6 @@ document.addEventListener('DOMContentLoaded', function () {
   // TESTING===========================
   window.getState = store.getState;
   window.dispatch = store.dispatch;
-
-  window.dashboard_content = document.querySelector('.dashboard');
-  // dashboard_content.addEventListener('scroll', (e) => {
-  //   // console.log('document.body.scrollTop', document.body.scrollTop);
-  //   // console.log('window.scrollY', window.scrollY);
-  //   // console.log('window.pageYOffset', window.pageYOffset);
-  //   // console.log('document.documentElement.scrollTop', document.documentElement.scrollTop);
-  //   // console.log('window.innerHeight', window.innerHeight);
-  //   console.log('dashboard_content.offsetHeight', dashboard_content.offsetHeight);
-  //   console.log('dashboard_content.offsetTop', dashboard_content.offsetTop);
-  //   console.log('dashboard_content.clientHeight', dashboard_content.clientHeight);
-  //   console.log('dashboard_content.clientTop', dashboard_content.clientTop);
-  //   console.log('dashboard_content.scrollTop', dashboard_content.scrollTop);
-  // });
   // TESTING===========================
 });
 
@@ -58,7 +44,9 @@ document.addEventListener('DOMContentLoaded', function () {
 // import { fetchPosts } from './actions/post_actions';
 // import { fetchBlog } from './util/blog_api_util';
 // import { fetchBlog } from './actions/blog_actions';
+import { createPost } from './util/post_api_util';
 
+window.createPost = createPost;
 // window.fetchBlog = fetchBlog;
 // window.fetchPosts = fetchPosts;
 // window.fetchPosts = APIUtil.fetchPosts;

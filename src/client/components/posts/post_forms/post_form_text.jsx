@@ -10,6 +10,7 @@ class PostFormText extends React.Component {
 
     // state represents the new Post
     this.state = {
+      type: 'text',
       title: '',
       body: '',
     };
@@ -50,7 +51,6 @@ class PostFormText extends React.Component {
 
   handleChange(inputField) {
     console.log(this.state);
-
     const that = this;
     return function (e) {
       let newState = {};
@@ -61,6 +61,8 @@ class PostFormText extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
+    // create newPost obj (get blog._id from props)
+    // invoke AJAX to create new post
     console.log('this will handle submit');
   }
 }
