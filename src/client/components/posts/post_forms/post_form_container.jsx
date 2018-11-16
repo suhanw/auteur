@@ -5,9 +5,10 @@ import { selectCurrentUser, selectBlog } from '../../../selectors/selectors';
 
 const mapStateToProps = function (state, ownProps) {
   const currentUser = selectCurrentUser(state); //this includes primaryBlog id
-
+  const formType = ownProps.match.params.type;
   return {
     currentUser,
+    formType,
   }
 };
 
@@ -28,9 +29,9 @@ class PostForm extends React.Component {
   }
 
   render() {
-
+    const { formType } = this.props;
     return (
-      <div>This is PostForm.</div>
+      <div>This is PostForm for {formType}.</div>
     );
   }
 }

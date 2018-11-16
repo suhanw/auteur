@@ -1,8 +1,7 @@
 import React from 'react';
 
 import PostIndexHeader from './post_index_header';
-import PostShowItem from './post_show_item';
-import { log } from 'util';
+import PostShowItem from './post_show/post_show_item';
 
 class PostIndex extends React.Component {
   constructor(props) {

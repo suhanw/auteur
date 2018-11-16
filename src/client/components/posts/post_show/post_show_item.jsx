@@ -1,8 +1,6 @@
 import React from 'react';
 import PostShowText from './post_show_text';
 import PostShowPhoto from './post_show_photo';
-import Dashboard from '../dashboard';
-import { log } from 'util';
 
 class PostShowItem extends React.Component {
   constructor(props) {
