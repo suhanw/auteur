@@ -1,5 +1,6 @@
 import React from 'react';
 import ContentEditable from 'react-contenteditable';
+import { merge } from 'lodash';
 
 import PostFormHeader from './post_form_header';
 import PostFormFooter from './post_form_footer';
@@ -50,7 +51,6 @@ class PostFormText extends React.Component {
   }
 
   handleChange(inputField) {
-    console.log(this.state);
     const that = this;
     return function (e) {
       let newState = {};
@@ -61,9 +61,17 @@ class PostFormText extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
+    e.persist(); // to prevent React synthetic event from nullified, and be able to be passed into closePostForm
     // create newPost obj (get blog._id from props)
+    const { currentUser, blog, createPost, closePostForm } = this.props;
+    let newPost = merge({}, this.state);
+    newPost.author = currentUser._id;
+    newPost.blog = blog._id;
     // invoke AJAX to create new post
-    console.log('this will handle submit');
+    createPost(newPost).then(
+      () => closePostForm(e) // close form after posting
+    );
+    // FIX: how to render the html tags??
   }
 }
 

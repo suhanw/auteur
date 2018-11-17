@@ -4,6 +4,7 @@ import { Redirect } from 'react-router-dom';
 
 import PostFormText from './post_form_text';
 import { fetchBlog } from '../../../actions/blog_actions';
+import { createPost } from '../../../actions/post_actions';
 import { selectCurrentUser, selectBlog } from '../../../selectors/selectors';
 
 const mapStateToProps = function (state, ownProps) {
@@ -18,12 +19,11 @@ const mapStateToProps = function (state, ownProps) {
 };
 
 const mapDispatchToProps = function (dispatch, ownProps) {
-  // need createPost
   // need updatePost
   // need fetchPost
   return {
     fetchBlog: (blogId) => dispatch(fetchBlog(blogId)),
-    createPost: () => { },
+    createPost: (post) => dispatch(createPost(post)),
   }
 };
 
@@ -43,39 +43,47 @@ class PostForm extends React.Component {
   }
 
   render() {
-    // to close the form
+    // to 'reactivate' dashboard when user closes out PostForm
     if (this.state.closeForm) return <Redirect to='/dashboard' />;
 
     const { currentUser } = this.props;
     return (
       <div className='post-form-container'>
+        {/* to grey out dashboard when PostForm is opened */}
         <div className='background-greyout'></div>
+
         <picture className='avatar-container'>
           <img className='avatar avatar-default' src={currentUser.avatarImageUrl} />
         </picture>
+
         {this.renderPostFormType()}
+
       </div>
     );
   }
 
 
   renderPostFormType() {
-    const { formType } = this.props;
+    const { formType, createPost, currentUser } = this.props;
     const { blog } = this.state;
+    // object that stores all the different PostForm types
     const postFormComponents = {
       'text': PostFormText,
+      // 'photo': PostFormPhoto,
     }
     const Component = postFormComponents[formType];
     return <Component
+      currentUser={currentUser}
       blog={blog}
-      closePostForm={this.closePostForm} />;
+      closePostForm={this.closePostForm}
+      createPost={createPost} />;
   }
 
   componentDidMount() {
     const { currentUser, fetchBlog } = this.props;
     const { blog } = this.state;
-    window.addEventListener('keydown', this.closePostForm);
-    if (!blog) { //if blog not already in Redux state, fetch blog
+    //if blog not already in Redux state, fetch blog
+    if (!blog) {
       fetchBlog(currentUser.primaryBlog).then(
         (result) => {
           const { payload: { _id, name, avatarImageUrl } } = result;
@@ -83,6 +91,8 @@ class PostForm extends React.Component {
         }
       );
     }
+    // to close form when user presses Esc key.
+    window.addEventListener('keydown', this.closePostForm);
   }
 
   componentWillUnmount() {
@@ -90,7 +100,9 @@ class PostForm extends React.Component {
   }
 
   closePostForm(e) {
-    if (e.type === 'click' || // when user clicks 'Close' button
+    console.log(e.type);
+
+    if (e.type !== 'keydown' ||
       (e.type === 'keydown' && e.code === 'Escape')) { // when user hits Esc key
       this.setState({ closeForm: true });
       return;
@@ -99,7 +111,7 @@ class PostForm extends React.Component {
 
   toggleBlog() {
     // NOTE: in future, create a toggleBlog func that changes blog id in state 
-    // and pass into PostFormType.
+    // and pass into PostFormType. User may have multiple blogs.
   }
 }
 

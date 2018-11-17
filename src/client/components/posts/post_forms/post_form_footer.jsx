@@ -6,7 +6,8 @@ class PostFormFooter extends React.Component {
   }
 
   render() {
-    const { blog, closePostForm } = this.props;
+    // FIX: grey out post button if title and body are not filled out. 
+    const { closePostForm } = this.props;
     return (
       <footer className='post-footer'>
         <a className='btn btn-default btn-grey'

@@ -8,7 +8,7 @@ router.get('/blogs/:id', function (req, res) {
     Blog.findOne({ _id: req.params.id })
         .populate({
             path: 'author',
-            select: '_id username avatarImageUrl',
+            select: '_id',
         })
         .lean(true) // make the query return a POJO instead of Document
         .exec(function (err, foundBlog) {
