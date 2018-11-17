@@ -1,5 +1,7 @@
 const express = require('express');
 const router = express.Router();
+const sanitizeHtml = require('sanitize-html');
+const lodash = require('lodash');
 const Blog = require('../models/blog');
 const Post = require('../models/post');
 
@@ -47,7 +49,9 @@ router.post('/blogs/:id/posts', function (req, res) {
             // remember to increment postCount in blog model
             foundBlog.postCount += 1;
             foundBlog.save();
-            Post.create(req.body, function (err, createdPost) {
+            let newPost = lodash.merge({}, req.body);
+            newPost.body = sanitizeHtml(newPost.body);
+            Post.create(newPost, function (err, createdPost) {
                 if (err) return res.status(422).json([err.message]);
                 return res.json(createdPost);
             });

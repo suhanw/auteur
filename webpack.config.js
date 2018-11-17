@@ -22,9 +22,9 @@ module.exports = {
       {
         test: /\.scss$/,
         use: [
-            'style-loader',
-            'css-loader',
-            'sass-loader'
+          'style-loader',
+          'css-loader',
+          'sass-loader'
         ]
       },
     ]
@@ -34,6 +34,6 @@ module.exports = {
     extensions: ['.jsx', '.js', '*']
   },
   plugins: [
-    new LiveReloadPlugin({port: 8080, hostname: 'localhost'})
+    new LiveReloadPlugin({ port: 8080, hostname: 'localhost' })
   ]
 }

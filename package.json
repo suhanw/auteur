@@ -6,7 +6,6 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "client": "webpack --mode=development --watch",
-    "server-debug": "nodemon --inspect src/server/app.js",
     "server": "nodemon src/server/app.js",
     "dev": "concurrently \"npm run server-debug\" \"npm run client\""
   },
@@ -38,7 +37,6 @@
     "method-override": "^3.0.0",
     "mongoose": "^5.3.9",
     "mongoose-unique-validator": "^2.0.2",
-    "node-sass": "^4.10.0",
     "nodemon": "^1.18.6",
     "normalizr": "^3.3.0",
     "passport": "^0.4.0",
@@ -51,6 +49,7 @@
     "react-router-dom": "^4.3.1",
     "redux": "^4.0.1",
     "redux-thunk": "^2.3.0",
+    "sanitize-html": "^1.19.1",
     "sass-loader": "^7.1.0",
     "style-loader": "^0.23.1",
     "webpack": "^4.25.1",

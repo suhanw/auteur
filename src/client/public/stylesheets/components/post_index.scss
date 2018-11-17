@@ -81,6 +81,16 @@ $dogear-grey: rgb(208, 208, 208);
   margin-top: 15px;
 }
 
+// to override reset for html in post body
+.post-body i {
+  font-style: italic;
+}
+
+.post-body b {
+  font-weight: bold;
+}
+
+
 .post-photo {
   width: calc(100% + 40px); // to cover width of post-content
   margin-bottom: 5px;

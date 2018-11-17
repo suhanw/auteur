@@ -10,10 +10,10 @@ class PostShowText extends React.Component {
     return (
       <main className='post-main'>
         <h1 className='post-title'>{post.title}</h1>
-        <p className='post-body'>
-          {post.body}
-        </p>
-      </main>
+        <div className='post-body'
+          dangerouslySetInnerHTML={{ __html: post.body }}>
+        </div>
+      </main >
     )
   }
 }
