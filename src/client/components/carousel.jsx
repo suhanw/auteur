@@ -115,7 +115,6 @@ class Carousel extends React.Component {
   scrollCarousel(scrollDir, nextSlide) {
     const that = this;
     const { activeSlide, slideClasses } = that.state;
-    console.log('curr active slide', activeSlide);
     let newActiveSlide = nextSlide;
     let newSlideClasses = merge({}, slideClasses);
     // if user is wheeling up AND not at last slide
@@ -137,7 +136,6 @@ class Carousel extends React.Component {
       that.firstTouch = null
       return;
     }
-    console.log('new active slide', newActiveSlide);
     that.setState({
       activeSlide: newActiveSlide,
       slideClasses: newSlideClasses

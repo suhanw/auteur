@@ -45,9 +45,9 @@ document.addEventListener('DOMContentLoaded', function () {
 // import { fetchBlog } from './util/blog_api_util';
 // import { fetchBlog } from './actions/blog_actions';
 // import { createPost } from './util/post_api_util';
-// import { createPost } from './actions/post_actions';
+import { deletePost } from './actions/post_actions';
 
-// window.createPost = createPost;
+window.deletePost = deletePost;
 // window.fetchBlog = fetchBlog;
 // window.fetchPosts = fetchPosts;
 // window.fetchPosts = APIUtil.fetchPosts;

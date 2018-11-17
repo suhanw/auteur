@@ -1,0 +1,41 @@
+.note-menu-container {
+  font-size: 14px;
+  font-weight: 700;
+  color: #8f8f8f;
+  height: 45px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.note-menu {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.note-menu-item {
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.note-menu-item i.fas, 
+.note-menu-item i.far {
+  font-size: 20px;
+}
+
+.post-edit-delete.popover {
+  position: absolute;
+  bottom: -50px;
+  right: -80px;
+  z-index: 6;
+}
+
+.post-edit-delete.popover span {
+  display: block;
+  padding: 5px 15px;
+  width: 128px;
+}
+
+.post-edit-delete.popover span:hover {
+  background: rgb(230, 239, 247);
+}

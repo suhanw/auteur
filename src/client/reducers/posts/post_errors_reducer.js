@@ -1,4 +1,4 @@
-import { RECEIVE_POST_ERRORS, RECEIVE_POSTS, RECEIVE_POST } from '../../actions/post_actions';
+import { RECEIVE_POST_ERRORS, RECEIVE_POSTS, RECEIVE_POST, REMOVE_POST } from '../../actions/post_actions';
 
 const postErrorsReducer = function (state = [], action) {
     Object.freeze(state);
@@ -8,6 +8,8 @@ const postErrorsReducer = function (state = [], action) {
         case RECEIVE_POSTS:
             return [];
         case RECEIVE_POST:
+            return [];
+        case REMOVE_POST:
             return [];
         default:
             return state;

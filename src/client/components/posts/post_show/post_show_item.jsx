@@ -1,6 +1,7 @@
 import React from 'react';
 import PostShowText from './post_show_text';
 import PostShowPhoto from './post_show_photo';
+import NoteMenuContainer from '../../notes/note_menu_container';
 
 class PostShowItem extends React.Component {
   constructor(props) {
@@ -24,13 +25,15 @@ class PostShowItem extends React.Component {
           <div className='dogear'></div>
           <header className='post-header'>
             {blog.name}
+            &nbsp;{blog._id}
           </header>
 
           {this.renderPostShow()}
 
           <footer className='post-footer'>
+            {post._id}
             <div className='tag-index'>This will be TagIndex</div>
-            <div className='note-menu'>This will be NoteMenu</div>
+            <NoteMenuContainer post={post} />
           </footer>
         </article>
       </li>

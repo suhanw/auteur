@@ -1,6 +1,6 @@
 import { normalize, schema } from 'normalizr';
 import { merge, union } from 'lodash';
-import { RECEIVE_POSTS, RECEIVE_POST } from '../../actions/post_actions';
+import { RECEIVE_POSTS, RECEIVE_POST, REMOVE_POST } from '../../actions/post_actions';
 import { REMOVE_CURRENT_USER } from '../../actions/session_actions';
 
 const defaultState = {
@@ -44,16 +44,23 @@ const postsReducer = function (state = defaultState, action) {
             );
             if (state.allIds.indexOf(action.payload._id) < 0) {
                 // if post is newly created, insert into beginning of array
-                newState.allIds = union({}, state.allIds);
+                newState.allIds = state.allIds.slice();
                 newState.allIds.unshift(action.payload._id);
             } else {
                 // else, the received post might be an updated post
                 newState.allIds = union(
-                    {},
                     state.allIds,
                     [action.payload._id]
                 );
             }
+            return newState;
+        case REMOVE_POST:
+            const postId = action.payload;
+            newState.byId = merge({}, state.byId);
+            delete newState.byId[postId];
+            newState.allIds = state.allIds.slice();
+            const indexToDel = newState.allIds.indexOf(postId);
+            newState.allIds.splice(indexToDel, 1);
             return newState;
         case REMOVE_CURRENT_USER:
             return defaultState;

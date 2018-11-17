@@ -12,3 +12,11 @@ export const createPost = function (post) {
         data: post,
     });
 };
+
+export const deletePost = function (post) {
+    // debugger
+    return $.ajax({
+        method: 'DELETE',
+        url: `/api/blogs/${post.blog}/posts/${post._id}`,
+    });
+};

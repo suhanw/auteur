@@ -58,4 +58,24 @@ router.post('/blogs/:id/posts', function (req, res) {
         });
 });
 
+// DELETE api/blogs/:id/posts/:id
+router.delete('/blogs/:id/posts/:postId', function (req, res) {
+    // FIX: need to add middleware to authenticate and authorize user!
+    Blog.findOne({ _id: req.params.id })
+        .exec(function (err, foundBlog) {
+            if (err || !foundBlog) {
+                return res.status(404).json(['The blog does not exist.']);
+            }
+            foundBlog.postCount -= 1;
+            foundBlog.save();
+            Post.deleteOne({ _id: req.params.postId }, function (err) {
+                if (err) return res.status(422).json([err.message]);
+                return res.json(req.params.postId);
+            });
+        });
+});
+
+// PUT api/blogs/:id/posts/:id
+// FIX: to finish post crud
+
 module.exports = router;
