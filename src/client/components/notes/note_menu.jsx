@@ -45,7 +45,6 @@ class NoteMenu extends React.Component {
   }
 
   handleClick(action) {
-    // FIX: need a delete post confirmation modal
     const executeAction = this.props[action];
     const { post } = this.props;
     const that = this;

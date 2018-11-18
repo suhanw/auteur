@@ -25,13 +25,11 @@ class PostShowItem extends React.Component {
           <div className='dogear'></div>
           <header className='post-header'>
             {blog.name}
-            &nbsp;{blog._id}
           </header>
 
           {this.renderPostShow()}
 
           <footer className='post-footer'>
-            {post._id}
             <div className='tag-index'>This will be TagIndex</div>
             <NoteMenuContainer post={post} />
           </footer>
