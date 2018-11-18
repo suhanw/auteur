@@ -31,11 +31,7 @@ export const selectBlog = function (state, blogId) {
   return blog;
 }
 
-export const selectConfirmModals = function (state) {
-  const { ui: { modals: { confirmLogout, confirmDeletePost } } } = state;
-  const confirmModals = {
-    confirmLogout,
-    confirmDeletePost,
-  };
-  return confirmModals;
+export const selectModal = function (state) {
+  const { ui: { modal } } = state;
+  return modal;
 }

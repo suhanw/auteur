@@ -33,6 +33,7 @@ class ConfirmModalContainer extends React.Component {
     if (confirmModals.confirmLogout) {
       message = 'log out';
       handleClickOk = logout;
+      // FIX: attach the modal to logout
     } else if (confirmModals.confirmDeletePost) {
       message = 'delete this post';
       handleClickOk = function () {

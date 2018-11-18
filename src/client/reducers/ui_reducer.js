@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux';
 import loadingReducer from './ui/loading_reducer.js';
-import modalsReducer from './ui/modals_reducer.js';
+import modalReducer from './ui/modal_reducer.js';
 
 const uiReducer = combineReducers({
   loading: loadingReducer,
-  modals: modalsReducer,
+  modal: modalReducer,
 });
 
 export default uiReducer;

@@ -14,7 +14,6 @@ class Navmenu extends React.Component {
         <ul className='navbar-right'>
           <li onClick={this.props.logout}>Logout</li>
         </ul>
-        <ConfirmModalContainer />
       </nav>
     );
   }
