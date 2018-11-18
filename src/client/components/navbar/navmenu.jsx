@@ -1,4 +1,5 @@
 import React from 'react';
+import ConfirmModalContainer from '../../components/modals/confirm_modal_container';
 
 class Navmenu extends React.Component {
   constructor(props) {
@@ -13,6 +14,7 @@ class Navmenu extends React.Component {
         <ul className='navbar-right'>
           <li onClick={this.props.logout}>Logout</li>
         </ul>
+        <ConfirmModalContainer />
       </nav>
     );
   }

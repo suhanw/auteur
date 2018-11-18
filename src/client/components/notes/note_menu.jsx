@@ -26,7 +26,7 @@ class NoteMenu extends React.Component {
           <i className="fas fa-cog" onClick={this.togglePopover}></i>
           <div className='post-edit-delete popover' style={this.state}>
             <span>Edit</span>
-            <span onClick={this.handleClick('deletePost')}>Delete</span>
+            <span onClick={this.handleClick('confirmDeletePost')}>Delete</span>
           </div>
         </li>
       );
@@ -48,8 +48,10 @@ class NoteMenu extends React.Component {
     // FIX: need a delete post confirmation modal
     const executeAction = this.props[action];
     const { post } = this.props;
+    const that = this;
     return function (e) {
       executeAction(post);
+      that.togglePopover();
     };
   }
 

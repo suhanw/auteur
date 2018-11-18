@@ -100,8 +100,6 @@ class PostForm extends React.Component {
   }
 
   closePostForm(e) {
-    console.log(e.type);
-
     if (e.type !== 'keydown' ||
       (e.type === 'keydown' && e.code === 'Escape')) { // when user hits Esc key
       this.setState({ closeForm: true });

@@ -1,0 +1,31 @@
+.modal-container, 
+.confirm-modal,
+.confirm-modal-options {
+  display: flex;
+  justify-content: center;
+  align-items: center;  
+}
+
+.confirm-modal {
+  font-size: 24px;
+  color: white;
+  width: 350px;
+  flex-direction: column;
+}
+
+.confirm-modal-message{
+  text-align: center;
+}
+
+.confirm-modal-options {
+  margin-top: 15px;
+}
+
+.confirm-modal-options .btn {
+  display: inline-block;
+  font-size: 16px;
+  height: 45px;
+  width: 140px;
+  margin: 0 5px;
+  font-weight: 700;
+}

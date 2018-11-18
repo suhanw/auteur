@@ -8,12 +8,10 @@ const mapStateToProps = function (state, ownProps) {
   const postsArr = selectPosts(state);
   const blogs = selectBlogs(state);
   const currentUser = selectCurrentUser(state);
-  const scrollTop = selectScrollTop(state);
   return {
     postsArr,
     blogs,
     currentUser,
-    scrollTop,
   };
 };
 

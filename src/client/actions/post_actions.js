@@ -4,6 +4,7 @@ import { fetchBlog } from '../actions/blog_actions';
 export const RECEIVE_POSTS = 'RECEIVE_POSTS';
 export const RECEIVE_POST = 'RECEIVE_POST';
 export const REMOVE_POST = 'REMOVE_POST';
+export const CONFIRM_DELETE_POST = 'CONFIRM_DELETE_POST';
 export const RECEIVE_POST_ERRORS = 'RECEIVE_POST_ERRORS';
 
 export const receivePosts = function (posts) {
@@ -52,6 +53,13 @@ export const createPost = function (post) {
             },
             (err) => dispatch(receivePostErrors(err.responseJSON)),
         );
+    };
+};
+
+export const confirmDeletePost = function (post) {
+    return {
+        type: CONFIRM_DELETE_POST,
+        payload: post,
     };
 };
 
