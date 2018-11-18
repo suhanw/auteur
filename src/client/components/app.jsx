@@ -19,6 +19,7 @@ class App extends React.Component {
           <AuthRoute exact path='/signup' component={Carousel} />
           <AuthRoute exact path='/' component={Carousel} />
           <Route render={(props) => <div>This is 404 page.</div>} />
+          {/* FIX: need to add 404 page */}
         </Switch>
       </div>
     );

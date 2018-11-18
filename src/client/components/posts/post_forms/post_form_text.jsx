@@ -71,7 +71,6 @@ class PostFormText extends React.Component {
     createPost(newPost).then(
       () => closePostForm(e) // close form after posting
     );
-    // FIX: how to render the html tags??
   }
 }
 

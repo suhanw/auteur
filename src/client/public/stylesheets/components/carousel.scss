@@ -46,7 +46,7 @@
 }
 
 .intro-slide {
-  background: $intro-slide-bg;
+  background: $intro-slide-bg; //FIX: figure out how to fade in bg image
   transition: opacity 0.5s linear;
 }
 .about-slide {

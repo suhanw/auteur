@@ -45,6 +45,7 @@ class NoteMenu extends React.Component {
   }
 
   handleClick(action) {
+    // FIX: need a delete post confirmation modal
     const executeAction = this.props[action];
     const { post } = this.props;
     return function (e) {
@@ -58,6 +59,8 @@ class NoteMenu extends React.Component {
     } else {
       this.setState({ display: 'none' });
     }
+
+    // FIX: also need to be able to toggle when user clicks anywhere outside the popover.
   }
 }
 

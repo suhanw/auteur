@@ -8,6 +8,8 @@ class NavmenuGuest extends React.Component {
 
     this.renderButtons = this.renderButtons.bind(this);
     this.scrollToIntroSlide = this.scrollToIntroSlide.bind(this);
+    this.renderLoginButton = this.renderLoginButton.bind(this);
+    this.renderSignupButton = this.renderSignupButton.bind(this);
   }
 
   render() {
@@ -25,33 +27,14 @@ class NavmenuGuest extends React.Component {
     const { pathname } = this.props;
     let buttonsToRender;
     if (pathname === '/signup' && (activeSlide === 1 || activeSlide === 4)) {
-      buttonsToRender =
-        [(<li key='login' className='btn btn-default btn-transparent active'>
-          <Link to='/login'>Log in</Link>
-        </li>),
-        (<li key='signup' className='btn btn-default btn-white'>
-          <Link to='/signup'>Sign up</Link>
-        </li>)]
-        ;
+      buttonsToRender = [this.renderLoginButton('active'), this.renderSignupButton()];
     } else if (pathname === '/login' && (activeSlide === 1 || activeSlide === 4)) {
-      buttonsToRender =
-        [(<li key='login' className='btn btn-default btn-transparent'>
-          <Link to='/login'>Log in</Link>
-        </li>),
-        (<li key='signup' className='btn btn-default btn-white active'>
-          <Link to='/signup'>Sign up</Link>
-        </li>)]
-        ;
-    } else {
+      buttonsToRender = [this.renderLoginButton(), this.renderSignupButton('active')];
+    } else if (activeSlide !== 1) {
       // render both buttons if user is not at intro or welcome slide.
-      buttonsToRender = [
-        (<li key='login' className='btn btn-default btn-transparent active'>
-          <Link to='/login' onClick={this.scrollToIntroSlide}>Log in</Link>
-        </li>),
-        (<li key='signup' className='btn btn-default btn-white active'>
-          <Link to='/signup' onClick={this.scrollToIntroSlide}>Sign up</Link>
-        </li>)
-      ];
+      buttonsToRender = [this.renderLoginButton('active', this.scrollToIntroSlide), this.renderSignupButton('active', this.scrollToIntroSlide)];
+
+      // FIX: hide login/signup buttons at the first carousel slide
     }
     return (
       <ul className='navbar-right'>
@@ -60,16 +43,26 @@ class NavmenuGuest extends React.Component {
     );
   }
 
+  renderLoginButton(active = '', handleClick = null) {
+    return (
+      <li key='login' className={`btn btn-default btn-transparent ${active}`}>
+        <Link to='/login' onClick={handleClick}>Log in</Link>
+      </li>
+    );
+  }
+
+  renderSignupButton(active = '', handleClick = null) {
+    return (
+      <li key='signup' className={`btn btn-default btn-white ${active}`}>
+        <Link to='/signup' onClick={handleClick}>Sign up</Link>
+      </li>
+    );
+  }
+
   scrollToIntroSlide(e) {
     const { scrollCarousel } = this.props;
     scrollCarousel('down', 1);
   }
-
-
-  componentWillMount() {
-
-  }
-
 
 }
 

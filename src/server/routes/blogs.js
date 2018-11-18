@@ -46,13 +46,13 @@ router.post('/blogs/:id/posts', function (req, res) {
             if (err || !foundBlog) {
                 return res.status(404).json(['The blog does not exist.']);
             }
-            // remember to increment postCount in blog model
-            foundBlog.postCount += 1;
-            foundBlog.save();
             let newPost = lodash.merge({}, req.body);
             newPost.body = sanitizeHtml(newPost.body);
             Post.create(newPost, function (err, createdPost) {
                 if (err) return res.status(422).json([err.message]);
+                // remember to increment postCount in blog model
+                foundBlog.postCount += 1;
+                foundBlog.save();
                 return res.json(createdPost);
             });
         });
@@ -66,10 +66,10 @@ router.delete('/blogs/:id/posts/:postId', function (req, res) {
             if (err || !foundBlog) {
                 return res.status(404).json(['The blog does not exist.']);
             }
-            foundBlog.postCount -= 1;
-            foundBlog.save();
             Post.deleteOne({ _id: req.params.postId }, function (err) {
                 if (err) return res.status(422).json([err.message]);
+                foundBlog.postCount -= 1;
+                foundBlog.save();
                 return res.json(req.params.postId);
             });
         });

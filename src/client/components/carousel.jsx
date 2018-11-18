@@ -88,12 +88,11 @@ class Carousel extends React.Component {
 
   throttleWheel(delay, handleWheel) {
     let start = Date.now();
-    let currTarget = null;
     return function (e) {
       e.stopPropagation();
       let currTime = Date.now();
       let timeElapsed = currTime - start;
-      //only execute handler after specified delay AND a specified touchpad swipe 'size'
+      //only execute handler after specified delay AND calibrate touchpad swipe 'sensitivity'
       if (timeElapsed > delay && Math.abs(e.deltaY) > 60) {
         let scrollDir = e.deltaY > 0 ? 'up' : 'down';
         handleWheel(scrollDir);
