@@ -33,8 +33,6 @@ class NavmenuGuest extends React.Component {
     } else if (activeSlide !== 1) {
       // render both buttons if user is not at intro or welcome slide.
       buttonsToRender = [this.renderLoginButton('active', this.scrollToIntroSlide), this.renderSignupButton('active', this.scrollToIntroSlide)];
-
-      // FIX: hide login/signup buttons at the first carousel slide
     }
     return (
       <ul className='navbar-right'>
