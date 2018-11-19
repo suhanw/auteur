@@ -2,23 +2,17 @@ const express = require('express');
 const router = express.Router();
 const sanitizeHtml = require('sanitize-html');
 const lodash = require('lodash');
+const modelQuery = require('../util/model_query_util');
 const Blog = require('../models/blog');
 const Post = require('../models/post');
 
 // GET api/blogs/:id - SHOW blog
 router.get('/blogs/:id', function (req, res) {
-    Blog.findOne({ _id: req.params.id })
-        .populate({
-            path: 'author',
-            select: '_id',
-        })
-        .lean(true) // make the query return a POJO instead of Document
-        .exec(function (err, foundBlog) {
-            if (err || !foundBlog) {
-                return res.status(404).json(['The blog does not exist.']);
-            }
-            return res.json(foundBlog);
-        });
+    modelQuery.findOneBlog(
+        req.params.id,
+        (foundBlog) => res.json(foundBlog), // success callback
+        (err) => res.status(404).json(['The blog does not exist.']), // failure callback
+    );
 });
 
 
@@ -76,6 +70,15 @@ router.delete('/blogs/:id/posts/:postId', function (req, res) {
 });
 
 // PUT api/blogs/:id/posts/:id
+router.put('blogs/:id/posts/:postId', function (req, res) {
+    Blog.findOne({ _id: req.params.id })
+        .exec(function (err, foundBlog) {
+            if (err || !foundBlog) {
+                return res.status(404).json(['The blog does not exist.']);
+            }
+
+        })
+});
 // FIX: to finish post crud
 
 module.exports = router;
