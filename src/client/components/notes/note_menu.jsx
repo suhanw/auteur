@@ -59,7 +59,7 @@ class NoteMenu extends React.Component {
           onClick={this.togglePopover(editDeletePopover)}></i>
         <div className='post-edit-delete popover'
           style={popoverStyle}>
-          <Link to={`/dashboard/edit/${post._id}`}>
+          <Link to={`/dashboard/edit/${post.type}/${post._id}`}>
             <span>
               Edit
             </span>

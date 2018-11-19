@@ -1,6 +1,5 @@
 import React from 'react';
-import { Route, Switch, Link } from 'react-router-dom';
-import { ProtectRoute } from '../../util/route_util';
+import { Route, Switch } from 'react-router-dom';
 import PostMenu from './post_menu';
 import PostFormContainer from './post_forms/post_form_container';
 
@@ -13,9 +12,11 @@ class PostIndexHeader extends React.Component {
     const { currentUser } = this.props;
     return (
       <header className='post-index-header'>
-        <Route exact path='/dashboard/new/:type' component={PostFormContainer} />
-        <Route exact path='/dashboard'
-          render={(props) => <PostMenu {...props} currentUser={currentUser} />} />
+        <Switch>
+          <Route exact path='/dashboard/new/:type' component={PostFormContainer} />
+          <Route path='/dashboard'
+            render={(props) => <PostMenu {...props} currentUser={currentUser} />} />
+        </Switch>
       </header>
     );
   }

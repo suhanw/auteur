@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import PostShowText from './post_show_text';
 import PostShowPhoto from './post_show_photo';
 import NoteMenuContainer from '../../notes/note_menu_container';
@@ -39,11 +39,7 @@ class PostShowItem extends React.Component {
           {blog.name}
         </header>
 
-        {/* FIX: render PostFormEdit here */}
-        <Switch>
-          <Route exact path={`/dashboard/edit/${post._id}`} render={(props) => <div>This is edit form</div>} />
-          <Route path='/dashboard' render={(props) => this.renderPostShow()} />
-        </Switch>
+        {this.renderPostShow()}
 
         <footer className='post-footer'>
           <div className='tag-index'>This will be TagIndex</div>
