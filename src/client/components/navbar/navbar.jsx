@@ -16,6 +16,17 @@ class Navbar extends React.Component {
       </nav>
     );
   }
+
+  componentDidMount() {
+    // clicking anywhere else on the window should close any/all popovers
+    const { closePopover } = this.props;
+    window.addEventListener('click', () => closePopover());
+  }
+
+  componentWillUnmount() {
+    const { closePopover } = this.props;
+    window.removeEventListener('click', () => closePopover());
+  }
 }
 
 export default Navbar;

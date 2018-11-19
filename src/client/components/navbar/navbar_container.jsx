@@ -34,7 +34,7 @@ class NavbarContainer extends React.Component {
 
   render() {
     const { pathname } = this.props.location;
-    const { currentUser, scrollCarousel, activeSlide, confirmLogout } = this.props;
+    const { currentUser, scrollCarousel, activeSlide, confirmLogout, closePopover } = this.props;
     if (pathname === '/' || pathname === '/login' || pathname === '/signup') {
       return (
         <NavbarGuest
@@ -47,20 +47,12 @@ class NavbarContainer extends React.Component {
     return (
       <Navbar
         currentUser={currentUser}
-        confirmLogout={confirmLogout} />
+        confirmLogout={confirmLogout}
+        closePopover={closePopover} />
     );
   }
 
-  componentDidMount() {
-    // clicking anywhere else on the window should close any/all popovers
-    const { closePopover } = this.props;
-    window.addEventListener('click', () => closePopover());
-  }
 
-  componentWillUnmount() {
-    const { closePopover } = this.props;
-    window.removeEventListener('click', () => closePopover());
-  }
 }
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(NavbarContainer));
