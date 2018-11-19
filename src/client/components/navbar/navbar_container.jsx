@@ -1,9 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import NavmenuGuest from './navmenu_guest';
-import Navmenu from './navmenu';
-import { logout } from '../../actions/session_actions';
+
+import NavbarGuest from './navbar_guest';
+import Navbar from './navbar';
+import { confirmLogout } from '../../actions/session_actions';
 import { selectCurrentUser } from '../../selectors/selectors';
 
 
@@ -19,22 +20,22 @@ const mapStateToProps = function (state, ownProps) {
 
 const mapDispatchToProps = function (dispatch, ownProps) {
   return {
-    logout: () => dispatch(logout()),
+    confirmLogout: () => dispatch(confirmLogout()),
   };
 };
 
 
-class Navbar extends React.Component {
+class NavbarContainer extends React.Component {
   constructor(props) {
     super(props);
   }
 
   render() {
     const { pathname } = this.props.location;
-    const { currentUser, scrollCarousel, activeSlide, logout } = this.props;
+    const { currentUser, scrollCarousel, activeSlide, confirmLogout } = this.props;
     if (pathname === '/' || pathname === '/login' || pathname === '/signup') {
       return (
-        <NavmenuGuest
+        <NavbarGuest
           pathname={pathname}
           scrollCarousel={scrollCarousel}
           activeSlide={activeSlide} />
@@ -42,11 +43,11 @@ class Navbar extends React.Component {
     }
 
     return (
-      <Navmenu
+      <Navbar
         currentUser={currentUser}
-        logout={logout} />
+        confirmLogout={confirmLogout} />
     );
   }
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Navbar));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(NavbarContainer));

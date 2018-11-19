@@ -3,6 +3,7 @@ import * as APIUtil from '../util/session_api_util';
 export const RECEIVE_CURRENT_USER = 'RECEIVE_CURRENT_USER';
 export const REMOVE_CURRENT_USER = 'REMOVE_CURRENT_USER';
 export const RECEIVE_SESSION_ERRORS = 'RECEIVE_SESSION_ERRORS';
+export const CONFIRM_LOGOUT = 'CONFIRM_LOGOUT';
 
 export const receiveCurrentUser = function (user) {
   return {
@@ -40,6 +41,16 @@ export const login = function (user) {
       (currentUser) => dispatch(receiveCurrentUser(currentUser)),
       (err) => dispatch(receiveSessionErrors(err.responseJSON))
     );
+  };
+};
+
+export const confirmLogout = function () {
+  return {
+    type: CONFIRM_LOGOUT,
+    payload: {
+      action: 'confirmLogout',
+      data: null,
+    },
   };
 };
 

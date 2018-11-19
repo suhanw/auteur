@@ -1,6 +1,6 @@
 import React from 'react';
 
-class Navmenu extends React.Component {
+class Navbar extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -11,11 +11,11 @@ class Navmenu extends React.Component {
       <nav className='navbar'>
         <div>Search bar</div>
         <ul className='navbar-right'>
-          <li onClick={this.props.logout}>Logout</li>
+          <li onClick={this.props.confirmLogout}>Logout</li>
         </ul>
       </nav>
     );
   }
 }
 
-export default Navmenu;
+export default Navbar;

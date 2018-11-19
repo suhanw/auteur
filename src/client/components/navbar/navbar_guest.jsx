@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { withRouter } from 'react-router-dom';
 
-class NavmenuGuest extends React.Component {
+class NavbarGuest extends React.Component {
   constructor(props) {
     super(props);
 
@@ -65,4 +65,4 @@ class NavmenuGuest extends React.Component {
 
 }
 
-export default withRouter(NavmenuGuest);
+export default withRouter(NavbarGuest);

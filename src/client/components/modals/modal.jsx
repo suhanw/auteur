@@ -25,8 +25,9 @@ class Modal extends React.Component {
     if (!modal) return null;
 
     switch (modal.action) {
-      // case 'confirmLogout':
-
+      case 'confirmLogout':
+        modalComponent = <ConfirmModal action={modal.action} data={modal.data} />
+        break;
       case 'confirmDeletePost':
         modalComponent = <ConfirmModal action={modal.action} data={modal.data} />
         break;
