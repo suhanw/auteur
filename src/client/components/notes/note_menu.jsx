@@ -8,29 +8,15 @@ class NoteMenu extends React.Component {
       display: 'none',
     };
 
-    this.togglePopover = this.togglePopover.bind(this);
     this.handleClick = this.handleClick.bind(this);
+    this.togglePopover = this.togglePopover.bind(this);
+    this.renderHeart = this.renderHeart.bind(this);
+    this.renderCog = this.renderCog.bind(this);
   }
 
   render() {
     const { post, currentUser } = this.props;
     // render cog if the post belongs to current user, else render heart
-    let lastItem = (
-      <li className='note-menu-item'>
-        <i className="far fa-heart"></i>
-      </li>
-    );
-    if (post.author === currentUser._id) {
-      lastItem = (
-        <li className='note-menu-item'>
-          <i className="fas fa-cog" onClick={this.togglePopover}></i>
-          <div className='post-edit-delete popover' style={this.state}>
-            <span>Edit</span>
-            <span onClick={this.handleClick('confirmDeletePost')}>Delete</span>
-          </div>
-        </li>
-      );
-    }
     return (
       <div className='note-menu-container'>
         <span>This will be NoteMenu</span>
@@ -38,10 +24,40 @@ class NoteMenu extends React.Component {
           <li className='note-menu-item'>
             <i className="far fa-comment"></i>
           </li>
-          {lastItem}
+
+          {post.author === currentUser._id ? this.renderCog() : this.renderHeart()}
+
         </ul>
       </div>
     );
+  }
+
+  renderHeart() {
+    return (
+      <li className='note-menu-item'>
+        <i className="far fa-heart"></i>
+      </li>
+    );
+  }
+
+  renderCog() {
+    return (
+      <li className='note-menu-item'>
+        <i className="fas fa-cog" onClick={this.togglePopover}></i>
+        <div className='post-edit-delete popover' style={this.state}>
+          <span>Edit</span>
+          <span onClick={this.handleClick('confirmDeletePost')}>Delete</span>
+        </div>
+      </li>
+    );
+  }
+
+  componentDidMount() {
+    window.addEventListener('click', () => this.setState({ display: 'none' }));
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('click', () => this.setState({ display: 'none' }));
   }
 
   handleClick(action) {
@@ -49,12 +65,14 @@ class NoteMenu extends React.Component {
     const { post } = this.props;
     const that = this;
     return function (e) {
+      e.stopPropagation();
       executeAction(post);
       that.togglePopover();
     };
   }
 
-  togglePopover() {
+  togglePopover(e) {
+    if (e) e.stopPropagation(); // e may be null when invoked via handleClick
     if (this.state.display === 'none') {
       this.setState({ display: 'inline-block' });
     } else {
