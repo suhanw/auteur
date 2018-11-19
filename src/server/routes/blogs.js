@@ -57,7 +57,7 @@ router.delete('/blogs/:id/posts/:postId', function (req, res) {
     modelQuery.findOneBlog(
         req.params.id,
         (foundBlog) => {
-            Post.deleteOne({ _id: req.params.postId }, function (err) {
+            Post.findOneAndDelete({ _id: req.params.postId }, function (err) {
                 if (err) return res.status(422).json([err.message]);
                 foundBlog.postCount -= 1;
                 foundBlog.save();
@@ -70,13 +70,14 @@ router.delete('/blogs/:id/posts/:postId', function (req, res) {
 
 // PUT api/blogs/:id/posts/:id
 router.put('blogs/:id/posts/:postId', function (req, res) {
-    Blog.findOne({ _id: req.params.id })
-        .exec(function (err, foundBlog) {
-            if (err || !foundBlog) {
-                return res.status(404).json(['The blog does not exist.']);
-            }
-
-        })
+    modelQuery.findOneBlog(
+        req.params.id,
+        (foundBlog) => {
+            //    success
+            console.log('updating ' + req.body);
+        },
+        (err) => res.status(404).json(['The blog does not exist.']), // failure callback
+    );
 });
 // FIX: to finish post crud
 
