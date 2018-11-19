@@ -31,11 +31,12 @@
   color: white;
 }
 
-// .btn-white a {
-//   mix-blend-mode: screen;
-// }
-
 .btn-transparent {
   background: $transparent;
   color: $white;
+}
+
+.btn-disabled {
+  color: hsla(0,0%,100%,.5);
+  cursor: default;
 }
