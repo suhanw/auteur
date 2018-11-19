@@ -5,6 +5,7 @@ import { withRouter } from 'react-router-dom';
 import NavbarGuest from './navbar_guest';
 import Navbar from './navbar';
 import { confirmLogout } from '../../actions/session_actions';
+import { closePopover } from '../../actions/popover_actions';
 import { selectCurrentUser } from '../../selectors/selectors';
 
 
@@ -20,6 +21,7 @@ const mapStateToProps = function (state, ownProps) {
 
 const mapDispatchToProps = function (dispatch, ownProps) {
   return {
+    closePopover: () => dispatch(closePopover()),
     confirmLogout: () => dispatch(confirmLogout()),
   };
 };
@@ -47,6 +49,17 @@ class NavbarContainer extends React.Component {
         currentUser={currentUser}
         confirmLogout={confirmLogout} />
     );
+  }
+
+  componentDidMount() {
+    // clicking anywhere else on the window should close any/all popovers
+    const { closePopover } = this.props;
+    window.addEventListener('click', () => closePopover());
+  }
+
+  componentWillUnmount() {
+    const { closePopover } = this.props;
+    window.removeEventListener('click', () => closePopover());
   }
 }
 

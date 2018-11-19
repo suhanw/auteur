@@ -25,11 +25,13 @@ class ConfirmModal extends React.Component {
     super(props);
 
     const { logout, deletePost } = props;
+    // 'registry' of actions that require confirmations
     this.modalActions = {
       'confirmLogout': logout,
       'confirmDeletePost': deletePost,
     };
 
+    // the message to display on modal depending on action
     this.modalMessages = {
       'confirmLogout': 'log out',
       'confirmDeletePost': 'delete this post',

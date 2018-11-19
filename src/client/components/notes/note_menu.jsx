@@ -1,13 +1,8 @@
 import React from 'react';
-import { closePopover } from '../../actions/popover_actions';
 
 class NoteMenu extends React.Component {
   constructor(props) {
     super(props);
-
-    // this.state = {
-    //   display: 'none',
-    // };
 
     this.handleClick = this.handleClick.bind(this);
     this.togglePopover = this.togglePopover.bind(this);
@@ -16,8 +11,6 @@ class NoteMenu extends React.Component {
   }
 
   render() {
-    console.log('rendering NoteMenu');
-
     const { post, currentUser } = this.props;
     // render cog if the post belongs to current user, else render heart
     return (
@@ -35,21 +28,10 @@ class NoteMenu extends React.Component {
     );
   }
 
-  componentDidMount() {
-    // window.addEventListener('click', this.togglePopover);
-  }
-
-  componentWillUnmount() {
-    // window.removeEventListener('click', this.togglePopover);
-  }
-
-  // componentWillUpdate(newProps, newState) {
-  //   const { closePopover } = this.props;
-  //   if (newState.display === 'none') closePopover
-  // }
 
   shouldComponentUpdate(newProps, newState) {
     // FIX: think about how to avoid re-rendering every single post item
+    return true;
   }
 
   renderHeart() {
@@ -97,12 +79,13 @@ class NoteMenu extends React.Component {
   togglePopover(currPopover) {
     const { popover, openPopover, closePopover } = this.props;
     return function (e) {
+      e.stopPropagation(); // to avoid bubbling up to window handler which will close any popovers
       if (JSON.stringify(popover) === JSON.stringify(currPopover)) {
         closePopover(); // if current popover is open, then close popover
       } else {
-        openPopover(currPopover); // otherwise open current popover
+        openPopover(currPopover); // otherwise open current popover (which will auto close any other open popover)
       }
-    }
+    };
   }
 }
 
