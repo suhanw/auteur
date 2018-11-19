@@ -41,3 +41,8 @@ export const selectModal = function (state) {
   const { ui: { modal } } = state;
   return modal;
 }
+
+export const selectPopover = function (state) {
+  const { ui: { popover } } = state;
+  return popover;
+}
