@@ -20,6 +20,12 @@ export const selectPosts = function (state) {
   return postsArr;
 };
 
+export const selectPost = function (state, postId) {
+  const { entities: { posts: { byId } } } = state;
+  let post = byId[postId];
+  return post;
+}
+
 export const selectBlogs = function (state) {
   const { entities: { blogs } } = state;
   const blogsObj = blogs.byId;

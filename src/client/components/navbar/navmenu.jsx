@@ -1,5 +1,4 @@
 import React from 'react';
-import ConfirmModalContainer from '../../components/modals/confirm_modal_container';
 
 class Navmenu extends React.Component {
   constructor(props) {

@@ -6,18 +6,19 @@
   align-items: center;  
 }
 
-.confirm-modal {
+.confirm-modal div {
   font-size: 24px;
   color: white;
   width: 350px;
   flex-direction: column;
 }
 
-.confirm-modal-message{
+.confirm-modal-message {
   text-align: center;
 }
 
-.confirm-modal-options {
+div.confirm-modal-options {
+  flex-direction: row;
   margin-top: 15px;
 }
 

@@ -59,6 +59,10 @@ export const createPost = function (post) {
 export const confirmDeletePost = function (post) {
     return {
         type: CONFIRM_DELETE_POST,
+        payload: {
+            action: 'confirmDeletePost',
+            data: post,
+        },
     };
 };
 

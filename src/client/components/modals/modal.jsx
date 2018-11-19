@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import ConfirmDeletePostModal from './confirm_delete_post_modal';
+import ConfirmModal from './confirm_modal';
 import { selectModal } from '../../selectors/selectors';
 
 const mapStateToProps = function (state, ownProps) {
@@ -22,18 +22,23 @@ class Modal extends React.Component {
     const { modal } = this.props;
     let modalComponent;
 
-    switch (modal) {
-      case 'confirmDeletePost':
-        modalComponent = <ConfirmModal message='confirmDeletePost' />
-        break;
+    if (!modal) return null;
 
+    switch (modal.action) {
+      // case 'confirmLogout':
+
+      case 'confirmDeletePost':
+        modalComponent = <ConfirmModal action={modal.action} data={modal.data} />
+        break;
       default:
         return null;
     }
 
     return (
       <div className='modal-container background-greyout'>
-        {modalComponent}
+        <div className='confirm-modal'>
+          {modalComponent}
+        </div>
       </div>
     );
   }
