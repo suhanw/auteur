@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 class NoteMenu extends React.Component {
   constructor(props) {
@@ -58,7 +59,11 @@ class NoteMenu extends React.Component {
           onClick={this.togglePopover(editDeletePopover)}></i>
         <div className='post-edit-delete popover'
           style={popoverStyle}>
-          <span>Edit</span>
+          <Link to={`/dashboard/edit/${post._id}`}>
+            <span>
+              Edit
+            </span>
+          </Link>
           <span onClick={this.handleClick('confirmDeletePost')}>Delete</span>
         </div>
       </li>

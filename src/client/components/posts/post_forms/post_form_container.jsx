@@ -72,6 +72,8 @@ class PostForm extends React.Component {
       // 'photo': PostFormPhoto,
     }
     const Component = postFormComponents[formType];
+    // FIX: pass in post data if it's an edit form? 
+    // Use location props to determine if it's edit form
     return <Component
       currentUser={currentUser}
       blog={blog}

@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 
 import PostIndex from './post_index';
-import { selectPosts, selectBlogs, selectCurrentUser, selectScrollTop } from '../../selectors/selectors';
+import { selectPosts, selectBlogs, selectCurrentUser } from '../../selectors/selectors';
 import { fetchPosts } from '../../actions/post_actions';
 
 const mapStateToProps = function (state, ownProps) {

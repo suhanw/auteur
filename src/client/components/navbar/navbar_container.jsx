@@ -6,7 +6,7 @@ import NavbarGuest from './navbar_guest';
 import Navbar from './navbar';
 import { confirmLogout } from '../../actions/session_actions';
 import { closePopover } from '../../actions/popover_actions';
-import { selectCurrentUser } from '../../selectors/selectors';
+import { selectCurrentUser, selectPopover } from '../../selectors/selectors';
 
 
 const mapStateToProps = function (state, ownProps) {
@@ -34,7 +34,7 @@ class NavbarContainer extends React.Component {
 
   render() {
     const { pathname } = this.props.location;
-    const { currentUser, scrollCarousel, activeSlide, confirmLogout, closePopover } = this.props;
+    const { currentUser, scrollCarousel, activeSlide, confirmLogout, closePopover, popover } = this.props;
     if (pathname === '/' || pathname === '/login' || pathname === '/signup') {
       return (
         <NavbarGuest
