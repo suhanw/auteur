@@ -29,19 +29,14 @@ class PostFormPhoto extends React.Component {
         <PostFormHeader blog={blog} />
 
         <fieldset className='post-main'>
-          <input type='text'
-            className='post-title'
-            name='title'
-            value={title}
-            placeholder='Title'
-            autoFocus={true}
-            onChange={this.handleChange('title')} />
-          <ContentEditable className='post-body'
-            html={body}
-            disabled={false}
-            onChange={this.handleChange('body')}
-            placeholder='Your text here.'
-            tagName='div' />
+          <div className='media-upload'>
+            <span className='photo-upload'>
+              <input type='file' accept='image/*' />
+            </span>
+            <span className='photo-link'>
+              Add photos from web
+            </span>
+          </div>
         </fieldset>
 
         <PostFormFooter closePostForm={closePostForm} />

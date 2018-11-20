@@ -19,3 +19,24 @@
   display: flex;
   justify-content: space-between;
 }
+
+.media-upload {
+  width: 100%;
+  height: 196px;
+  display: flex;
+}
+
+.media-upload .photo-upload, 
+.media-upload .photo-link {
+  border: 1px solid red;
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.photo-upload input {
+  height: 100%;
+  width: 100%;
+}
+

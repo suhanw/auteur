@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 
 import PostFormText from './post_form_text';
+import PostFormPhoto from './post_form_photo';
 import { fetchBlog } from '../../../actions/blog_actions';
 import { createPost, updatePost } from '../../../actions/post_actions';
 import { selectCurrentUser, selectBlog } from '../../../selectors/selectors';
@@ -84,7 +85,7 @@ class PostForm extends React.Component {
     // object that stores all the different PostForm types
     const postFormComponents = {
       'text': PostFormText,
-      // 'photo': PostFormPhoto,
+      'photo': PostFormPhoto,
     }
     const Component = postFormComponents[formType];
 
