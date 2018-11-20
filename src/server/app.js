@@ -17,6 +17,7 @@ var dbUrl = process.env.DATABASEURL || "mongodb://localhost/tumblr_clone";
 var dbOptions = {
   useNewUrlParser: true,
   useCreateIndex: true,
+  useFindAndModify: false,
 };
 mongoose.connect(dbUrl, dbOptions);
 // seedDB();

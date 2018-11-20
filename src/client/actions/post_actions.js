@@ -77,3 +77,12 @@ export const deletePost = function (post) {
         );
     };
 };
+
+export const updatePost = function (post) {
+    return function (dispatch) {
+        return APIUtil.updatePost(post).then(
+            (updatedPost) => dispatch(receivePost(updatedPost)),
+            (err) => dispatch(receivePostErrors(err.responseJSON))
+        );
+    };
+};

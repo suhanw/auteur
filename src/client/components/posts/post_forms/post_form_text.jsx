@@ -9,8 +9,8 @@ class PostFormText extends React.Component {
   constructor(props) {
     super(props);
 
-    // state represents the new Post
-    this.state = {
+    // populate state for edit form, otherwise blank state
+    this.state = props.post ? props.post : {
       type: 'text',
       title: '',
       body: '',
@@ -63,12 +63,12 @@ class PostFormText extends React.Component {
     e.preventDefault();
     e.persist(); // to prevent React synthetic event from nullified, and be able to be passed into closePostForm
     // create newPost obj (get blog._id from props)
-    const { currentUser, blog, createPost, closePostForm } = this.props;
+    const { currentUser, blog, submitAction, closePostForm } = this.props;
     let newPost = merge({}, this.state);
     newPost.author = currentUser._id;
     newPost.blog = blog._id;
     // invoke AJAX to create new post
-    createPost(newPost).then(
+    submitAction(newPost).then(
       () => closePostForm(e) // close form after posting
     );
   }

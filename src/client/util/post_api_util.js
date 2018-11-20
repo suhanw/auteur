@@ -14,9 +14,16 @@ export const createPost = function (post) {
 };
 
 export const deletePost = function (post) {
-    // debugger
     return $.ajax({
         method: 'DELETE',
         url: `/api/blogs/${post.blog}/posts/${post._id}`,
+    });
+};
+
+export const updatePost = function (post) {
+    return $.ajax({
+        method: 'PUT',
+        url: `/api/blogs/${post.blog}/posts/${post._id}`,
+        data: post,
     });
 };

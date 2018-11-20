@@ -44,10 +44,11 @@ document.addEventListener('DOMContentLoaded', function () {
 // import { fetchPosts } from './actions/post_actions';
 // import { fetchBlog } from './util/blog_api_util';
 // import { fetchBlog } from './actions/blog_actions';
-// import { createPost } from './util/post_api_util';
-import { deletePost } from './actions/post_actions';
+// import { createPost, updatePost } from './util/post_api_util';
+// import { updatePost } from './actions/post_actions';
 
-window.deletePost = deletePost;
+// window.updatePost = updatePost;
+// window.deletePost = deletePost;
 // window.fetchBlog = fetchBlog;
 // window.fetchPosts = fetchPosts;
 // window.fetchPosts = APIUtil.fetchPosts;

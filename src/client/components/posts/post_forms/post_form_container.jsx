@@ -4,17 +4,30 @@ import { Redirect } from 'react-router-dom';
 
 import PostFormText from './post_form_text';
 import { fetchBlog } from '../../../actions/blog_actions';
-import { createPost } from '../../../actions/post_actions';
+import { createPost, updatePost } from '../../../actions/post_actions';
 import { selectCurrentUser, selectBlog } from '../../../selectors/selectors';
 
 const mapStateToProps = function (state, ownProps) {
+  let formType; // whether it's text, photo, video, etc
   const currentUser = selectCurrentUser(state); //this includes primaryBlog id
-  const formType = ownProps.match.params.type;
-  const blog = selectBlog(state, currentUser.primaryBlog);
+  let blog;
+  let post;
+
+  if (ownProps.edit) { // props when it's edit form
+    formType = ownProps.post.type;
+    blog = ownProps.blog;
+    post = ownProps.post;
+  } else { // props when it's new form
+    formType = ownProps.match.params.type;
+    blog = selectBlog(state, currentUser.primaryBlog);
+    post = null;
+  }
+
   return {
     currentUser,
     formType,
     blog,
+    post,
   }
 };
 
@@ -24,7 +37,8 @@ const mapDispatchToProps = function (dispatch, ownProps) {
   return {
     fetchBlog: (blogId) => dispatch(fetchBlog(blogId)),
     createPost: (post) => dispatch(createPost(post)),
-  }
+    updatePost: (post) => dispatch(updatePost(post)),
+  };
 };
 
 
@@ -35,6 +49,7 @@ class PostForm extends React.Component {
 
     this.state = {
       blog: props.blog,
+      post: props.post,
       closeForm: false,
     };
 
@@ -64,21 +79,24 @@ class PostForm extends React.Component {
 
 
   renderPostFormType() {
-    const { formType, createPost, currentUser } = this.props;
-    const { blog } = this.state;
+    const { formType, createPost, updatePost, currentUser } = this.props;
+    const { blog, post } = this.state;
     // object that stores all the different PostForm types
     const postFormComponents = {
       'text': PostFormText,
       // 'photo': PostFormPhoto,
     }
     const Component = postFormComponents[formType];
-    // FIX: pass in post data if it's an edit form? 
-    // Use location props to determine if it's edit form
+    // FIX: pass in post data if it's an edit form
+    // if post is null, pass in createPost for 'new' form, else, pass in updateForm for 'edit' form
+    let submitAction = (!post) ? createPost : updatePost;
+
     return <Component
       currentUser={currentUser}
       blog={blog}
+      post={post}
       closePostForm={this.closePostForm}
-      createPost={createPost} />;
+      submitAction={submitAction} />;
   }
 
   componentDidMount() {

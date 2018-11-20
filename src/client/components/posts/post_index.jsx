@@ -32,12 +32,16 @@ class PostIndex extends React.Component {
     let postIndexItems = postsArr.map(function (post) {
       let blog = blogs[post.blog];
 
-      // FIX: pass in post data if it's an edit form? 
+      // render PostForm or PostShow depending on path
       return (
         <div key={post._id} >
           <Switch>
-            <Route exact path={`/dashboard/edit/:type/${post._id}`} component={PostFormContainer} />
-            <Route path='/dashboard' render={(props) => <PostShowItem post={post} blog={blog} />} />
+            <Route
+              exact path={`/dashboard/edit/${post._id}`}
+              render={(props) => <PostFormContainer post={post} blog={blog} edit={true} />} />
+            <Route
+              path='/dashboard'
+              render={(props) => <PostShowItem post={post} blog={blog} />} />
           </Switch>
         </div>
       );

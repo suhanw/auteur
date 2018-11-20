@@ -19,6 +19,7 @@ class Navbar extends React.Component {
 
   componentDidMount() {
     // clicking anywhere else on the window should close any/all popovers
+    // FIX: think of how to only dispatch closePopover when popover is not null
     const { closePopover } = this.props;
     window.addEventListener('click', () => closePopover());
   }
