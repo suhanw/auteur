@@ -85,7 +85,7 @@ class PostFormPhoto extends React.Component {
       delete mediaPreview[mediaFilename];
       let media = that.state.media.slice();
       media = media.filter((file) => file.name !== mediaFilename);
-      that.setState({ media, mediaPreview }, () => (console.log(that.state)));
+      that.setState({ media, mediaPreview });
     };
   }
 
@@ -115,11 +115,11 @@ class PostFormPhoto extends React.Component {
         fileReaders[i].readAsDataURL(file);
         fileReaders[i].onloadend = function () {
           mediaPreview[file.name] = fileReaders[i].result; // append image for preview
-          that.setState({ mediaPreview }, () => console.log(that.state));
+          that.setState({ mediaPreview });
         }
       });
     }
-    this.setState({ media }, () => (console.log(this.state)));
+    this.setState({ media });
     // FIX: add loader for preview images
   }
 

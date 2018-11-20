@@ -11,19 +11,9 @@ const middleware = require('../middleware/middleware');
 
 // SET UP FILE UPLOAD=====================
 const multer = require('multer');
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, 'tmp')
-    },
-    filename: function (req, file, cb) {
-        // debugger
-        cb(null, file.originalname);
-    }
-})
+const storage = multer.memoryStorage();
 const upload = multer({ storage });
 const AWS = require('aws-sdk');
-
-console.log(process.env.AWS_USERNAME);
 
 let s3bucket = new AWS.S3({
     accessKeyId: process.env.AWS_ACCESS_KEY_ID,
@@ -31,22 +21,8 @@ let s3bucket = new AWS.S3({
     region: process.env.AWS_REGION,
     Bucket: process.env.AWS_BUCKET,
 });
-
-// debugger
-s3bucket.getBucketPolicy({ Bucket: process.env.AWS_BUCKET }, function (err, data) {
-    if (err) return console.log(err);
-    console.log(data);
-})
-// s3bucket.upload({ Bucket: 'auteur-dev/users', Body: 'test-again', Key: 'test3', ACL: 'public-read' }, function (err, data) {
-//     if (err) console.log(err);
-//     console.log(data);
-// })
-s3bucket.listObjects({ Bucket: 'auteur-dev' }, function (err, data) {
-    if (err) return console.log(err);
-    console.log(data.Contents);
-})
-// debugger
 // SET UP FILE UPLOAD=====================
+
 
 // GET api/blogs/:id - SHOW blog
 router.get('/blogs/:id', middleware.isLoggedIn, function (req, res) {
@@ -80,26 +56,52 @@ router.post(
     middleware.isLoggedIn,
     upload.array('media'), // file upload middleware
     function (req, res) {
-        debugger
-        // modelQuery.findOneBlog(
-        //     req.params.id,
-        //     (foundBlog) => {
-        //         let newPost = lodash.merge({}, req.body);
-        //         newPost.body = sanitizeHtml(newPost.body);
-        //         Post.create(newPost)
-        //             .then((createdPost) => {
-        //                 foundBlog.postCount += 1;
-        //                 foundBlog.save();
-        //                 return res.json(createdPost);
-        //             })
-        //             .catch((err) => res.status(422).json([err.message]))
-        //     },
-        //     (err) => res.status(404).json(['The blog does not exist.']), // failure callback
-        // );
+        modelQuery.findOneBlog(
+            req.params.id,
+            (foundBlog) => {
+                let newPost = lodash.merge({}, req.body);
+                newPost.body = sanitizeHtml(newPost.body);
+                Post.create(newPost)
+                    .then((createdPost) => {
+                        foundBlog.postCount += 1;
+                        foundBlog.save();
+                        const files = req.files;
+                        let media = [];
+                        if (files.length > 0) { // if there is media, upload to AWS
+                            // FIX: add loader, and grey out Post button when uploading
+                            let path = process.env.AWS_BUCKET + `/users/${createdPost.author}/blogs/${createdPost.blog}/posts/${createdPost._id}`;
+                            files.forEach(function (file) {
+                                let params = {
+                                    Bucket: path,
+                                    Key: file.originalname,
+                                    Body: file.buffer,
+                                    ACL: 'public-read'
+                                };
+                                s3bucket.upload(params, function (err, data) {
+                                    if (err) return res.status(422).json(err);
+                                    // else successful
+                                    media.push(data.Location);
+                                    if (media.length === files.length) { // when all media files have been uploaded
+                                        createdPost.media = media; // add media URLs to be persisted
+                                        createdPost.save();
+                                        return res.json(createdPost); // send response only after all media files have been uploaded
+                                    }
+                                });
+                            });
+                        } else { // if no media files, send response immediately
+                            return res.json(createdPost);
+                        }
+
+                    })
+                    .catch((err) => res.status(422).json([err.message]))
+            },
+            (err) => res.status(422).json([err.message]), // failure callback
+        );
     });
 
 // DELETE api/blogs/:id/posts/:id
 router.delete('/blogs/:id/posts/:postId', middleware.checkPostOwnership, function (req, res) {
+    // FIX: delete media file from AWS
     modelQuery.findOneBlog(
         req.params.id,
         (foundBlog) => {
@@ -118,6 +120,7 @@ router.delete('/blogs/:id/posts/:postId', middleware.checkPostOwnership, functio
 
 // PUT api/blogs/:id/posts/:id
 router.put('/blogs/:id/posts/:postId', middleware.checkPostOwnership, function (req, res) {
+    // FIX: sync media files on AWS with app db
     modelQuery.findOneBlog(
         req.params.id,
         (foundBlog) => {

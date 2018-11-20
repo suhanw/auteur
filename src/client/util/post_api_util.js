@@ -6,9 +6,6 @@ export const fetchPosts = function () {
 };
 
 export const createPost = function (post) {
-    console.log(post);
-    // debugger
-
     return $.ajax({
         method: 'POST',
         url: `/api/blogs/${post.get('blog')}/posts`,

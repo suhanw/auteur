@@ -11,7 +11,6 @@ class Navbar extends React.Component {
 
     return (
       <nav className='navbar'>
-        <img src='https://s3.amazonaws.com/auteur-dev/Zhang-04.jpg' />
         <div>Search bar</div>
         <ul className='navbar-right'>
           <li onClick={this.props.confirmLogout}>Logout</li>
