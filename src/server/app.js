@@ -1,3 +1,5 @@
+require('dotenv').config(); // environment variables
+
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
@@ -13,7 +15,7 @@ const seedDB = require('./util/seeds');
 
 // DB CONFIG==============================
 // switch between dev or prod
-var dbUrl = process.env.DATABASEURL || "mongodb://localhost/tumblr_clone";
+var dbUrl = process.env.DATABASEURL;
 var dbOptions = {
   useNewUrlParser: true,
   useCreateIndex: true,
@@ -60,7 +62,6 @@ app.use(require('./controllers/controllers'));
 // API ROUTES==============================
 
 // switch between dev (local) or prod
-var port = process.env.PORT || 3000;
-app.listen(port, function () {
+app.listen(process.env.PORT, function () {
   console.log('Server started');
 });

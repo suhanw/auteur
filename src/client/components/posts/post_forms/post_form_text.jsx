@@ -64,9 +64,12 @@ class PostFormText extends React.Component {
     e.persist(); // to prevent React synthetic event from nullified, and be able to be passed into closePostForm
     // create newPost obj (get blog._id from props)
     const { currentUser, blog, submitAction, closePostForm } = this.props;
-    let newPost = merge({}, this.state);
-    newPost.author = currentUser._id;
-    newPost.blog = blog._id;
+    let newPost = new FormData();
+    newPost.append('author', currentUser._id);
+    newPost.append('blog', blog._id);
+    for (let key in this.state) {
+      newPost.append(key, this.state[key]);
+    }
     // invoke AJAX to create new post or edit post
     submitAction(newPost).then(
       () => closePostForm(e) // close form after posting

@@ -3,3 +3,7 @@ node_modules/
 bundle.*
 
 .vscode
+
+credentials.csv
+
+.env

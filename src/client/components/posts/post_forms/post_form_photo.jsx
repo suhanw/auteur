@@ -4,6 +4,7 @@ import { merge, union } from 'lodash';
 
 import PostFormHeader from './post_form_header';
 import PostFormFooter from './post_form_footer';
+import { toArray } from '../../../util/misc_util';
 
 class PostFormPhoto extends React.Component {
   constructor(props) {
@@ -98,13 +99,10 @@ class PostFormPhoto extends React.Component {
   }
 
   handleMediaFiles(e) {
-    const toArray = function (fileList) {
-      return Array.prototype.slice.call(fileList);
-    }
     const mediaFiles = toArray(e.target.files); // to convert FileList to Array
     let media = this.state.media.slice(); // copy state
+    let mediaPreview = merge({}, this.state.mediaPreview); // copy state
     let fileReaders = [];
-    let mediaPreview = merge({}, this.state.mediaPreview);
     if (mediaFiles.length > 0) {
       const that = this;
       mediaFiles.forEach(function (file, i) {
@@ -130,11 +128,18 @@ class PostFormPhoto extends React.Component {
     e.persist(); // to prevent React synthetic event from nullified, and be able to be passed into closePostForm
     // create newPost obj (get blog._id from props)
     const { currentUser, blog, submitAction, closePostForm } = this.props;
-    let newPost = new FormData(this.state);
+    let newPost = new FormData();
     newPost.append('author', currentUser._id);
     newPost.append('blog', blog._id);
-    newPost.append('body', this.state.body);
-    newPost.append('media', this.state.media);
+    for (let key in this.state) {
+      if (key !== 'media' && key !== 'mediaPreview') {
+        newPost.append(key, this.state[key]);
+      }
+    }
+    // append photos to form data
+    this.state.media.forEach(function (mediaFile) {
+      newPost.append('media', mediaFile, mediaFile.name);
+    });
     // invoke AJAX to create new post or edit post
     submitAction(newPost).then(
       () => closePostForm(e) // close form after posting
