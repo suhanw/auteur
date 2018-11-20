@@ -5,13 +5,13 @@ import { merge } from 'lodash';
 import PostFormHeader from './post_form_header';
 import PostFormFooter from './post_form_footer';
 
-class PostFormText extends React.Component {
+class PostFormPhoto extends React.Component {
   constructor(props) {
     super(props);
 
     // populate state for edit form (i.e., post is not null), otherwise state is blank for new form
     this.state = props.post ? props.post : {
-      type: 'text',
+      type: 'photo',
       title: '',
       body: '',
     };
@@ -74,4 +74,4 @@ class PostFormText extends React.Component {
   }
 }
 
-export default PostFormText;
+export default PostFormPhoto;
