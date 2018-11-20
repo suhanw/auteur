@@ -9,12 +9,13 @@ class PostFormText extends React.Component {
   constructor(props) {
     super(props);
 
-    // populate state for edit form, otherwise blank state
+    // populate state for edit form (i.e., post is not null), otherwise state is blank for new form
     this.state = props.post ? props.post : {
       type: 'text',
       title: '',
       body: '',
     };
+
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);

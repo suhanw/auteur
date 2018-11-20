@@ -1,5 +1,6 @@
 let modelQuery = {};
-let Blog = require('../models/blog');
+const Blog = require('../models/blog');
+const Post = require('../models/post');
 
 modelQuery.findOneBlog = function (blogId, handleSuccess, handleFailure) {
   // 'handleSuccess' callback func should be function(foundBlog) { ... }
@@ -14,6 +15,16 @@ modelQuery.findOneBlog = function (blogId, handleSuccess, handleFailure) {
     .then(function (foundBlog) {
       if (!foundBlog) throw err; // case when ObjectId is valid, but doesn't belong to a blog
       handleSuccess(foundBlog);
+    })
+    .catch(handleFailure);
+};
+
+modelQuery.findOnePost = function (postId, handleSuccess, handleFailure) {
+  Post.findOne({ _id: postId })
+    .exec()
+    .then(function (foundPost) {
+      if (!foundPost) throw err;
+      handleSuccess(foundPost);
     })
     .catch(handleFailure);
 };

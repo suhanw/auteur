@@ -5,9 +5,10 @@ const lodash = require('lodash');
 const modelQuery = require('../util/model_query_util');
 const Blog = require('../models/blog');
 const Post = require('../models/post');
+const middleware = require('../middleware/middleware');
 
 // GET api/blogs/:id - SHOW blog
-router.get('/blogs/:id', function (req, res) {
+router.get('/blogs/:id', middleware.isLoggedIn, function (req, res) {
     modelQuery.findOneBlog(
         req.params.id,
         (foundBlog) => res.json(foundBlog), // success callback
@@ -17,7 +18,7 @@ router.get('/blogs/:id', function (req, res) {
 
 
 // GET api/blogs/:id/posts - INDEX blog posts (should be moved to 'posts.js' routes)
-router.get('/blogs/:id/posts', function (req, res) {
+router.get('/blogs/:id/posts', middleware.isLoggedIn, function (req, res) {
     modelQuery.findOneBlog(
         req.params.id,
         (foundBlog) => {
@@ -33,7 +34,7 @@ router.get('/blogs/:id/posts', function (req, res) {
 });
 
 // POST api/blogs/:id/posts
-router.post('/blogs/:id/posts', function (req, res) {
+router.post('/blogs/:id/posts', middleware.isLoggedIn, function (req, res) {
     modelQuery.findOneBlog(
         req.params.id,
         (foundBlog) => {
@@ -52,8 +53,7 @@ router.post('/blogs/:id/posts', function (req, res) {
 });
 
 // DELETE api/blogs/:id/posts/:id
-router.delete('/blogs/:id/posts/:postId', function (req, res) {
-    // FIX: need to add middleware to authenticate and authorize user!
+router.delete('/blogs/:id/posts/:postId', middleware.checkPostOwnership, function (req, res) {
     modelQuery.findOneBlog(
         req.params.id,
         (foundBlog) => {
@@ -71,7 +71,7 @@ router.delete('/blogs/:id/posts/:postId', function (req, res) {
 });
 
 // PUT api/blogs/:id/posts/:id
-router.put('/blogs/:id/posts/:postId', function (req, res) {
+router.put('/blogs/:id/posts/:postId', middleware.checkPostOwnership, function (req, res) {
     modelQuery.findOneBlog(
         req.params.id,
         (foundBlog) => {
@@ -87,8 +87,5 @@ router.put('/blogs/:id/posts/:postId', function (req, res) {
         (err) => res.status(404).json(['The blog does not exist.']), // failure callback
     );
 });
-
-
-// FIX: to finish post crud
 
 module.exports = router;

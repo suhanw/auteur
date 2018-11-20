@@ -87,7 +87,7 @@ class PostForm extends React.Component {
       // 'photo': PostFormPhoto,
     }
     const Component = postFormComponents[formType];
-    // FIX: pass in post data if it's an edit form
+
     // if post is null, pass in createPost for 'new' form, else, pass in updateForm for 'edit' form
     let submitAction = (!post) ? createPost : updatePost;
 
