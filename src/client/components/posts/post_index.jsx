@@ -33,6 +33,7 @@ class PostIndex extends React.Component {
       let blog = blogs[post.blog];
 
       // render PostForm or PostShow depending on path
+      // FIX: scroll to the PostForm position when editing
       return (
         <div key={post._id} >
           <Switch>

@@ -11,7 +11,7 @@ const middleware = require('../middleware/middleware');
 
 // SET UP FILE UPLOAD=====================
 const multer = require('multer');
-const storage = multer.memoryStorage();
+const storage = multer.memoryStorage(); // store file in memory
 const upload = multer({ storage });
 const AWS = require('aws-sdk');
 
@@ -74,24 +74,22 @@ router.post(
                                 let params = {
                                     Bucket: path,
                                     Key: file.originalname,
-                                    Body: file.buffer,
-                                    ACL: 'public-read'
+                                    Body: file.buffer, // the actual file in memory
+                                    ACL: 'public-read' // set permission for public read access
                                 };
                                 s3bucket.upload(params, function (err, data) {
                                     if (err) return res.status(422).json(err);
-                                    // else successful
                                     media.push(data.Location);
                                     if (media.length === files.length) { // when all media files have been uploaded
                                         createdPost.media = media; // add media URLs to be persisted
                                         createdPost.save();
-                                        return res.json(createdPost); // send response only after all media files have been uploaded
+                                        return res.json(createdPost); // send http response only after all media files have been uploaded
                                     }
                                 });
                             });
-                        } else { // if no media files, send response immediately
+                        } else { // if no media files, send http response immediately
                             return res.json(createdPost);
                         }
-
                     })
                     .catch((err) => res.status(422).json([err.message]))
             },
