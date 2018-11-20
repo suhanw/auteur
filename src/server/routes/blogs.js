@@ -57,28 +57,38 @@ router.delete('/blogs/:id/posts/:postId', function (req, res) {
     modelQuery.findOneBlog(
         req.params.id,
         (foundBlog) => {
-            Post.findOneAndDelete({ _id: req.params.postId }, function (err) {
-                if (err) return res.status(422).json([err.message]);
-                foundBlog.postCount -= 1;
-                foundBlog.save();
-                return res.json(req.params.postId);
-            });
+            Post.findOneAndDelete(
+                { _id: req.params.postId },
+                function (err) {
+                    if (err) return res.status(422).json([err.message]);
+                    foundBlog.postCount -= 1;
+                    foundBlog.save();
+                    return res.json(req.params.postId);
+                });
         },
         (err) => res.status(404).json(['The blog does not exist.']), // failure callback
     );
 });
 
 // PUT api/blogs/:id/posts/:id
-router.put('blogs/:id/posts/:postId', function (req, res) {
+router.put('/blogs/:id/posts/:postId', function (req, res) {
     modelQuery.findOneBlog(
         req.params.id,
         (foundBlog) => {
-            //    success
-            console.log('updating ' + req.body);
+            Post.findOneAndUpdate(
+                { _id: req.params.postId },
+                req.body,
+                { new: true },
+                function (err, updatedPost) {
+                    if (err) return res.status(422).json([err.message]);
+                    return res.json(updatedPost);
+                });
         },
         (err) => res.status(404).json(['The blog does not exist.']), // failure callback
     );
 });
+
+
 // FIX: to finish post crud
 
 module.exports = router;
