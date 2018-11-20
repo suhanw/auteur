@@ -35,6 +35,8 @@ router.get('/blogs/:id/posts', middleware.isLoggedIn, function (req, res) {
 
 // POST api/blogs/:id/posts
 router.post('/blogs/:id/posts', middleware.isLoggedIn, function (req, res) {
+    console.log(req.body);
+
     modelQuery.findOneBlog(
         req.params.id,
         (foundBlog) => {
