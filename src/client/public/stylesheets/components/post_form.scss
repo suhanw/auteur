@@ -20,14 +20,17 @@
   justify-content: space-between;
 }
 
-.media-upload {
+
+// For PostFormPhoto
+
+.post-form .media-upload {
   width: 100%;
   height: 196px;
   display: flex;
 }
 
-.media-upload .photo-upload, 
-.media-upload .photo-link {
+.post-form .media-upload .photo-upload, 
+.post-form .media-upload .photo-link {
   border: 1px solid red;
   width: 50%;
   display: flex;
@@ -35,8 +38,38 @@
   align-items: center;
 }
 
-.photo-upload input {
+.post-form .photo-upload input {
   height: 100%;
   width: 100%;
 }
 
+.post-form .post-photo {
+  position: relative; // to allow remove-preview icon to float above image
+}
+
+.post-form .post-photo img {
+  width: 100%; // to cover width of post-content
+}
+
+.post-photo .remove-icon {
+  display: inline-flex;
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  height: 20px;
+  width: 20px;
+  color: #d95e40;
+  background: white;
+  border-radius: 50%;
+  opacity: 0;
+  transition: opacity 0.1s linear;
+}
+
+.post-photo:hover .remove-icon {
+  opacity: 1;
+}
+
+.post-photo .remove-icon .fa-minus-circle {
+  font-size: 22px;
+  cursor: pointer;
+}

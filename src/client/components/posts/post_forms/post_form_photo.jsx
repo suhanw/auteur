@@ -14,25 +14,19 @@ class PostFormPhoto extends React.Component {
       type: 'photo',
       body: '',
       media: [],
-      mediaFilenames: [],
-      mediaPreview: [],
+      mediaPreview: null, // mediaPreview will be an object: {'filename': 'file_url', ...}
     };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleMediaFiles = this.handleMediaFiles.bind(this);
     this.renderMediaPreview = this.renderMediaPreview.bind(this);
+    this.removePreview = this.removePreview.bind(this);
   }
 
   render() {
     const { blog, closePostForm } = this.props;
-    // const { title, body } = this.state;
-    const { mediaPreview } = this.state;
-    // to show preview when user selects file
-    let mediaPreviewImgs = [];
-    if (mediaPreview.length > 0) {
-      mediaPreviewImgs = mediaPreview.map((mediaPreviewURL) => <img key={mediaPreviewURL} src={mediaPreviewURL} className='post-photo' />);
-    }
+
     return (
       <form className='post-form' onSubmit={this.handleSubmit}>
 
@@ -40,7 +34,7 @@ class PostFormPhoto extends React.Component {
 
         <main className='post-main'>
 
-          {mediaPreviewImgs}
+          {this.renderMediaPreview()}
 
           <div className='media-upload'>
             <span className='photo-upload'>
@@ -63,7 +57,35 @@ class PostFormPhoto extends React.Component {
   }
 
   renderMediaPreview() {
+    const { media, mediaPreview } = this.state;
+    // to show preview when user selects file
+    let mediaPreviewImgs = [];
+    if (mediaPreview) {
+      for (let mediaFilename in mediaPreview) {
+        mediaPreviewImgs.push(
+          <div key={mediaFilename} className='post-photo'>
+            <span className='remove-icon'>
+              <i className="fas fa-minus-circle"
+                onClick={this.removePreview(mediaFilename)}></i>
+            </span>
+            <img src={mediaPreview[mediaFilename]} />
+          </div>
+        );
+      }
+    }
+    return mediaPreviewImgs;
+  }
 
+  removePreview(mediaFilename) {
+    const that = this;
+    return function (e) {
+      e.preventDefault();
+      let mediaPreview = merge({}, that.state.mediaPreview);
+      delete mediaPreview[mediaFilename];
+      let media = that.state.media.slice();
+      media = media.filter((file) => file.name !== mediaFilename);
+      that.setState({ media, mediaPreview }, () => (console.log(that.state)));
+    };
   }
 
   handleChange(inputField) {
@@ -81,27 +103,25 @@ class PostFormPhoto extends React.Component {
     }
     const mediaFiles = toArray(e.target.files); // to convert FileList to Array
     let media = this.state.media.slice(); // copy state
-    let mediaFilenames = this.state.mediaFilenames.slice() // copy state
     let fileReaders = [];
-    let mediaPreview = this.state.mediaPreview.slice();
+    let mediaPreview = merge({}, this.state.mediaPreview);
     if (mediaFiles.length > 0) {
       const that = this;
       mediaFiles.forEach(function (file, i) {
-        if (mediaFilenames.indexOf(file.name) >= 0) { //do nothing if a file has been previously selected
+        if (mediaPreview[file.name]) { //do nothing if a file has been previously selected
           return;
         }
         // To allow user to cumulatively append images
         media.push(file);
-        mediaFilenames.push(file.name);
         fileReaders.push(new FileReader());
         fileReaders[i].readAsDataURL(file);
         fileReaders[i].onloadend = function () {
-          mediaPreview = union(mediaPreview, [fileReaders[i].result]);
+          mediaPreview[file.name] = fileReaders[i].result; // append image for preview
           that.setState({ mediaPreview }, () => console.log(that.state));
         }
       });
     }
-    this.setState({ media, mediaFilenames }, () => (console.log(this.state)));
+    this.setState({ media }, () => (console.log(this.state)));
     // FIX: add loader for preview images
   }
 
