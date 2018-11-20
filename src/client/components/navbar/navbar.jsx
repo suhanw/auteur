@@ -3,6 +3,8 @@ import React from 'react';
 class Navbar extends React.Component {
   constructor(props) {
     super(props);
+
+    this.dynamicClosePopover = this.dynamicClosePopover.bind(this);
   }
 
   render() {
@@ -19,14 +21,18 @@ class Navbar extends React.Component {
 
   componentDidMount() {
     // clicking anywhere else on the window should close any/all popovers
-    // FIX: think of how to only dispatch closePopover when popover is not null
-    const { closePopover } = this.props;
-    window.addEventListener('click', () => closePopover());
+    window.addEventListener('click', this.dynamicClosePopover);
   }
 
   componentWillUnmount() {
-    const { closePopover } = this.props;
-    window.removeEventListener('click', () => closePopover());
+    window.removeEventListener('click', this.dynamicClosePopover);
+  }
+
+  dynamicClosePopover() {
+    const { popover, closePopover } = this.props;
+    if (popover) { // only dispatch closePopover if there is an open popover
+      closePopover();
+    }
   }
 }
 

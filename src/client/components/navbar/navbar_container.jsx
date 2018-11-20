@@ -11,11 +11,13 @@ import { selectCurrentUser, selectPopover } from '../../selectors/selectors';
 
 const mapStateToProps = function (state, ownProps) {
   const currentUser = selectCurrentUser(state);
+  const popover = selectPopover(state);
   const { scrollCarousel, activeSlide } = ownProps;
   return {
     currentUser,
     scrollCarousel,
     activeSlide,
+    popover,
   };
 };
 
@@ -33,6 +35,7 @@ class NavbarContainer extends React.Component {
   }
 
   render() {
+
     const { pathname } = this.props.location;
     const { currentUser, scrollCarousel, activeSlide, confirmLogout, closePopover, popover } = this.props;
     if (pathname === '/' || pathname === '/login' || pathname === '/signup') {
@@ -48,6 +51,7 @@ class NavbarContainer extends React.Component {
       <Navbar
         currentUser={currentUser}
         confirmLogout={confirmLogout}
+        popover={popover}
         closePopover={closePopover} />
     );
   }
