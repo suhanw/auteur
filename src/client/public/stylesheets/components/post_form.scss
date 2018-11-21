@@ -23,25 +23,57 @@
 
 // For PostFormPhoto
 
-.post-form .media-upload {
-  width: 100%;
-  height: 196px;
+.post-form .media-upload-dropzone {
+  width: calc(100% + 40px);
   display: flex;
+  background-color: #f2f2f2;
+  border-top: 1.5px dashed rgb(203,203, 203);
+  border-bottom: 1.5px dashed rgb(203,203, 203);
 }
 
-.post-form .media-upload .photo-upload, 
-.post-form .media-upload .photo-link {
-  border: 1px solid red;
+
+.post-form .media-upload-dropzone .media-upload, 
+.post-form .media-upload-dropzone .media-link {
+  height: 196px;
   width: 50%;
+  margin: 20px 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  font-size: 14px;
+  color: #989898;
+}
+
+.post-form .media-upload-dropzone .media-upload {
+  border-right: 1px solid rgb(203,203, 203);
+}
+
+.post-form .media-upload-dropzone .media-upload-small {
+  height: 36px;
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 100%;
+  font-size: 14px;
+  cursor: pointer;
+  color: #989898;
 }
 
-.post-form .photo-upload input {
-  height: 100%;
-  width: 100%;
+.post-form .media-upload-dropzone .media-upload-small .fas {
+  margin-right: 5px;
 }
+
+.post-form .inputfile {
+  display: none;
+}
+
+.media-upload .fas,
+.media-link .fas {
+  font-size: 50px;
+}
+
 
 .post-form .post-photo {
   position: relative; // to allow remove-preview icon to float above image

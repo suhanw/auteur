@@ -68,7 +68,7 @@ class PostFormText extends React.Component {
     for (let key in this.state) {
       newPost.append(key, this.state[key]);
     }
-    if (!this.state._id) { // for new post, state does not include author and blog
+    if (!this.state._id) { // for new posts, state does not include author and blog
       newPost.append('author', currentUser._id);
       newPost.append('blog', blog._id);
     }

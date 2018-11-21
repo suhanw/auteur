@@ -15,14 +15,16 @@ class PostFormPhoto extends React.Component {
       type: 'photo',
       body: '',
       media: [],
-      mediaPreview: null, // mediaPreview will be an object: {'filename': 'file_url', ...}
+      mediaPreview: {}, // mediaPreview will be an object: {'filename': 'file_url', ...}
     };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleMediaFiles = this.handleMediaFiles.bind(this);
+    this.renderUploadDropzone = this.renderUploadDropzone.bind(this);
     this.renderMediaPreview = this.renderMediaPreview.bind(this);
     this.removePreview = this.removePreview.bind(this);
+    this.renderBodyInput = this.renderBodyInput.bind(this);
   }
 
   render() {
@@ -37,18 +39,10 @@ class PostFormPhoto extends React.Component {
 
           {this.renderMediaPreview()}
 
-          <div className='media-upload'>
-            <span className='photo-upload'>
-              <input
-                type='file'
-                accept='image/*'
-                multiple={true}
-                onChange={this.handleMediaFiles} />
-            </span>
-            <span className='photo-link'>
-              Add photos from web
-            </span>
-          </div>
+          {this.renderUploadDropzone()}
+
+          {this.renderBodyInput()}
+
         </main>
 
         <PostFormFooter closePostForm={closePostForm} />
@@ -57,22 +51,75 @@ class PostFormPhoto extends React.Component {
     );
   }
 
+  renderBodyInput() {
+    const { mediaPreview, body } = this.state;
+    if (Object.keys(mediaPreview).length > 0) { // only render when images have been selected
+      return (
+        <ContentEditable className='post-body'
+          html={body}
+          disabled={false}
+          onChange={this.handleChange('body')}
+          placeholder='Add a caption, if you like.'
+          tagName='div' />
+      );
+    }
+    return null;
+  }
+
+  renderUploadDropzone() {
+    const { mediaPreview } = this.state;
+    if (Object.keys(mediaPreview).length > 0) { // if user selected some images
+      return (
+        <div className='media-upload-dropzone'>
+          <label htmlFor='file' className='media-upload-small'>
+            <i className="fas fa-camera"></i>
+            <span>Add another</span>
+            <input
+              type='file'
+              className='inputfile'
+              id='file'
+              accept='image/*'
+              multiple={true}
+              onChange={this.handleMediaFiles} />
+          </label>
+        </div>
+      );
+    }
+    return (
+      <div className='media-upload-dropzone'>
+        <label htmlFor='file' className='media-upload'>
+          <i className="fas fa-camera"></i>
+          <span>Upload photos</span>
+          <input
+            type='file'
+            className='inputfile'
+            id='file'
+            accept='image/*'
+            multiple={true}
+            onChange={this.handleMediaFiles} />
+        </label>
+        <div className='media-link'>
+          <i className="fas fa-globe"></i>
+          <span>Add photos from web</span>
+        </div>
+      </div>
+    );
+  }
+
   renderMediaPreview() {
     const { media, mediaPreview } = this.state;
     // to show preview when user selects file
     let mediaPreviewImgs = [];
-    if (mediaPreview) {
-      for (let mediaFilename in mediaPreview) {
-        mediaPreviewImgs.push(
-          <div key={mediaFilename} className='post-photo'>
-            <span className='remove-icon'>
-              <i className="fas fa-minus-circle"
-                onClick={this.removePreview(mediaFilename)}></i>
-            </span>
-            <img src={mediaPreview[mediaFilename]} />
-          </div>
-        );
-      }
+    for (let mediaFilename in mediaPreview) {
+      mediaPreviewImgs.push(
+        <div key={mediaFilename} className='post-photo'>
+          <span className='remove-icon'>
+            <i className="fas fa-minus-circle"
+              onClick={this.removePreview(mediaFilename)}></i>
+          </span>
+          <img src={mediaPreview[mediaFilename]} />
+        </div>
+      );
     }
     return mediaPreviewImgs;
   }
