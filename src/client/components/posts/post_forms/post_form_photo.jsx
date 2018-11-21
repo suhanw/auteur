@@ -11,21 +11,31 @@ class PostFormPhoto extends React.Component {
     super(props);
 
     // populate state for edit form (i.e., post is not null), otherwise state is blank for new form
-    this.state = props.post ? props.post : {
-      type: 'photo',
-      body: '',
-      media: [],
-      mediaPreview: {}, // mediaPreview will be an object: {'filename': 'file_url', ...}
-    };
+    if (props.post) {
+      this.state = merge({}, props.post);
+      let mediaPreview = {};
+      props.post.media.forEach(function (mediaURL) {
+        let mediaFilename = mediaURL.split('/').pop();
+        mediaPreview[mediaFilename] = mediaURL;
+      });
+      this.state.mediaPreview = mediaPreview;
+    } else {
+      this.state = {
+        type: 'photo',
+        body: '',
+        media: [],
+        mediaPreview: {}, // mediaPreview will be an object: {'filename': 'file_url', ...}
+      };
+    }
 
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleDragAndDrop = this.handleDragAndDrop.bind(this);
-    this.handleMediaFiles = this.handleMediaFiles.bind(this);
     this.renderUploadDropzone = this.renderUploadDropzone.bind(this);
     this.renderMediaPreview = this.renderMediaPreview.bind(this);
     this.removePreview = this.removePreview.bind(this);
     this.renderBodyInput = this.renderBodyInput.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleDragAndDrop = this.handleDragAndDrop.bind(this);
+    this.handleMediaFiles = this.handleMediaFiles.bind(this);
   }
 
   render() {
@@ -133,18 +143,6 @@ class PostFormPhoto extends React.Component {
     return mediaPreviewImgs;
   }
 
-  removePreview(mediaFilename) {
-    const that = this;
-    return function (e) {
-      e.preventDefault();
-      let mediaPreview = merge({}, that.state.mediaPreview);
-      delete mediaPreview[mediaFilename];
-      let media = that.state.media.slice();
-      media = media.filter((file) => file.name !== mediaFilename);
-      that.setState({ media, mediaPreview });
-    };
-  }
-
   handleChange(inputField) {
     const that = this;
     return function (e) {
@@ -205,18 +203,32 @@ class PostFormPhoto extends React.Component {
     // FIX: add loader for preview images
   }
 
+  removePreview(mediaFilename) {
+    const that = this;
+    return function (e) {
+      e.preventDefault();
+      let mediaPreview = merge({}, that.state.mediaPreview);
+      delete mediaPreview[mediaFilename];
+      let media = that.state.media.slice();
+      media = media.filter((file) => file.name !== mediaFilename);
+      that.setState({ media, mediaPreview });
+    };
+  }
+
   handleSubmit(e) {
     e.preventDefault();
     e.persist(); // to prevent React synthetic event from nullified, and be able to be passed into closePostForm
-    // create newPost obj (get blog._id from props)
     const { currentUser, blog, submitAction, closePostForm } = this.props;
     let newPost = new FormData();
-    newPost.append('author', currentUser._id);
-    newPost.append('blog', blog._id);
     for (let key in this.state) {
       if (key !== 'media' && key !== 'mediaPreview') {
         newPost.append(key, this.state[key]);
       }
+    }
+    // for new posts, state does not include author and blog
+    if (!this.state._id) {
+      newPost.append('author', currentUser._id);
+      newPost.append('blog', blog._id);
     }
     // append photos to form data
     this.state.media.forEach(function (mediaFile) {
