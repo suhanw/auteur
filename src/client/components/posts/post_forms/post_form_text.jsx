@@ -65,10 +65,12 @@ class PostFormText extends React.Component {
     // create newPost obj (get blog._id from props)
     const { currentUser, blog, submitAction, closePostForm } = this.props;
     let newPost = new FormData();
-    newPost.append('author', currentUser._id);
-    newPost.append('blog', blog._id);
     for (let key in this.state) {
       newPost.append(key, this.state[key]);
+    }
+    if (!this.state._id) { // for new post, state does not include author and blog
+      newPost.append('author', currentUser._id);
+      newPost.append('blog', blog._id);
     }
     // invoke AJAX to create new post or edit post
     submitAction(newPost).then(
