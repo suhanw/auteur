@@ -24,7 +24,7 @@ const Post = require('../models/post');
 const modelQuery = require('../util/model_query_util');
 const middleware = require('../middleware/middleware');
 
-// GET api/blogs/:id/posts - INDEX blog posts 
+// GET api/blogs/:id/posts - INDEX blog posts (Read)
 router.get('/posts', middleware.isLoggedIn, function (req, res) {
   modelQuery.findOneBlog(
     req.params.id,
@@ -48,47 +48,23 @@ router.post('/posts',
   function (req, res) {
     modelQuery.findOneBlog(
       req.params.id,
-      (foundBlog) => {
-        let newPost = lodash.merge({}, req.body);
-        newPost.body = sanitizeHtml(newPost.body);
-        Post.create(newPost)
-          .then((createdPost) => {
+      (foundBlog) => { // success callback for findOneBlog
+        let postBody = lodash.merge({}, req.body);
+        postBody.body = sanitizeHtml(postBody.body);
+        let newPost = new Post(postBody);
+        mediaUpload.uploadFiles(
+          req.files,
+          newPost,
+          (newPost) => { // success cb for uploadFiles
+            newPost.save();
             foundBlog.postCount += 1;
             foundBlog.save();
-            mediaUpload.uploadFiles(
-              req.files,
-              createdPost,
-              (createdPost) => res.json(createdPost), // success
-              (err) => res.status(422).json([err.message]), // failure
-            );
-            // const files = req.files;
-            // let media = [];
-            // if (files.length > 0) { // if there is media, upload to AWS
-            //   let path = process.env.AWS_BUCKET + `/users/${createdPost.author}/blogs/${createdPost.blog}/posts/${createdPost._id}`;
-            //   files.forEach(function (file) {
-            //     let params = {
-            //       Bucket: path,
-            //       Key: file.originalname,
-            //       Body: file.buffer, // the actual file in memory
-            //       ACL: 'public-read' // set permission for public read access
-            //     };
-            //     s3bucket.upload(params, function (err, data) {
-            //       if (err) return res.status(422).json(err);
-            //       media.push(data.Location);
-            //       if (media.length === files.length) { // when all media files have been uploaded
-            //         createdPost.media = media; // add media URLs to be persisted
-            //         createdPost.save();
-            //         return res.json(createdPost); // send http response only after all media files have been uploaded
-            //       }
-            //     });
-            //   });
-            // } else { // if no media files, send http response immediately
-            //   return res.json(createdPost);
-            // }
-          })
-          .catch((err) => res.status(422).json([err.message]))
+            return res.json(newPost);
+          },
+          (err) => res.status(422).json(err), // failure cb for uploadFiles
+        );
       },
-      (err) => res.status(422).json([err.message]), // failure callback
+      (err) => res.status(422).json([err.message]), // failure callback for findOneBlog
     );
   });
 
@@ -126,8 +102,8 @@ router.put('/posts/:postId',
     modelQuery.findOneBlog(
       req.params.id,
       (foundBlog) => {
-        let newPost = lodash.merge({}, req.body);
-        newPost.body = sanitizeHtml(newPost.body);
+        let postBody = lodash.merge({}, req.body);
+        postBody.body = sanitizeHtml(postBody.body);
         Post.findOneAndUpdate(
           { _id: req.params.postId },
           req.body,

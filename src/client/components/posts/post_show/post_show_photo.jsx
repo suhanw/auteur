@@ -12,9 +12,9 @@ class PostShowPhoto extends React.Component {
     return (
       <main className='post-main'>
         {this.renderPhotos()}
-        <p className='post-body'>
-          {post.body}
-        </p>
+        <div className='post-body'
+          dangerouslySetInnerHTML={{ __html: post.body }}>
+        </div>
       </main >
     )
   }
