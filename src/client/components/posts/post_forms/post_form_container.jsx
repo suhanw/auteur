@@ -6,11 +6,13 @@ import PostFormText from './post_form_text';
 import PostFormPhoto from './post_form_photo';
 import { fetchBlog } from '../../../actions/blog_actions';
 import { createPost, updatePost } from '../../../actions/post_actions';
-import { selectCurrentUser, selectBlog } from '../../../selectors/selectors';
+import { selectCurrentUser, selectBlog, selectLoadingPostSubmit } from '../../../selectors/selectors';
+import { renderSpinner } from '../../../util/misc_util';
 
 const mapStateToProps = function (state, ownProps) {
   let formType; // whether it's text, photo, video, etc
   const currentUser = selectCurrentUser(state); //this includes primaryBlog id
+  let loadingPostSubmit = selectLoadingPostSubmit(state);
   let blog;
   let post;
 
@@ -29,6 +31,7 @@ const mapStateToProps = function (state, ownProps) {
     formType,
     blog,
     post,
+    loadingPostSubmit,
   }
 };
 
@@ -62,7 +65,8 @@ class PostForm extends React.Component {
     // to 'reactivate' dashboard when user closes out PostForm
     if (this.state.closeForm) return <Redirect to='/dashboard' />;
 
-    const { currentUser } = this.props;
+    const { currentUser, loadingPostSubmit } = this.props;
+    const spinnerClass = loadingPostSubmit ? 'loading-post-submit' : null;
     return (
       <div className='post-form-container'>
         {/* to grey out dashboard when PostForm is opened */}
@@ -72,12 +76,15 @@ class PostForm extends React.Component {
           <img className='avatar avatar-default' src={currentUser.avatarImageUrl} />
         </picture>
 
-        {this.renderPostFormType()}
+
+        <div className='post-form-wrapper'>
+          {this.renderPostFormType()}
+          {renderSpinner(spinnerClass)}
+        </div>
 
       </div>
     );
   }
-
 
   renderPostFormType() {
     const { formType, createPost, updatePost, currentUser } = this.props;
@@ -121,7 +128,7 @@ class PostForm extends React.Component {
   }
 
   closePostForm(e) {
-    if (e.type !== 'keydown' ||
+    if (e.type !== 'keydown' || // when user clicks 'Close' button
       (e.type === 'keydown' && e.code === 'Escape')) { // when user hits Esc key
       this.setState({ closeForm: true });
       return;
@@ -129,7 +136,7 @@ class PostForm extends React.Component {
   }
 
   toggleBlog() {
-    // NOTE: in future, create a toggleBlog func that changes blog id in state 
+    // FIX: in future, create a toggleBlog func that changes blog id in state 
     // and pass into PostFormType. User may have multiple blogs.
   }
 }

@@ -56,7 +56,6 @@ router.post('/posts',
             const files = req.files;
             let media = [];
             if (files.length > 0) { // if there is media, upload to AWS
-              // FIX: add loader, and grey out Post button when uploading
               let path = process.env.AWS_BUCKET + `/users/${createdPost.author}/blogs/${createdPost.blog}/posts/${createdPost._id}`;
               files.forEach(function (file) {
                 let params = {

@@ -46,3 +46,8 @@ export const selectPopover = function (state) {
   const { ui: { popover } } = state;
   return popover;
 }
+
+export const selectLoadingPostSubmit = function (state) {
+  const { ui: { loading: { loadingPostSubmit } } } = state;
+  return loadingPostSubmit;
+}

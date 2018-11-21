@@ -1,5 +1,6 @@
 import * as APIUtil from '../util/post_api_util';
 import { fetchBlog } from '../actions/blog_actions';
+import { receivePostSubmit } from '../actions/loading_actions';
 
 export const RECEIVE_POSTS = 'RECEIVE_POSTS';
 export const RECEIVE_POST = 'RECEIVE_POST';
@@ -46,6 +47,7 @@ export const fetchFeed = function () {
 
 export const createPost = function (post) {
     return function (dispatch) {
+        dispatch(receivePostSubmit()); // to render loading spinner
         return APIUtil.createPost(post).then(
             (createdPost) => {
                 dispatch(fetchBlog(createdPost.blog));
@@ -80,6 +82,7 @@ export const deletePost = function (post) {
 
 export const updatePost = function (post) {
     return function (dispatch) {
+        dispatch(receivePostSubmit()); // to render loading spinner
         return APIUtil.updatePost(post).then(
             (updatedPost) => dispatch(receivePost(updatedPost)),
             (err) => dispatch(receivePostErrors(err.responseJSON))

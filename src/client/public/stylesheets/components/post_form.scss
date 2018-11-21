@@ -9,6 +9,25 @@
   z-index: 6;
 }
 
+.post-form-wrapper {
+  position: relative;
+}
+
+
+.post-form-wrapper .loading-post-submit {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  z-index: 7;
+  background-color: white;
+  opacity: 0.8;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .post-form .post-body {
   min-width: 500px;
   min-height: 80px;
