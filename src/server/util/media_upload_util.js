@@ -36,4 +36,19 @@ mediaUpload.uploadFiles = function (files, newPost, handleSuccess, handleFailure
   }
 }
 
+mediaUpload.deleteFiles = function (fileURLs, postToDelete, handleSuccess, handleFailure) {
+  // debugger
+  let prefix = `users/${postToDelete.author}/blogs/${postToDelete.blog}/posts/${postToDelete._id}/`;
+  let params = {
+    Bucket: process.env.AWS_BUCKET,
+    Delimiter: '/',
+    Prefix: prefix,
+  };
+
+  s3bucket.listObjects(params, function (err, data) {
+    if (err) return console.log(err);
+    console.log(data);
+  });
+}
+
 module.exports = mediaUpload;

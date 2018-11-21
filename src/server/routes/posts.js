@@ -79,14 +79,21 @@ router.delete('/posts/:postId',
     modelQuery.findOneBlog(
       req.params.id,
       (foundBlog) => {
-        Post.findOneAndDelete(
-          { _id: req.params.postId },
-          function (err) {
-            if (err) return res.status(422).json([err.message]);
-            foundBlog.postCount -= 1;
-            foundBlog.save();
-            return res.json(req.params.postId);
-          });
+        mediaUpload.deleteFiles(
+          req.body['media[]'], // bodyParser seems to append '[]' to a key that points to an array
+          req.body,
+          () => console.log('success'),
+          () => console.log('fail'),
+        );
+        // Post.findOneAndDelete(
+        //   { _id: req.params.postId },
+        //   function (err) {
+        //     if (err) return res.status(422).json([err.message]);
+        //     foundBlog.postCount -= 1;
+        //     foundBlog.save();
+        //     return res.json(req.params.postId);
+        //   });
+        return res.json({ message: 'deleted' });
       },
       (err) => res.status(404).json(['The blog does not exist.']), // failure callback
     );
