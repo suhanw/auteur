@@ -39,8 +39,8 @@ mediaUpload.uploadFiles = function (files, newPost, handleSuccess, handleFailure
 }
 
 mediaUpload.deleteFiles = function (fileURLs, postToDelete, handleSuccess, handleFailure) {
-  if (fileURLs.length <= 0) return; // if post has no files, do nothing.
-
+  if (!fileURLs || fileURLs.length <= 0) return handleSuccess(null); // if post has no files, do nothing.
+  // debugger
   let keyPrefix = `users/${postToDelete.author}/blogs/${postToDelete.blog}/posts/${postToDelete._id}/`;
   let keys = fileURLs.map(function (fileURL) {
     let key = keyPrefix + fileURL.split('/').pop();

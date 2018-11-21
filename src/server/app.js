@@ -28,7 +28,7 @@ mongoose.connect(dbUrl, dbOptions);
 // APP CONFIG=============================
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, '/views'));
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(methodOverride());
 app.use(express.static(path.join(__dirname + '/../client/public')));

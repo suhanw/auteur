@@ -79,24 +79,31 @@ router.delete('/posts/:postId',
     modelQuery.findOneBlog(
       req.params.id,
       (foundBlog) => { // success cb for findOneBlog
+        // debugger
         mediaUpload.deleteFiles(
-          req.body['media[]'], // bodyParser seems to append '[]' to a key that points to an array
+          req.body.media,
           req.body,
-          (deletedFiles) => { // success cb for deleteFiles
-            // Post.findOneAndDelete(
-            //   { _id: req.params.postId },
-            //   function (err) {
-            //     if (err) return res.status(422).json([err.message]);
-            //     foundBlog.postCount -= 1;
-            //     foundBlog.save();
-            //     return res.json(req.params.postId);
-            //   });
-            res.json('deleted');
+          (deletedFiles) => {
+            Post.findOneAndDelete(
+              { _id: req.params.postId },
+              function (err, deletedPost) {
+                if (err || !deletedPost) {
+                  let errorMessage = err ? err.message : 'Post does not exist.';
+                  return res.status(404).json([errorMessage]);
+                }
+                foundBlog.postCount -= 1;
+                foundBlog.save();
+                return res.json(deletedPost.id);
+              });
           },
-          (err) => res.status(422).json(err), // fail cb for deleteFiles
+          (err) => { // fail cb for deleteFiles
+            res.status(422).json(err);
+          },
         );
       },
-      (err) => res.status(404).json(['The blog does not exist.']), // failure callback
+      (err) => { // failure callback
+        res.status(404).json([err.message])
+      },
     );
   });
 
