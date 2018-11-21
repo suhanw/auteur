@@ -1,7 +1,14 @@
-export const RECEIVE_POST_SUBMIT = 'RECEIVE_POST_SUBMIT';
+export const LOAD_POST_SUBMIT = 'LOAD_POST_SUBMIT';
+export const LOAD_POST_INDEX = 'LOAD_POST_INDEX';
 
-export const receivePostSubmit = function () {
+export const loadPostSubmit = function () {
   return {
-    type: RECEIVE_POST_SUBMIT,
+    type: LOAD_POST_SUBMIT,
   };
 }
+
+export const loadPostIndex = function () {
+  return {
+    type: LOAD_POST_INDEX,
+  };
+};

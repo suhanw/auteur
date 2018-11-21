@@ -1,17 +1,19 @@
 import { connect } from 'react-redux';
 
 import PostIndex from './post_index';
-import { selectPosts, selectBlogs, selectCurrentUser } from '../../selectors/selectors';
+import { selectPosts, selectBlogs, selectCurrentUser, selectLoadingPostIndex } from '../../selectors/selectors';
 import { fetchFeed } from '../../actions/post_actions';
 
 const mapStateToProps = function (state, ownProps) {
   const postsArr = selectPosts(state);
   const blogs = selectBlogs(state);
   const currentUser = selectCurrentUser(state);
+  const loadingPostIndex = selectLoadingPostIndex(state);
   return {
     postsArr,
     blogs,
     currentUser,
+    loadingPostIndex,
   };
 };
 

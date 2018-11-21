@@ -51,3 +51,8 @@ export const selectLoadingPostSubmit = function (state) {
   const { ui: { loading: { loadingPostSubmit } } } = state;
   return loadingPostSubmit;
 }
+
+export const selectLoadingPostIndex = function (state) {
+  const { ui: { loading: { loadingPostIndex } } } = state;
+  return loadingPostIndex;
+}

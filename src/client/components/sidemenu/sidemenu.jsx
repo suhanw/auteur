@@ -8,7 +8,7 @@ class Sidemenu extends React.Component {
   render() {
     const { blog, currentUser } = this.props;
     if (!blog) {
-      return <div>Loading</div>;
+      return null;
     }
 
     return (

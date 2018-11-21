@@ -5,6 +5,8 @@ import PostIndexHeader from './post_index_header';
 import PostShowItem from './post_show/post_show_item';
 import PostFormContainer from './post_forms/post_form_container';
 
+import { renderSpinner } from '../../util/misc_util';
+
 class PostIndex extends React.Component {
   constructor(props) {
     super(props);
@@ -13,13 +15,15 @@ class PostIndex extends React.Component {
   }
 
   render() {
-    const { currentUser } = this.props;
+    const { currentUser, loadingPostIndex } = this.props;
+    const spinnerClass = loadingPostIndex ? 'loading-post-index' : null;
     return (
       <div className='post-index'>
         <PostIndexHeader currentUser={currentUser} />
         <ul className='post-container'>
           {this.renderPostShowItems()}
         </ul>
+        {renderSpinner(spinnerClass)}
       </div>
     );
   }
@@ -27,7 +31,7 @@ class PostIndex extends React.Component {
   renderPostShowItems() {
     const { postsArr, blogs } = this.props;
     if (postsArr.length === 0 || !postsArr) {
-      return (<div>Start blogging or following blogs!</div>);
+      return null;
     }
     let postIndexItems = postsArr.map(function (post) {
       let blog = blogs[post.blog];
