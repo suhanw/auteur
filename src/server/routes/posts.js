@@ -72,14 +72,10 @@ router.post('/posts',
 // DELETE api/blogs/:id/posts/:id (Destroy)
 router.delete('/posts/:postId',
   middleware.checkPostOwnership,
-  // FIX: delete media from AWS too
   function (req, res) {
-    // FIX: delete media file from AWS
-    // debugger
     modelQuery.findOneBlog(
       req.params.id,
       (foundBlog) => { // success cb for findOneBlog
-        // debugger
         mediaUpload.deleteFiles(
           req.body.media,
           req.body,
