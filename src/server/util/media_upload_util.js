@@ -9,6 +9,8 @@ let s3bucket = new AWS.S3({
   region: process.env.AWS_REGION,
   Bucket: process.env.AWS_BUCKET,
 });
+
+let bucket = process.env.AWS_BUCKET;
 // SET UP AWS FILE UPLOAD=====================
 
 mediaUpload.uploadFiles = function (files, newPost, handleSuccess, handleFailure) {
@@ -37,17 +39,23 @@ mediaUpload.uploadFiles = function (files, newPost, handleSuccess, handleFailure
 }
 
 mediaUpload.deleteFiles = function (fileURLs, postToDelete, handleSuccess, handleFailure) {
-  // debugger
-  let prefix = `users/${postToDelete.author}/blogs/${postToDelete.blog}/posts/${postToDelete._id}/`;
-  let params = {
-    Bucket: process.env.AWS_BUCKET,
-    Delimiter: '/',
-    Prefix: prefix,
-  };
+  if (fileURLs.length <= 0) return; // if post has no files, do nothing.
 
-  s3bucket.listObjects(params, function (err, data) {
-    if (err) return console.log(err);
-    console.log(data);
+  let keyPrefix = `users/${postToDelete.author}/blogs/${postToDelete.blog}/posts/${postToDelete._id}/`;
+  let keys = fileURLs.map(function (fileURL) {
+    let key = keyPrefix + fileURL.split('/').pop();
+    return { Key: key }
+  });
+
+  let params = {
+    Bucket: bucket,
+    Delete: {
+      Objects: keys,
+    },
+  };
+  s3bucket.deleteObjects(params, function (err, deletedFiles) {
+    if (err) return handleFailure(err);
+    handleSuccess(deletedFiles);
   });
 }
 

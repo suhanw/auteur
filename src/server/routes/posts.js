@@ -73,27 +73,28 @@ router.post('/posts',
 router.delete('/posts/:postId',
   middleware.checkPostOwnership,
   // FIX: delete media from AWS too
-  upload.array('media'),
   function (req, res) {
     // FIX: delete media file from AWS
+    // debugger
     modelQuery.findOneBlog(
       req.params.id,
-      (foundBlog) => {
+      (foundBlog) => { // success cb for findOneBlog
         mediaUpload.deleteFiles(
           req.body['media[]'], // bodyParser seems to append '[]' to a key that points to an array
           req.body,
-          () => console.log('success'),
-          () => console.log('fail'),
+          (deletedFiles) => { // success cb for deleteFiles
+            // Post.findOneAndDelete(
+            //   { _id: req.params.postId },
+            //   function (err) {
+            //     if (err) return res.status(422).json([err.message]);
+            //     foundBlog.postCount -= 1;
+            //     foundBlog.save();
+            //     return res.json(req.params.postId);
+            //   });
+            res.json('deleted');
+          },
+          (err) => res.status(422).json(err), // fail cb for deleteFiles
         );
-        // Post.findOneAndDelete(
-        //   { _id: req.params.postId },
-        //   function (err) {
-        //     if (err) return res.status(422).json([err.message]);
-        //     foundBlog.postCount -= 1;
-        //     foundBlog.save();
-        //     return res.json(req.params.postId);
-        //   });
-        return res.json({ message: 'deleted' });
       },
       (err) => res.status(404).json(['The blog does not exist.']), // failure callback
     );
