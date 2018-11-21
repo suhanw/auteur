@@ -2,8 +2,8 @@ node_modules/
 
 bundle.*
 
-.vscode
-
 credentials.csv
+seeds.js
 
+.vscode
 .env

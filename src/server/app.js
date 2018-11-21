@@ -36,7 +36,7 @@ app.use(express.static(path.join(__dirname + '/../client/public')));
 
 // AUTH CONFIG============================
 const sessionOptions = {
-  secret: 'renhao',
+  secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
   cookie: {

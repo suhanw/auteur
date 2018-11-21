@@ -13,8 +13,8 @@ router.get("/", function (req, res) {
 
 router.use('/api', sessionRoutes);
 router.use('/api', userRoutes);
+router.use('/api', feedRoutes);
 router.use('/api', blogRoutes);
 router.use('/api/blogs/:id', postRoutes);
-router.use('/api', feedRoutes);
 
 module.exports = router;

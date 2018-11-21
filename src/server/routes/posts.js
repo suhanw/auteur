@@ -1,12 +1,13 @@
 const express = require('express');
 const router = express.Router({ mergeParams: true });
-const sanitizeHtml = require('sanitize-html');
-const lodash = require('lodash');
-
-// SET UP AWS FILE UPLOAD=====================
 const multer = require('multer');
 const storage = multer.memoryStorage(); // store file in memory
 const upload = multer({ storage });
+const sanitizeHtml = require('sanitize-html');
+const lodash = require('lodash');
+const mediaUpload = require('../util/media_upload_util');
+
+// SET UP AWS FILE UPLOAD=====================
 const AWS = require('aws-sdk');
 
 let s3bucket = new AWS.S3({
@@ -16,6 +17,7 @@ let s3bucket = new AWS.S3({
   Bucket: process.env.AWS_BUCKET,
 });
 // SET UP AWS FILE UPLOAD=====================
+
 
 const Blog = require('../models/blog');
 const Post = require('../models/post');
@@ -53,30 +55,36 @@ router.post('/posts',
           .then((createdPost) => {
             foundBlog.postCount += 1;
             foundBlog.save();
-            const files = req.files;
-            let media = [];
-            if (files.length > 0) { // if there is media, upload to AWS
-              let path = process.env.AWS_BUCKET + `/users/${createdPost.author}/blogs/${createdPost.blog}/posts/${createdPost._id}`;
-              files.forEach(function (file) {
-                let params = {
-                  Bucket: path,
-                  Key: file.originalname,
-                  Body: file.buffer, // the actual file in memory
-                  ACL: 'public-read' // set permission for public read access
-                };
-                s3bucket.upload(params, function (err, data) {
-                  if (err) return res.status(422).json(err);
-                  media.push(data.Location);
-                  if (media.length === files.length) { // when all media files have been uploaded
-                    createdPost.media = media; // add media URLs to be persisted
-                    createdPost.save();
-                    return res.json(createdPost); // send http response only after all media files have been uploaded
-                  }
-                });
-              });
-            } else { // if no media files, send http response immediately
-              return res.json(createdPost);
-            }
+            mediaUpload.uploadFiles(
+              req.files,
+              createdPost,
+              (createdPost) => res.json(createdPost), // success
+              (err) => res.status(422).json([err.message]), // failure
+            );
+            // const files = req.files;
+            // let media = [];
+            // if (files.length > 0) { // if there is media, upload to AWS
+            //   let path = process.env.AWS_BUCKET + `/users/${createdPost.author}/blogs/${createdPost.blog}/posts/${createdPost._id}`;
+            //   files.forEach(function (file) {
+            //     let params = {
+            //       Bucket: path,
+            //       Key: file.originalname,
+            //       Body: file.buffer, // the actual file in memory
+            //       ACL: 'public-read' // set permission for public read access
+            //     };
+            //     s3bucket.upload(params, function (err, data) {
+            //       if (err) return res.status(422).json(err);
+            //       media.push(data.Location);
+            //       if (media.length === files.length) { // when all media files have been uploaded
+            //         createdPost.media = media; // add media URLs to be persisted
+            //         createdPost.save();
+            //         return res.json(createdPost); // send http response only after all media files have been uploaded
+            //       }
+            //     });
+            //   });
+            // } else { // if no media files, send http response immediately
+            //   return res.json(createdPost);
+            // }
           })
           .catch((err) => res.status(422).json([err.message]))
       },
