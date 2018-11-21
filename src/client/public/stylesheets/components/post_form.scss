@@ -31,6 +31,10 @@
   border-bottom: 1.5px dashed rgb(203,203, 203);
 }
 
+.post-form .media-upload-dropzone.active {
+  background-color: #e6eff7;
+}
+
 
 .post-form .media-upload-dropzone .media-upload, 
 .post-form .media-upload-dropzone .media-link {

@@ -20,6 +20,7 @@ class PostFormPhoto extends React.Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleDragAndDrop = this.handleDragAndDrop.bind(this);
     this.handleMediaFiles = this.handleMediaFiles.bind(this);
     this.renderUploadDropzone = this.renderUploadDropzone.bind(this);
     this.renderMediaPreview = this.renderMediaPreview.bind(this);
@@ -70,7 +71,11 @@ class PostFormPhoto extends React.Component {
     const { mediaPreview } = this.state;
     if (Object.keys(mediaPreview).length > 0) { // if user selected some images
       return (
-        <div className='media-upload-dropzone'>
+        <div className='media-upload-dropzone'
+          onDragEnter={this.handleDragAndDrop}
+          onDragLeave={this.handleDragAndDrop}
+          onDragOver={this.handleDragAndDrop}
+          onDrop={this.handleDragAndDrop}>
           <label htmlFor='file' className='media-upload-small'>
             <i className="fas fa-camera"></i>
             <span>Add another</span>
@@ -86,7 +91,11 @@ class PostFormPhoto extends React.Component {
       );
     }
     return (
-      <div className='media-upload-dropzone'>
+      <div className='media-upload-dropzone'
+        onDragEnter={this.handleDragAndDrop}
+        onDragLeave={this.handleDragAndDrop}
+        onDragOver={this.handleDragAndDrop}
+        onDrop={this.handleDragAndDrop}>
         <label htmlFor='file' className='media-upload'>
           <i className="fas fa-camera"></i>
           <span>Upload photos</span>
@@ -145,8 +154,34 @@ class PostFormPhoto extends React.Component {
     };
   }
 
+  handleDragAndDrop(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    e.persist();
+    switch (e.type) {
+      case 'dragenter':
+        e.currentTarget.classList.add('active');
+        break;
+      case 'dragover':
+        e.currentTarget.classList.add('active');
+        break;
+      case 'dragleave':
+        e.currentTarget.classList.remove('active');
+        break;
+      case 'drop':
+        e.currentTarget.classList.remove('active');
+        this.handleMediaFiles(e);
+        break;
+    }
+  }
+
   handleMediaFiles(e) {
-    const mediaFiles = toArray(e.target.files); // to convert FileList to Array
+    let mediaFiles;
+    if (e.type === 'drop') { // to handle drag and drop
+      mediaFiles = toArray(e.dataTransfer.files);
+    } else {
+      mediaFiles = toArray(e.target.files); // to convert FileList to Array
+    }
     let media = this.state.media.slice(); // copy state
     let mediaPreview = merge({}, this.state.mediaPreview); // copy state
     let fileReaders = [];
