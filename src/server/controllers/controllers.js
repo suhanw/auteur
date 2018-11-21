@@ -5,7 +5,7 @@ const userRoutes = require('../routes/users');
 const sessionRoutes = require('../routes/session');
 const blogRoutes = require('../routes/blogs');
 const postRoutes = require('../routes/posts');
-// const mediaUploadRoutes = require('../routes/media_uploads');
+const feedRoutes = require('../routes/feed');
 
 router.get("/", function (req, res) {
     res.render('index', { currentUser: req.user });
@@ -14,7 +14,7 @@ router.get("/", function (req, res) {
 router.use('/api', sessionRoutes);
 router.use('/api', userRoutes);
 router.use('/api', blogRoutes);
-router.use('/api', postRoutes);
-// router.use('/api', mediaUploadRoutes);
+router.use('/api/blogs/:id', postRoutes);
+router.use('/api', feedRoutes);
 
 module.exports = router;

@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 
 import PostIndex from './post_index';
 import { selectPosts, selectBlogs, selectCurrentUser } from '../../selectors/selectors';
-import { fetchPosts } from '../../actions/post_actions';
+import { fetchFeed } from '../../actions/post_actions';
 
 const mapStateToProps = function (state, ownProps) {
   const postsArr = selectPosts(state);
@@ -18,7 +18,7 @@ const mapStateToProps = function (state, ownProps) {
 const mapDispatchToProps = function (dispatch, ownProps) {
 
   return {
-    fetchPosts: () => dispatch(fetchPosts()),
+    fetchFeed: () => dispatch(fetchFeed()),
   };
 };
 

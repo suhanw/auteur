@@ -35,9 +35,9 @@ export const receivePostErrors = function (errors) {
     };
 };
 
-export const fetchPosts = function () {
+export const fetchFeed = function () {
     return function (dispatch) {
-        return APIUtil.fetchPosts().then(
+        return APIUtil.fetchFeed().then(
             (posts) => dispatch(receivePosts(posts)),
             (err) => dispatch(receivePostErrors(err.responseJSON)),
         );

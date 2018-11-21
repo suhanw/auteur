@@ -1,7 +1,7 @@
-export const fetchPosts = function () {
+export const fetchFeed = function () {
     return $.ajax({
         method: 'GET',
-        url: '/api/posts',
+        url: '/api/feed',
     });
 };
 
