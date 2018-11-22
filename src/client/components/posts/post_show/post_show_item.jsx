@@ -77,7 +77,7 @@ class PostShowItem extends React.Component {
   renderFollowPopover() {
     const { blog } = this.props;
     const { followPopover } = this.state;
-    if (followPopover) return <FollowPopover blogId={blog._id} />
+    if (followPopover) return <FollowPopover blogId={blog._id} closePopover={this.closePopover} />
     return null;
     // return <FollowPopover blogId={blog._id} />
   }
@@ -88,15 +88,27 @@ class PostShowItem extends React.Component {
   }
 
   closePopover(e) {
+    e.stopPropagation();
     const elPosY = e.currentTarget.getBoundingClientRect().top; // y coord measured from top of element
+    const elPosX = e.currentTarget.getBoundingClientRect().left; // x coord measured from top of element
     const elHeight = e.currentTarget.clientHeight; // height of element
+    const elWidth = e.currentTarget.clientWidth; // width of element
     const cursorPosY = e.clientY; // y coord of cursor
+    const cursorPosX = e.clientX; // x coord of cursor
 
-    console.log('e.target.className', e.target.className);
+    console.log('e.currenTarget.className', e.currentTarget.className);
 
     if (e.currentTarget.className === 'post-blog-name' && cursorPosY > elPosY + elHeight) { // if cursor is below the hover area
       // debugger
       return; // do nothing
+    }
+
+    if (e.currentTarget.className === 'follow-popover popover') {
+      if (cursorPosY < elPosY + elHeight &&
+        cursorPosX > elPosX &&
+        cursorPosX < elPosX + elWidth) {
+        return;
+      }
     }
 
     this.setState({ followPopover: false });
