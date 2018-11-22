@@ -39,6 +39,10 @@
   justify-content: space-between;
 }
 
+.post-form input[disabled] {
+  color: rgb(203,203, 203);
+  cursor: default;
+}
 
 // For PostFormPhoto
 

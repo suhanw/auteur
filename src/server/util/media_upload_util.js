@@ -15,11 +15,11 @@ let s3bucket = new AWS.S3({
 let bucket = process.env.AWS_BUCKET;
 // SET UP AWS FILE UPLOAD=====================
 
-mediaUpload.uploadFiles = function (files, newPost, handleSuccess, handleFailure) {
-  if (newPost.type !== 'photo' && newPost.type !== 'video' && newPost.type !== 'audio') return handleSuccess(newPost);
+mediaUpload.uploadFiles = function (files, post, handleSuccess, handleFailure) {
+  if (post.type !== 'photo' && post.type !== 'video' && post.type !== 'audio') return handleSuccess(post);
   if (files.length > 0) { // if there is media, upload to AWS
     let media = [];
-    let path = process.env.AWS_BUCKET + `/users/${newPost.author}/blogs/${newPost.blog}/posts/${newPost._id}`;
+    let path = process.env.AWS_BUCKET + `/users/${post.author}/blogs/${post.blog}/posts/${post._id}`;
     files.forEach(function (file) {
       let params = {
         Bucket: path,
@@ -31,13 +31,13 @@ mediaUpload.uploadFiles = function (files, newPost, handleSuccess, handleFailure
         if (err) return handleFailure(err);
         media.push(uploadedFile.Location);
         if (media.length === files.length) { // when all media files have been uploaded
-          newPost.media = media; // add media URLs to be persisted
-          handleSuccess(newPost); // send http response only after all media files have been uploaded
+          post.media = media; // add media URLs to be persisted
+          handleSuccess(post); // send http response only after all media files have been uploaded
         }
       });
     });
   } else { // if no media files, send http response immediately
-    handleSuccess(newPost);
+    handleSuccess(post);
   }
 };
 
@@ -68,7 +68,6 @@ mediaUpload.updateFiles = function (newFiles, post, handleSuccess, handleFailure
   if (post.type !== 'photo' && post.type !== 'video' && post.type !== 'audio') return handleSuccess(post);
   const oldFiles = (typeof post.oldFiles === 'string') ? [post.oldFiles] : post.oldFiles;
   const filesToDelete = (typeof post.filesToDelete === 'string') ? [post.filesToDelete] : post.filesToDelete;
-  // debugger
   mediaUpload.deleteFiles(
     filesToDelete,
     post,
@@ -77,8 +76,8 @@ mediaUpload.updateFiles = function (newFiles, post, handleSuccess, handleFailure
         newFiles,
         post,
         (updatedPost) => {
-          if (oldFiles) {
-            updatedPost.media = lodash.union(oldFiles, updatedPost.media); // to add existing files
+          if (oldFiles) { //  add existing files if any
+            updatedPost.media = lodash.union(oldFiles, updatedPost.media);
           }
           return handleSuccess(updatedPost);
         },

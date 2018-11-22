@@ -6,8 +6,7 @@ class PostFormFooter extends React.Component {
   }
 
   render() {
-    // FIX: grey out post button if title and body are not filled out, or if no photos were selected
-    const { closePostForm } = this.props;
+    const { closePostForm, readyToSubmit } = this.props;
     return (
       <footer className='post-footer'>
         <a className='btn btn-default btn-grey'
@@ -16,8 +15,9 @@ class PostFormFooter extends React.Component {
         </a>
         <input type='submit'
           value='Post'
-          className='btn btn-default btn-blue' />
-      </footer>
+          className='btn btn-default btn-blue'
+          disabled={!readyToSubmit} />
+      </footer >
     );
   }
 }

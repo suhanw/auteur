@@ -23,6 +23,7 @@ class PostFormText extends React.Component {
   render() {
     const { blog, closePostForm } = this.props;
     const { title, body } = this.state;
+    const readyToSubmit = (title === '' && body === '') ? false : true;
     return (
       <form className='post-form' onSubmit={this.handleSubmit}>
 
@@ -44,7 +45,9 @@ class PostFormText extends React.Component {
             tagName='div' />
         </fieldset>
 
-        <PostFormFooter closePostForm={closePostForm} />
+        <PostFormFooter
+          closePostForm={closePostForm}
+          readyToSubmit={readyToSubmit} />
 
       </form>
     );
