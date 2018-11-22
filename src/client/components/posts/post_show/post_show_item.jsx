@@ -3,6 +3,7 @@ import { Route } from 'react-router-dom';
 import PostShowText from './post_show_text';
 import PostShowPhoto from './post_show_photo';
 import NoteMenuContainer from '../../notes/note_menu_container';
+import FollowPopover from '../../follows/follow_popover';
 
 class PostShowItem extends React.Component {
   constructor(props) {
@@ -13,6 +14,7 @@ class PostShowItem extends React.Component {
   }
 
   render() {
+    // FIX: fade out when deleted
     const { blog } = this.props;
     // let postDate = new Date(post.createdAt);
     // postDate = postDate.toString();
@@ -37,6 +39,7 @@ class PostShowItem extends React.Component {
         <div className='dogear'></div>
         <header className='post-header'>
           {blog.name}
+          <FollowPopover blogId={blog._id} />
         </header>
 
         {this.renderPostShow()}

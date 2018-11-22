@@ -1,0 +1,50 @@
+.follow-popover {
+  width: 280px;
+  border-radius: 3px;
+}
+
+.follow-popover-header {
+  width: 100%;
+  height: 158px;
+  background-size: cover;
+  background-position: top center;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.follow-popover-nav {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+}
+
+.follow-popover .blog-name {
+  color: white;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.follow-popover .avatar-wrapper{
+  position: absolute;
+  bottom: -20px;
+  margin: 0 auto;
+}
+
+.follow-popover-info {
+  width: 100%;
+  padding: 25px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.follow-popover-info h1 {
+  font-weight: bold;
+  font-size: 20px;
+}

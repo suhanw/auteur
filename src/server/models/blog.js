@@ -32,7 +32,7 @@ const blogSchema = new mongoose.Schema(
     backgroundImageUrl: {
       type: String,
       required: true,
-      default: 'images/brick_bkgd-lime.png',
+      default: 'images/default_bg_01.png',
     },
     postCount: {
       type: Number,

@@ -5,13 +5,23 @@
 }
 
 .avatar {
-  border-radius: 3px;
   position: sticky;
   top: 70px; // it will 'stick' at position 70px below the closest parent container with overflow: scroll
 }
 
 .avatar-default {
+  border-radius: 3px;
   width: 64px;
   height: 64px;
   background: white;
+}
+
+.avatar-wrapper {
+  border-radius: 6px;
+  width: 70px;
+  height: 70px;
+  background: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
