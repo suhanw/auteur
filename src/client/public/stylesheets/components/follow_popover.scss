@@ -1,8 +1,15 @@
-.follow-popover {
-  width: 280px;
-  border-radius: 3px;
+.post-blog-name {
+  display: inline-flex;
+  justify-content: center;
+  position: relative;
 }
 
+.follow-popover {
+  width: 280px;
+  position: absolute;
+  top: 25px;  
+  padding-top: 0;
+}
 .follow-popover-header {
   width: 100%;
   height: 158px;
@@ -13,6 +20,7 @@
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
+  border-radius: inherit;
 }
 
 .follow-popover-nav {

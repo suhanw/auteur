@@ -15,13 +15,14 @@ router.get('/feed', middleware.isLoggedIn, function (req, res) {
             // query posts from current user's own blog and followed blogs
             let posts = {};
             Post.find()
+                // FIX: figure out criteria of what to display on feed
                 // .where('blog').in(lodash.concat(
                 //     [foundUser.primaryBlog], // user's primary blog
                 //     foundUser.following, // blogs that user follows
                 //     foundUser.blogs)) // add'l blogs that user created
                 .select('_id type title body media blog author createdAt')
                 .sort({ 'createdAt': 'desc' })
-                .populate({ path: 'blog', select: '_id avatarImageUrl name title' })
+                .populate({ path: 'blog', select: '_id avatarImageUrl backgroundImageUrl name title' })
                 .exec(function (err, foundPosts) {
                     if (err) return res.json([err.message]);
                     return res.json(foundPosts);

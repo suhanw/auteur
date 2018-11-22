@@ -58,8 +58,10 @@ class FollowPopover extends React.Component {
   }
 
   componentDidMount() {
-    const { fetchBlog } = this.props;
-    fetchBlog();
+    const { blog, fetchBlog } = this.props;
+    if (!blog) {
+      fetchBlog();
+    }
   }
 }
 

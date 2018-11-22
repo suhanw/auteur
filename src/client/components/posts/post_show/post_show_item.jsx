@@ -4,13 +4,21 @@ import PostShowText from './post_show_text';
 import PostShowPhoto from './post_show_photo';
 import NoteMenuContainer from '../../notes/note_menu_container';
 import FollowPopover from '../../follows/follow_popover';
+import { log } from 'util';
 
 class PostShowItem extends React.Component {
   constructor(props) {
     super(props);
 
+    this.state = {
+      followPopover: false,
+    };
+
     this.renderPostContent = this.renderPostContent.bind(this);
     this.renderPostShow = this.renderPostShow.bind(this);
+    this.renderFollowPopover = this.renderFollowPopover.bind(this);
+    this.openPopover = this.openPopover.bind(this);
+    this.closePopover = this.closePopover.bind(this);
   }
 
   render() {
@@ -28,7 +36,7 @@ class PostShowItem extends React.Component {
 
         {this.renderPostContent()}
 
-      </li>
+      </li >
     );
   }
 
@@ -38,8 +46,12 @@ class PostShowItem extends React.Component {
       <article className='post-content'>
         <div className='dogear'></div>
         <header className='post-header'>
-          {blog.name}
-          <FollowPopover blogId={blog._id} />
+          <span className='post-blog-name'
+            onMouseOver={this.openPopover}
+            onMouseOut={this.closePopover}>
+            <span>{blog.name}</span>
+            {this.renderFollowPopover()}
+          </span>
         </header>
 
         {this.renderPostShow()}
@@ -60,6 +72,34 @@ class PostShowItem extends React.Component {
     };
     const Component = postShowComponents[post.type];
     return <Component post={post} />;
+  }
+
+  renderFollowPopover() {
+    const { blog } = this.props;
+    const { followPopover } = this.state;
+    if (followPopover) return <FollowPopover blogId={blog._id} />
+    return null;
+    // return <FollowPopover blogId={blog._id} />
+  }
+
+  openPopover(e) {
+    // console.log(e.target);
+    this.setState({ followPopover: true });
+  }
+
+  closePopover(e) {
+    const elPosY = e.currentTarget.getBoundingClientRect().top; // y coord measured from top of element
+    const elHeight = e.currentTarget.clientHeight; // height of element
+    const cursorPosY = e.clientY; // y coord of cursor
+
+    console.log('e.target.className', e.target.className);
+
+    if (e.currentTarget.className === 'post-blog-name' && cursorPosY > elPosY + elHeight) { // if cursor is below the hover area
+      // debugger
+      return; // do nothing
+    }
+
+    this.setState({ followPopover: false });
   }
 }
 
