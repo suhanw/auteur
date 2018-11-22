@@ -6,7 +6,7 @@ class PostFormFooter extends React.Component {
   }
 
   render() {
-    // FIX: grey out post button if title and body are not filled out. 
+    // FIX: grey out post button if title and body are not filled out, or if no photos were selected
     const { closePostForm } = this.props;
     return (
       <footer className='post-footer'>

@@ -195,7 +195,7 @@ class PostFormPhoto extends React.Component {
         fileReaders[i].readAsDataURL(file);
         fileReaders[i].onloadend = function () {
           mediaPreview[file.name] = fileReaders[i].result; // append image for preview
-          that.setState({ mediaPreview }, () => console.log(that.state));
+          that.setState({ mediaPreview });
         }
       });
     }
@@ -225,7 +225,7 @@ class PostFormPhoto extends React.Component {
         }
       });
       delete mediaPreview[mediaFilename];
-      that.setState({ media: newMedia, filesToDelete, mediaPreview }, () => console.log(that.state));
+      that.setState({ media: newMedia, filesToDelete, mediaPreview });
     };
   }
 
