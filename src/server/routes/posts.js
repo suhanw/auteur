@@ -85,7 +85,7 @@ router.delete('/posts/:postId',
               function (err, deletedPost) {
                 if (err || !deletedPost) {
                   let errorMessage = err ? err.message : 'Post does not exist.';
-                  return res.status(404).json([errorMessage]);
+                  return res.status(422).json([errorMessage]);
                 }
                 foundBlog.postCount -= 1;
                 foundBlog.save();
@@ -98,7 +98,7 @@ router.delete('/posts/:postId',
         );
       },
       (err) => { // failure callback for findOneBlog
-        res.status(404).json([err.message])
+        res.status(422).json([err.message])
       },
     );
   });
@@ -118,20 +118,23 @@ router.put('/posts/:postId',
         mediaUpload.updateFiles(
           req.files,
           postBody,
-          (updatedPostBody) => {
+          (updatedPostBody) => { // success cb for updateFiles
             Post.findOneAndUpdate(
               { _id: req.params.postId },
               updatedPostBody,
               { new: true },
               function (err, updatedPost) {
-                if (err) return res.status(422).json([err.message]);
+                if (err || !updatedPost) {
+                  let errorMessage = err ? err.message : 'Post does not exist.';
+                  return res.status(422).json([errorMessage]);
+                }
                 return res.json(updatedPost);
               });
           },
-          (err) => res.status(422).json([err.message])
+          (err) => res.status(422).json([err.message]) // failure cb for updateFiles
         );
       },
-      (err) => res.status(404).json([err.message]), // failure cb for findOneBlog
+      (err) => res.status(422).json([err.message]), // failure cb for findOneBlog
     );
   });
 
