@@ -21,11 +21,15 @@ class PostShowPhoto extends React.Component {
 
   renderPhotos() {
     const { post } = this.props;
-    // debugger
+    // if (post._id === '5bf618ac9ac98f44461f63ce') {
+    //   debugger
+    // }
+    console.log('rendering photos');
 
-    let photos = post.media.map(function (photoUrl, idx) {
+    let photos = post.media.map(function (photoUrl) {
+      const key = photoUrl.split('/').pop();
       return (<img
-        key={photoUrl}
+        key={key}
         src={photoUrl}
         className='post-photo' />);
     })

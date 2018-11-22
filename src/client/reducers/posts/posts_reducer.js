@@ -1,7 +1,8 @@
 import { normalize, schema } from 'normalizr';
-import { merge, union } from 'lodash';
+import { merge, union, mergeWith, isArray } from 'lodash';
 import { RECEIVE_POSTS, RECEIVE_POST, REMOVE_POST } from '../../actions/post_actions';
 import { REMOVE_CURRENT_USER } from '../../actions/session_actions';
+import { replaceArray } from '../../util/misc_util';
 
 const defaultState = {
     byId: {},
@@ -25,10 +26,11 @@ const postsReducer = function (state = defaultState, action) {
         case RECEIVE_POSTS:
             payloadSchema = [postSchema];
             normalizedPayload = normalize(action.payload, payloadSchema);
-            newState.byId = merge(
+            newState.byId = mergeWith(
                 {},
                 state.byId,
                 normalizedPayload.entities.posts,
+                replaceArray,
             );
             newState.allIds = union(
                 state.allIds,
@@ -37,10 +39,11 @@ const postsReducer = function (state = defaultState, action) {
             return newState;
         case RECEIVE_POST:
             normalizedPayload = normalize(action.payload, postSchema);
-            newState.byId = merge(
+            newState.byId = mergeWith(
                 {},
                 state.byId,
                 normalizedPayload.entities.posts,
+                replaceArray,
             );
             if (state.allIds.indexOf(action.payload._id) < 0) {
                 // if post is newly created, insert into beginning of array
@@ -56,7 +59,7 @@ const postsReducer = function (state = defaultState, action) {
             return newState;
         case REMOVE_POST:
             const postId = action.payload;
-            newState.byId = merge({}, state.byId);
+            newState.byId = mergeWith({}, state.byId, replaceArray);
             delete newState.byId[postId];
             newState.allIds = state.allIds.slice();
             const indexToDel = newState.allIds.indexOf(postId);

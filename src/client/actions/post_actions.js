@@ -85,7 +85,9 @@ export const updatePost = function (post) {
     return function (dispatch) {
         dispatch(loadPostSubmit()); // to render loading spinner
         return APIUtil.updatePost(post).then(
-            (updatedPost) => dispatch(receivePost(updatedPost)),
+            (updatedPost) => {
+                dispatch(receivePost(updatedPost))
+            },
             (err) => dispatch(receivePostErrors(err.responseJSON))
         );
     };
