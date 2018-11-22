@@ -2,14 +2,16 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import { fetchBlog } from '../../actions/blog_actions';
-import { selectBlog } from '../../selectors/selectors';
+import { selectBlog, selectCurrentUser } from '../../selectors/selectors';
 
 const mapStateToProps = function (state, ownProps) {
   const { blogId } = ownProps;
   const blog = selectBlog(state, blogId);
+  const currentUser = selectCurrentUser(state);
   // FIX: select top 3 posts with most notes
   return {
     blog,
+    currentUser,
   }
 };
 
@@ -26,9 +28,16 @@ class FollowPopover extends React.Component {
   }
 
   render() {
-    const { blog } = this.props;
+    const { blog, currentUser } = this.props;
     if (!blog) return null;
-    const buttonText = 'Follow'
+    let buttonText = '';
+    if (blog.author === currentUser._id) {
+      buttonText = 'Edit appearance';
+    } else if (currentUser.following.indexOf(blog._id) < 0) {
+      buttonText = 'Follow';
+    } else {
+      buttonText = 'Unfollow';
+    }
     return (
       <div className='follow-popover popover'>
         <header className='follow-popover-header' style={{ backgroundImage: `url(${blog.backgroundImageUrl})` }}>
