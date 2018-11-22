@@ -1,5 +1,5 @@
 const path = require('path');
-const LiveReloadPlugin = require('webpack-livereload-plugin');
+const LiveReloadPlugin = require('webpack-livereload-plugin'); // to delete in PROD
 
 module.exports = {
   entry: './src/client/index.jsx',
@@ -34,6 +34,6 @@ module.exports = {
     extensions: ['.jsx', '.js', '*']
   },
   plugins: [
-    new LiveReloadPlugin({ port: 8080, hostname: 'localhost' })
+    new LiveReloadPlugin({ port: 8080, hostname: 'localhost' }) // to delete in PROD
   ]
 }
