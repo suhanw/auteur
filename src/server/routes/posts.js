@@ -44,7 +44,7 @@ router.get('/posts', middleware.isLoggedIn, function (req, res) {
 // POST api/blogs/:id/posts (Create)
 router.post('/posts',
   middleware.isLoggedIn,
-  upload.array('media'), // file upload middleware
+  upload.array('newFiles'), // file upload middleware
   function (req, res) {
     modelQuery.findOneBlog(
       req.params.id,
@@ -79,7 +79,7 @@ router.delete('/posts/:postId',
         mediaUpload.deleteFiles(
           req.body.media,
           req.body,
-          (deletedFiles) => {
+          (deletedFiles) => { // success cb for deleteFiles
             Post.findOneAndDelete(
               { _id: req.params.postId },
               function (err, deletedPost) {
@@ -97,7 +97,7 @@ router.delete('/posts/:postId',
           },
         );
       },
-      (err) => { // failure callback
+      (err) => { // failure callback for findOneBlog
         res.status(404).json([err.message])
       },
     );
@@ -107,24 +107,31 @@ router.delete('/posts/:postId',
 // PUT api/blogs/:id/posts/:id (Update)
 router.put('/posts/:postId',
   middleware.checkPostOwnership,
-  upload.array('media'),
+  upload.array('newFiles'),
   function (req, res) {
     // FIX: sync media files on AWS with app db
     modelQuery.findOneBlog(
       req.params.id,
-      (foundBlog) => {
+      (foundBlog) => { // success cb for findOneBlog
         let postBody = lodash.merge({}, req.body);
         postBody.body = sanitizeHtml(postBody.body);
-        Post.findOneAndUpdate(
-          { _id: req.params.postId },
-          req.body,
-          { new: true },
-          function (err, updatedPost) {
-            if (err) return res.status(422).json([err.message]);
-            return res.json(updatedPost);
-          });
+        mediaUpload.updateFiles(
+          req.files,
+          postBody,
+          (updatedPostBody) => {
+            Post.findOneAndUpdate(
+              { _id: req.params.postId },
+              updatedPostBody,
+              { new: true },
+              function (err, updatedPost) {
+                if (err) return res.status(422).json([err.message]);
+                return res.json(updatedPost);
+              });
+          },
+          (err) => res.status(422).json([err.message])
+        );
       },
-      (err) => res.status(404).json(['The blog does not exist.']), // failure callback
+      (err) => res.status(404).json([err.message]), // failure cb for findOneBlog
     );
   });
 

@@ -1,3 +1,5 @@
+const lodash = require('lodash');
+
 let mediaUpload = {};
 
 // SET UP AWS FILE UPLOAD=====================
@@ -14,8 +16,9 @@ let bucket = process.env.AWS_BUCKET;
 // SET UP AWS FILE UPLOAD=====================
 
 mediaUpload.uploadFiles = function (files, newPost, handleSuccess, handleFailure) {
-  let media = [];
+  if (newPost.type !== 'photo' && newPost.type !== 'video' && newPost.type !== 'audio') return handleSuccess(newPost);
   if (files.length > 0) { // if there is media, upload to AWS
+    let media = [];
     let path = process.env.AWS_BUCKET + `/users/${newPost.author}/blogs/${newPost.blog}/posts/${newPost._id}`;
     files.forEach(function (file) {
       let params = {
@@ -36,12 +39,14 @@ mediaUpload.uploadFiles = function (files, newPost, handleSuccess, handleFailure
   } else { // if no media files, send http response immediately
     handleSuccess(newPost);
   }
-}
+};
 
-mediaUpload.deleteFiles = function (fileURLs, postToDelete, handleSuccess, handleFailure) {
+mediaUpload.deleteFiles = function (fileURLs, post, handleSuccess, handleFailure) {
+  if (post.type !== 'photo' && post.type !== 'video' && post.type !== 'audio') return handleSuccess(post);
   if (!fileURLs || fileURLs.length <= 0) return handleSuccess(null); // if post has no files, do nothing.
+  // if (typeof fileURLs === 'string') fileURLs = [fileURLs];
   // debugger
-  let keyPrefix = `users/${postToDelete.author}/blogs/${postToDelete.blog}/posts/${postToDelete._id}/`;
+  let keyPrefix = `users/${post.author}/blogs/${post.blog}/posts/${post._id}/`;
   let keys = fileURLs.map(function (fileURL) {
     let key = keyPrefix + fileURL.split('/').pop();
     return { Key: key }
@@ -57,6 +62,31 @@ mediaUpload.deleteFiles = function (fileURLs, postToDelete, handleSuccess, handl
     if (err) return handleFailure(err);
     handleSuccess(deletedFiles);
   });
-}
+};
+
+mediaUpload.updateFiles = function (newFiles, post, handleSuccess, handleFailure) {
+  if (post.type !== 'photo' && post.type !== 'video' && post.type !== 'audio') return handleSuccess(post);
+  const oldFiles = (typeof post.oldFiles === 'string') ? [post.oldFiles] : post.oldFiles;
+  const filesToDelete = (typeof post.filesToDelete === 'string') ? [post.filesToDelete] : post.filesToDelete;
+  // debugger
+  mediaUpload.deleteFiles(
+    filesToDelete,
+    post,
+    () => {
+      mediaUpload.uploadFiles(
+        newFiles,
+        post,
+        (updatedPost) => {
+          if (oldFiles) {
+            updatedPost.media = lodash.union(oldFiles, updatedPost.media); // to add existing files
+          }
+          return handleSuccess(updatedPost);
+        },
+        (err) => handleFailure(err)
+      );
+    },
+    (err) => handleFailure(err)
+  );
+};
 
 module.exports = mediaUpload;

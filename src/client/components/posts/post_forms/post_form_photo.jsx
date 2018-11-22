@@ -28,7 +28,6 @@ class PostFormPhoto extends React.Component {
       };
     }
 
-    this.filesToDelete = [];
     this.renderUploadDropzone = this.renderUploadDropzone.bind(this);
     this.renderMediaPreview = this.renderMediaPreview.bind(this);
     this.removePreview = this.removePreview.bind(this);
@@ -212,11 +211,12 @@ class PostFormPhoto extends React.Component {
       const { media } = that.state;
       // let media = that.state.media.slice();
       // media = media.filter((file) => file.name !== mediaFilename);
-      let newMedia = [];
+      let newMedia = []; // potentially new files to be uploaded to AWS
+      let filesToDelete = union([], that.state.filesToDelete);
       media.forEach(function (file) {
-        if (typeof file === 'string') {
+        if (typeof file === 'string') { // files already on AWS persisted as URL strings
           if (file === mediaPreview[mediaFilename]) {
-            that.filesToDelete.push(file);
+            filesToDelete.push(file);
           } else {
             newMedia.push(file);
           }
@@ -225,7 +225,7 @@ class PostFormPhoto extends React.Component {
         }
       });
       delete mediaPreview[mediaFilename];
-      that.setState({ media: newMedia, mediaPreview }, () => console.log(that.filesToDelete));
+      that.setState({ media: newMedia, filesToDelete, mediaPreview }, () => console.log(that.state));
     };
   }
 
@@ -246,7 +246,11 @@ class PostFormPhoto extends React.Component {
     }
     // append photos to form data
     this.state.media.forEach(function (mediaFile) {
-      newPost.append('media', mediaFile, mediaFile.name);
+      if (typeof mediaFile === 'string') {
+        newPost.append('oldFiles', mediaFile)
+      } else {
+        newPost.append('newFiles', mediaFile, mediaFile.name);
+      }
     });
     // invoke AJAX to create new post or edit post
     submitAction(newPost).then(

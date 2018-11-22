@@ -29,9 +29,7 @@ export const updatePost = function (post) {
     return $.ajax({
         method: 'PUT',
         url: `/api/blogs/${post.get('blog')}/posts/${post.get('_id')}`,
-        // url: `/api/blogs/${post.blog}/posts/${post._id}`,
         data: post,
-        // contentType: 'multipart/form-data', // to enable use of FormData
         contentType: false,
         processData: false,
     });
