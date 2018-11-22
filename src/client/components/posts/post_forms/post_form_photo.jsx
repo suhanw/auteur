@@ -28,6 +28,7 @@ class PostFormPhoto extends React.Component {
       };
     }
 
+    this.filesToDelete = [];
     this.renderUploadDropzone = this.renderUploadDropzone.bind(this);
     this.renderMediaPreview = this.renderMediaPreview.bind(this);
     this.removePreview = this.removePreview.bind(this);
@@ -195,7 +196,7 @@ class PostFormPhoto extends React.Component {
         fileReaders[i].readAsDataURL(file);
         fileReaders[i].onloadend = function () {
           mediaPreview[file.name] = fileReaders[i].result; // append image for preview
-          that.setState({ mediaPreview });
+          that.setState({ mediaPreview }, () => console.log(that.state));
         }
       });
     }
@@ -208,10 +209,23 @@ class PostFormPhoto extends React.Component {
     return function (e) {
       e.preventDefault();
       let mediaPreview = merge({}, that.state.mediaPreview);
+      const { media } = that.state;
+      // let media = that.state.media.slice();
+      // media = media.filter((file) => file.name !== mediaFilename);
+      let newMedia = [];
+      media.forEach(function (file) {
+        if (typeof file === 'string') {
+          if (file === mediaPreview[mediaFilename]) {
+            that.filesToDelete.push(file);
+          } else {
+            newMedia.push(file);
+          }
+        } else if (file.name !== mediaFilename) {
+          newMedia.push(file);
+        }
+      });
       delete mediaPreview[mediaFilename];
-      let media = that.state.media.slice();
-      media = media.filter((file) => file.name !== mediaFilename);
-      that.setState({ media, mediaPreview });
+      that.setState({ media: newMedia, mediaPreview }, () => console.log(that.filesToDelete));
     };
   }
 
