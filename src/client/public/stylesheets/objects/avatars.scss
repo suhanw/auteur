@@ -1,7 +1,8 @@
 .avatar-container {
-  // background: blue;
-  // position: relative;
-  // height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
 }
 
 .avatar {

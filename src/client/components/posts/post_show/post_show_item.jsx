@@ -1,24 +1,20 @@
 import React from 'react';
-import { Route } from 'react-router-dom';
 import PostShowText from './post_show_text';
 import PostShowPhoto from './post_show_photo';
 import NoteMenuContainer from '../../notes/note_menu_container';
-import FollowPopover from '../../follows/follow_popover';
-import { log } from 'util';
+import { showPopover, hidePopover, renderFollowPopover } from '../../../util/popover_util';
 
 class PostShowItem extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      followPopover: false,
+      postFollowPopover: false,
+      avatarFollowPopover: false,
     };
 
     this.renderPostContent = this.renderPostContent.bind(this);
     this.renderPostShow = this.renderPostShow.bind(this);
-    this.renderFollowPopover = this.renderFollowPopover.bind(this);
-    this.openPopover = this.openPopover.bind(this);
-    this.closePopover = this.closePopover.bind(this);
   }
 
   render() {
@@ -28,10 +24,13 @@ class PostShowItem extends React.Component {
     // postDate = postDate.toString();
     return (
       <li className='post-show-item'>
-        <picture className='avatar-container'>
+        <picture className='avatar-container' style={{ border: '1px solid red' }}>
           <img
             className='avatar avatar-default'
-            src={blog.avatarImageUrl} />
+            src={blog.avatarImageUrl}
+            onMouseOver={showPopover(this, 'avatarFollowPopover')}
+            onMouseOut={hidePopover(this, true, 'avatarFollowPopover')} />
+          {renderFollowPopover(this, blog._id, 'avatarFollowPopover')}
         </picture>
 
         {this.renderPostContent()}
@@ -47,10 +46,10 @@ class PostShowItem extends React.Component {
         <div className='dogear'></div>
         <header className='post-header'>
           <span className='post-blog-name'
-            onMouseOver={this.openPopover}
-            onMouseOut={this.closePopover}>
+            onMouseOver={showPopover(this, 'postFollowPopover')}
+            onMouseOut={hidePopover(this, true, 'postFollowPopover')}>
             <span>{blog.name}</span>
-            {this.renderFollowPopover()}
+            {renderFollowPopover(this, blog._id, 'postFollowPopover')}
           </span>
         </header>
 
@@ -72,46 +71,6 @@ class PostShowItem extends React.Component {
     };
     const Component = postShowComponents[post.type];
     return <Component post={post} />;
-  }
-
-  renderFollowPopover() {
-    const { blog } = this.props;
-    const { followPopover } = this.state;
-    if (followPopover) return <FollowPopover blogId={blog._id} closePopover={this.closePopover} />
-    return null;
-    // return <FollowPopover blogId={blog._id} />
-  }
-
-  openPopover(e) {
-    // console.log(e.target);
-    this.setState({ followPopover: true });
-  }
-
-  closePopover(e) {
-    e.stopPropagation();
-    const elPosY = e.currentTarget.getBoundingClientRect().top; // y coord measured from top of element
-    const elPosX = e.currentTarget.getBoundingClientRect().left; // x coord measured from top of element
-    const elHeight = e.currentTarget.clientHeight; // height of element
-    const elWidth = e.currentTarget.clientWidth; // width of element
-    const cursorPosY = e.clientY; // y coord of cursor
-    const cursorPosX = e.clientX; // x coord of cursor
-
-    console.log('e.currenTarget.className', e.currentTarget.className);
-
-    if (e.currentTarget.className === 'post-blog-name' && cursorPosY > elPosY + elHeight) { // if cursor is below the hover area
-      // debugger
-      return; // do nothing
-    }
-
-    if (e.currentTarget.className === 'follow-popover popover') {
-      if (cursorPosY < elPosY + elHeight &&
-        cursorPosX > elPosX &&
-        cursorPosX < elPosX + elWidth) {
-        return;
-      }
-    }
-
-    this.setState({ followPopover: false });
   }
 }
 

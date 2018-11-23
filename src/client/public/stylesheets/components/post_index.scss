@@ -66,6 +66,12 @@ $dogear-grey: rgb(208, 208, 208);
   font-weight: bold;
 }
 
+.post-blog-name {
+  display: inline-flex;
+  justify-content: center;
+  position: relative;
+}
+
 .post-main {
   display: flex;
   flex-direction: column;

@@ -1,15 +1,18 @@
-.post-blog-name {
-  display: inline-flex;
-  justify-content: center;
-  position: relative;
-}
-
 .follow-popover {
   width: 280px;
   position: absolute;
-  top: 25px;  
   padding-top: 0;
+  z-index: 8;
 }
+
+.post-blog-name .follow-popover {
+  top: 25px;  
+}
+
+.avatar-container .follow-popover {
+  top: 75px;
+}
+
 .follow-popover-header {
   width: 100%;
   height: 158px;

@@ -28,7 +28,7 @@ class FollowPopover extends React.Component {
   }
 
   render() {
-    const { blog, currentUser, closePopover } = this.props;
+    const { blog, currentUser, hidePopover } = this.props;
     if (!blog) return null;
     let buttonText = '';
     if (blog.author === currentUser._id) {
@@ -39,7 +39,7 @@ class FollowPopover extends React.Component {
       buttonText = 'Unfollow';
     }
     return (
-      <div className='follow-popover popover' onMouseOut={closePopover}>
+      <div className='follow-popover popover' onMouseOut={hidePopover}>
         <header className='follow-popover-header' style={{ backgroundImage: `url(${blog.backgroundImageUrl})` }}>
           <nav className='follow-popover-nav'>
             <span className='blog-name'>{blog.name}</span>
