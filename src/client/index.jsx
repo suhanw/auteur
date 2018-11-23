@@ -45,10 +45,13 @@ document.addEventListener('DOMContentLoaded', function () {
 // import { fetchBlog } from './util/blog_api_util';
 // import { fetchBlog } from './actions/blog_actions';
 // import { createPost, updatePost } from './util/post_api_util';
-import { updatePost, deletePost } from './actions/post_actions';
+// import { updatePost, deletePost } from './actions/post_actions';
+import { createFollow, deleteFollow } from './util/follow_api_util';
 
-window.updatePost = updatePost;
-window.deletePost = deletePost;
+window.createFollow = createFollow;
+window.deleteFollow = deleteFollow;
+// window.updatePost = updatePost;
+// window.deletePost = deletePost;
 // window.fetchBlog = fetchBlog;
 // window.fetchPosts = fetchPosts;
 // window.fetchPosts = APIUtil.fetchPosts;
