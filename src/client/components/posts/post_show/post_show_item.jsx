@@ -24,7 +24,7 @@ class PostShowItem extends React.Component {
     // postDate = postDate.toString();
     return (
       <li className='post-show-item'>
-        <picture className='avatar-container' style={{ border: '1px solid red' }}>
+        <picture className='avatar-container'>
           <img
             className='avatar avatar-default'
             src={blog.avatarImageUrl}

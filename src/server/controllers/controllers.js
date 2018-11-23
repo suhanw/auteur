@@ -3,18 +3,20 @@ const router = express.Router();
 
 const userRoutes = require('../routes/users');
 const sessionRoutes = require('../routes/session');
+const feedRoutes = require('../routes/feed');
 const blogRoutes = require('../routes/blogs');
 const postRoutes = require('../routes/posts');
-const feedRoutes = require('../routes/feed');
+const followRoutes = require('../routes/follows');
 
 router.get("/", function (req, res) {
     res.render('index', { currentUser: req.user });
 });
 
-router.use('/api', sessionRoutes);
 router.use('/api', userRoutes);
+router.use('/api', sessionRoutes);
 router.use('/api', feedRoutes);
 router.use('/api', blogRoutes);
 router.use('/api/blogs/:id', postRoutes);
+router.use('/api/blogs/:id', followRoutes);
 
 module.exports = router;
