@@ -17,38 +17,34 @@ let bucket = process.env.AWS_BUCKET;
 
 mediaUpload.uploadFiles = function (files, post, handleSuccess, handleFailure) {
   if (post.type !== 'photo' && post.type !== 'video' && post.type !== 'audio') return handleSuccess(post);
-  if (files.length > 0) { // if there is media, upload to AWS
-    let media = [];
-    let path = process.env.AWS_BUCKET + `/users/${post.author}/blogs/${post.blog}/posts/${post._id}`;
-    files.forEach(function (file) {
-      let params = {
-        Bucket: path,
-        Key: file.originalname,
-        Body: file.buffer, // the actual file in memory
-        ACL: 'public-read' // set file permission for public read access
-      };
-      s3bucket.upload(params, function (err, uploadedFile) {
-        if (err) return handleFailure(err);
-        media.push(uploadedFile.Location);
-        if (media.length === files.length) { // when all media files have been uploaded
-          post.media = media; // add media URLs to be persisted
-          handleSuccess(post); // send http response only after all media files have been uploaded
-        }
-      });
+  if (!files || files.length <= 0) return handleSuccess(post); // if no media, send response immediately
+  let media = [];
+  let path = process.env.AWS_BUCKET + `/users/${post.author}/blogs/${post.blog}/posts/${post._id}`;
+  files.forEach(function (file) {
+    let params = {
+      Bucket: path,
+      Key: file.originalname,
+      Body: file.buffer, // the actual file in memory
+      ACL: 'public-read' // set file permission for public read access
+    };
+    s3bucket.upload(params, function (err, uploadedFile) {
+      if (err) return handleFailure(err);
+      media.push(uploadedFile.Location);
+      if (media.length === files.length) { // when all media files have been uploaded
+        post.media = media; // add media URLs to be persisted
+        handleSuccess(post); // send http response only after all media files have been uploaded
+      }
     });
-  } else { // if no media files, send http response immediately
-    handleSuccess(post);
-  }
+  });
 };
 
 mediaUpload.deleteFiles = function (fileURLs, post, handleSuccess, handleFailure) {
   if (post.type !== 'photo' && post.type !== 'video' && post.type !== 'audio') return handleSuccess(post);
-  if (!fileURLs || fileURLs.length <= 0) return handleSuccess(null); // if post has no files, do nothing.
-  // if (typeof fileURLs === 'string') fileURLs = [fileURLs];
-  // debugger
+  if (!fileURLs || fileURLs.length <= 0) return handleSuccess(post); // if post has no files, do nothing.
+  if (typeof fileURLs === 'string') fileURLs = [fileURLs];
   let keyPrefix = `users/${post.author}/blogs/${post.blog}/posts/${post._id}/`;
   let keys = fileURLs.map(function (fileURL) {
-    let key = keyPrefix + fileURL.split('/').pop();
+    let key = keyPrefix + fileURL.split('/').pop(); // pop the last element to get the filename
     return { Key: key }
   });
 

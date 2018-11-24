@@ -237,8 +237,9 @@ class PostFormPhoto extends React.Component {
     const { currentUser, blog, submitAction, closePostForm } = this.props;
     let newPost = new FormData();
     for (let key in this.state) {
-      if (key !== 'media' && key !== 'mediaPreview') {
+      if (key !== 'media' && key !== 'mediaPreview' && key !== 'filesToDelete') {
         newPost.append(key, this.state[key]);
+        if (key === 'filesToDelete') debugger
       }
     }
     // for new posts, state does not include author and blog
@@ -254,6 +255,11 @@ class PostFormPhoto extends React.Component {
         newPost.append('newFiles', mediaFile, mediaFile.name);
       }
     });
+    if (this.state.filesToDelete) { // if there were files to delete
+      this.state.filesToDelete.forEach(function (file) { // appending file one by one will keep the array structure in FormData
+        newPost.append('filesToDelete', file);
+      })
+    }
     // invoke AJAX to create new post or edit post
     submitAction(newPost).then(
       () => closePostForm(e) // close form after posting
