@@ -52,8 +52,8 @@ class NavbarGuest extends React.Component {
 
   renderLoginButton(active = '', handleClick = null) {
     return (
-      <Link to='/login' onClick={handleClick}>
-        <li key='login' className={`btn btn-default btn-transparent ${active}`}>
+      <Link key='login' to='/login' onClick={handleClick}>
+        <li className={`btn btn-default btn-transparent ${active}`}>
           Log in
       </li>
       </Link>
@@ -63,8 +63,8 @@ class NavbarGuest extends React.Component {
   renderSignupButton(active = '', handleClick = null) {
     // FIX: cutout text for white button
     return (
-      <Link to='/signup' onClick={handleClick}>
-        <li key='signup' className={`btn btn-default btn-white ${active}`}>
+      <Link key='signup' to='/signup' onClick={handleClick}>
+        <li className={`btn btn-default btn-white ${active}`}>
           Sign up
         </li>
       </Link>

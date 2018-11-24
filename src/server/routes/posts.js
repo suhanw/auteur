@@ -109,7 +109,6 @@ router.put('/posts/:postId',
   middleware.checkPostOwnership,
   upload.array('newFiles'),
   function (req, res) {
-    // FIX: sync media files on AWS with app db
     modelQuery.findOneBlog(
       req.params.id,
       (foundBlog) => { // success cb for findOneBlog
@@ -122,14 +121,14 @@ router.put('/posts/:postId',
             Post.findOneAndUpdate(
               { _id: req.params.postId },
               updatedPostBody,
-              { new: true },
-              function (err, updatedPost) {
-                if (err || !updatedPost) {
-                  let errorMessage = err ? err.message : 'Post does not exist.';
-                  return res.status(422).json([errorMessage]);
-                }
+              { new: true }
+            )
+              .exec()
+              .then(function (updatedPost) {
+                if (!updatedPost) return res.status(422).json(['Post does not exist.']);
                 return res.json(updatedPost);
-              });
+              })
+              .catch((err) => res.status(422).json([err.message]))
           },
           (err) => res.status(422).json([err.message]) // failure cb for updateFiles
         );
