@@ -2,6 +2,9 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { withRouter } from 'react-router-dom';
 
+import Logo from '../logo/logo';
+import Searchbar from '../searchbar/searchbar';
+
 class NavbarGuest extends React.Component {
   constructor(props) {
     super(props);
@@ -16,8 +19,14 @@ class NavbarGuest extends React.Component {
 
     return (
       <nav className='navbar guest'>
-        <div>Search bar</div>
+
+        <div className='navbar-left'>
+          <Logo />
+          <Searchbar />
+        </div>
+
         {this.renderButtons()}
+
       </nav>
     );
   }

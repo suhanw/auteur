@@ -11,17 +11,38 @@
   background: $bg-blue;
 }
 
+
 .navbar.guest {
   background: transparent;
   border: none;
 }
 
+.navbar-left, 
 .navbar-right {
   height: 54px;
   display: flex;
   flex-direction: row;
   align-items: center;
   background: inherit;
+}
+
+.navbar-right-item {
+  height: 32px;
+  width: 48px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.navbar-right-item i.fas {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.navbar-right-item i.fas.fa-pen-square {
+  font-size: 30px;
+  color: #529ecc;
 }
 
 .navbar .btn {
@@ -56,8 +77,15 @@
 }
 
 
+
+// .navbar i.fas:hover {
+//   color: rgba(255, 255, 255, 1);
+// }
+
+
 @media screen and (max-width: 900px) {
   .navbar {
-    padding: 0 20px;
+    padding-right: 20px;
+    padding-left: 0;
   }
 }

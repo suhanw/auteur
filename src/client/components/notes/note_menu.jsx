@@ -60,11 +60,14 @@ class NoteMenu extends React.Component {
         <div className='post-edit-delete popover'
           style={popoverStyle}>
           <Link to={`/dashboard/edit/${post._id}`}>
-            <span>
+            <span className='popover-menu-item'>
               Edit
             </span>
           </Link>
-          <span onClick={this.handleClick('confirmDeletePost')}>Delete</span>
+          <span className='popover-menu-item'
+            onClick={this.handleClick('confirmDeletePost')}>
+            Delete
+          </span>
         </div>
       </li>
     );

@@ -3,8 +3,36 @@
   border-radius: 3px;
   color: #444;
   background: white;
-  padding: 4px 0;
   font-size: 14px;
   font-weight: 400;
   line-height: 21px;
+}
+
+.popover-header {
+  background: rgb(242, 242, 242);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #8f8f8f;
+  border-bottom: rgb(231, 231, 231) 1px solid;
+  line-height: 15px;
+}
+
+.popover-header,
+.popover-menu-item {
+  padding: 5px 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.popover-menu-item:hover {
+  background: rgb(230, 239, 247);
+  cursor: pointer;
+}
+
+.popover-item-suffix {
+  color: #8f8f8f;
+  font-weight: 400;
+  text-transform: none;
 }
