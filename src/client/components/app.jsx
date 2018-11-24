@@ -4,6 +4,7 @@ import Dashboard from './dashboard';
 import Carousel from './carousel';
 import Modal from './modals/modal';
 import { AuthRoute, ProtectRoute } from '../util/route_util';
+import NavbarContainer from './navbar/navbar_container';
 
 class App extends React.Component {
   constructor(props) {
