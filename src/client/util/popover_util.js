@@ -24,7 +24,7 @@ export const hidePopover = function (componentContext, hoverLink = true, popover
     } else if (!hoverLink) { // when hoverlink=false, this is the handler for the popover
       // cursor is within the currentTarget's area (parent element that represents entire popover area)
       if (cursorPosY <= elPosY + elHeight && // bottom bound of currentTarget
-        cursorPosY >= (elPosY - 5) && // top bound of currentTarget
+        cursorPosY >= (elPosY) && // top bound of currentTarget 
         cursorPosX >= elPosX && // left bound
         cursorPosX <= elPosX + elWidth) { // right bound
         return; // do nothing
