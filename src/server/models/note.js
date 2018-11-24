@@ -15,14 +15,10 @@ const noteSchema = new mongoose.Schema(
       type: String,
       required: false,
     },
-    mediaUrl: {
-      type: String,
-      required: false,
-    },
     post: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Post'
       required: true,
     },
-  }, {timestamps: {createdAt: 'createdAt'}}
+  }, { timestamps: { createdAt: 'createdAt' } }
 );

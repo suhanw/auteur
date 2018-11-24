@@ -39,7 +39,7 @@ class AccountPopover extends React.Component {
       <ul>
         <li className='popover-menu-item'>
           <span><i className="fas fa-heart"></i> Likes</span>
-          <span className='popover-item-suffix'>count</span>
+          <span className='popover-item-suffix'>{currentUser.likeCount}</span>
           {/* FIX: update with Notes (likes) feature */}
         </li>
         <li className='popover-menu-item'>

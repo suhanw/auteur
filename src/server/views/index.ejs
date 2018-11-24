@@ -36,6 +36,8 @@
     } else {
       window.currentUser.following = window.currentUser.following.split(','); // to turn string into array
     }
+
+    window.currentUser.likeCount = '<%= currentUser.likeCount %>'
     window.currentUser._id = '<%= currentUser._id %>';
   </script>
   <% } %>

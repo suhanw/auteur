@@ -37,8 +37,8 @@ router.post('/users',
 
         // so we need to execute that cb to complete the response.
         middlewareCallback(req, res, function () {
-          const { _id, email, username, avatarImageUrl, primaryBlog, blogs, following } = createdUser;
-          const userJSON = { _id, email, username, avatarImageUrl, primaryBlog, blogs, following };
+          const { _id, email, username, avatarImageUrl, primaryBlog, blogs, following, likeCount } = createdUser;
+          const userJSON = { _id, email, username, avatarImageUrl, primaryBlog, blogs, following, likeCount };
           return res.json(userJSON);
         });
       }
