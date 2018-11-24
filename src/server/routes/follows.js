@@ -2,10 +2,11 @@ const express = require('express');
 const router = express.Router({ mergeParams: true });
 const lodash = require('lodash');
 const modelQuery = require('../util/model_query_util');
+const middleware = require('../middleware/middleware');
 const User = require('../models/user');
 
 // GET api/blogs/:id/follows - INDEX
-router.get('/follows', function (req, res) {
+router.get('/follows', middleware.isLoggedIn, function (req, res) {
   modelQuery.findOneBlog(
     req.params.id,
     (foundBlog) => {
@@ -26,7 +27,7 @@ router.get('/follows', function (req, res) {
 
 // POST api/blogs/:id/follows - CREATE
 // only currentUser can 'follow' a blog
-router.post('/follows', function (req, res) {
+router.post('/follows', middleware.isLoggedIn, function (req, res) {
   // debugger
   modelQuery.findOneBlog(
     req.params.id,
@@ -49,7 +50,7 @@ router.post('/follows', function (req, res) {
 });
 
 // DELETE api/blogs/:id/follows/ - DESTROY
-router.delete('/follows', function (req, res) {
+router.delete('/follows', middleware.isLoggedIn, function (req, res) {
   modelQuery.findOneBlog(
     req.params.id,
     (foundBlog) => {

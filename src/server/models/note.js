@@ -1,4 +1,4 @@
-import mongoose = require('mongoose');
+const mongoose = require('mongoose');
 
 const noteSchema = new mongoose.Schema(
   {
@@ -8,7 +8,7 @@ const noteSchema = new mongoose.Schema(
     },
     author: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'User'
+      ref: 'User',
       required: true,
     },
     body: {
@@ -17,7 +17,7 @@ const noteSchema = new mongoose.Schema(
     },
     post: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Post'
+      ref: 'Post',
       required: true,
     },
   }, { timestamps: { createdAt: 'createdAt' } }
