@@ -5,7 +5,7 @@
   background: white;
   font-size: 14px;
   font-weight: 400;
-  line-height: 21px;
+  line-height: 1.5;
 }
 
 .popover-header {
@@ -26,13 +26,27 @@
   align-items: center;
 }
 
+.popover-menu-item {
+  cursor:pointer;
+}
+
+.navbar-right-item .popover-menu-item i.fas {
+  color: #444;
+  font-size: 14px;
+  width: 25px;
+}
+
 .popover-menu-item:hover {
   background: rgb(230, 239, 247);
-  cursor: pointer;
 }
 
 .popover-item-suffix {
   color: #8f8f8f;
+  font-size: 11px;
   font-weight: 400;
   text-transform: none;
+}
+
+.popover-item-suffix.link {
+  cursor: pointer;
 }

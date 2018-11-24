@@ -1,6 +1,7 @@
 import React from 'react';
 import FollowPopover from '../components/popovers/follow_popover';
 
+
 export const showPopover = function (componentContext, popoverState) {
   return function (event) {
     event.stopPropagation();
