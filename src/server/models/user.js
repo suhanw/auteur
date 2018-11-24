@@ -26,12 +26,10 @@ const userSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Blog',
     }],
-    following: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Blog',
-      }
-    ]
+    following: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Blog',
+    }]
   },
   { timestamps: { createdAt: 'createdAt' } }
 );

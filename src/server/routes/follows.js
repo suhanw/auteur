@@ -20,7 +20,7 @@ router.get('/follows', function (req, res) {
           res.json(err);
         });
     },
-    (err) => res.status(404).json(['The blog does not exist.'])
+    (err) => res.status(404).json([err.message])
   )
 });
 
@@ -34,6 +34,8 @@ router.post('/follows', function (req, res) {
       const currentUser = req.user;
       if (currentUser.following.indexOf(foundBlog._id) > -1) {
         return res.status(422).json(['You are following this blog. ']);
+      } else if (foundBlog.author.equals(currentUser._id)) {
+        return res.status(422).json(['You cannot follow your own blog. '])
       }
       currentUser.following.push(foundBlog._id);
       currentUser.save();
@@ -48,23 +50,23 @@ router.post('/follows', function (req, res) {
 
 // DELETE api/blogs/:id/follows/ - DESTROY
 router.delete('/follows', function (req, res) {
-  res.send('this is delete follow')
-  // modelQuery.findOneBlog(
-  //   req.params.id,
-  //   (foundBlog) => {
-  //     const idxToDel = currentUser.following.indexOf(foundBlog._id);
-  //     if (idxToDel < 0) {
-  //       return res.status(422).json(['You never followed this blog. ']);
-  //     }
-  //     const currentUser = lodash.merge({}, req.user);
-  //     currentUser.following.splice(idxToDel, 1);
-  //     currentUser.save();
-  //     foundBlog.save();
-  //     const { _id, following } = currentUser;
-  //     return res.json({ _id, following });
-  //   },
-  //   (err) => res.status(422).json([err.message])
-  // );
+  modelQuery.findOneBlog(
+    req.params.id,
+    (foundBlog) => {
+      const currentUser = req.user;
+      const idxToDel = currentUser.following.indexOf(foundBlog._id);
+      if (idxToDel < 0) {
+        return res.status(422).json(['You never followed this blog. ']);
+      }
+      currentUser.following.splice(idxToDel, 1);
+      currentUser.save();
+      foundBlog.followerCount -= 1;
+      foundBlog.save();
+      const { _id, following } = currentUser;
+      return res.json({ _id, following });
+    },
+    (err) => res.status(422).json([err.message])
+  );
 });
 
 module.exports = router;

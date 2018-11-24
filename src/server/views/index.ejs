@@ -23,7 +23,11 @@
     window.currentUser.primaryBlog = '<%= currentUser.primaryBlog %>';
     window.currentUser.blogs = '<%= currentUser.blogs %>';
     window.currentUser.following = '<%= currentUser.following %>'; //ejs will cast array to string
-    window.currentUser.following = window.currentUser.following.split(','); // to turn string into array
+    if (window.currentUser.following.length === 0) {
+      window.currentUser.following = []; // empty array will be cast into empty string, so split method won't work
+    } else {
+      window.currentUser.following = window.currentUser.following.split(','); // to turn string into array
+    }
     window.currentUser._id = '<%= currentUser._id %>';
   </script>
   <% } %>

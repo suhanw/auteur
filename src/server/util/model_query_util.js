@@ -13,7 +13,7 @@ modelQuery.findOneBlog = function (blogId, handleSuccess, handleFailure) {
     // .lean(true) // make the query return a POJO instead of Document
     .exec()
     .then(function (foundBlog) {
-      if (!foundBlog) throw err; // case when ObjectId is valid, but doesn't belong to a blog
+      if (!foundBlog) throw { message: 'The blog does not exist.' }; // case when ObjectId is valid, but doesn't belong to a blog
       handleSuccess(foundBlog);
     })
     .catch(handleFailure);
@@ -23,7 +23,7 @@ modelQuery.findOnePost = function (postId, handleSuccess, handleFailure) {
   Post.findOne({ _id: postId })
     .exec()
     .then(function (foundPost) {
-      if (!foundPost) throw err;
+      if (!foundPost) throw { message: 'The post does not exist.' };
       handleSuccess(foundPost);
     })
     .catch(handleFailure);

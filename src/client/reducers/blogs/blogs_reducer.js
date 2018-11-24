@@ -3,6 +3,7 @@ import { merge, union } from 'lodash';
 import { RECEIVE_POSTS } from '../../actions/post_actions';
 import { REMOVE_CURRENT_USER } from '../../actions/session_actions';
 import { RECEIVE_BLOG } from '../../actions/blog_actions';
+import { RECEIVE_USERS } from '../../actions/user_actions';
 
 const defaultState = {
     byId: {},
@@ -11,7 +12,13 @@ const defaultState = {
 
 const userSchema = new schema.Entity(
     'users',
-    {},
+    {
+        primaryBlog: new schema.Entity(
+            'blogs',
+            { author: userSchema },
+            { idAttribute: '_id' }
+        )
+    },
     { idAttribute: '_id' }
 );
 
@@ -59,6 +66,19 @@ const blogsReducer = function (state = defaultState, action) {
             newState.allIds = union(
                 state.allIds,
                 [action.payload._id]
+            );
+            return newState;
+        case RECEIVE_USERS:
+            payloadSchema = [userSchema];
+            normalizedPayload = normalize(action.payload, payloadSchema);
+            newState.byId = merge(
+                {},
+                state.byId,
+                normalizedPayload.entities.blogs,
+            );
+            newState.allIds = union(
+                state.allIds,
+                Object.keys(normalizedPayload.entities.blogs)
             );
             return newState;
         case REMOVE_CURRENT_USER:

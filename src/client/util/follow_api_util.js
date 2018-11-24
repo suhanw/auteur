@@ -11,3 +11,10 @@ export const deleteFollow = function (blogId) {
     method: 'DELETE',
   });
 };
+
+export const fetchFollowers = function (blogId) {
+  return $.ajax({
+    url: `/api/blogs/${blogId}/follows`,
+    method: 'GET',
+  });
+};
