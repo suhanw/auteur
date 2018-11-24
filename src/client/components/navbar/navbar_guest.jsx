@@ -9,7 +9,7 @@ class NavbarGuest extends React.Component {
   constructor(props) {
     super(props);
 
-    this.renderButtons = this.renderButtons.bind(this);
+    this.renderSessionButtons = this.renderSessionButtons.bind(this);
     this.scrollToIntroSlide = this.scrollToIntroSlide.bind(this);
     this.renderLoginButton = this.renderLoginButton.bind(this);
     this.renderSignupButton = this.renderSignupButton.bind(this);
@@ -25,13 +25,13 @@ class NavbarGuest extends React.Component {
           <Searchbar />
         </div>
 
-        {this.renderButtons()}
+        {this.renderSessionButtons()}
 
       </nav>
     );
   }
 
-  renderButtons() {
+  renderSessionButtons() {
     const { activeSlide } = this.props;
     const { pathname } = this.props;
     let buttonsToRender;
@@ -52,18 +52,22 @@ class NavbarGuest extends React.Component {
 
   renderLoginButton(active = '', handleClick = null) {
     return (
-      <li key='login' className={`btn btn-default btn-transparent ${active}`}>
-        <Link to='/login' onClick={handleClick}>Log in</Link>
+      <Link to='/login' onClick={handleClick}>
+        <li key='login' className={`btn btn-default btn-transparent ${active}`}>
+          Log in
       </li>
+      </Link>
     );
   }
 
   renderSignupButton(active = '', handleClick = null) {
     // FIX: cutout text for white button
     return (
-      <li key='signup' className={`btn btn-default btn-white ${active}`}>
-        <Link to='/signup' onClick={handleClick}>Sign up</Link>
-      </li>
+      <Link to='/signup' onClick={handleClick}>
+        <li key='signup' className={`btn btn-default btn-white ${active}`}>
+          Sign up
+        </li>
+      </Link>
     );
   }
 
