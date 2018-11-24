@@ -80,17 +80,17 @@ router.delete('/posts/:postId',
           req.body.media,
           req.body,
           (deletedFiles) => { // success cb for deleteFiles
-            Post.findOneAndDelete(
-              { _id: req.params.postId },
-              function (err, deletedPost) {
-                if (err || !deletedPost) {
-                  let errorMessage = err ? err.message : 'Post does not exist.';
-                  return res.status(422).json([errorMessage]);
+            Post.findOneAndDelete({ _id: req.params.postId })
+              .exec()
+              .then(function (deletedPost) {
+                if (!deletedPost) {
+                  return res.status(422).json(['Post does not exist.']);
                 }
                 foundBlog.postCount -= 1;
                 foundBlog.save();
                 return res.json(deletedPost.id);
-              });
+              })
+              .catch((err) => res.status(422).json([err.message]))
           },
           (err) => { // fail cb for deleteFiles
             res.status(422).json(err);
