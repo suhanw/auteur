@@ -11,7 +11,7 @@ import { selectCurrentUser, selectBlog, selectPopover } from '../../selectors/se
 
 const mapStateToProps = function (state, ownProps) {
   const currentUser = selectCurrentUser(state);
-  const blog = selectBlog(state, currentUser.primaryBlog);
+  const blog = (!currentUser) ? null : selectBlog(state, currentUser.primaryBlog); // currentUser doesn't exist when not logged in
   const popover = selectPopover(state);
   const { scrollCarousel, activeSlide } = ownProps;
   return {
@@ -70,8 +70,6 @@ class NavbarContainer extends React.Component {
         closePopover={closePopover} />
     );
   }
-
-
 }
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(NavbarContainer));
