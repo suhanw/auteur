@@ -46,6 +46,7 @@ export const deleteFollow = function (blogId) {
 };
 
 export const fetchFollowers = function (blogId) {
+  // FIX: dispatch this action for another React Route to list the followers
   return function (dispatch) {
     return APIUtil.fetchFollowers(blogId).then(
       (followers) => dispatch(receiveUsers(followers)),

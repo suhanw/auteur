@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import { fetchBlog } from '../../actions/blog_actions';
+import { createFollow, deleteFollow } from '../../actions/follow_actions';
 import { selectBlog, selectCurrentUser } from '../../selectors/selectors';
 
 const mapStateToProps = function (state, ownProps) {
@@ -18,32 +19,29 @@ const mapStateToProps = function (state, ownProps) {
 const mapDispatchToProps = function (dispatch, ownProps) {
   const { blogId } = ownProps;
   return {
-    fetchBlog: () => dispatch(fetchBlog(blogId)),
+    fetchBlog: (blogId) => dispatch(fetchBlog(blogId)),
+    createFollow: (blogId) => dispatch(createFollow(blogId)),
+    deleteFollow: (blogId) => dispatch(deleteFollow(blogId)),
   };
 };
 
 class FollowPopover extends React.Component {
   constructor(props) {
     super(props);
+
+    this.renderButton = this.renderButton.bind(this);
   }
 
   render() {
-    const { blog, currentUser, hidePopover } = this.props;
+    const { blog, hidePopover } = this.props;
     if (!blog) return null;
-    let buttonText = '';
-    if (blog.author === currentUser._id) {
-      buttonText = 'Edit appearance';
-    } else if (currentUser.following.indexOf(blog._id) < 0) {
-      buttonText = 'Follow';
-    } else {
-      buttonText = 'Unfollow';
-    }
+
     return (
       <div className='follow-popover popover' onMouseOut={hidePopover}>
         <header className='follow-popover-header' style={{ backgroundImage: `url(${blog.backgroundImageUrl})` }}>
           <nav className='follow-popover-nav'>
             <span className='blog-name'>{blog.name}</span>
-            <button className='btn btn-default btn-white'>{buttonText}</button>
+            {this.renderButton()}
           </nav>
           <div className='avatar-wrapper'>
             <img className='avatar-default' src={blog.avatarImageUrl} />
@@ -57,10 +55,43 @@ class FollowPopover extends React.Component {
     );
   }
 
+  renderButton() {
+    const { blog, currentUser } = this.props;
+    let buttonText = '';
+    if (blog.author === currentUser._id) {
+      buttonText = 'Edit appearance';
+    } else if (currentUser.following.indexOf(blog._id) < 0) {
+      buttonText = 'Follow';
+    } else {
+      buttonText = 'Unfollow';
+    }
+    return (
+      <button
+        className='btn btn-default btn-white'
+        onClick={this.handleSubmit(buttonText)}>
+        {buttonText}
+      </button>
+    );
+  }
+
+  handleSubmit(buttonText) {
+    const { createFollow, deleteFollow, blogId } = this.props;
+    const submitActions = {
+      'Follow': createFollow,
+      'Unfollow': deleteFollow,
+      'Edit appearance': null,
+    };
+    return function (e) {
+      e.preventDefault();
+      const submitAction = submitActions[buttonText];
+      if (submitAction) submitAction(blogId);
+    }
+  }
+
   componentDidMount() {
-    const { blog, fetchBlog } = this.props;
+    const { blog, fetchBlog, blogId } = this.props;
     if (!blog) {
-      fetchBlog();
+      fetchBlog(blogId);
     }
   }
 }

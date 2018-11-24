@@ -21,7 +21,14 @@
     window.currentUser.email = '<%= currentUser.email %>';
     window.currentUser.avatarImageUrl = '<%= currentUser.avatarImageUrl %>';
     window.currentUser.primaryBlog = '<%= currentUser.primaryBlog %>';
+
     window.currentUser.blogs = '<%= currentUser.blogs %>';
+    if (window.currentUser.blogs.length === 0) {
+      window.currentUser.blogs = []; // empty array will be cast into empty string, so split method won't work
+    } else {
+      window.currentUser.blogs = window.currentUser.blogs.split(','); // to turn string into array
+    }
+
     window.currentUser.following = '<%= currentUser.following %>'; //ejs will cast array to string
     if (window.currentUser.following.length === 0) {
       window.currentUser.following = []; // empty array will be cast into empty string, so split method won't work
