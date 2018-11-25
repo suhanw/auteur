@@ -30,29 +30,23 @@ modelQuery.findOnePost = function (postId, handleSuccess, handleFailure) {
     .catch(handleFailure);
 };
 
-modelQuery.createLike = function (noteBody, handleSuccess, handleFailure) {
-  return Note.findOne({ type: 'like', post: noteBody.post, author: noteBody.author })
+modelQuery.createLike = function (likeBody, handleSuccess, handleFailure) {
+  return Note.findOne({ type: 'like', post: likeBody.post, author: likeBody.author })
     .exec()
-    .then((foundNote) => {
-      // debugger
-      if (foundNote) throw { message: 'You already liked this post. ' };
-      // let newNote = new Note(noteBody);
-      return Note.create(noteBody);
+    .then((foundLike) => {
+      if (foundLike) throw { message: 'You already liked this post. ' };
+      return Note.create(likeBody);
     })
-    .then((newNote) => {
-      // debugger
-      return newNote.populate('post author').execPopulate();
+    .then((newLike) => {
+      return newLike.populate('post author').execPopulate();
     })
-    .then(((newNote) => {
-      // debugger
-      newNote.post.likeCount += 1;
-      newNote.post.save();
-      newNote.author.likeCount += 1;
-      newNote.author.save();
-      // return handleSuccess(newNote.depopulate('post author'));
-      return newNote.depopulate('post author');
+    .then(((newLike) => {
+      newLike.post.likeCount += 1;
+      newLike.post.save();
+      newLike.author.likeCount += 1;
+      newLike.author.save();
+      return newLike.depopulate('post author');
     }))
-  // .catch((err) => handleFailure(err));
 }
 
 module.exports = modelQuery;

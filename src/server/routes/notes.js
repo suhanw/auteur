@@ -20,7 +20,7 @@ router.post('/notes', middleware.isLoggedIn, function (req, res) {
       switch (req.body.type) {
         case 'like':
           modelQuery.createLike(req.body)
-            .then((newNote) => res.json(newNote))
+            .then((newLike) => res.json(newLike))
             .catch((err) => res.status(422).json([err.message]));
           break;
         case 'comment':
