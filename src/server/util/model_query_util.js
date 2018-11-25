@@ -21,13 +21,12 @@ modelQuery.findOneBlog = function (blogId, handleSuccess, handleFailure) {
 };
 
 modelQuery.findOnePost = function (postId, handleSuccess, handleFailure) {
-  Post.findOne({ _id: postId })
+  return Post.findOne({ _id: postId })
     .exec()
     .then(function (foundPost) {
       if (!foundPost) throw { message: 'The post does not exist.' };
-      handleSuccess(foundPost);
+      return foundPost;
     })
-    .catch(handleFailure);
 };
 
 modelQuery.createLike = function (likeBody, handleSuccess, handleFailure) {

@@ -10,28 +10,24 @@ router.get('/notes', function (req, res) {
   res.send('this is notes index')
 });
 
+
 // POST api/posts/:id/notes - Create
 router.post('/notes', middleware.isLoggedIn, function (req, res) {
-  modelQuery.findOnePost(
-    req.params.id,
-    // FIX: refactor to use Promise chaining
-    (foundPost) => { // success cb for findOnePost
-      let currentUser = req.user;
+  modelQuery.findOnePost(req.params.id)
+    .then((foundPost) => {
       switch (req.body.type) {
         case 'like':
-          modelQuery.createLike(req.body)
-            .then((newLike) => res.json(newLike))
-            .catch((err) => res.status(422).json([err.message]));
-          break;
-        case 'comment':
-          break;
+          return modelQuery.createLike(req.body)
         default:
-          break;
+          return;
       }
-    },
-    (err) => res.status(422).json([err.message]) // fail cb for findOnePost
-  );
+    })
+    .then((newNote) => {
+      res.json(newNote);
+    })
+    .catch((err) => res.status(422).json([err.message]));
 });
+
 
 // DELETE api/posts/:id/notes/:noteId - Destroy
 router.delete('/notes/:noteId', middleware.isLoggedIn, function (req, res) {
