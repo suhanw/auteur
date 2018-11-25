@@ -20,7 +20,10 @@ export const receiveNoteErrors = function (errors) {
 export const createNote = function (note) {
   return function (dispatch) {
     return APIUtil.createNote(note).then(
-      (note) => dispatch(receiveNote(note)),
+      (note) => {
+        // FIX: need to dispatch fetchPost
+        dispatch(receiveNote(note))
+      },
       (err) => dispatch(receiveNoteErrors(err.responseJSON))
     );
   };
