@@ -22,3 +22,5 @@ const noteSchema = new mongoose.Schema(
     },
   }, { timestamps: { createdAt: 'createdAt' } }
 );
+
+module.exports = mongoose.model('Note', noteSchema);

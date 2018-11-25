@@ -1,6 +1,7 @@
 let modelQuery = {};
 const Blog = require('../models/blog');
 const Post = require('../models/post');
+const Note = require('../models/note');
 
 modelQuery.findOneBlog = function (blogId, handleSuccess, handleFailure) {
   // 'handleSuccess' callback func should be function(foundBlog) { ... }
@@ -28,5 +29,30 @@ modelQuery.findOnePost = function (postId, handleSuccess, handleFailure) {
     })
     .catch(handleFailure);
 };
+
+modelQuery.createLike = function (noteBody, handleSuccess, handleFailure) {
+  return Note.findOne({ type: 'like', post: noteBody.post, author: noteBody.author })
+    .exec()
+    .then((foundNote) => {
+      // debugger
+      if (foundNote) throw { message: 'You already liked this post. ' };
+      // let newNote = new Note(noteBody);
+      return Note.create(noteBody);
+    })
+    .then((newNote) => {
+      // debugger
+      return newNote.populate('post author').execPopulate();
+    })
+    .then(((newNote) => {
+      // debugger
+      newNote.post.likeCount += 1;
+      newNote.post.save();
+      newNote.author.likeCount += 1;
+      newNote.author.save();
+      // return handleSuccess(newNote.depopulate('post author'));
+      return newNote.depopulate('post author');
+    }))
+  // .catch((err) => handleFailure(err));
+}
 
 module.exports = modelQuery;

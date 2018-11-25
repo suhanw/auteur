@@ -36,9 +36,16 @@ class NoteMenu extends React.Component {
   }
 
   renderHeart() {
+    const { post, currentUser } = this.props;
+    const note = {
+      type: 'like',
+      post: post._id,
+      author: currentUser._id,
+    };
     return (
       <li className='note-menu-item'>
-        <i className="far fa-heart"></i>
+        <i className="far fa-heart"
+          onClick={this.handleClick('createNote', note)}></i>
       </li>
     );
   }
@@ -65,7 +72,7 @@ class NoteMenu extends React.Component {
             </span>
           </Link>
           <span className='popover-menu-item'
-            onClick={this.handleClick('confirmDeletePost')}>
+            onClick={this.handleClick('confirmDeletePost', post)}>
             Delete
           </span>
         </div>
@@ -73,13 +80,13 @@ class NoteMenu extends React.Component {
     );
   }
 
-  handleClick(action) {
+  handleClick(action, payload) {
     const executeAction = this.props[action];
-    const { post, closePopover } = this.props;
+    const { closePopover } = this.props;
     const that = this;
     return function (e) {
       e.stopPropagation();
-      executeAction(post);
+      executeAction(payload);
       closePopover();
     };
   }
