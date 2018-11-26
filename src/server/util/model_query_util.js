@@ -53,6 +53,7 @@ modelQuery.deleteLike = function (likeId) {
   return Note.findOneAndDelete({ _id: likeId })
     .exec()
     .then((deletedLike) => {
+      if (!deletedLike) throw { message: 'You never liked this post to be able to unlike it. ' };
       return deletedLike.populate('post author').execPopulate();
     })
     .then((deletedLike) => {

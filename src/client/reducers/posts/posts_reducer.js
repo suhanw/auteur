@@ -1,7 +1,7 @@
 import { normalize, schema } from 'normalizr';
 import { merge, union, mergeWith, isArray } from 'lodash';
 import { RECEIVE_POSTS, RECEIVE_POST, REMOVE_POST } from '../../actions/post_actions';
-import { RECEIVE_NOTE } from '../../actions/note_actions';
+import { RECEIVE_NOTE, REMOVE_NOTE } from '../../actions/note_actions';
 import { REMOVE_CURRENT_USER } from '../../actions/session_actions';
 import { replaceArray } from '../../util/misc_util';
 
@@ -34,6 +34,19 @@ const postsReducer = function (state = defaultState, action) {
     let newState = {};
     switch (action.type) {
         case RECEIVE_NOTE:
+            normalizedPayload = normalize(action.payload, noteSchema);
+            newState.byId = mergeWith(
+                {},
+                state.byId,
+                normalizedPayload.entities.posts,
+                replaceArray,
+            );
+            newState.allIds = union(
+                state.allIds,
+                [action.payload.post._id]
+            );
+            return newState;
+        case REMOVE_NOTE:
             normalizedPayload = normalize(action.payload, noteSchema);
             newState.byId = mergeWith(
                 {},
