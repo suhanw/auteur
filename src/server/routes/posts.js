@@ -118,6 +118,7 @@ router.put('/posts/:postId',
           req.files,
           postBody,
           (updatedPostBody) => { // success cb for updateFiles
+            // FIX: something broke here
             Post.findOneAndUpdate(
               { _id: req.params.postId },
               updatedPostBody,

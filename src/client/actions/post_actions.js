@@ -46,6 +46,15 @@ export const fetchFeed = function () {
     };
 };
 
+export const fetchPost = function (postId) {
+    return function (dispatch) {
+        return APIUtil.fetchPost(postId).then(
+            (post) => dispatch(receivePost(post)),
+            (err) => dispatch(receivePostErrors(err.responseJSON))
+        );
+    };
+};
+
 export const createPost = function (post) {
     return function (dispatch) {
         dispatch(loadPostSubmit()); // to render loading spinner

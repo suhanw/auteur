@@ -31,14 +31,19 @@ router.post('/notes', middleware.isLoggedIn, function (req, res) {
 
 // DELETE api/posts/:id/notes/:noteId - Destroy
 router.delete('/notes/:noteId', middleware.isLoggedIn, function (req, res) {
-  modelQuery.findOnePost(
-    req.params.id,
-    (foundPost) => { // success cb for findOnePost
-      // current user can only delete own note
-      res.send('this is delete note');
-    },
-    (err) => res.status(422).json([err.message]) // fail cb for findOnePost
-  );
+  modelQuery.findOnePost(req.params.id)
+    .then((foundPost) => {
+      switch (req.body.type) {
+        case 'like':
+          return modelQuery.deleteLike(req.params.noteId);
+        default:
+          return;
+      }
+    })
+    .then((deletedNote) => {
+      res.json(deletedNote);
+    })
+    .catch((err) => res.status(422).json([err.message]));
 });
 
 module.exports = router;

@@ -45,7 +45,7 @@ modelQuery.createLike = function (likeBody) {
       newLike.post.save();
       newLike.author.likeCount += 1;
       newLike.author.save();
-      return newLike.depopulate('post author');
+      return newLike;
     });
 };
 

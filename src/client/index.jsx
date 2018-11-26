@@ -47,10 +47,10 @@ document.addEventListener('DOMContentLoaded', function () {
 // import { createPost, updatePost } from './util/post_api_util';
 // import { updatePost, deletePost } from './actions/post_actions';
 // import { createFollow, deleteFollow, fetchFollowers } from './actions/follow_actions';
-// import { createNote } from './util/note_api_util';
-import { createNote } from './actions/note_actions';
+import { createNote, deleteNote } from './util/note_api_util';
+// import { createNote } from './actions/note_actions';
 
-window.createNote = createNote;
+window.deleteNote = deleteNote;
 // window.createFollow = createFollow;
 // window.deleteFollow = deleteFollow;
 // window.fetchFollowers = fetchFollowers;

@@ -239,7 +239,6 @@ class PostFormPhoto extends React.Component {
     for (let key in this.state) {
       if (key !== 'media' && key !== 'mediaPreview' && key !== 'filesToDelete') {
         newPost.append(key, this.state[key]);
-        if (key === 'filesToDelete') debugger
       }
     }
     // for new posts, state does not include author and blog

@@ -1,4 +1,5 @@
 import * as APIUtil from '../util/note_api_util';
+import { fetchPost } from '../actions/post_actions';
 
 export const RECEIVE_NOTE = 'RECEIVE_NOTE';
 export const RECEIVE_NOTE_ERRORS = 'RECEIVE_NOTE_ERRORS';
@@ -22,7 +23,7 @@ export const createNote = function (note) {
     return APIUtil.createNote(note).then(
       (note) => {
         // FIX: need to dispatch fetchPost
-        dispatch(receiveNote(note))
+        dispatch(receiveNote(note));
       },
       (err) => dispatch(receiveNoteErrors(err.responseJSON))
     );

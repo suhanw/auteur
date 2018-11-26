@@ -5,6 +5,13 @@ export const fetchFeed = function () {
     });
 };
 
+export const fetchPost = function (postId) {
+    return $.ajax({
+        method: 'GET',
+        url: `/api/posts/${postId}`,
+    });
+};
+
 export const createPost = function (post) {
     return $.ajax({
         method: 'POST',
