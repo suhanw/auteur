@@ -40,8 +40,8 @@ export const createNote = function (note) {
   return function (dispatch) {
     return APIUtil.createNote(note).then(
       (note) => {
-        if (note.type === 'like') dispatch(fetchUserLikes(note.author));
         dispatch(receiveNote(note));
+        if (note.type === 'like') dispatch(fetchUserLikes(note.author));
       },
       (err) => dispatch(receiveNoteErrors(err.responseJSON))
     );
@@ -52,8 +52,8 @@ export const deleteNote = function (note) {
   return function (dispatch) {
     return APIUtil.deleteNote(note).then(
       (note) => {
-        if (note.type === 'like') dispatch(fetchUserLikes(note.author));
         dispatch(removeNote(note));
+        if (note.type === 'like') dispatch(fetchUserLikes(note.author));
       },
       (err) => dispatch(receiveNoteErrors(err.responseJSON))
     );

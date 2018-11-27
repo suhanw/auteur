@@ -36,7 +36,7 @@ class AccountPopover extends React.Component {
   renderAccountSection() {
     const { currentUser } = this.props;
     let likeCount = '0';
-    if (currentUser.likedPosts) likeCount = currentUser.likedPosts.length;
+    if (currentUser.likeCount) likeCount = currentUser.likeCount;
     return (
       <ul>
         <li className='popover-menu-item'>

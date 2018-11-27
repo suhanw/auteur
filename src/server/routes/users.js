@@ -49,7 +49,7 @@ router.post('/users',
 );
 
 
-// GET api/users/:id/likes - fetch user's liked posts
+// GET api/users/:id/likes - fetch current user's liked posts
 router.get('/users/:id/likes', middleware.isLoggedIn, function (req, res) {
   let likesQuery = Note.find({ type: 'like', author: req.params.id })
     .select('post');
@@ -61,12 +61,15 @@ router.get('/users/:id/likes', middleware.isLoggedIn, function (req, res) {
   likesQuery.exec()
     .then((likes) => {
       if (!likes) throw { message: 'Error.' }
-      let likedPosts = likes.map((like) => like.post);
-      let userJSON = { // this will be merged with Redux 'users' state
+      let likedPosts = likes.reduce((acc, like) => {
+        return lodash.merge(acc, { [like.post]: like._id });
+      }, {});
+      let responseJSON = { // this will be merged with Redux 'users' state
         userId: req.params.id,
         likedPosts: likedPosts,
+        likeCount: likes.length,
       };
-      return res.json(userJSON);
+      return res.json(responseJSON);
     })
     .catch((err) => res.status(400).json([err.message]));
 });

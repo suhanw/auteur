@@ -69,11 +69,18 @@ const usersReducer = function (state = defaultState, action) {
       // debugger
       // payloadSchema = [noteSchema]
       // normalizedPayload = normalize(action.payload.likedPosts, payloadSchema);
-      newCurrentUser = { [action.payload.userId]: { likedPosts: action.payload.likedPosts } };
+      newCurrentUser = {
+        [action.payload.userId]: {
+          likeCount: action.payload.likeCount,
+        }
+      };
       newState = {
         byId: mergeWith({}, state.byId, newCurrentUser, replaceArray),
         allIds: union(state.allIds, [action.payload.userId]),
       };
+      // instead of merging the likedPosts objects, replace with the new object
+      // to account for scenario when user unlikes a post, and hence remove an entry from likedPosts
+      newState.byId[action.payload.userId].likedPosts = action.payload.likedPosts;
       return newState;
     case RECEIVE_USERS:
       payloadSchema = [userSchema];

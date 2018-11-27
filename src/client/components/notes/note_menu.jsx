@@ -31,25 +31,34 @@ class NoteMenu extends React.Component {
 
   shouldComponentUpdate(newProps, newState) {
     // FIX: think about how to avoid re-rendering every single post item when popover is opened/closed
+    if (this.props.post._id === '5bfd87cdf59b6d0a7c079ca3' &&
+      newProps.currentUser.likeCount !== this.props.currentUser.likeCount) {
+      console.log('change in likes');
+
+    }
     return true;
   }
 
   renderHeart() {
     const { post, currentUser } = this.props;
+    // if (this.props.post._id === '5bfd87cdf59b6d0a7c079ca3') debugger
     let heartIconClass = 'far fa-heart';
-    if (currentUser.likedPosts && currentUser.likedPosts.indexOf(post._id) !== -1) {
-      heartIconClass = 'fas fa-heart';
-    }
-    // const heartIconClass = post.isLikedByCurrentUser ? 'fas fa-heart' : 'far fa-heart';
-    const note = {
+    let clickAction = 'createNote';
+    let note = {
       type: 'like',
       post: post._id,
       author: currentUser._id,
     };
+    // FIX: not re-rendering when post unliked
+    if (currentUser.likedPosts && currentUser.likedPosts[post._id]) {
+      heartIconClass = 'fas fa-heart';
+      clickAction = 'deleteNote';
+      note._id = currentUser.likedPosts[post._id];
+    }
     return (
       <li className='note-menu-item'>
         <i className={heartIconClass}
-          onClick={this.handleClick('createNote', note)}></i>
+          onClick={this.handleClick(clickAction, note)}></i>
       </li>
     );
   }
@@ -84,8 +93,8 @@ class NoteMenu extends React.Component {
     );
   }
 
-  handleClick(action, payload) {
-    const executeAction = this.props[action];
+  handleClick(clickAction, payload) {
+    const executeAction = this.props[clickAction];
     const { closePopover } = this.props;
     const that = this;
     return function (e) {

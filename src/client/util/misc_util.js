@@ -31,4 +31,4 @@ export const replaceArray = function (objValue, srcValue) {
   // old = {arr: [1,2,3]}
   // new = {arr: [1, 2]}
   // mergewith(new, old, replaceArray) => {arr: [1,2]}
-}
+};
