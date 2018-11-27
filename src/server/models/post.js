@@ -15,11 +15,9 @@ const postSchema = new mongoose.Schema(
       type: String,
       required: false,
     },
-    media: [
-      {
-        type: String
-      }
-    ],
+    media: [{
+      type: String
+    }],
     likeCount: {
       type: Number,
       required: true,
@@ -30,10 +28,10 @@ const postSchema = new mongoose.Schema(
       required: true,
       default: 0,
     },
-    tags: {
+    tags: [{
       type: String,
       required: false,
-    },
+    }],
     author: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',

@@ -7,7 +7,22 @@ const middleware = require('../middleware/middleware');
 
 // GET api/posts/:id/notes - INDEX
 router.get('/notes', function (req, res) {
-  res.send('this is notes index')
+  const postId = req.params.id;
+  const userId = req.query.userId;
+  if (userId) { // if userId is passed in as query param, check if user likes post
+    modelQuery.checkUserLikePost(postId, userId)
+      .then((foundLike) => {
+        return res.json(foundLike);
+      })
+      .catch((err) => res.status(400).json([err.message]));
+  } else {
+    // otherwise, return all notes for the given post
+    Note.find({ post: postId })
+      .then((notes) => {
+        return res.json(notes);
+      })
+      .catch((err) => res.status(400).json([err.message]));
+  }
 });
 
 

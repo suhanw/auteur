@@ -26,6 +26,15 @@ export const receiveNoteErrors = function (errors) {
   };
 };
 
+export const fetchNotes = function (postId) {
+  return function (dispatch) {
+    return APIUtil.fetchNotes(postId).then(
+      (notes) => dispatch(receiveNotes(notes)),
+      (err) => dispatch(receiveNoteErrors(err.responseJSON))
+    );
+  };
+};
+
 export const createNote = function (note) {
   return function (dispatch) {
     return APIUtil.createNote(note).then(

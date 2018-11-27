@@ -13,3 +13,18 @@ export const deleteNote = function (note) {
     data: note,
   });
 };
+
+export const fetchNotes = function (postId) {
+  return $.ajax({
+    method: 'GET',
+    url: `/api/posts/${postId}/notes/`,
+  });
+};
+
+// export const checkUserLikePost = function (postId, userId) {
+//   let queryString = `?userId=${userId}`;
+//   return $.ajax({
+//     method: 'GET',
+//     url: `/api/posts/${postId}/notes/${queryString}`,
+//   });
+// };
