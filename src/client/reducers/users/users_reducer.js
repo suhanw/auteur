@@ -61,14 +61,13 @@ const usersReducer = function (state = defaultState, action) {
     case UNFOLLOW_BLOG:
       newCurrentUser = { [action.payload._id]: action.payload };
       newState = {
+        // need to use mergeWith(... replaceArray) because the new 'following' array 
+        // has one less element than the old, so cannot use simple merge. 
         byId: mergeWith({}, state.byId, newCurrentUser, replaceArray),
         allIds: union(state.allIds, [action.payload._id]),
       };
       return newState;
     case RECEIVE_USER_LIKES:
-      // debugger
-      // payloadSchema = [noteSchema]
-      // normalizedPayload = normalize(action.payload.likedPosts, payloadSchema);
       newCurrentUser = {
         [action.payload.userId]: {
           likeCount: action.payload.likeCount,
