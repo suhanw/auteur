@@ -22,8 +22,7 @@ router.get('/feed', middleware.isLoggedIn, function (req, res) {
                 .select('_id type title body media blog author likeCount commentCount createdAt')
                 .sort({ 'createdAt': 'desc' })
                 .populate({ path: 'blog', select: '_id avatarImageUrl backgroundImageUrl name title' })
-                .lean(true)
-                // .set({ likedByCurrentUser: true })
+                // .lean(true)
                 .exec()
                 .then((foundPosts) => {
                     return res.json(foundPosts);
