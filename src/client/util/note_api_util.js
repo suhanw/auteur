@@ -20,11 +20,3 @@ export const fetchNotes = function (postId) {
     url: `/api/posts/${postId}/notes/`,
   });
 };
-
-// export const checkUserLikePost = function (postId, userId) {
-//   let queryString = `?userId=${userId}`;
-//   return $.ajax({
-//     method: 'GET',
-//     url: `/api/posts/${postId}/notes/${queryString}`,
-//   });
-// };

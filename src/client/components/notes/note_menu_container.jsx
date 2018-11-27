@@ -22,7 +22,6 @@ const mapDispatchToProps = function (dispatch, ownProps) {
     confirmDeletePost: (post) => dispatch(confirmDeletePost(post)),
     closePopover: () => dispatch(closePopover()),
     openPopover: (popover) => dispatch(openPopover(popover)),
-    // checkUserLikePost: (postId, userId) => dispatch(checkUserLikePost(postId, userId)),
     createNote: (note) => dispatch(createNote(note)),
   }
 };

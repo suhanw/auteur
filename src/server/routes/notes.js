@@ -9,20 +9,11 @@ const middleware = require('../middleware/middleware');
 router.get('/notes', function (req, res) {
   const postId = req.params.id;
   const userId = req.query.userId;
-  if (userId) { // if userId is passed in as query param, check if user likes post
-    modelQuery.checkUserLikePost(postId, userId)
-      .then((foundLike) => {
-        return res.json(foundLike);
-      })
-      .catch((err) => res.status(400).json([err.message]));
-  } else {
-    // otherwise, return all notes for the given post
-    Note.find({ post: postId })
-      .then((notes) => {
-        return res.json(notes);
-      })
-      .catch((err) => res.status(400).json([err.message]));
-  }
+  Note.find({ post: postId })
+    .then((notes) => {
+      return res.json(notes);
+    })
+    .catch((err) => res.status(400).json([err.message]));
 });
 
 

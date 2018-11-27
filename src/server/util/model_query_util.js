@@ -40,15 +40,6 @@ modelQuery.findOnePost = function (postId) {
     });
 };
 
-modelQuery.checkUserLikePost = function (postId, userId) {
-  return Note.findOne({ post: postId, author: userId })
-    .populate('post author')
-    .exec()
-    .then(function (foundLike) {
-      return foundLike;
-    });
-};
-
 modelQuery.createLike = function (likeBody) {
   return Note.findOne({ type: 'like', post: likeBody.post, author: likeBody.author })
     .exec()
