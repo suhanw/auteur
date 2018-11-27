@@ -49,13 +49,13 @@ modelQuery.createLike = function (likeBody) {
       return Note.create(likeBody);
     })
     .then((newLike) => {
-      return newLike.populate('post author').execPopulate();
+      return newLike.populate('post').execPopulate();
     })
     .then((newLike) => {
       newLike.post.likeCount += 1;
       newLike.post.save();
-      newLike.author.likeCount += 1;
-      newLike.author.save();
+      // newLike.author.likeCount += 1;
+      // newLike.author.save();
       return newLike;
     });
 };
@@ -65,13 +65,13 @@ modelQuery.deleteLike = function (likeId) {
     .exec()
     .then((deletedLike) => {
       if (!deletedLike) throw { message: 'You never liked this post to be able to unlike it. ' };
-      return deletedLike.populate('post author').execPopulate();
+      return deletedLike.populate('post').execPopulate();
     })
     .then((deletedLike) => {
       deletedLike.post.likeCount -= 1;
       deletedLike.post.save();
-      deletedLike.author.likeCount -= 1;
-      deletedLike.author.save();
+      // deletedLike.author.likeCount -= 1;
+      // deletedLike.author.save();
       return deletedLike;
     });
 }

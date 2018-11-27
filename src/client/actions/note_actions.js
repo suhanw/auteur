@@ -1,5 +1,6 @@
 import * as APIUtil from '../util/note_api_util';
 import { fetchPost } from '../actions/post_actions';
+import { fetchUserLikes } from '../actions/user_actions';
 
 export const RECEIVE_NOTE = 'RECEIVE_NOTE';
 export const REMOVE_NOTE = 'REMOVE_NOTE';
@@ -38,7 +39,10 @@ export const fetchNotes = function (postId) {
 export const createNote = function (note) {
   return function (dispatch) {
     return APIUtil.createNote(note).then(
-      (note) => dispatch(receiveNote(note)),
+      (note) => {
+        if (note.type === 'like') dispatch(fetchUserLikes(note.author));
+        dispatch(receiveNote(note));
+      },
       (err) => dispatch(receiveNoteErrors(err.responseJSON))
     );
   };
@@ -47,7 +51,10 @@ export const createNote = function (note) {
 export const deleteNote = function (note) {
   return function (dispatch) {
     return APIUtil.deleteNote(note).then(
-      (note) => dispatch(removeNote(note)),
+      (note) => {
+        if (note.type === 'like') dispatch(fetchUserLikes(note.author));
+        dispatch(removeNote(note));
+      },
       (err) => dispatch(receiveNoteErrors(err.responseJSON))
     );
   };

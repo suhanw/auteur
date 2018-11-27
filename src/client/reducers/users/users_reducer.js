@@ -3,7 +3,6 @@ import { normalize, schema } from 'normalizr';
 import { RECEIVE_CURRENT_USER, REMOVE_CURRENT_USER } from '../../actions/session_actions';
 import { RECEIVE_BLOG } from '../../actions/blog_actions';
 import { FOLLOW_BLOG, UNFOLLOW_BLOG } from '../../actions/follow_actions';
-import { RECEIVE_NOTE, REMOVE_NOTE } from '../../actions/note_actions';
 import { RECEIVE_USERS, RECEIVE_USER_LIKES } from '../../actions/user_actions';
 import { replaceArray } from '../../util/misc_util';
 
@@ -31,20 +30,6 @@ const blogSchema = new schema.Entity(
   { idAttribute: '_id' }
 );
 
-const postSchema = new schema.Entity(
-  'posts',
-  { idAttribute: '_id' }
-);
-
-const noteSchema = new schema.Entity(
-  'notes',
-  {
-    author: userSchema,
-    post: postSchema
-  },
-  { idAttribute: '_id' }
-);
-
 let payloadSchema;
 let normalizedPayload;
 
@@ -53,33 +38,6 @@ const usersReducer = function (state = defaultState, action) {
   let newState = {};
   let newCurrentUser = {};
   switch (action.type) {
-    case RECEIVE_NOTE:
-      if (!action.payload) return state;
-      normalizedPayload = normalize(action.payload, noteSchema);
-      newState.byId = mergeWith(
-        {},
-        state.byId,
-        normalizedPayload.entities.users,
-        replaceArray,
-      );
-      newState.allIds = union(
-        state.allIds,
-        [action.payload.author._id]
-      );
-      return newState;
-    case REMOVE_NOTE:
-      normalizedPayload = normalize(action.payload, noteSchema);
-      newState.byId = mergeWith(
-        {},
-        state.byId,
-        normalizedPayload.entities.users,
-        replaceArray,
-      );
-      newState.allIds = union(
-        state.allIds,
-        [action.payload.author._id]
-      );
-      return newState;
     case RECEIVE_BLOG:
       normalizedPayload = normalize(action.payload, blogSchema);
       newState.byId = mergeWith(
