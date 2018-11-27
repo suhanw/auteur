@@ -4,7 +4,7 @@ import { RECEIVE_CURRENT_USER, REMOVE_CURRENT_USER } from '../../actions/session
 import { RECEIVE_BLOG } from '../../actions/blog_actions';
 import { FOLLOW_BLOG, UNFOLLOW_BLOG } from '../../actions/follow_actions';
 import { RECEIVE_NOTE, REMOVE_NOTE } from '../../actions/note_actions';
-import { RECEIVE_USERS } from '../../actions/user_actions';
+import { RECEIVE_USERS, RECEIVE_USER_LIKES } from '../../actions/user_actions';
 import { replaceArray } from '../../util/misc_util';
 
 const defaultState = {
@@ -19,7 +19,8 @@ const userSchema = new schema.Entity(
       'blogs',
       { author: userSchema },
       { idAttribute: '_id' }
-    )
+    ),
+    // likedPosts: [postSchema],
   },
   { idAttribute: '_id' }
 );
@@ -53,6 +54,7 @@ const usersReducer = function (state = defaultState, action) {
   let newCurrentUser = {};
   switch (action.type) {
     case RECEIVE_NOTE:
+      if (!action.payload) return state;
       normalizedPayload = normalize(action.payload, noteSchema);
       newState.byId = mergeWith(
         {},
@@ -103,6 +105,16 @@ const usersReducer = function (state = defaultState, action) {
       newState = {
         byId: mergeWith({}, state.byId, newCurrentUser, replaceArray),
         allIds: union(state.allIds, [action.payload._id]),
+      };
+      return newState;
+    case RECEIVE_USER_LIKES:
+      // debugger
+      // payloadSchema = [noteSchema]
+      // normalizedPayload = normalize(action.payload.likedPosts, payloadSchema);
+      newCurrentUser = { [action.payload.userId]: { likedPosts: action.payload.likedPosts } };
+      newState = {
+        byId: mergeWith({}, state.byId, newCurrentUser, replaceArray),
+        allIds: union(state.allIds, [action.payload.userId]),
       };
       return newState;
     case RECEIVE_USERS:

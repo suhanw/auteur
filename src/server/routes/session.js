@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const passport = require('passport');
 
+const modelQuery = require('../util/model_query_util');
+
 // POST api/session
 router.post('/session',
   function (req, res, next) {

@@ -3,8 +3,10 @@ const router = express.Router();
 const passport = require('passport');
 const lodash = require('lodash');
 
+const middleware = require('../middleware/middleware');
 const User = require('../models/user');
 const Blog = require('../models/blog');
+const Note = require('../models/note');
 
 // POST api/users
 router.post('/users',
@@ -45,5 +47,28 @@ router.post('/users',
     );
   }
 );
+
+
+// GET api/users/:id/likes - fetch user's liked posts
+router.get('/users/:id/likes', middleware.isLoggedIn, function (req, res) {
+  let likesQuery = Note.find({ type: 'like', author: req.params.id })
+    .select('post');
+
+  if (req.query.populate === 'true') {
+    likesQuery = likesQuery.populate('post');
+  }
+
+  likesQuery.exec()
+    .then((likes) => {
+      if (!likes) throw { message: 'Error.' }
+      let likedPosts = likes.map((like) => like.post);
+      let userJSON = { // this will be merged with Redux 'users' state
+        userId: req.params.id,
+        likedPosts: likedPosts,
+      };
+      return res.json(userJSON);
+    })
+    .catch((err) => res.status(400).json([err.message]));
+});
 
 module.exports = router;

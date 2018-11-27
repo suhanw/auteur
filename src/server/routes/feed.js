@@ -26,19 +26,6 @@ router.get('/feed', middleware.isLoggedIn, function (req, res) {
                 // .set({ likedByCurrentUser: true })
                 .exec()
                 .then((foundPosts) => {
-                    let resultingPosts = [];
-                    // check if current user likes the post
-                    // foundPosts.forEach((post) => {
-                    //     Note.findOne({ type: 'like', post: post._id, author: req.user._id })
-                    //         .then((foundLike) => {
-                    //             post.isLikedByCurrentUser = !!foundLike;
-                    //             resultingPosts.push(post);
-                    //             if (resultingPosts.length === foundPosts.length) {
-                    //                 // debugger
-                    //                 return res.json(resultingPosts);
-                    //             }
-                    //         });
-                    // });
                     return res.json(foundPosts);
                 })
                 .catch((err) => res.json([err.message]));

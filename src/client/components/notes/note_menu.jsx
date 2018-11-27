@@ -29,6 +29,12 @@ class NoteMenu extends React.Component {
     );
   }
 
+  componentDidMount() {
+    // const { post, currentUser, checkUserLikePost } = this.props;
+    // checkUserLikePost(post._id, currentUser._id).then((action) => {
+    //   if (action.payload) this.setState({ heartIconClass: 'fas fa-heart' })
+    // });
+  }
 
   shouldComponentUpdate(newProps, newState) {
     // FIX: think about how to avoid re-rendering every single post item when popover is opened/closed
@@ -37,6 +43,11 @@ class NoteMenu extends React.Component {
 
   renderHeart() {
     const { post, currentUser } = this.props;
+    let heartIconClass = 'far fa-heart';
+    if (currentUser.likedPosts && currentUser.likedPosts.indexOf(post._id) !== -1) {
+      heartIconClass = 'fas fa-heart';
+    }
+    // const heartIconClass = post.isLikedByCurrentUser ? 'fas fa-heart' : 'far fa-heart';
     const note = {
       type: 'like',
       post: post._id,
@@ -44,7 +55,7 @@ class NoteMenu extends React.Component {
     };
     return (
       <li className='note-menu-item'>
-        <i className="far fa-heart"
+        <i className={heartIconClass}
           onClick={this.handleClick('createNote', note)}></i>
       </li>
     );

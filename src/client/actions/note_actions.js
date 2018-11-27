@@ -52,3 +52,12 @@ export const deleteNote = function (note) {
     );
   };
 };
+
+// export const checkUserLikePost = function (postId, userId) {
+//   return function (dispatch) {
+//     return APIUtil.checkUserLikePost(postId, userId).then(
+//       (note) => dispatch(receiveNote(note)),
+//       (err) => dispatch(receiveNoteErrors(err.responseJSON))
+//     );
+//   };
+// };

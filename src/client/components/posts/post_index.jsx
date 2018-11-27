@@ -55,7 +55,8 @@ class PostIndex extends React.Component {
   }
 
   componentDidMount() {
-    const { fetchFeed } = this.props;
+    const { fetchFeed, fetchUserLikes, currentUser } = this.props;
+    fetchUserLikes(currentUser._id);
     fetchFeed();
   }
 }

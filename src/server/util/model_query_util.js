@@ -3,6 +3,17 @@ const Blog = require('../models/blog');
 const Post = require('../models/post');
 const Note = require('../models/note');
 
+modelQuery.getCurrentUserLikes = function (userId) {
+  return Note.find({ type: 'like', author: userId })
+    .select('post')
+    .exec()
+    .then((likes) => {
+      if (!likes) throw { message: 'Error.' }
+      let likedPosts = likes.map((like) => like.post);
+      return likedPosts;
+    });
+};
+
 modelQuery.findOneBlog = function (blogId, handleSuccess, handleFailure) {
   // 'handleSuccess' callback func should be function(foundBlog) { ... }
   // 'handleFailure' callback func should be function(err) { ... }
@@ -31,6 +42,7 @@ modelQuery.findOnePost = function (postId) {
 
 modelQuery.checkUserLikePost = function (postId, userId) {
   return Note.findOne({ post: postId, author: userId })
+    .populate('post author')
     .exec()
     .then(function (foundLike) {
       return foundLike;

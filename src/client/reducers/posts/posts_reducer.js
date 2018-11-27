@@ -34,6 +34,7 @@ const postsReducer = function (state = defaultState, action) {
     let newState = {};
     switch (action.type) {
         case RECEIVE_NOTE:
+            if (!action.payload) return state;
             normalizedPayload = normalize(action.payload, noteSchema);
             newState.byId = mergeWith(
                 {},

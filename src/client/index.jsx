@@ -47,11 +47,13 @@ document.addEventListener('DOMContentLoaded', function () {
 // import { createPost, updatePost } from './util/post_api_util';
 // import { updatePost, deletePost } from './actions/post_actions';
 // import { createFollow, deleteFollow, fetchFollowers } from './actions/follow_actions';
-import { createNote, deleteNote, fetchNotes, checkUserLikePost } from './util/note_api_util';
-// import { createNote, deleteNote } from './actions/note_actions';
+// import { createNote, deleteNote, fetchNotes, checkUserLikePost } from './util/note_api_util';
+// import { createNote, deleteNote, checkUserLikePost } from './actions/note_actions';
+import { fetchUserLikes } from './actions/user_actions';
 
-window.fetchNotes = fetchNotes;
-window.checkUserLikePost = checkUserLikePost;
+window.fetchUserLikes = fetchUserLikes;
+// window.fetchNotes = fetchNotes;
+// window.checkUserLikePost = checkUserLikePost;
 // window.deleteNote = deleteNote;
 // window.createFollow = createFollow;
 // window.deleteFollow = deleteFollow;
