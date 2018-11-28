@@ -54,6 +54,8 @@ router.delete('/notes/:noteId', middleware.isLoggedIn, function (req, res) {
       switch (req.body.type) {
         case 'like':
           return modelQuery.deleteLike(req.params.noteId);
+        case 'comment':
+          return modelQuery.deleteComment(req.params.noteId);
         default:
           return;
       }

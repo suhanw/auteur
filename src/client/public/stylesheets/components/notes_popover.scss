@@ -18,7 +18,7 @@
 
 .note-scrolling-container {
   max-height: 400px;
-  overflow: auto; // to render scrollbar beyond max-height
+  overflow-y: scroll; // to render scrollbar beyond max-height
 }
 
 .note-container {
@@ -28,16 +28,12 @@
   display: flex;
   flex-direction: column-reverse; // to render latest note at bottom
   min-height: min-content; // to rezize height to fit content
+  cursor: default;
 }
 
 .note-container h1 {
+  font-size: 13px;
   font-weight: 700;
-}
-
-.note-container div {
-  margin-top: 8px;
-  font-size: 14px;
-  font-weight: 400;
 }
 
 .note-show-like, 
@@ -55,7 +51,6 @@
 .note-show-comment {
   align-items: flex-start;
 }
-
 
 .note-show-avatar {
   position: relative; 
@@ -105,6 +100,41 @@
 .note-show-comment .comment-body {
   background: white;
   padding: 10px;
+  border-radius: 3px;
+}
+
+.note-show-comment .comment-content {
+  margin-top: 8px;
+  font-size: 14px;
+  font-weight: 400;
+  cursor: text;
+}
+
+.note-show-comment .comment-username {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+}
+
+.note-show-comment i.fas.fa-ellipsis-h {
+  font-size: 14px;
+  opacity: 0;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.note-show-comment i.fas.fa-ellipsis-h:hover {
+  opacity: 1;
+}
+
+.ellipsis-popover {
+  position: absolute; 
+  top: 18px;
+  right: -20px;
+  width: 100px;
+  font-size: 13px;
+  z-index: 4;
 }
 
 .note-form-comment {

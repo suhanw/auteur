@@ -2,8 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import ContentEditable from 'react-contenteditable';
 
-import { fetchNotes, createNote } from '../../actions/note_actions';
-import { selectNotes, selectUsers, selectCurrentUser } from '../../selectors/selectors';
+import { fetchNotes, createNote, deleteNote } from '../../actions/note_actions';
+import { selectNotes, selectUsers, selectCurrentUser, selectPopover } from '../../selectors/selectors';
 
 const mapStateToProps = function (state, ownProps) {
   const { post } = ownProps;
@@ -23,6 +23,7 @@ const mapDispatchToProps = function (dispatch, ownProps) {
   return {
     fetchNotes: (postId) => dispatch(fetchNotes(postId)),
     createNote: (note) => dispatch(createNote(note)),
+    deleteNote: (note) => dispatch(deleteNote(note)),
   }
 };
 
@@ -36,6 +37,7 @@ class NotePopover extends React.Component {
       body: '',
       author: props.currentUser._id,
       post: props.post._id,
+      popover: null,
     };
 
     this.renderNoteIndex = this.renderNoteIndex.bind(this);
@@ -44,6 +46,8 @@ class NotePopover extends React.Component {
     this.renderNoteShow = this.renderNoteShow.bind(this);
     this.renderLike = this.renderLike.bind(this);
     this.renderComment = this.renderComment.bind(this);
+    this.renderEllipsisPopover = this.renderEllipsisPopover.bind(this);
+    this.toggleEllipsisPopover = this.toggleEllipsisPopover.bind(this);
     this.renderCommentForm = this.renderCommentForm.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -134,6 +138,16 @@ class NotePopover extends React.Component {
 
   renderComment(note) {
     let noteAuthor = this.props.users[note.author];
+    // START HERE
+    const { popover } = this.state;
+    let ellipsisPopover = {
+      popoverId: note._id,
+      popoverType: 'ellipsisPopover',
+    };
+    let ellipsisPopoverComponent = null;
+    if (JSON.stringify(popover) === JSON.stringify(ellipsisPopover)) {
+      ellipsisPopoverComponent = this.renderEllipsisPopover(note);
+    }
 
     return (
       <li key={note._id} className='note-show-comment'>
@@ -144,11 +158,50 @@ class NotePopover extends React.Component {
           </div>
         </div>
         <section className='comment-body'>
-          <h1>{noteAuthor.username}</h1>
-          <div dangerouslySetInnerHTML={{ __html: note.body }}></div>
+          <div className='comment-username'>
+            <h1>{noteAuthor.username}</h1>
+            <i className="fas fa-ellipsis-h"
+              onClick={this.toggleEllipsisPopover(ellipsisPopover)}></i>
+            {ellipsisPopoverComponent}
+          </div>
+          <div className='comment-content'
+            dangerouslySetInnerHTML={{ __html: note.body }}></div>
         </section>
       </li>
     );
+  }
+
+  renderEllipsisPopover(note) {
+    return (
+      <div className='ellipsis-popover popover'>
+        <span className='popover-menu-item'
+          onClick={this.handleClick('deleteNote', note)}>
+          Delete reply
+        </span>
+      </div>
+    );
+  }
+
+  toggleEllipsisPopover(currPopover) {
+    const { popover } = this.state;
+    const that = this;
+    return function (e) {
+      e.stopPropagation();
+      if (JSON.stringify(popover) === JSON.stringify(currPopover)) {
+        that.setState({ popover: null });
+      } else {
+        that.setState({ popover: currPopover });
+      }
+    }
+  }
+
+  handleClick(clickAction, payload) {
+    const executeAction = this.props[clickAction];
+    const that = this;
+    return function (e) {
+      e.stopPropagation();
+      executeAction(payload);
+    };
   }
 
   renderCommentForm() {

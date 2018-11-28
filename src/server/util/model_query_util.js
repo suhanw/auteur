@@ -81,7 +81,22 @@ modelQuery.createComment = function (commentBody) {
       newComment.post.commentCount += 1;
       newComment.post.save();
       return newComment;
+    });
+}
+
+// START HERE
+modelQuery.deleteComment = function (commentId) {
+  return Note.findOneAndDelete({ _id: commentId })
+    .exec()
+    .then((deletedComment) => {
+      if (!deletedComment) throw { message: 'This comment does not exist. ' };
+      return deletedComment.populate('post').execPopulate();
     })
+    .then((deletedComment) => {
+      deletedComment.post.commentCount -= 1;
+      deletedComment.post.save();
+      return deletedComment;
+    });
 }
 
 

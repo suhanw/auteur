@@ -19,7 +19,7 @@ class NoteMenu extends React.Component {
 
     return (
       <div className='note-menu-container'>
-        <span>This will be NoteMenu</span>
+        <span>{post.likeCount + post.commentCount} notes</span>
         <ul className='note-menu'>
 
           {this.renderCommentBubble()}
@@ -66,13 +66,14 @@ class NoteMenu extends React.Component {
       popoverId: post._id,
       popoverType: 'notePopover',
     };
+    // let notePopoverComponent = <NotePopover post={post} togglePopover={this.togglePopover} />;
     let notePopoverComponent = null;
     if (JSON.stringify(popover) === JSON.stringify(notePopover)) {
       notePopoverComponent = <NotePopover post={post} />
     }
 
     return (
-      <li className='note-menu-item'>
+      <li className='note-menu-item' >
         <i className="far fa-comment"
           onClick={this.togglePopover(notePopover)}></i>
         {notePopoverComponent}
