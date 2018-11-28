@@ -14,6 +14,7 @@
   border-bottom: solid rgb(231, 231, 231) 1px;
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
+  cursor: default;
 }
 
 .note-scrolling-container {
@@ -34,8 +35,14 @@
 .note-container h1 {
   font-size: 13px;
   font-weight: 700;
+  margin-right: 5px;
 }
 
+.note-container small {
+  color: #8f8f8f;
+}
+
+.note-show-posted-by,
 .note-show-like, 
 .note-show-comment {
   padding: 10px 10px;
@@ -44,6 +51,7 @@
   display: inline-flex;
 }
 
+.note-show-posted-by,
 .note-show-like {
   align-items: center;
 }

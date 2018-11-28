@@ -3,17 +3,19 @@ import { connect } from 'react-redux';
 import ContentEditable from 'react-contenteditable';
 
 import { fetchNotes, createNote, deleteNote } from '../../actions/note_actions';
-import { selectNotes, selectUsers, selectCurrentUser, selectPopover } from '../../selectors/selectors';
+import { selectNotes, selectUsers, selectCurrentUser, selectPopover, selectBlogs } from '../../selectors/selectors';
 
 const mapStateToProps = function (state, ownProps) {
   const { post } = ownProps;
   const notesArr = selectNotes(state, post._id);
   const users = selectUsers(state);
+  const blogs = selectBlogs(state);
   const currentUser = selectCurrentUser(state);
   return {
     post,
     notesArr,
     users,
+    blogs,
     currentUser,
   };
 };
@@ -71,13 +73,16 @@ class NotePopover extends React.Component {
   }
 
   renderNoteIndex() {
-    const { notesArr } = this.props;
+    const { notesArr, blogs, post } = this.props;
+    const postBlog = blogs[post.blog];
+    let noteCount = notesArr.length;
+    noteCount += (noteCount === 1) ? ' note' : ' notes';
     return (
       <div className='note-index'
         onClick={(e) => e.stopPropagation()}>
         <header className='note-index-header'>
           <span>
-            {notesArr.length} notes
+            {noteCount}
           </span>
         </header>
         <div className='note-scrolling-container'
@@ -85,6 +90,13 @@ class NotePopover extends React.Component {
           <ul className='note-container'>
 
             {this.renderNoteShowItems()}
+
+            <li key={post._id} className='note-show-posted-by'>
+              <div className='note-show-avatar'>
+                <img src={postBlog.avatarImageUrl} className='avatar avatar-extra-small' />
+              </div>
+              <h1>{postBlog.name}</h1> <small>posted this</small>
+            </li>
 
           </ul>
 
@@ -140,15 +152,16 @@ class NotePopover extends React.Component {
   }
 
   renderComment(note) {
-    let noteAuthor = this.props.users[note.author];
-    // START HERE
+    const { currentUser } = this.props;
+    const noteAuthor = this.props.users[note.author];
     const { popover } = this.state;
     let ellipsisPopover = {
       popoverId: note._id,
       popoverType: 'ellipsisPopover',
     };
     let ellipsisPopoverComponent = null;
-    if (JSON.stringify(popover) === JSON.stringify(ellipsisPopover)) {
+    if (JSON.stringify(popover) === JSON.stringify(ellipsisPopover) &&
+      currentUser._id === noteAuthor._id) { // user can only delete own notes
       ellipsisPopoverComponent = this.renderEllipsisPopover(note);
     }
 

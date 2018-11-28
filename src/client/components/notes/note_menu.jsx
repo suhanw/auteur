@@ -16,10 +16,14 @@ class NoteMenu extends React.Component {
 
   render() {
     const { post, currentUser } = this.props;
-
+    let noteCount = null;
+    if (post.likeCount + post.commentCount > 0) {
+      noteCount = (post.likeCount + post.commentCount);
+      noteCount += (noteCount === 1) ? ' note' : ' notes';
+    }
     return (
       <div className='note-menu-container'>
-        <span>{post.likeCount + post.commentCount} notes</span>
+        <span>{noteCount}</span>
         <ul className='note-menu'>
 
           {this.renderCommentBubble()}

@@ -56,7 +56,6 @@ class PostFormText extends React.Component {
   handleChange(inputField) {
     const that = this;
     return function (e) {
-      e.preventDefault();
       let newState = {};
       newState[inputField] = e.target.value;
       that.setState(newState);
