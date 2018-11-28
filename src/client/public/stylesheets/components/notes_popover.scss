@@ -19,18 +19,18 @@
   border-bottom-right-radius: 0;
 }
 
-.note-index {
+.note-container {
   background: #f2f2f2;
   border-radius: 0;
+  display: flex;
+  flex-direction: column-reverse; // to render latest note at bottom
 }
 
-
-
-.note-index h1 {
+.note-container h1 {
   font-weight: 700;
 }
 
-.note-index p {
+.note-container p {
   margin-top: 8px;
   font-size: 14px;
   font-weight: 400;

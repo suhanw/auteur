@@ -51,6 +51,7 @@ const usersReducer = function (state = defaultState, action) {
   let newCurrentUser = {};
   switch (action.type) {
     case RECEIVE_NOTES:
+      if (action.payload.notes.length === 0) return state; //when the post has no notes
       payloadSchema = [noteSchema];
       normalizedPayload = normalize(action.payload.notes, payloadSchema);
       newState.byId = merge(

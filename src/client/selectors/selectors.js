@@ -20,11 +20,28 @@ export const selectPosts = function (state) {
   return postsArr;
 };
 
+
 export const selectPost = function (state, postId) {
   const { entities: { posts: { byId } } } = state;
   let post = byId[postId];
   return post;
 }
+
+export const selectNotes = function (state, postId) {
+  const { entities: { notes } } = state; // pull the notes slice of state
+  const post = selectPost(state, postId); // pull the current post
+  if (!post.notes) return null; // when notes are being fetched, post.notes will be undefined
+  let notesArr = post.notes.map(function (noteId) { //iterate through the notes array in the current post object
+    return notes.byId[noteId];
+  });
+  return notesArr;
+};
+
+export const selectUsers = function (state) {
+  const { entities: { users } } = state;
+  let usersObj = users.byId;
+  return usersObj;
+};
 
 export const selectBlogs = function (state) {
   const { entities: { blogs } } = state;

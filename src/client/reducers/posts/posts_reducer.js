@@ -31,6 +31,8 @@ const noteSchema = new schema.Entity('notes',
 
 let payloadSchema;
 let normalizedPayload;
+let postId;
+let noteId;
 
 const postsReducer = function (state = defaultState, action) {
     Object.freeze(state);
@@ -57,6 +59,8 @@ const postsReducer = function (state = defaultState, action) {
             return newState;
         case RECEIVE_NOTE:
             if (!action.payload) return state;
+            noteId = action.payload._id;
+            postId = action.payload.post._id;
             normalizedPayload = normalize(action.payload, noteSchema);
             newState.byId = mergeWith(
                 {},
@@ -64,12 +68,16 @@ const postsReducer = function (state = defaultState, action) {
                 normalizedPayload.entities.posts,
                 replaceArray,
             );
+            // insert noteId in the post.notes state
+            newState.byId[postId].notes.unshift(noteId);
             newState.allIds = union(
                 state.allIds,
                 [action.payload.post._id]
             );
             return newState;
         case REMOVE_NOTE:
+            noteId = action.payload._id;
+            postId = action.payload.post._id;
             normalizedPayload = normalize(action.payload, noteSchema);
             newState.byId = mergeWith(
                 {},
@@ -77,6 +85,8 @@ const postsReducer = function (state = defaultState, action) {
                 normalizedPayload.entities.posts,
                 replaceArray,
             );
+            // filter to exclude the removed noteId from the post.notes state
+            newState.byId[postId].notes = newState.byId[postId].notes.filter((note) => note !== noteId);
             newState.allIds = union(
                 state.allIds,
                 [action.payload.post._id]
@@ -117,7 +127,7 @@ const postsReducer = function (state = defaultState, action) {
             }
             return newState;
         case REMOVE_POST:
-            const postId = action.payload;
+            postId = action.payload;
             newState.byId = mergeWith({}, state.byId, replaceArray);
             delete newState.byId[postId];
             newState.allIds = state.allIds.slice();

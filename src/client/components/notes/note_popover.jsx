@@ -2,12 +2,18 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import { fetchNotes } from '../../actions/note_actions';
+import { selectNotes, selectUsers } from '../../selectors/selectors';
 
 const mapStateToProps = function (state, ownProps) {
   const { popoverStyle, post } = ownProps;
+  const notesArr = selectNotes(state, post._id);
+  const users = selectUsers(state);
+  // if (post._id === '5bfd87cdf59b6d0a7c079ca3') debugger
   return {
     popoverStyle,
     post,
+    notesArr,
+    users,
   };
 };
 
@@ -23,28 +29,21 @@ class NotePopover extends React.Component {
   constructor(props) {
     super(props);
 
+    this.renderNoteIndex = this.renderNoteIndex.bind(this);
+    this.renderNoteShowItems = this.renderNoteShowItems.bind(this);
+    this.renderNoteShow = this.renderNoteShow.bind(this);
     this.renderLike = this.renderLike.bind(this);
     this.renderComment = this.renderComment.bind(this);
   }
 
   render() {
-    const { popoverStyle } = this.props;
+    const { popoverStyle, notesArr } = this.props;
 
+    if (!notesArr) return <div className='note-popover popover'>Loading</div>;
     return (
       <div className='note-popover popover'
         style={popoverStyle}>
-        <header className='note-index-header'>
-          <span>
-            2 notes
-          </span>
-        </header>
-        <ul className='note-index'>
-
-          {this.renderLike()}
-
-          {this.renderComment()}
-
-        </ul>
+        {this.renderNoteIndex()}
         <footer className='note-form-comment'>
           <div className='comment-input'>
             Unleash a compliment.
@@ -59,29 +58,70 @@ class NotePopover extends React.Component {
 
   componentDidMount() {
     const { fetchNotes, post } = this.props;
-    // START HERE 
-    // fetchNotes(post._id);
+    fetchNotes(post._id);
   }
 
-  renderLike() {
+  renderNoteIndex() {
+    const { notesArr } = this.props;
     return (
-      <li className='note-show-like'>
+      <div className='note-index'>
+        <header className='note-index-header'>
+          <span>
+            {notesArr.length} notes
+          </span>
+        </header>
+        <ul className='note-container'>
+
+          {this.renderNoteShowItems()}
+
+        </ul>
+      </div>
+    );
+  }
+
+  renderNoteShowItems() {
+    const { notesArr } = this.props;
+    if (notesArr.length === 0) return null;
+
+    let noteShowItems = notesArr.map((note) => {
+      return this.renderNoteShow(note);
+    })
+
+    return noteShowItems;
+  }
+
+  renderNoteShow(note) {
+    const noteShowComponents = {
+      'like': this.renderLike,
+      'comment': this.renderComment,
+    };
+    const component = noteShowComponents[note.type];
+    return component(note);
+  };
+
+  renderLike(note) {
+    let noteAuthor = this.props.users[note.author];
+    // let noteAuthorUsername = null;
+    // if (noteAuthor) noteAuthorUsername = noteAuthor.username;
+
+    return (
+      <li key={note._id} className='note-show-like'>
         <div className='note-show-avatar'>
-          <img className='avatar avatar-extra-small' />
+          <img src={noteAuthor.avatarImageUrl} className='avatar avatar-extra-small' />
           <div className='note-show-like-icon'>
             <i className="fas fa-heart"></i>
           </div>
         </div>
         <h1>
-          NoteShowLike
-            </h1>
+          {noteAuthor.username}
+        </h1>
       </li>
     );
   }
 
-  renderComment() {
+  renderComment(note) {
     return (
-      <li className='note-show-comment'>
+      <li key={note._id} className='note-show-comment'>
         <div className='note-show-avatar'>
           <img className='avatar avatar-extra-small' />
           <div className='note-show-comment-icon'>
@@ -89,8 +129,8 @@ class NotePopover extends React.Component {
           </div>
         </div>
         <section className='comment-body'>
-          <h1>NoteShowComment</h1>
-          <p>comment body blah blah blah blah blah</p>
+          <h1>{note.author}</h1>
+          <p>{note.body}</p>
         </section>
       </li>
     );
