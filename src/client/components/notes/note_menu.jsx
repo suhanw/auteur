@@ -1,27 +1,30 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+import NotesPopover from '../popovers/notes_popover';
+
 class NoteMenu extends React.Component {
   constructor(props) {
     super(props);
 
     this.handleClick = this.handleClick.bind(this);
     this.togglePopover = this.togglePopover.bind(this);
+    this.renderCommentBubble = this.renderCommentBubble.bind(this);
     this.renderHeart = this.renderHeart.bind(this);
     this.renderCog = this.renderCog.bind(this);
   }
 
   render() {
     const { post, currentUser } = this.props;
-    // render cog if the post belongs to current user, else render heart
+
     return (
       <div className='note-menu-container'>
         <span>This will be NoteMenu</span>
         <ul className='note-menu'>
-          <li className='note-menu-item'>
-            <i className="far fa-comment"></i>
-          </li>
 
+          {this.renderCommentBubble()}
+
+          {/* render cog if the post belongs to current user, else render heart */}
           {post.author === currentUser._id ? this.renderCog() : this.renderHeart()}
 
         </ul>
@@ -31,17 +34,11 @@ class NoteMenu extends React.Component {
 
   shouldComponentUpdate(newProps, newState) {
     // FIX: think about how to avoid re-rendering every single post item when popover is opened/closed
-    if (this.props.post._id === '5bfd87cdf59b6d0a7c079ca3' &&
-      newProps.currentUser.likeCount !== this.props.currentUser.likeCount) {
-      console.log('change in likes');
-
-    }
     return true;
   }
 
   renderHeart() {
     const { post, currentUser } = this.props;
-    // if (this.props.post._id === '5bfd87cdf59b6d0a7c079ca3') debugger
     let heartIconClass = 'far fa-heart';
     let clickAction = 'createNote';
     let note = {
@@ -49,7 +46,7 @@ class NoteMenu extends React.Component {
       post: post._id,
       author: currentUser._id,
     };
-    // FIX: not re-rendering when post unliked
+    // check if current user liked this post
     if (currentUser.likedPosts && currentUser.likedPosts[post._id]) {
       heartIconClass = 'fas fa-heart';
       clickAction = 'deleteNote';
@@ -59,6 +56,16 @@ class NoteMenu extends React.Component {
       <li className='note-menu-item'>
         <i className={heartIconClass}
           onClick={this.handleClick(clickAction, note)}></i>
+      </li>
+    );
+  }
+
+  renderCommentBubble() {
+
+    return (
+      <li className='note-menu-item'>
+        <i className="far fa-comment"></i>
+        <NotesPopover />
       </li>
     );
   }

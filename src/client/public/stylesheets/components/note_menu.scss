@@ -1,3 +1,5 @@
+$note-icon-width: 20px;
+
 .note-menu-container {
   font-size: 14px;
   font-weight: 700;
@@ -16,11 +18,15 @@
 .note-menu-item {
   cursor: pointer;
   margin-left: 10px;
+  // border: 1px solid red;
+  position: relative;
+  display: flex;
+  align-items: center;
 }
 
 .note-menu-item i.fas, 
 .note-menu-item i.far {
-  font-size: 20px;
+  font-size: $note-icon-width;
 }
 
 .note-menu-item i.fas.fa-heart {
@@ -29,8 +35,8 @@
 
 .post-edit-delete.popover {
   position: absolute;
-  bottom: -50px;
-  right: -80px;
+  top: 25px;
+  left: 0;
   z-index: 6;
   padding: 4px 0;
 }
