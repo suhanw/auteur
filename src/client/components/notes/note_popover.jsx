@@ -95,7 +95,10 @@ class NotePopover extends React.Component {
 
   scrollToBottom(e) {
     e.stopPropagation();
+    // to scroll to last/latest note
     e.currentTarget.scrollTop = e.currentTarget.scrollHeight;
+    // to focus caret on textbox
+    document.querySelector('.comment-input').focus();
   }
 
   renderNoteShowItems() {
@@ -208,7 +211,7 @@ class NotePopover extends React.Component {
     const { body } = this.state;
     let readyToSubmit = (body.length > 0) ? true : false;
     return (
-      <form className='note-form-comment'>
+      <div className='note-form-comment'>
         <ContentEditable className='comment-input'
           onChange={this.handleChange('body')}
           onClick={(e) => e.stopPropagation() /* to stop event from bubbling up to window closePopover */}
@@ -221,9 +224,10 @@ class NotePopover extends React.Component {
           disabled={!readyToSubmit}>
           Reply
           </button>
-      </form>
+      </div >
     );
   }
+
 
   handleChange(inputField) {
     const that = this;
