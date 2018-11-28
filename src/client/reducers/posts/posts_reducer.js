@@ -58,7 +58,6 @@ const postsReducer = function (state = defaultState, action) {
             );
             return newState;
         case RECEIVE_NOTE:
-            if (!action.payload) return state;
             noteId = action.payload._id;
             postId = action.payload.post._id;
             normalizedPayload = normalize(action.payload, noteSchema);
@@ -69,7 +68,9 @@ const postsReducer = function (state = defaultState, action) {
                 replaceArray,
             );
             // insert noteId in the post.notes state
-            newState.byId[postId].notes.unshift(noteId);
+            if (newState.byId[postId].notes) {
+                newState.byId[postId].notes.unshift(noteId);
+            }
             newState.allIds = union(
                 state.allIds,
                 [action.payload.post._id]
@@ -86,7 +87,9 @@ const postsReducer = function (state = defaultState, action) {
                 replaceArray,
             );
             // filter to exclude the removed noteId from the post.notes state
-            newState.byId[postId].notes = newState.byId[postId].notes.filter((note) => note !== noteId);
+            if (newState.byId[postId].notes) {
+                newState.byId[postId].notes = newState.byId[postId].notes.filter((note) => note !== noteId);
+            }
             newState.allIds = union(
                 state.allIds,
                 [action.payload.post._id]

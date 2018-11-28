@@ -66,19 +66,20 @@ class NoteMenu extends React.Component {
       popoverId: post._id,
       popoverType: 'notePopover',
     };
-    // const popoverStyle = JSON.stringify(popover) === JSON.stringify(notePopover) ? { display: 'inline-block' } : { display: 'none' };
-    const popoverStyle = { display: 'inline-block' };
+    let notePopoverComponent = null;
+    if (JSON.stringify(popover) === JSON.stringify(notePopover)) {
+      notePopoverComponent = <NotePopover post={post} />
+    }
 
     return (
       <li className='note-menu-item'>
         <i className="far fa-comment"
           onClick={this.togglePopover(notePopover)}></i>
-        <NotePopover
-          popoverStyle={popoverStyle}
-          post={post} />
+        {notePopoverComponent}
       </li>
     );
   }
+
 
   renderCog() {
     const { post, popover } = this.props;

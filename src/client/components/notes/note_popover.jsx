@@ -5,12 +5,10 @@ import { fetchNotes } from '../../actions/note_actions';
 import { selectNotes, selectUsers } from '../../selectors/selectors';
 
 const mapStateToProps = function (state, ownProps) {
-  const { popoverStyle, post } = ownProps;
+  const { post } = ownProps;
   const notesArr = selectNotes(state, post._id);
   const users = selectUsers(state);
-  // if (post._id === '5bfd87cdf59b6d0a7c079ca3') debugger
   return {
-    popoverStyle,
     post,
     notesArr,
     users,
@@ -37,12 +35,11 @@ class NotePopover extends React.Component {
   }
 
   render() {
-    const { popoverStyle, notesArr } = this.props;
+    const { notesArr } = this.props;
 
     if (!notesArr) return <div className='note-popover popover'>Loading</div>;
     return (
-      <div className='note-popover popover'
-        style={popoverStyle}>
+      <div className='note-popover popover'>
         {this.renderNoteIndex()}
         <footer className='note-form-comment'>
           <div className='comment-input'>
