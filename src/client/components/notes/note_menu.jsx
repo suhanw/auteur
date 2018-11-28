@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import NotesPopover from '../popovers/notes_popover';
+import NotePopover from './note_popover';
 
 class NoteMenu extends React.Component {
   constructor(props) {
@@ -61,11 +61,21 @@ class NoteMenu extends React.Component {
   }
 
   renderCommentBubble() {
+    const { post, popover } = this.props;
+    const notePopover = {
+      popoverId: post._id,
+      popoverType: 'notePopover',
+    };
+    // const popoverStyle = JSON.stringify(popover) === JSON.stringify(notePopover) ? { display: 'inline-block' } : { display: 'none' };
+    const popoverStyle = { display: 'inline-block' };
 
     return (
       <li className='note-menu-item'>
-        <i className="far fa-comment"></i>
-        <NotesPopover />
+        <i className="far fa-comment"
+          onClick={this.togglePopover(notePopover)}></i>
+        <NotePopover
+          popoverStyle={popoverStyle}
+          post={post} />
       </li>
     );
   }

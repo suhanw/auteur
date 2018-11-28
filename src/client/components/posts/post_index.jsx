@@ -29,6 +29,7 @@ class PostIndex extends React.Component {
   }
 
   renderPostShowItems() {
+    // FIX: create postsArr slice in Redux UI state, to render posts depending on path/view
     const { postsArr, blogs } = this.props;
     if (postsArr.length === 0 || !postsArr) {
       return null;
