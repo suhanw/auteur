@@ -27,7 +27,7 @@ $dogear-grey: rgb(208, 208, 208);
 
 .post-show-item .avatar {
   position: sticky;
-  top: 70px; // it will 'stick' at position 70px below the closest parent container with overflow: scroll
+  top: 70px; // it will 'stick' at position 70px against the closest parent container with overflow: scroll
 }
 
 .post-menu,

@@ -1,10 +1,8 @@
 .note-popover {
   width: 292px;
-  // height: 600px;
   max-height: 600px;
   position: absolute; 
   right: 30px;
-  // left: 0;
   z-index: 3;
 }
 
@@ -116,14 +114,16 @@
   padding: 13px 15px;
   flex-basis: 100%;
   color: #444; 
+  cursor: text;
 }
 
-.note-form-comment .comment-submit {
+.note-form-comment button.comment-submit {
   padding: 10px 15px;
   font-weight: 700;
-  color: #8f8f8f;
+  color: #529ecc;
+  cursor: pointer;
 }
 
-.note-form-comment .comment-submit.active {
-  color: #529ecc;
+.note-form-comment button.comment-submit:disabled {
+  color: #8f8f8f;
 }

@@ -1,17 +1,20 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import ContentEditable from 'react-contenteditable';
 
 import { fetchNotes } from '../../actions/note_actions';
-import { selectNotes, selectUsers } from '../../selectors/selectors';
+import { selectNotes, selectUsers, selectCurrentUser } from '../../selectors/selectors';
 
 const mapStateToProps = function (state, ownProps) {
   const { post } = ownProps;
   const notesArr = selectNotes(state, post._id);
   const users = selectUsers(state);
+  const currentUser = selectCurrentUser(state);
   return {
     post,
     notesArr,
     users,
+    currentUser,
   };
 };
 
@@ -27,11 +30,21 @@ class NotePopover extends React.Component {
   constructor(props) {
     super(props);
 
+    this.state = {
+      type: 'comment',
+      body: '',
+      author: props.currentUser._id,
+      post: props.post._id,
+    };
+
     this.renderNoteIndex = this.renderNoteIndex.bind(this);
     this.renderNoteShowItems = this.renderNoteShowItems.bind(this);
     this.renderNoteShow = this.renderNoteShow.bind(this);
     this.renderLike = this.renderLike.bind(this);
     this.renderComment = this.renderComment.bind(this);
+    this.renderCommentForm = this.renderCommentForm.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   render() {
@@ -41,14 +54,7 @@ class NotePopover extends React.Component {
     return (
       <div className='note-popover popover'>
         {this.renderNoteIndex()}
-        <footer className='note-form-comment'>
-          <div className='comment-input'>
-            Unleash a compliment.
-          </div>
-          <button className='comment-submit'>
-            Reply
-          </button>
-        </footer>
+        {this.renderCommentForm()}
       </div >
     )
   }
@@ -61,7 +67,7 @@ class NotePopover extends React.Component {
   renderNoteIndex() {
     const { notesArr } = this.props;
     return (
-      <div className='note-index'>
+      <div className='note-index' onClick={(e) => e.stopPropagation()}>
         <header className='note-index-header'>
           <span>
             {notesArr.length} notes
@@ -131,6 +137,44 @@ class NotePopover extends React.Component {
         </section>
       </li>
     );
+  }
+
+  renderCommentForm() {
+    const { body } = this.state;
+    let readyToSubmit = (body.length > 0) ? true : false;
+    return (
+      <form className='note-form-comment'>
+        <ContentEditable className='comment-input'
+          onChange={this.handleChange('body')}
+          onClick={(e) => e.stopPropagation() /* to stop event from bubbling up to window closePopover */}
+          html={body}
+          disabled={false}
+          placeholder='Unleash a compliment.'
+          tagName='div' />
+        <button className={`comment-submit`}
+          onClick={this.handleSubmit}
+          disabled={!readyToSubmit}>
+          Reply
+          </button>
+      </form>
+    );
+  }
+
+  handleChange(inputField) {
+    const that = this;
+    return function (e) {
+      let newState = {};
+      newState[inputField] = e.target.value;
+      that.setState(newState);
+    }
+  }
+
+  handleSubmit(e) {
+    e.preventDefault();
+    e.stopPropagation(); //to stop event from bubbling up to window closePopover
+    if (this.state.body.length === 0) return; // don't submit if no comment text
+    console.log('submitting comment', this.state);
+
   }
 }
 
