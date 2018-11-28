@@ -54,8 +54,6 @@ modelQuery.createLike = function (likeBody) {
     .then((newLike) => {
       newLike.post.likeCount += 1;
       newLike.post.save();
-      // newLike.author.likeCount += 1;
-      // newLike.author.save();
       return newLike;
     });
 };
@@ -70,10 +68,20 @@ modelQuery.deleteLike = function (likeId) {
     .then((deletedLike) => {
       deletedLike.post.likeCount -= 1;
       deletedLike.post.save();
-      // deletedLike.author.likeCount -= 1;
-      // deletedLike.author.save();
       return deletedLike;
     });
+}
+
+modelQuery.createComment = function (commentBody) {
+  return Note.create(commentBody)
+    .then((newComment) => {
+      return newComment.populate('post').execPopulate();
+    })
+    .then((newComment) => {
+      newComment.post.commentCount += 1;
+      newComment.post.save();
+      return newComment;
+    })
 }
 
 

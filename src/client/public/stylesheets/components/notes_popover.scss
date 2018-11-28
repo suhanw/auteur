@@ -1,6 +1,5 @@
 .note-popover {
   width: 292px;
-  max-height: 600px;
   position: absolute; 
   right: 30px;
   z-index: 3;
@@ -17,18 +16,25 @@
   border-bottom-right-radius: 0;
 }
 
+.note-scrolling-container {
+  max-height: 400px;
+  overflow: auto; // to render scrollbar beyond max-height
+}
+
 .note-container {
+  width: 100%;
   background: #f2f2f2;
   border-radius: 0;
   display: flex;
   flex-direction: column-reverse; // to render latest note at bottom
+  min-height: min-content; // to rezize height to fit content
 }
 
 .note-container h1 {
   font-weight: 700;
 }
 
-.note-container p {
+.note-container div {
   margin-top: 8px;
   font-size: 14px;
   font-weight: 400;
@@ -38,9 +44,18 @@
 .note-show-comment {
   padding: 10px 10px;
   font-size: 13px;
-  display: flex;
   line-height: 1.2;
+  display: inline-flex;
 }
+
+.note-show-like {
+  align-items: center;
+}
+
+.note-show-comment {
+  align-items: flex-start;
+}
+
 
 .note-show-avatar {
   position: relative; 
@@ -85,14 +100,6 @@
 .note-show-comment-icon i.fas.fa-comment {
   margin-top: 1px;
   margin-left: 1px;
-}
-
-.note-show-like {
-  align-items: center;
-}
-
-.note-show-comment {
-  align-items: flex-start;
 }
 
 .note-show-comment .comment-body {

@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import ContentEditable from 'react-contenteditable';
 
-import { fetchNotes } from '../../actions/note_actions';
+import { fetchNotes, createNote } from '../../actions/note_actions';
 import { selectNotes, selectUsers, selectCurrentUser } from '../../selectors/selectors';
 
 const mapStateToProps = function (state, ownProps) {
@@ -22,6 +22,7 @@ const mapDispatchToProps = function (dispatch, ownProps) {
 
   return {
     fetchNotes: (postId) => dispatch(fetchNotes(postId)),
+    createNote: (note) => dispatch(createNote(note)),
   }
 };
 
@@ -38,6 +39,7 @@ class NotePopover extends React.Component {
     };
 
     this.renderNoteIndex = this.renderNoteIndex.bind(this);
+    this.scrollToBottom = this.scrollToBottom.bind(this);
     this.renderNoteShowItems = this.renderNoteShowItems.bind(this);
     this.renderNoteShow = this.renderNoteShow.bind(this);
     this.renderLike = this.renderLike.bind(this);
@@ -67,19 +69,29 @@ class NotePopover extends React.Component {
   renderNoteIndex() {
     const { notesArr } = this.props;
     return (
-      <div className='note-index' onClick={(e) => e.stopPropagation()}>
+      <div className='note-index'
+        onClick={(e) => e.stopPropagation()}>
         <header className='note-index-header'>
           <span>
             {notesArr.length} notes
           </span>
         </header>
-        <ul className='note-container'>
+        <div className='note-scrolling-container'
+          onLoad={this.scrollToBottom}>
+          <ul className='note-container'>
 
-          {this.renderNoteShowItems()}
+            {this.renderNoteShowItems()}
 
-        </ul>
-      </div>
+          </ul>
+
+        </div>
+      </div >
     );
+  }
+
+  scrollToBottom(e) {
+    e.stopPropagation();
+    e.currentTarget.scrollTop = e.currentTarget.scrollHeight;
   }
 
   renderNoteShowItems() {
@@ -104,8 +116,6 @@ class NotePopover extends React.Component {
 
   renderLike(note) {
     let noteAuthor = this.props.users[note.author];
-    // let noteAuthorUsername = null;
-    // if (noteAuthor) noteAuthorUsername = noteAuthor.username;
 
     return (
       <li key={note._id} className='note-show-like'>
@@ -123,17 +133,19 @@ class NotePopover extends React.Component {
   }
 
   renderComment(note) {
+    let noteAuthor = this.props.users[note.author];
+
     return (
       <li key={note._id} className='note-show-comment'>
         <div className='note-show-avatar'>
-          <img className='avatar avatar-extra-small' />
+          <img src={noteAuthor.avatarImageUrl} className='avatar avatar-extra-small' />
           <div className='note-show-comment-icon'>
             <i className="fas fa-comment"></i>
           </div>
         </div>
         <section className='comment-body'>
-          <h1>{note.author}</h1>
-          <p>{note.body}</p>
+          <h1>{noteAuthor.username}</h1>
+          <div dangerouslySetInnerHTML={{ __html: note.body }}></div>
         </section>
       </li>
     );
@@ -173,8 +185,10 @@ class NotePopover extends React.Component {
     e.preventDefault();
     e.stopPropagation(); //to stop event from bubbling up to window closePopover
     if (this.state.body.length === 0) return; // don't submit if no comment text
+    const { createNote } = this.props;
     console.log('submitting comment', this.state);
-
+    createNote(this.state)
+      .then(this.setState({ body: '' }));
   }
 }
 

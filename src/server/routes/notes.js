@@ -1,5 +1,7 @@
 const express = require('express');
 const router = express.Router({ mergeParams: true });
+const sanitizeHtml = require('sanitize-html');
+const lodash = require('lodash');
 
 const Note = require('../models/note');
 const modelQuery = require('../util/model_query_util');
@@ -27,9 +29,13 @@ router.get('/notes', function (req, res) {
 router.post('/notes', middleware.isLoggedIn, function (req, res) {
   modelQuery.findOnePost(req.params.id)
     .then((foundPost) => {
-      switch (req.body.type) {
+      let noteBody = lodash.merge({}, req.body);
+      if (noteBody.body) noteBody.body = sanitizeHtml(noteBody.body);
+      switch (noteBody.type) {
         case 'like':
-          return modelQuery.createLike(req.body)
+          return modelQuery.createLike(noteBody);
+        case 'comment':
+          return modelQuery.createComment(noteBody);
         default:
           return;
       }
