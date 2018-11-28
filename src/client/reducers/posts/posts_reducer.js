@@ -1,7 +1,7 @@
 import { normalize, schema } from 'normalizr';
 import { merge, union, mergeWith, isArray } from 'lodash';
 import { RECEIVE_POSTS, RECEIVE_POST, REMOVE_POST } from '../../actions/post_actions';
-import { RECEIVE_NOTE, REMOVE_NOTE } from '../../actions/note_actions';
+import { RECEIVE_NOTES, RECEIVE_NOTE, REMOVE_NOTE } from '../../actions/note_actions';
 import { REMOVE_CURRENT_USER } from '../../actions/session_actions';
 import { replaceArray } from '../../util/misc_util';
 
@@ -23,16 +23,38 @@ const postSchema = new schema.Entity('posts',
     { idAttribute: '_id' });
 
 const noteSchema = new schema.Entity('notes',
-    { post: postSchema },
-    { author: userSchema },
+    {
+        post: postSchema,
+        author: userSchema,
+    },
     { idAttribute: '_id' });
+
+let payloadSchema;
+let normalizedPayload;
 
 const postsReducer = function (state = defaultState, action) {
     Object.freeze(state);
-    let payloadSchema;
-    let normalizedPayload;
     let newState = {};
     switch (action.type) {
+        case RECEIVE_NOTES:
+            payloadSchema = [noteSchema];
+            normalizedPayload = normalize(action.payload.notes, payloadSchema);
+            let newPost = {
+                [action.payload.postId]: {
+                    notes: normalizedPayload.result, // this is an array of note ids
+                }
+            };
+            newState.byId = mergeWith(
+                {},
+                state.byId,
+                newPost,
+                replaceArray
+            );
+            newState.allIds = union(
+                state.allIds,
+                [action.payload.postId]
+            );
+            return newState;
         case RECEIVE_NOTE:
             if (!action.payload) return state;
             normalizedPayload = normalize(action.payload, noteSchema);

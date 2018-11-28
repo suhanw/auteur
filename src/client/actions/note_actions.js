@@ -3,6 +3,7 @@ import { fetchPost } from '../actions/post_actions';
 import { fetchUserLikes } from '../actions/user_actions';
 
 export const RECEIVE_NOTE = 'RECEIVE_NOTE';
+export const RECEIVE_NOTES = 'RECEIVE_NOTES';
 export const REMOVE_NOTE = 'REMOVE_NOTE';
 export const RECEIVE_NOTE_ERRORS = 'RECEIVE_NOTE_ERRORS';
 
@@ -20,7 +21,15 @@ export const removeNote = function (note) {
   };
 };
 
+export const receiveNotes = function (notes) {
+  return {
+    type: RECEIVE_NOTES,
+    payload: notes,
+  };
+};
+
 export const receiveNoteErrors = function (errors) {
+  // FIX: add reducer for note errors
   return {
     type: RECEIVE_NOTE_ERRORS,
     payload: errors,

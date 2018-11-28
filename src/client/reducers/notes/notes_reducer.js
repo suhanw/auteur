@@ -1,6 +1,6 @@
 import { normalize, schema } from 'normalizr';
 import { merge, union } from 'lodash';
-import { RECEIVE_NOTE, REMOVE_NOTE } from '../../actions/note_actions';
+import { RECEIVE_NOTE, REMOVE_NOTE, RECEIVE_NOTES } from '../../actions/note_actions';
 
 const defaultState = {
   byId: {},
@@ -22,13 +22,24 @@ const noteSchema = new schema.Entity('notes',
   },
   { idAttribute: '_id' });
 
+let payloadSchema;
+let normalizedPayload;
+
 const notesReducer = function (state = defaultState, action) {
   Object.freeze(state);
-  let normalizedPayload;
   let newState = {};
   switch (action.type) {
+    case RECEIVE_NOTES:
+      payloadSchema = [noteSchema];
+      normalizedPayload = normalize(action.payload.notes, payloadSchema);
+      newState.byId = merge(
+        {},
+        state.byId,
+        normalizedPayload.entities.notes
+      );
+      newState.allIds = union(state.allIds, normalizedPayload.result);
+      return newState;
     case RECEIVE_NOTE:
-      if (!action.payload) return state;
       normalizedPayload = normalize(action.payload, noteSchema);
       newState.byId = merge(
         {},

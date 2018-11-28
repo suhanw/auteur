@@ -8,10 +8,16 @@ const middleware = require('../middleware/middleware');
 // GET api/posts/:id/notes - INDEX
 router.get('/notes', function (req, res) {
   const postId = req.params.id;
-  const userId = req.query.userId;
   Note.find({ post: postId })
+    .select('author post type body createdAt')
+    .populate({ path: 'author', select: 'avatarImageUrl username' })
+    .sort({ 'createdAt': 'desc' })
     .then((notes) => {
-      return res.json(notes);
+      let responseJSON = {
+        postId: postId,
+        notes: notes,
+      };
+      return res.json(responseJSON);
     })
     .catch((err) => res.status(400).json([err.message]));
 });

@@ -38,33 +38,9 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 // TESTING===========================
-// import {signup, login, logout} from './util/session_api_util';
-// import {signup, login, logout} from './actions/session_actions';
-// import * as APIUtil from './util/post_api_util';
-// import { fetchPosts } from './actions/post_actions';
-// import { fetchBlog } from './util/blog_api_util';
-// import { fetchBlog } from './actions/blog_actions';
-// import { createPost, updatePost } from './util/post_api_util';
-// import { updatePost, deletePost } from './actions/post_actions';
-// import { createFollow, deleteFollow, fetchFollowers } from './actions/follow_actions';
-// import { createNote, deleteNote, fetchNotes, checkUserLikePost } from './util/note_api_util';
-// import { createNote, deleteNote, checkUserLikePost } from './actions/note_actions';
-import { fetchUserLikes } from './actions/user_actions';
 
-window.fetchUserLikes = fetchUserLikes;
-// window.fetchNotes = fetchNotes;
-// window.checkUserLikePost = checkUserLikePost;
-// window.deleteNote = deleteNote;
-// window.createFollow = createFollow;
-// window.deleteFollow = deleteFollow;
-// window.fetchFollowers = fetchFollowers;
-// window.updatePost = updatePost;
-// window.deletePost = deletePost;
-// window.fetchBlog = fetchBlog;
-// window.fetchPosts = fetchPosts;
-// window.fetchPosts = APIUtil.fetchPosts;
-// window.signup = signup;
-// window.login = login;
-// window.logout = logout;
+import { fetchNotes } from './actions/note_actions';
+
+window.fetchNotes = fetchNotes;
 
 // TESTING===========================

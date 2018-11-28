@@ -60,6 +60,11 @@ class NotePopover extends React.Component {
       </div >
     )
   }
+
+  componentDidMount() {
+    const { fetchNotes, post } = this.props;
+    // fetchNotes(post._id);
+  }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(NotePopover);
