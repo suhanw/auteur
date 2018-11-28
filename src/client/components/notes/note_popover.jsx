@@ -63,6 +63,7 @@ class NotePopover extends React.Component {
 
   componentDidMount() {
     const { fetchNotes, post } = this.props;
+    // START HERE 
     // fetchNotes(post._id);
   }
 }
