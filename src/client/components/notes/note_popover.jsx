@@ -18,9 +18,13 @@ const mapDispatchToProps = function (dispatch, ownProps) {
   }
 };
 
+
 class NotePopover extends React.Component {
   constructor(props) {
     super(props);
+
+    this.renderLike = this.renderLike.bind(this);
+    this.renderComment = this.renderComment.bind(this);
   }
 
   render() {
@@ -35,19 +39,11 @@ class NotePopover extends React.Component {
           </span>
         </header>
         <ul className='note-index'>
-          <li className='note-show-like'>
-            <img className='avatar avatar-extra-small' />
-            <h1>
-              NoteShowLike
-            </h1>
-          </li>
-          <li className='note-show-comment'>
-            <img className='avatar avatar-extra-small' />
-            <section className='comment-body'>
-              <h1>NoteShowComment</h1>
-              <p>comment body blah blah blah blah blah</p>
-            </section>
-          </li>
+
+          {this.renderLike()}
+
+          {this.renderComment()}
+
         </ul>
         <footer className='note-form-comment'>
           <div className='comment-input'>
@@ -65,6 +61,39 @@ class NotePopover extends React.Component {
     const { fetchNotes, post } = this.props;
     // START HERE 
     // fetchNotes(post._id);
+  }
+
+  renderLike() {
+    return (
+      <li className='note-show-like'>
+        <div className='note-show-avatar'>
+          <img className='avatar avatar-extra-small' />
+          <div className='note-show-like-icon'>
+            <i className="fas fa-heart"></i>
+          </div>
+        </div>
+        <h1>
+          NoteShowLike
+            </h1>
+      </li>
+    );
+  }
+
+  renderComment() {
+    return (
+      <li className='note-show-comment'>
+        <div className='note-show-avatar'>
+          <img className='avatar avatar-extra-small' />
+          <div className='note-show-comment-icon'>
+            <i className="fas fa-comment"></i>
+          </div>
+        </div>
+        <section className='comment-body'>
+          <h1>NoteShowComment</h1>
+          <p>comment body blah blah blah blah blah</p>
+        </section>
+      </li>
+    );
   }
 }
 

@@ -24,9 +24,7 @@
   border-radius: 0;
 }
 
-.note-index .avatar {
-  margin-right: 10px;
-}
+
 
 .note-index h1 {
   font-weight: 700;
@@ -44,6 +42,51 @@
   font-size: 13px;
   display: flex;
   line-height: 1.2;
+}
+
+.note-show-avatar {
+  position: relative; 
+  margin-right: 10px;
+  height: 24px;
+  width: 24px;
+}
+
+.note-show-like-icon, 
+.note-show-comment-icon { 
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  bottom: -3px;
+  right: -3px;
+  padding: 0;
+}
+
+.note-show-like-icon {
+  background: #d95e40;
+}
+
+.note-show-comment-icon {
+  background: #4f9dce;
+}
+
+.note-show-comment-icon i.fas.fa-comment,
+.note-show-like-icon i.fas.fa-heart {
+  color: white;
+  font-size: 7.5px; 
+}
+
+.note-show-like-icon i.fas.fa-heart {
+  margin-top: 1px;
+  margin-left: 1px;
+}
+
+.note-show-comment-icon i.fas.fa-comment {
+  margin-top: 1px;
+  margin-left: 1px;
 }
 
 .note-show-like {

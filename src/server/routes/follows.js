@@ -38,6 +38,7 @@ router.post('/follows', middleware.isLoggedIn, function (req, res) {
       } else if (foundBlog.author.equals(currentUser._id)) {
         return res.status(422).json(['You cannot follow your own blog. '])
       }
+      // FIX: use $push
       currentUser.following.push(foundBlog._id);
       currentUser.save();
       foundBlog.followerCount += 1;
@@ -59,6 +60,7 @@ router.delete('/follows', middleware.isLoggedIn, function (req, res) {
       if (idxToDel < 0) {
         return res.status(422).json(['You never followed this blog. ']);
       }
+      // FIX: use $pull
       currentUser.following.splice(idxToDel, 1);
       currentUser.save();
       foundBlog.followerCount -= 1;
