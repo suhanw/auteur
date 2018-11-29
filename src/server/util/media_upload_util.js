@@ -20,7 +20,7 @@ mediaUpload.uploadFiles = function (newFiles, urls, post, blog) {
     urls = (typeof urls === 'string') ? [urls] : urls; // single element is passed by FormData as a string, so need to turn into array
     post.media = lodash.union(post.media, urls); // add urls to persist
     // if no new files to upload, resolve the promise 
-    if (!newFiles || newFiles.length <= 0) return resolve({ newPost: post, foundBlog: blog });
+    if (!newFiles || newFiles.length <= 0) return resolve({ post, blog });
 
     // otherwise, upload new files to AWS
     let path = process.env.AWS_BUCKET + `/users/${post.author}/blogs/${post.blog}/posts/${post._id}`;
@@ -37,34 +37,32 @@ mediaUpload.uploadFiles = function (newFiles, urls, post, blog) {
         uploadedFiles.push(uploadedFile.Location);
         if (uploadedFiles.length === newFiles.length) { // when all media files have been uploaded
           post.media = post.media.concat(uploadedFiles); // add media URLs to be persisted
-          resolve({ newPost: post, foundBlog: blog }); // resolve only after all media files have been uploaded
+          resolve({ post, blog }); // resolve only after all media files have been uploaded
         }
       });
     });
   });
 };
 
-mediaUpload.deleteFiles = function (fileURLs, post, handleSuccess, handleFailure) {
-  if (post.type !== 'photo' && post.type !== 'video' && post.type !== 'audio') return handleSuccess(post);
-  if (!fileURLs || fileURLs.length <= 0) return handleSuccess(post); // if post has no files, do nothing.
-  if (typeof fileURLs === 'string') fileURLs = [fileURLs];
-  let keyPrefix = `users/${post.author}/blogs/${post.blog}/posts/${post._id}/`;
-  let keys = fileURLs.map(function (fileURL) {
-    let key = keyPrefix + fileURL.split('/').pop(); // pop the last element to get the filename
-    return { Key: key }
+mediaUpload.deleteFiles = function (post, blog) {
+  return new Promise(function (resolve, reject) {
+    let keyPrefix = `users/${post.author}/blogs/${post.blog}/posts/${post._id}/`;
+    let keys = post.media.map(function (fileURL) {
+      let key = keyPrefix + fileURL.split('/').pop(); // pop the last element to get the filename
+      return { Key: key }
+    });
+    let params = {
+      Bucket: bucket,
+      Delete: {
+        Objects: keys,
+      },
+    };
+    s3bucket.deleteObjects(params, function (err, deletedFiles) {
+      if (err) return reject(err);
+      resolve({ post, blog });
+    });
   });
-
-  let params = {
-    Bucket: bucket,
-    Delete: {
-      Objects: keys,
-    },
-  };
-  s3bucket.deleteObjects(params, function (err, deletedFiles) {
-    if (err) return handleFailure(err);
-    handleSuccess(deletedFiles);
-  });
-};
+}
 
 mediaUpload.updateFiles = function (newFiles, post, handleSuccess, handleFailure) {
   if (post.type !== 'photo' && post.type !== 'video' && post.type !== 'audio') return handleSuccess(post);

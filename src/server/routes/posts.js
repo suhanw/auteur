@@ -42,16 +42,16 @@ router.post('/posts',
         }
         // if not a media post, pass on to the next 'then' block
         // pass in single object argument as resolution value
-        return new Promise((resolve, reject) => resolve({ newPost, foundBlog }));
+        return new Promise((resolve, reject) => resolve({ post: newPost, blog: foundBlog }));
       })
-      .then(({ newPost, foundBlog }) => {
+      .then(({ post, blog }) => {
         // destructure the single object argument
-        foundBlog.postCount += 1;
-        foundBlog.save();
-        return newPost.save();
+        blog.postCount += 1;
+        blog.save();
+        return post.save();
       })
-      .then((newPost) => {
-        return res.json(newPost);
+      .then((post) => {
+        return res.json(post);
       })
       .catch((err) => res.status(422).json([err.message]));
   });
@@ -61,34 +61,26 @@ router.post('/posts',
 router.delete('/posts/:postId',
   middleware.checkPostOwnership,
   function (req, res) {
-    modelQuery.findOneBlog(
-      req.params.id,
-      (foundBlog) => { // success cb for findOneBlog
-        mediaUpload.deleteFiles(
-          req.body.media,
-          req.body,
-          (deletedFiles) => { // success cb for deleteFiles
-            Post.findOneAndDelete({ _id: req.params.postId })
-              .exec()
-              .then(function (deletedPost) {
-                if (!deletedPost) {
-                  return res.status(422).json(['Post does not exist.']);
-                }
-                foundBlog.postCount -= 1;
-                foundBlog.save();
-                return res.json(deletedPost.id);
-              })
-              .catch((err) => res.status(422).json([err.message]))
-          },
-          (err) => { // fail cb for deleteFiles
-            res.status(422).json(err);
-          },
-        );
-      },
-      (err) => { // failure callback for findOneBlog
-        res.status(422).json([err.message])
-      },
-    );
+    modelQuery.findOneBlog(req.params.id)
+      .then((foundBlog) => {
+        const post = req.body;
+        if (['photo', 'video', 'audio'].includes(post.type)) {
+          return mediaUpload.deleteFiles(post, foundBlog);
+        }
+        // if not a media post, pass on to the next 'then' block
+        // pass in single object argument as resolution value
+        return new Promise((resolve, reject) => resolve({ post, blog: foundBlog }));
+      })
+      .then(({ post, blog }) => {
+        return Post.findOneAndDelete({ _id: post._id })
+          .then((deletedPost) => {
+            if (!deletedPost) throw { message: 'Post does not exist. ' };
+            blog.postCount -= 1;
+            blog.save();
+            return res.json(deletedPost._id);
+          });
+      })
+      .catch((err) => res.status(422).json([err.message]));
   });
 
 
