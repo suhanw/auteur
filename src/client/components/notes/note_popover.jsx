@@ -58,6 +58,7 @@ class NotePopover extends React.Component {
   render() {
     const { notesArr } = this.props;
 
+    // FIX: add spinner when fetching notes
     if (!notesArr) return <div className='note-popover popover'>Loading</div>;
     return (
       <div className='note-popover popover'>
@@ -188,6 +189,7 @@ class NotePopover extends React.Component {
   }
 
   renderEllipsisPopover(note) {
+    // FIX: add a confirm modal to delete comment
     return (
       <div className='ellipsis-popover popover'>
         <span className='popover-menu-item'

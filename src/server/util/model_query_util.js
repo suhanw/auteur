@@ -84,7 +84,6 @@ modelQuery.createComment = function (commentBody) {
     });
 }
 
-// START HERE
 modelQuery.deleteComment = function (commentId) {
   return Note.findOneAndDelete({ _id: commentId })
     .exec()
