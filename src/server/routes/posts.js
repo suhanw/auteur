@@ -14,46 +14,46 @@ const middleware = require('../middleware/middleware');
 
 // GET api/blogs/:id/posts - INDEX blog posts (Read)
 router.get('/posts', middleware.isLoggedIn, function (req, res) {
-  modelQuery.findOneBlog(
-    req.params.id,
-    (foundBlog) => {
-      Post.find({ blog: foundBlog._id })
+  modelQuery.findOneBlog(req.params.id)
+    .then((foundBlog) => {
+      return Post.find({ blog: foundBlog._id })
         .sort({ 'createdAt': 'desc' })
         .select('type title media body likeCount commentCount blog createdAt')
         .exec()
-        .then((posts) => res.json(posts))
-        .catch((err) => res.json([err.message]));
-    },
-    (err) => res.status(404).json(['The blog does not exist.']), // failure callback
-  );
+    })
+    .then((posts) => res.json(posts))
+    .catch((err) => res.json([err.message]));
 });
 
 
 // POST api/blogs/:id/posts (Create)
 router.post('/posts',
   middleware.isLoggedIn,
-  upload.array('newFiles'), // file upload middleware
+  upload.array('newFiles'), // file upload middleware - looks for the 'newFiles' key in request data
   function (req, res) {
-    modelQuery.findOneBlog(
-      req.params.id,
-      (foundBlog) => { // success callback for findOneBlog
+    modelQuery.findOneBlog(req.params.id)
+      .then((foundBlog) => {
         let postBody = lodash.merge({}, req.body);
         postBody.body = sanitizeHtml(postBody.body);
         let newPost = new Post(postBody);
-        mediaUpload.uploadFiles(
-          req.files,
-          newPost,
-          (newPost) => { // success cb for uploadFiles
-            newPost.save();
-            foundBlog.postCount += 1;
-            foundBlog.save();
-            return res.json(newPost);
-          },
-          (err) => res.status(422).json(err), // failure cb for uploadFiles
-        );
-      },
-      (err) => res.status(422).json([err.message]), // failure callback for findOneBlog
-    );
+        // if a media post, upload files to AWS
+        if (['photo', 'video', 'audio'].includes(newPost.type)) {
+          return mediaUpload.uploadFiles(req.files, req.body.urls, newPost, foundBlog);
+        }
+        // if not a media post, pass on to the next 'then' block
+        // pass in single object argument as resolution value
+        return new Promise((resolve, reject) => resolve({ newPost, foundBlog }));
+      })
+      .then(({ newPost, foundBlog }) => {
+        // destructure the single object argument
+        foundBlog.postCount += 1;
+        foundBlog.save();
+        return newPost.save();
+      })
+      .then((newPost) => {
+        return res.json(newPost);
+      })
+      .catch((err) => res.status(422).json([err.message]));
   });
 
 

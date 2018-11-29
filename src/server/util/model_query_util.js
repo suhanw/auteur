@@ -17,7 +17,7 @@ modelQuery.getCurrentUserLikes = function (userId) {
 modelQuery.findOneBlog = function (blogId, handleSuccess, handleFailure) {
   // 'handleSuccess' callback func should be function(foundBlog) { ... }
   // 'handleFailure' callback func should be function(err) { ... }
-  Blog.findOne({ _id: blogId })
+  return Blog.findOne({ _id: blogId })
     .populate({
       path: 'author',
       select: '_id',
@@ -26,9 +26,8 @@ modelQuery.findOneBlog = function (blogId, handleSuccess, handleFailure) {
     .exec()
     .then(function (foundBlog) {
       if (!foundBlog) throw { message: 'The blog does not exist.' }; // case when ObjectId is valid, but doesn't belong to a blog
-      handleSuccess(foundBlog);
-    })
-    .catch(handleFailure);
+      return foundBlog;
+    });
 };
 
 modelQuery.findOnePost = function (postId) {
