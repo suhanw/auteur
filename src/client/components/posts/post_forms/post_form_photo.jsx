@@ -297,7 +297,7 @@ class PostFormPhoto extends React.Component {
     // append photos to form data
     this.state.media.forEach(function (mediaFile) {
       if (typeof mediaFile === 'string') { // files that have already been uploaded are persisted as string
-        newPost.append('oldFiles', mediaFile)
+        newPost.append('urls', mediaFile)
       } else {
         newPost.append('newFiles', mediaFile, mediaFile.name);
       }

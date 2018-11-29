@@ -18,7 +18,8 @@ let bucket = process.env.AWS_BUCKET;
 mediaUpload.uploadFiles = function (files, post, handleSuccess, handleFailure) {
   if (post.type !== 'photo' && post.type !== 'video' && post.type !== 'audio') return handleSuccess(post);
   if (!files || files.length <= 0) return handleSuccess(post); // if no media, send response immediately
-  let media = [];
+  const urls = (typeof post.urls === 'string') ? [post.urls] : post.urls;
+  let media = lodash.union([], urls);
   let path = process.env.AWS_BUCKET + `/users/${post.author}/blogs/${post.blog}/posts/${post._id}`;
   files.forEach(function (file) {
     let params = {
@@ -62,7 +63,7 @@ mediaUpload.deleteFiles = function (fileURLs, post, handleSuccess, handleFailure
 
 mediaUpload.updateFiles = function (newFiles, post, handleSuccess, handleFailure) {
   if (post.type !== 'photo' && post.type !== 'video' && post.type !== 'audio') return handleSuccess(post);
-  const oldFiles = (typeof post.oldFiles === 'string') ? [post.oldFiles] : post.oldFiles;
+  const urls = (typeof post.urls === 'string') ? [post.urls] : post.urls;
   const filesToDelete = (typeof post.filesToDelete === 'string') ? [post.filesToDelete] : post.filesToDelete;
   mediaUpload.deleteFiles(
     filesToDelete,
@@ -72,8 +73,8 @@ mediaUpload.updateFiles = function (newFiles, post, handleSuccess, handleFailure
         newFiles,
         post,
         (updatedPost) => {
-          if (oldFiles) { //  add existing files if any
-            updatedPost.media = lodash.union(oldFiles, updatedPost.media);
+          if (urls) { //  add existing files if any
+            updatedPost.media = lodash.union(urls, updatedPost.media);
           }
           return handleSuccess(updatedPost);
         },
