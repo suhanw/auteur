@@ -19,17 +19,21 @@ class PostFormPhoto extends React.Component {
         mediaPreview[mediaFilename] = mediaURL;
       });
       this.state.mediaPreview = mediaPreview;
+      this.state.urlInput = false;
     } else {
       this.state = {
         type: 'photo',
         body: '',
         media: [],
         mediaPreview: {}, // mediaPreview will be an object: {'filename': 'file_url', ...}
+        urlInput: false,
       };
     }
 
-    this.renderUploadDropzone = this.renderUploadDropzone.bind(this);
+    this.renderMediaInput = this.renderMediaInput.bind(this);
     this.renderMediaPreview = this.renderMediaPreview.bind(this);
+    this.renderSmallUploadDropzone = this.renderSmallUploadDropzone.bind(this);
+    this.renderUrlInput = this.renderUrlInput.bind(this);
     this.removePreview = this.removePreview.bind(this);
     this.renderBodyInput = this.renderBodyInput.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -50,7 +54,7 @@ class PostFormPhoto extends React.Component {
 
           {this.renderMediaPreview()}
 
-          {this.renderUploadDropzone()}
+          {this.renderMediaInput()}
 
           {this.renderBodyInput()}
 
@@ -79,35 +83,21 @@ class PostFormPhoto extends React.Component {
     return null;
   }
 
-  renderUploadDropzone() {
-    const { mediaPreview } = this.state;
-    if (Object.keys(mediaPreview).length > 0) { // if user selected some images
-      return (
-        <div className='media-upload-dropzone'
-          onDragEnter={this.handleDragAndDrop}
-          onDragLeave={this.handleDragAndDrop}
-          onDragOver={this.handleDragAndDrop}
-          onDrop={this.handleDragAndDrop}>
-          <label htmlFor='file' className='media-upload-small'>
-            <i className="fas fa-camera"></i>
-            <span>Add another</span>
-            <input
-              type='file'
-              className='inputfile'
-              id='file'
-              accept='image/*'
-              multiple={true}
-              onChange={this.handleMediaFiles} />
-          </label>
-        </div>
-      );
+  renderMediaInput() {
+    const { mediaPreview, urlInput } = this.state;
+    if (urlInput) return this.renderUrlInput();
+
+    if (Object.keys(mediaPreview).length > 0) { // if user already selected some images
+      return this.renderSmallUploadDropzone();
     }
+
     return (
-      <div className='media-upload-dropzone'
+      <div className='media-input'
         onDragEnter={this.handleDragAndDrop}
         onDragLeave={this.handleDragAndDrop}
         onDragOver={this.handleDragAndDrop}
         onDrop={this.handleDragAndDrop}>
+
         <label htmlFor='file' className='media-upload'>
           <i className="fas fa-camera"></i>
           <span>Upload photos</span>
@@ -119,10 +109,49 @@ class PostFormPhoto extends React.Component {
             multiple={true}
             onChange={this.handleMediaFiles} />
         </label>
-        <div className='media-link'>
+        <div className='media-link'
+          onClick={() => this.setState({ urlInput: true })}>
           <i className="fas fa-globe"></i>
           <span>Add photos from web</span>
         </div>
+
+      </div>
+    );
+  }
+
+  renderUrlInput() {
+    return (
+      <div className='media-input'>
+        <input className='media-link-input'
+          autoFocus={true}
+          type='text'
+          placeholder='Type or paste a URL.' />
+        <span className='remove-icon'>
+          <i className="fas fa-times-circle"
+            onClick={() => this.setState({ urlInput: false })}></i>
+        </span>
+      </div>
+    );
+  }
+
+  renderSmallUploadDropzone() {
+    return (
+      <div className='media-input'
+        onDragEnter={this.handleDragAndDrop}
+        onDragLeave={this.handleDragAndDrop}
+        onDragOver={this.handleDragAndDrop}
+        onDrop={this.handleDragAndDrop}>
+        <label htmlFor='file' className='media-upload-small'>
+          <i className="fas fa-camera"></i>
+          <span>Add another</span>
+          <input
+            type='file'
+            className='inputfile'
+            id='file'
+            accept='image/*'
+            multiple={true}
+            onChange={this.handleMediaFiles} />
+        </label>
       </div>
     );
   }
@@ -188,10 +217,8 @@ class PostFormPhoto extends React.Component {
     if (mediaFiles.length > 0) {
       const that = this;
       mediaFiles.forEach(function (file, i) {
-        if (mediaPreview[file.name]) { //do nothing if a file has been previously selected
-          return;
-        }
-        // To allow user to cumulatively append images
+        if (mediaPreview[file.name]) return;  //do nothing if a file has been previously selected
+        // Allow user to cumulatively append images
         media.push(file);
         fileReaders.push(new FileReader());
         fileReaders[i].readAsDataURL(file);
@@ -211,8 +238,6 @@ class PostFormPhoto extends React.Component {
       e.preventDefault();
       let mediaPreview = merge({}, that.state.mediaPreview);
       const { media } = that.state;
-      // let media = that.state.media.slice();
-      // media = media.filter((file) => file.name !== mediaFilename);
       let newMedia = []; // potentially new files to be uploaded to AWS
       let filesToDelete = union([], that.state.filesToDelete);
       media.forEach(function (file) {
@@ -237,7 +262,10 @@ class PostFormPhoto extends React.Component {
     const { currentUser, blog, submitAction, closePostForm } = this.props;
     let newPost = new FormData();
     for (let key in this.state) {
-      if (key !== 'media' && key !== 'mediaPreview' && key !== 'filesToDelete') {
+      if (key !== 'media' &&
+        key !== 'mediaPreview' &&
+        key !== 'filesToDelete' &&
+        key !== 'urlInput') { // this key is for rendering purposes and doesn't have to be submitted
         newPost.append(key, this.state[key]);
       }
     }
@@ -248,7 +276,7 @@ class PostFormPhoto extends React.Component {
     }
     // append photos to form data
     this.state.media.forEach(function (mediaFile) {
-      if (typeof mediaFile === 'string') {
+      if (typeof mediaFile === 'string') { // files that have already been uploaded are persisted as string
         newPost.append('oldFiles', mediaFile)
       } else {
         newPost.append('newFiles', mediaFile, mediaFile.name);

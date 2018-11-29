@@ -13,7 +13,6 @@
   position: relative;
 }
 
-
 .post-form-wrapper .loading-post-submit {
   position: absolute;
   top: 0;
@@ -46,7 +45,7 @@
 
 // For PostFormPhoto
 
-.post-form .media-upload-dropzone {
+.post-form .media-input {
   width: calc(100% + 40px);
   display: flex;
   background-color: #f2f2f2;
@@ -54,13 +53,13 @@
   border-bottom: 1.5px dashed rgb(203,203, 203);
 }
 
-.post-form .media-upload-dropzone.active {
+.post-form .media-input.active {
   background-color: #e6eff7;
 }
 
 
-.post-form .media-upload-dropzone .media-upload, 
-.post-form .media-upload-dropzone .media-link {
+.post-form .media-input .media-upload, 
+.post-form .media-input .media-link {
   height: 196px;
   width: 50%;
   margin: 20px 0;
@@ -73,11 +72,11 @@
   color: #989898;
 }
 
-.post-form .media-upload-dropzone .media-upload {
+.post-form .media-input .media-upload {
   border-right: 1px solid rgb(203,203, 203);
 }
 
-.post-form .media-upload-dropzone .media-upload-small {
+.post-form .media-input .media-upload-small {
   height: 36px;
   display: flex;
   justify-content: center;
@@ -88,7 +87,7 @@
   color: #989898;
 }
 
-.post-form .media-upload-dropzone .media-upload-small .fas {
+.post-form .media-input .media-upload-small .fas {
   margin-right: 5px;
 }
 
@@ -101,6 +100,19 @@
   font-size: 50px;
 }
 
+.media-input {
+  position: relative; // to allow cancel icon to float above image
+}
+
+.media-input .media-link-input {
+  width: 100%;
+  height: 196px;
+  padding: 20px;
+}
+
+.media-input .media-link-input::placeholder {
+  font-size: 14px;
+}
 
 .post-form .post-photo {
   position: relative; // to allow remove-preview icon to float above image
@@ -110,6 +122,7 @@
   width: 100%; // to cover width of post-content
 }
 
+.media-input .remove-icon,
 .post-photo .remove-icon {
   display: inline-flex;
   position: absolute;
@@ -120,14 +133,18 @@
   color: #d95e40;
   background: white;
   border-radius: 50%;
-  opacity: 0;
   transition: opacity 0.1s linear;
+}
+
+.post-photo .remove-icon {
+  opacity: 0;
 }
 
 .post-photo:hover .remove-icon {
   opacity: 1;
 }
 
+.media-input .remove-icon .fa-times-circle,
 .post-photo .remove-icon .fa-minus-circle {
   font-size: 22px;
   cursor: pointer;
