@@ -5,11 +5,11 @@ const storage = multer.memoryStorage(); // store file in memory
 const upload = multer({ storage });
 const sanitizeHtml = require('sanitize-html');
 const lodash = require('lodash');
-const mediaUpload = require('../util/media_upload_util');
 
 const Blog = require('../models/blog');
 const Post = require('../models/post');
 const modelQuery = require('../util/model_query_util');
+const mediaUpload = require('../util/media_upload_util');
 const middleware = require('../middleware/middleware');
 
 // GET api/blogs/:id/posts - INDEX blog posts (Read)
@@ -41,7 +41,7 @@ router.post('/posts',
           return mediaUpload.uploadFiles(req.files, req.body.urls, newPost, foundBlog);
         }
         // if not a media post, pass on to the next 'then' block
-        // pass in single object argument as resolution value
+        // pass in single argument as resolution value
         return new Promise((resolve, reject) => resolve({ post: newPost, blog: foundBlog }));
       })
       .then(({ post, blog }) => {
@@ -68,7 +68,7 @@ router.delete('/posts/:postId',
           return mediaUpload.deleteFiles(post, foundBlog);
         }
         // if not a media post, pass on to the next 'then' block
-        // pass in single object argument as resolution value
+        // pass in single argument as resolution value
         return new Promise((resolve, reject) => resolve({ post, blog: foundBlog }));
       })
       .then(({ post, blog }) => {
@@ -89,32 +89,26 @@ router.put('/posts/:postId',
   middleware.checkPostOwnership,
   upload.array('newFiles'),
   function (req, res) {
-    modelQuery.findOneBlog(
-      req.params.id,
-      (foundBlog) => { // success cb for findOneBlog
-        let postBody = lodash.merge({}, req.body);
-        postBody.body = sanitizeHtml(postBody.body);
-        mediaUpload.updateFiles(
-          req.files,
-          postBody,
-          (updatedPostBody) => { // success cb for updateFiles
-            Post.findOneAndUpdate(
-              { _id: req.params.postId },
-              updatedPostBody,
-              { new: true }
-            )
-              .exec()
-              .then(function (updatedPost) {
-                if (!updatedPost) return res.status(422).json(['Post does not exist.']);
-                return res.json(updatedPost);
-              })
-              .catch((err) => res.status(422).json([err.message]))
-          },
-          (err) => res.status(422).json([err.message]) // failure cb for updateFiles
-        );
-      },
-      (err) => res.status(422).json([err.message]), // failure cb for findOneBlog
-    );
+    modelQuery.findOneBlog(req.params.id)
+      .then((foundBlog) => {
+        let post = lodash.merge({}, req.body);
+        post.body = sanitizeHtml(post.body);
+        if (['photo', 'video', 'audio'].includes(post.type)) {
+          return mediaUpload.updateFiles(req.files, req.body.urls, post);
+        }
+        // if not a media post, pass on to the next 'then' block
+        // pass in single argument as resolution value
+        return new Promise((resolve, reject) => resolve(post));
+      })
+      .then((post) => {
+        return Post.findOneAndUpdate({ _id: post._id }, post, { new: true })
+          .exec();
+      })
+      .then((updatedPost) => {
+        if (!updatedPost) throw { message: 'Post does not exist. ' };
+        return res.json(updatedPost);
+      })
+      .catch((err) => res.status(422).json([err.message]));
   });
 
 module.exports = router;

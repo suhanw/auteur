@@ -1,9 +1,9 @@
-export const toArray = function (fileList) {
-  return Array.prototype.slice.call(fileList);
-}
-
-
 import React from 'react';
+import { isArray } from 'lodash';
+
+export const toArray = function (list) {
+  return Array.prototype.slice.call(list);
+}
 
 export const renderSpinner = function (className) {
   if (!className) return null; // only pass in className if need to render spinner
@@ -19,9 +19,6 @@ export const renderSpinner = function (className) {
     </div>
   );
 };
-
-
-import { isArray } from 'lodash';
 
 export const replaceArray = function (objValue, srcValue) {
   if (isArray(objValue)) {
@@ -39,11 +36,8 @@ export const validateMediaUrl = function (url, expectedType, next) {
   console.log(validUrlRegex.test(url));
   // if it fails the regex test, pass in null into next func
   if (!validUrlRegex.test(url)) return next(null);
-  // return next(url);
   let img = new Image();
-  // debugger
   img.src = url;
   img.onerror = () => next(null);
   img.onload = (e) => next('image exists!');
-  // debugger
-}
+};

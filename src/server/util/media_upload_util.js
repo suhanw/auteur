@@ -19,13 +19,16 @@ mediaUpload.uploadFiles = function (newFiles, urls, post, blog) {
   return new Promise(function (resolve, reject) {
     urls = (typeof urls === 'string') ? [urls] : urls; // single element is passed by FormData as a string, so need to turn into array
     post.media = lodash.union(post.media, urls); // add urls to persist
+
     // if no new files to upload, resolve the promise 
     if (!newFiles || newFiles.length <= 0) return resolve({ post, blog });
 
     // otherwise, upload new files to AWS
     let path = process.env.AWS_BUCKET + `/users/${post.author}/blogs/${post.blog}/posts/${post._id}`;
-    let uploadedFiles = [];
-    newFiles.forEach(function (file) {
+    let uploadedFiles = {};
+
+    // iterate and upload each file
+    newFiles.forEach(function (file, i) {
       let params = {
         Bucket: path,
         Key: file.originalname,
@@ -34,20 +37,31 @@ mediaUpload.uploadFiles = function (newFiles, urls, post, blog) {
       };
       s3bucket.upload(params, function (err, uploadedFile) {
         if (err) return reject(err);
-        uploadedFiles.push(uploadedFile.Location);
-        if (uploadedFiles.length === newFiles.length) { // when all media files have been uploaded
-          post.media = post.media.concat(uploadedFiles); // add media URLs to be persisted
+        uploadedFiles[i] = uploadedFile.Location;
+        if (Object.keys(uploadedFiles).length === newFiles.length) { // when all media files have been uploaded
+          for (let i = 0; i < Object.keys(uploadedFiles).length; i++) { // preserve the order of files added by user
+            post.media.push(uploadedFiles[i]); // add media URLs to be persisted
+          }
           resolve({ post, blog }); // resolve only after all media files have been uploaded
         }
       });
     });
+
   });
 };
 
 mediaUpload.deleteFiles = function (post, blog) {
   return new Promise(function (resolve, reject) {
     let keyPrefix = `users/${post.author}/blogs/${post.blog}/posts/${post._id}/`;
-    let keys = post.media.map(function (fileURL) {
+    let files = [];
+    if (post.media) { // scenario for delete post
+      files = post.media.slice();
+    } else if (post.filesToDelete) { // scenario for update post
+      files = (typeof post.filesToDelete === 'string') ? [post.filesToDelete] : post.filesToDelete; // single element is passed by FormData as a string, so need to turn into array
+    } else { // no files to delete
+      return resolve({ post, blog });
+    }
+    let keys = files.map(function (fileURL) {
       let key = keyPrefix + fileURL.split('/').pop(); // pop the last element to get the filename
       return { Key: key }
     });
@@ -64,28 +78,17 @@ mediaUpload.deleteFiles = function (post, blog) {
   });
 }
 
-mediaUpload.updateFiles = function (newFiles, post, handleSuccess, handleFailure) {
-  if (post.type !== 'photo' && post.type !== 'video' && post.type !== 'audio') return handleSuccess(post);
-  const urls = (typeof post.urls === 'string') ? [post.urls] : post.urls;
-  const filesToDelete = (typeof post.filesToDelete === 'string') ? [post.filesToDelete] : post.filesToDelete;
-  mediaUpload.deleteFiles(
-    filesToDelete,
-    post,
-    () => {
-      mediaUpload.uploadFiles(
-        newFiles,
-        post,
-        (updatedPost) => {
-          if (urls) { //  add existing files if any
-            updatedPost.media = lodash.union(urls, updatedPost.media);
-          }
-          return handleSuccess(updatedPost);
-        },
-        (err) => handleFailure(err)
-      );
-    },
-    (err) => handleFailure(err)
-  );
-};
+mediaUpload.updateFiles = function (newFiles, urls, post) {
+  return new Promise(function (resolve, reject) {
+    return mediaUpload.deleteFiles(post, null) // blog is not updated on post update, hence no need to pass in
+      .then(({ post }) => {
+        return mediaUpload.uploadFiles(newFiles, urls, post, null) // blog is not updated on post update, hence no need to pass in
+      })
+      .then(({ post }) => {
+        return resolve(post);
+      })
+      .catch((err) => reject(err));
+  });
+}
 
 module.exports = mediaUpload;
