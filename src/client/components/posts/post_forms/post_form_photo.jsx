@@ -4,7 +4,7 @@ import { merge, union } from 'lodash';
 
 import PostFormHeader from './post_form_header';
 import PostFormFooter from './post_form_footer';
-import { toArray } from '../../../util/misc_util';
+import { toArray, validateMediaUrl } from '../../../util/misc_util';
 
 class PostFormPhoto extends React.Component {
   constructor(props) {
@@ -39,7 +39,7 @@ class PostFormPhoto extends React.Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleDragAndDrop = this.handleDragAndDrop.bind(this);
-    this.handleMediaFiles = this.handleMediaFiles.bind(this);
+    this.handleMediaInput = this.handleMediaInput.bind(this);
   }
 
   render() {
@@ -107,7 +107,7 @@ class PostFormPhoto extends React.Component {
             id='file'
             accept='image/*'
             multiple={true}
-            onChange={this.handleMediaFiles} />
+            onChange={this.handleMediaInput} />
         </label>
         <div className='media-link'
           onClick={() => this.setState({ urlInput: true })}>
@@ -123,6 +123,7 @@ class PostFormPhoto extends React.Component {
     return (
       <div className='media-input'>
         <input className='media-link-input'
+          onChange={this.handleMediaInput}
           autoFocus={true}
           type='text'
           placeholder='Type or paste a URL.' />
@@ -150,28 +151,10 @@ class PostFormPhoto extends React.Component {
             id='file'
             accept='image/*'
             multiple={true}
-            onChange={this.handleMediaFiles} />
+            onChange={this.handleMediaInput} />
         </label>
       </div>
     );
-  }
-
-  renderMediaPreview() {
-    const { media, mediaPreview } = this.state;
-    // to show preview when user selects file
-    let mediaPreviewImgs = [];
-    for (let mediaFilename in mediaPreview) {
-      mediaPreviewImgs.push(
-        <div key={mediaFilename} className='post-photo'>
-          <span className='remove-icon'>
-            <i className="fas fa-minus-circle"
-              onClick={this.removePreview(mediaFilename)}></i>
-          </span>
-          <img src={mediaPreview[mediaFilename]} />
-        </div>
-      );
-    }
-    return mediaPreviewImgs;
   }
 
   handleChange(inputField) {
@@ -199,21 +182,25 @@ class PostFormPhoto extends React.Component {
         break;
       case 'drop':
         e.currentTarget.classList.remove('active');
-        this.handleMediaFiles(e);
+        this.handleMediaInput(e);
         break;
     }
   }
 
-  handleMediaFiles(e) {
-    let mediaFiles;
+  handleMediaInput(e) {
+    let mediaFiles = [];
+    let mediaUrls = [];
     if (e.type === 'drop') { // to handle drag and drop
       mediaFiles = toArray(e.dataTransfer.files);
-    } else {
+    } else if (e.target.files) { // to handle the regular upload feature
       mediaFiles = toArray(e.target.files); // to convert FileList to Array
+    } else { // for URL input
+      mediaUrls.push(e.target.value);
     }
     let media = this.state.media.slice(); // copy state
     let mediaPreview = merge({}, this.state.mediaPreview); // copy state
     let fileReaders = [];
+    // FOR MEDIA UPLOAD
     if (mediaFiles.length > 0) {
       const that = this;
       mediaFiles.forEach(function (file, i) {
@@ -227,6 +214,21 @@ class PostFormPhoto extends React.Component {
           that.setState({ mediaPreview });
         }
       });
+    }
+    // FOR MEDIA LINK 
+    if (mediaUrls.length > 0) {
+      const that = this;
+      mediaUrls.forEach(function (url, i) {
+        // if URL doesn't exist, do nothing
+        if (mediaPreview[url]) return;
+        validateMediaUrl(url, 'image', (response) => {
+          if (!response) return; // if response is null, do nothing
+          console.log(response);
+          media.push(url);
+          mediaPreview[url] = url;
+          that.setState({ mediaPreview });
+        });
+      })
     }
     this.setState({ media });
     // FIX: add loader for preview images
@@ -254,6 +256,24 @@ class PostFormPhoto extends React.Component {
       delete mediaPreview[mediaFilename];
       that.setState({ media: newMedia, filesToDelete, mediaPreview });
     };
+  }
+
+  renderMediaPreview() {
+    // to show preview when user selects file
+    const { media, mediaPreview } = this.state;
+    let mediaPreviewImgs = [];
+    for (let mediaFilename in mediaPreview) {
+      mediaPreviewImgs.push(
+        <div key={mediaFilename} className='post-photo'>
+          <span className='remove-icon'>
+            <i className="fas fa-minus-circle"
+              onClick={this.removePreview(mediaFilename)}></i>
+          </span>
+          <img src={mediaPreview[mediaFilename]} />
+        </div>
+      );
+    }
+    return mediaPreviewImgs;
   }
 
   handleSubmit(e) {

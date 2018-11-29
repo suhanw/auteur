@@ -32,3 +32,18 @@ export const replaceArray = function (objValue, srcValue) {
   // new = {arr: [1, 2]}
   // mergewith(new, old, replaceArray) => {arr: [1,2]}
 };
+
+export const validateMediaUrl = function (url, expectedType, next) {
+  // https://www.website.com/image.jpg is a valid URL
+  let validUrlRegex = RegExp('(https:\/\/)(.+\/)([^\.]+)([\.])([^\.]{3,})');
+  console.log(validUrlRegex.test(url));
+  // if it fails the regex test, pass in null into next func
+  if (!validUrlRegex.test(url)) return next(null);
+  // return next(url);
+  let img = new Image();
+  // debugger
+  img.src = url;
+  img.onerror = () => next(null);
+  img.onload = (e) => next('image exists!');
+  // debugger
+}
