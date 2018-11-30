@@ -15,6 +15,10 @@ const postSchema = new mongoose.Schema(
       type: String,
       required: false,
     },
+    linkUrl: {
+      type: String,
+      required: false,
+    },
     media: [{
       type: String
     }],

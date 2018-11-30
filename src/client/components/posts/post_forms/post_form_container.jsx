@@ -5,6 +5,7 @@ import { Redirect } from 'react-router-dom';
 import PostFormText from './post_form_text';
 import PostFormPhoto from './post_form_photo';
 import PostFormQuote from './post_form_quote';
+import PostFormLink from './post_form_link';
 import { fetchBlog } from '../../../actions/blog_actions';
 import { createPost, updatePost } from '../../../actions/post_actions';
 import { selectCurrentUser, selectBlog, selectLoadingPostSubmit } from '../../../selectors/selectors';
@@ -95,7 +96,8 @@ class PostForm extends React.Component {
       'text': PostFormText,
       'photo': PostFormPhoto,
       'quote': PostFormQuote,
-    }
+      'link': PostFormLink,
+    };
     const Component = postFormComponents[formType];
 
     // if post is null, pass in createPost for 'new' form, else, pass in updateForm for 'edit' form

@@ -132,7 +132,8 @@
 }
 
 .media-input .remove-icon,
-.post-photo .remove-icon {
+.post-photo .remove-icon, 
+.post-link .remove-icon {
   display: inline-flex;
   position: absolute;
   top: -10px;
@@ -145,16 +146,34 @@
   transition: opacity 0.1s linear;
 }
 
-.post-photo .remove-icon {
+.post-photo .remove-icon,
+.post-link .remove-icon {
   opacity: 0;
 }
 
-.post-photo:hover .remove-icon {
+.post-photo:hover .remove-icon, 
+.post-link:hover .remove-icon {
   opacity: 1;
 }
 
 .media-input .remove-icon .fa-times-circle,
-.post-photo .remove-icon .fa-minus-circle {
+.post-photo .remove-icon .fa-minus-circle,
+.post-link .remove-icon .fa-times-circle {
   font-size: 22px;
   cursor: pointer;
 }
+
+// For PostFormQuote
+
+div.post-quote:before, // for ContentEditable div
+div.post-quote:after {
+  color: grey;
+}
+
+// For PostFormLink
+
+.post-form .post-link {
+  border-top: 1.5px dashed rgb(203,203, 203);
+  border-bottom: 1.5px dashed rgb(203,203, 203);
+}
+

@@ -76,6 +76,7 @@ class PostShowItem extends React.Component {
       'text': PostShowText,
       'photo': PostShowPhoto,
       'quote': PostShowQuote,
+      'link': PostShowLink,
     };
     const Component = postShowComponents[post.type];
     return <Component post={post} />;

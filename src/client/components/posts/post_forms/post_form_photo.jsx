@@ -4,7 +4,7 @@ import { merge, union } from 'lodash';
 
 import PostFormHeader from './post_form_header';
 import PostFormFooter from './post_form_footer';
-import { toArray, validateMediaUrl } from '../../../util/misc_util';
+import { toArray, validateUrl } from '../../../util/misc_util';
 
 class PostFormPhoto extends React.Component {
   constructor(props) {
@@ -239,7 +239,7 @@ class PostFormPhoto extends React.Component {
     if (mediaUrl) {
       const that = this;
       if (mediaPreview[mediaUrl]) return; //do nothing if a file has been previously selected
-      validateMediaUrl(mediaUrl, 'image', (response) => {
+      validateUrl(mediaUrl, 'image', (response) => {
         if (!response) return; // do nothing if mediaUrl is not valid or returns a 404
         media.push(mediaUrl);
         mediaPreview[mediaUrl] = mediaUrl;
