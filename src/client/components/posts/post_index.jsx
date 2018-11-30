@@ -30,7 +30,7 @@ class PostIndex extends React.Component {
 
   renderPostShowItems() {
     // FIX: create postsArr slice in Redux UI state, to render posts depending on path/view
-    const { postsArr, blogs } = this.props;
+    const { postsArr, blogs, currentUser, createFollow } = this.props;
     if (postsArr.length === 0 || !postsArr) {
       return null;
     }
@@ -47,7 +47,7 @@ class PostIndex extends React.Component {
               render={(props) => <PostFormContainer post={post} blog={blog} edit={true} />} />
             <Route
               path='/dashboard'
-              render={(props) => <PostShowItem post={post} blog={blog} />} />
+              render={(props) => <PostShowItem post={post} blog={blog} currentUser={currentUser} createFollow={createFollow} />} />
           </Switch>
         </div>
       );

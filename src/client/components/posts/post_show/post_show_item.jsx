@@ -17,13 +17,12 @@ class PostShowItem extends React.Component {
 
     this.renderPostContent = this.renderPostContent.bind(this);
     this.renderPostShow = this.renderPostShow.bind(this);
+    this.handleClick = this.handleClick.bind(this);
   }
 
   render() {
     // FIX: fade out when deleted
     const { blog } = this.props;
-    // let postDate = new Date(post.createdAt);
-    // postDate = postDate.toString();
     return (
       <li className='post-show-item'>
 
@@ -48,17 +47,27 @@ class PostShowItem extends React.Component {
   }
 
   renderPostContent() {
-    const { post, blog } = this.props;
+    const { post, blog, currentUser, createFollow } = this.props;
+    let suggestFollow = null;
+    let followLink = null;
+    let blogNameClass = '';
+    if (blog.author !== currentUser._id && !currentUser.following.includes(blog._id)) {
+      suggestFollow = <small>Here's a blog: </small>
+      followLink = <a onClick={this.handleClick}>Follow</a>
+      blogNameClass = 'unfollowed';
+    }
     return (
       <article className='post-content'>
         <div className='dogear'></div>
         <header className='post-header'>
-          <span className='post-blog-name'
+          {suggestFollow}
+          <span className={`post-blog-name ${blogNameClass}`}
             onMouseOver={showPopover(this, 'postFollowPopover')}
             onMouseOut={hidePopover(this, true, 'postFollowPopover')}>
             <span>{blog.name}</span>
             {renderFollowPopover(this, blog._id, 'postFollowPopover')}
           </span>
+          {followLink}
         </header>
 
         {this.renderPostShow()}
@@ -81,6 +90,12 @@ class PostShowItem extends React.Component {
     };
     const Component = postShowComponents[post.type];
     return <Component post={post} />;
+  }
+
+  handleClick(e) {
+    e.preventDefault();
+    const { createFollow, blog } = this.props;
+    createFollow(blog._id);
   }
 }
 

@@ -83,10 +83,30 @@ $dogear-grey: rgb(208, 208, 208);
   font-weight: bold;
 }
 
+.post-header span {
+  cursor: pointer;
+}
+
+.post-header small {
+  color: #8f8f8f;
+  font-weight: 400;
+}
+
+.post-header a {
+  color: #529ecc;
+  font-weight: 400;
+  cursor: pointer;
+  padding-left: 10px;
+}
+
 .post-blog-name {
   display: inline-flex;
   justify-content: center;
   position: relative;
+}
+
+.post-blog-name.unfollowed {
+  color: #8f8f8f;
 }
 
 .post-main {
