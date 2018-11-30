@@ -33,11 +33,18 @@ export const replaceArray = function (objValue, srcValue) {
 export const validateMediaUrl = function (url, expectedType, next) {
   // https://www.website.com/image.jpg is a valid URL
   let validUrlRegex = RegExp('(https:\/\/)(.+\/)([^\.]+)([\.])([^\.]{3,})');
-  console.log(validUrlRegex.test(url));
   // if it fails the regex test, pass in null into next func
   if (!validUrlRegex.test(url)) return next(null);
-  let img = new Image();
-  img.src = url;
-  img.onerror = () => next(null);
-  img.onload = (e) => next('image exists!');
+
+  switch (expectedType) {
+    case 'image':
+      let img = new Image();
+      img.src = url;
+      img.onerror = () => next(null);
+      img.onload = (e) => next('image exists!');
+      break;
+    default:
+      break;
+  }
+
 };

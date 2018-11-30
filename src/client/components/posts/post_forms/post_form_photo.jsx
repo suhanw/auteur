@@ -85,10 +85,16 @@ class PostFormPhoto extends React.Component {
 
   renderMediaInput() {
     const { mediaPreview, urlInput } = this.state;
-    if (urlInput) return this.renderUrlInput();
 
     if (Object.keys(mediaPreview).length > 0) { // if user already selected some images
-      return this.renderSmallUploadDropzone();
+      if (urlInput) {
+        // FIX: when editting a post with media link, the url input does not render
+        return this.renderSmallUrlInput();
+      } else {
+        return this.renderSmallUploadDropzone();
+      }
+    } else if (urlInput) {
+      return this.renderUrlInput();
     }
 
     return (
@@ -133,6 +139,18 @@ class PostFormPhoto extends React.Component {
         </span>
       </div>
     );
+  }
+
+  renderSmallUrlInput() {
+    return (
+      <div className='media-input'>
+        <input className='media-link-input-small'
+          onChange={this.handleMediaInput}
+          autoFocus={true}
+          type='text'
+          placeholder='Add another URL.' />
+      </div>
+    )
   }
 
   renderSmallUploadDropzone() {
@@ -189,13 +207,14 @@ class PostFormPhoto extends React.Component {
 
   handleMediaInput(e) {
     let mediaFiles = [];
-    let mediaUrls = [];
+    let mediaUrl = null;
     if (e.type === 'drop') { // to handle drag and drop
       mediaFiles = toArray(e.dataTransfer.files);
     } else if (e.target.files) { // to handle the regular upload feature
       mediaFiles = toArray(e.target.files); // to convert FileList to Array
     } else { // for URL input
-      mediaUrls.push(e.target.value);
+      mediaUrl = e.target.value;
+      e.persist(); // to enable resetting text field to blank in the validateUrl callback
     }
     let media = this.state.media.slice(); // copy state
     let mediaPreview = merge({}, this.state.mediaPreview); // copy state
@@ -214,23 +233,20 @@ class PostFormPhoto extends React.Component {
           that.setState({ mediaPreview });
         }
       });
+      that.setState({ media });
     }
     // FOR MEDIA LINK 
-    if (mediaUrls.length > 0) {
+    if (mediaUrl) {
       const that = this;
-      mediaUrls.forEach(function (url, i) {
-        // if URL doesn't exist, do nothing
-        if (mediaPreview[url]) return;
-        validateMediaUrl(url, 'image', (response) => {
-          if (!response) return; // if response is null, do nothing
-          console.log(response);
-          media.push(url);
-          mediaPreview[url] = url;
-          that.setState({ mediaPreview });
-        });
-      })
+      if (mediaPreview[mediaUrl]) return; //do nothing if a file has been previously selected
+      validateMediaUrl(mediaUrl, 'image', (response) => {
+        if (!response) return; // do nothing if mediaUrl is not valid or returns a 404
+        media.push(mediaUrl);
+        mediaPreview[mediaUrl] = mediaUrl;
+        e.target.value = null;
+        that.setState({ mediaPreview, media });
+      });
     }
-    this.setState({ media });
     // FIX: add loader for preview images
   }
 
@@ -258,8 +274,7 @@ class PostFormPhoto extends React.Component {
     };
   }
 
-  renderMediaPreview() {
-    // to show preview when user selects file
+  renderMediaPreview() { // to show preview when user selects file
     const { media, mediaPreview } = this.state;
     let mediaPreviewImgs = [];
     for (let mediaFilename in mediaPreview) {
