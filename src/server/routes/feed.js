@@ -18,7 +18,7 @@ router.get('/feed', middleware.isLoggedIn, function (req, res) {
                 //     [foundUser.primaryBlog], // user's primary blog
                 //     foundUser.following, // blogs that user follows
                 //     foundUser.blogs)) // add'l blogs that user created
-                .select('_id type title body media blog author likeCount commentCount createdAt')
+                .select('_id type title body media blog author linkUrl likeCount commentCount createdAt')
                 .sort({ 'createdAt': 'desc' })
                 .populate({ path: 'blog', select: '_id avatarImageUrl backgroundImageUrl name title' })
                 .exec()

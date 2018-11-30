@@ -2,6 +2,7 @@ import React from 'react';
 import PostShowText from './post_show_text';
 import PostShowPhoto from './post_show_photo';
 import PostShowQuote from './post_show_quote';
+import PostShowLink from './post_show_link';
 import NoteMenuContainer from '../../notes/note_menu_container';
 import { showPopover, hidePopover, renderFollowPopover } from '../../../util/popover_util';
 

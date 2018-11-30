@@ -1,9 +1,11 @@
 import React from 'react';
 import { isArray } from 'lodash';
 
+
 export const toArray = function (list) {
   return Array.prototype.slice.call(list);
 }
+
 
 export const renderSpinner = function (className) {
   if (!className) return null; // only pass in className if need to render spinner
@@ -20,6 +22,7 @@ export const renderSpinner = function (className) {
   );
 };
 
+
 export const replaceArray = function (objValue, srcValue) {
   if (isArray(objValue)) {
     return srcValue;
@@ -30,6 +33,7 @@ export const replaceArray = function (objValue, srcValue) {
   // mergewith(new, old, replaceArray) => {arr: [1,2]}
 };
 
+
 export const validateUrl = function (url, expectedType, next) {
   // https://www.website.com is a valid URL
   let validLinkUrl = RegExp('(https:\/\/)(.+)([\.])([^\.]+)');
@@ -38,19 +42,14 @@ export const validateUrl = function (url, expectedType, next) {
 
   switch (expectedType) {
     case 'link':
-      if (!validLinkUrl.test(url)) {
-        console.log('invalid URL');
-        return next(null);
-      }
-      console.log('valid URL')
-      $.ajax({
+      if (!validLinkUrl.test(url)) return next(null);
+      $.ajax({ // query the link through our server as proxy
         url: '/api/linkpreview',
         method: 'POST',
         data: { linkUrl: url },
       })
         .then((responseHtml) => {
           let linkHtml = new DOMParser().parseFromString(responseHtml, 'text/html');
-          // debugger
           let linkMeta = {}
 
           linkMeta.linkTitle = linkHtml.querySelector('head title') ? linkHtml.querySelector('head title').textContent : null;

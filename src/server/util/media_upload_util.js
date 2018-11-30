@@ -54,6 +54,7 @@ mediaUpload.deleteFiles = function (post, blog) {
   return new Promise(function (resolve, reject) {
     let keyPrefix = `users/${post.author}/blogs/${post.blog}/posts/${post._id}/`;
     let files = [];
+    // FIX: if filename has spaces in it, doesn't delete from AWS...
     if (post.media) { // scenario for delete post
       files = post.media.slice();
     } else if (post.filesToDelete) { // scenario for update post

@@ -1,7 +1,5 @@
 require('dotenv').config(); // environment variables
 
-const https = require('https');
-const fs = require('fs');
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
@@ -65,16 +63,6 @@ app.use(require('./controllers/controllers'));
 // API ROUTES==============================
 
 
-if (process.env.NODE_ENV === 'development') {
-  // how to create local SSL cert: https://letsencrypt.org/docs/certificates-for-localhost/
-  const options = {
-    key: fs.readFileSync('/Users/suhanw/localhost.key'),
-    cert: fs.readFileSync('/Users/suhanw/localhost.crt')
-  };
-  https.createServer(options, app)
-    .listen(process.env.PORT, () => console.log('Server started'));
-} else {
-  app.listen(process.env.PORT, function () {
-    console.log('Server started');
-  });
-}
+app.listen(process.env.PORT, function () {
+  console.log('Server started');
+});
