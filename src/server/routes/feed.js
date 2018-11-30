@@ -19,7 +19,7 @@ router.get('/feed', middleware.isLoggedIn, function (req, res) {
                 //     foundUser.following, // blogs that user follows
                 //     foundUser.blogs)) // add'l blogs that user created
                 .select('_id type title body media blog author likeCount commentCount createdAt')
-                .sort({ 'createdAt': 'asc' })
+                .sort({ 'createdAt': 'desc' })
                 .populate({ path: 'blog', select: '_id avatarImageUrl backgroundImageUrl name title' })
                 .exec()
                 .then((foundPosts) => {

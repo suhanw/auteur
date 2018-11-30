@@ -119,7 +119,8 @@ const postsReducer = function (state = defaultState, action) {
             );
             if (state.allIds.indexOf(action.payload._id) < 0) {
                 newState.allIds = state.allIds.slice();
-                newState.allIds.push(action.payload._id);
+                // insert latest post into beginning of array
+                newState.allIds.unshift(action.payload._id);
             } else {
                 // else, the received post might be an updated post
                 newState.allIds = union(
