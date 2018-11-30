@@ -91,7 +91,9 @@ $dogear-grey: rgb(208, 208, 208);
 }
 
 .post-title, 
-.post-body {
+.post-body,
+.post-quote,
+.post-source {
   align-self: flex-start;
   margin-bottom: 10px;
 }
@@ -100,11 +102,52 @@ $dogear-grey: rgb(208, 208, 208);
   font-size: 36px;
 }
 
+.post-source, 
 .post-body {
   font-size: 14px;
   font-weight: 400;
   font-stretch: 100%;
   margin-top: 15px;
+}
+
+.post-quote {
+  font-size: 36px;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+div.post-quote {
+  display: flex;
+}
+
+h1.post-quote div {
+  display: inline;
+}
+
+.post-quote:before,
+.post-quote:after {
+  content: '"';
+}
+
+div.post-quote:before, // for ContentEditable div
+div.post-quote:after {
+  color: grey;
+}
+
+.post-quote:before {
+  align-self: flex-start;
+}
+
+.post-quote:after {
+  align-self: flex-end;
+}
+
+.post-source {
+  color: #444;
+}
+
+.post-source::before {
+  font-family: 'Helvetica Neue';
+  content: '— ';
 }
 
 // to override reset for html in post body

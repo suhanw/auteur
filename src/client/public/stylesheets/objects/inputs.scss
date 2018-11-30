@@ -11,9 +11,13 @@
   letter-spacing: 0.5px;
 }
 
+div[contentEditable=true] {
+  cursor: text;
+}
+
 // to enable placeholder value for contentEditable divs
 div[contentEditable=true]:empty:before {
   content: attr(placeholder);
-  display: block;
+  // display: block;
   color: grey;
 }

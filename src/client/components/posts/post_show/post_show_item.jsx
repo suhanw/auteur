@@ -1,6 +1,7 @@
 import React from 'react';
 import PostShowText from './post_show_text';
 import PostShowPhoto from './post_show_photo';
+import PostShowQuote from './post_show_quote';
 import NoteMenuContainer from '../../notes/note_menu_container';
 import { showPopover, hidePopover, renderFollowPopover } from '../../../util/popover_util';
 
@@ -71,6 +72,7 @@ class PostShowItem extends React.Component {
     const postShowComponents = {
       'text': PostShowText,
       'photo': PostShowPhoto,
+      'quote': PostShowQuote,
     };
     const Component = postShowComponents[post.type];
     return <Component post={post} />;

@@ -4,6 +4,7 @@ import { Redirect } from 'react-router-dom';
 
 import PostFormText from './post_form_text';
 import PostFormPhoto from './post_form_photo';
+import PostFormQuote from './post_form_quote';
 import { fetchBlog } from '../../../actions/blog_actions';
 import { createPost, updatePost } from '../../../actions/post_actions';
 import { selectCurrentUser, selectBlog, selectLoadingPostSubmit } from '../../../selectors/selectors';
@@ -93,6 +94,7 @@ class PostForm extends React.Component {
     const postFormComponents = {
       'text': PostFormText,
       'photo': PostFormPhoto,
+      'quote': PostFormQuote,
     }
     const Component = postFormComponents[formType];
 
