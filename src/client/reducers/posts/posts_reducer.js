@@ -69,7 +69,7 @@ const postsReducer = function (state = defaultState, action) {
             );
             // insert noteId in the post.notes state
             if (newState.byId[postId].notes) {
-                newState.byId[postId].notes.unshift(noteId);
+                newState.byId[postId].notes.push(noteId);
             }
             newState.allIds = union(
                 state.allIds,
@@ -118,9 +118,8 @@ const postsReducer = function (state = defaultState, action) {
                 replaceArray,
             );
             if (state.allIds.indexOf(action.payload._id) < 0) {
-                // if post is newly created, insert into beginning of array
                 newState.allIds = state.allIds.slice();
-                newState.allIds.unshift(action.payload._id);
+                newState.allIds.push(action.payload._id);
             } else {
                 // else, the received post might be an updated post
                 newState.allIds = union(

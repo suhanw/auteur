@@ -27,7 +27,7 @@
   background: #f2f2f2;
   border-radius: 0;
   display: flex;
-  flex-direction: column-reverse; // to render latest note at bottom
+  flex-direction: column;
   min-height: min-content; // to rezize height to fit content
   cursor: default;
 }
