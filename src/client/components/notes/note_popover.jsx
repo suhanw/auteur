@@ -90,14 +90,14 @@ class NotePopover extends React.Component {
           onLoad={this.scrollToBottom}>
           <ul className='note-container'>
 
+            {this.renderNoteShowItems()}
+
             <li key={post._id} className='note-show-posted-by'>
               <div className='note-show-avatar'>
                 <img src={postBlog.avatarImageUrl} className='avatar avatar-extra-small' />
               </div>
               <h1>{postBlog.name}</h1> <small>posted this</small>
             </li>
-
-            {this.renderNoteShowItems()}
 
           </ul>
 

@@ -69,7 +69,7 @@ const postsReducer = function (state = defaultState, action) {
             );
             // insert noteId in the post.notes state
             if (newState.byId[postId].notes) {
-                newState.byId[postId].notes.push(noteId);
+                newState.byId[postId].notes.unshift(noteId);
             }
             newState.allIds = union(
                 state.allIds,

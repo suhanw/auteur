@@ -13,7 +13,7 @@ router.get('/notes', function (req, res) {
   Note.find({ post: postId })
     .select('author post type body createdAt')
     .populate({ path: 'author', select: 'avatarImageUrl username' })
-    .sort({ 'createdAt': 'asc' })
+    .sort({ 'createdAt': 'desc' })
     .then((notes) => {
       let responseJSON = {
         postId: postId,

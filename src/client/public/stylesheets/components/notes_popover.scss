@@ -27,7 +27,7 @@
   background: #f2f2f2;
   border-radius: 0;
   display: flex;
-  flex-direction: column;
+  flex-direction: column-reverse;
   min-height: min-content; // to rezize height to fit content
   cursor: default;
 }

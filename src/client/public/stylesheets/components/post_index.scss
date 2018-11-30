@@ -20,7 +20,7 @@ $dogear-grey: rgb(208, 208, 208);
 // FIX: think of a better way to render follow popover so that it doesn't depend on ordering of lis
 .post-container {
   display: flex;
-  flex-direction: column-reverse;
+  flex-direction: column-reverse; 
 }
 
 .post-show-item,
