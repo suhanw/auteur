@@ -12,7 +12,6 @@ router.get('/feed', middleware.isLoggedIn, function (req, res) {
     User.findById(req.user._id)
         .exec(function (err, foundUser) {
             if (err || !foundUser) return res.status(404).json(['User not found.']);
-            // query posts from current user's own blog and followed blogs
             Post.find()
                 // FIX: figure out criteria of what to display on feed
                 // .where('blog').in(lodash.concat(
@@ -20,9 +19,8 @@ router.get('/feed', middleware.isLoggedIn, function (req, res) {
                 //     foundUser.following, // blogs that user follows
                 //     foundUser.blogs)) // add'l blogs that user created
                 .select('_id type title body media blog author likeCount commentCount createdAt')
-                .sort({ 'createdAt': 'desc' })
+                .sort({ 'createdAt': 'asc' })
                 .populate({ path: 'blog', select: '_id avatarImageUrl backgroundImageUrl name title' })
-                // .lean(true)
                 .exec()
                 .then((foundPosts) => {
                     return res.json(foundPosts);
