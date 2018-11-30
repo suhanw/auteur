@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router({ mergeParams: true });
-const lodash = require('lodash');
+
 const modelQuery = require('../util/model_query_util');
 const middleware = require('../middleware/middleware');
 const User = require('../models/user');
