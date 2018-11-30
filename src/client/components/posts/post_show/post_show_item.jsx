@@ -24,16 +24,19 @@ class PostShowItem extends React.Component {
     // postDate = postDate.toString();
     return (
       <li className='post-show-item'>
-        <picture className='avatar-container'>
-          <img
-            className='avatar avatar-default'
-            src={blog.avatarImageUrl}
-            onMouseOver={showPopover(this, 'avatarFollowPopover')}
-            onMouseOut={hidePopover(this, true, 'avatarFollowPopover')} />
-          {renderFollowPopover(this, blog._id, 'avatarFollowPopover')}
-        </picture>
 
         {this.renderPostContent()}
+
+        <picture className='avatar-container'>
+          <div className='avatar'>
+            <img
+              className='avatar-default'
+              src={blog.avatarImageUrl}
+              onMouseOver={showPopover(this, 'avatarFollowPopover')}
+              onMouseOut={hidePopover(this, true, 'avatarFollowPopover')} />
+            {renderFollowPopover(this, blog._id, 'avatarFollowPopover')}
+          </div>
+        </picture>
 
       </li >
     );

@@ -25,6 +25,10 @@ $dogear-grey: rgb(208, 208, 208);
   margin-bottom: 20px;
 }
 
+.post-show-item {
+  flex-direction: row-reverse; // so that the avatar appears left of post content
+}
+
 .post-show-item .avatar {
   position: sticky;
   top: 70px; // it will 'stick' at position 70px against the closest parent container with overflow: scroll
@@ -39,7 +43,6 @@ $dogear-grey: rgb(208, 208, 208);
   background: white;
   position: relative;
 }
-
 
 .dogear {
   display: inline-block;
