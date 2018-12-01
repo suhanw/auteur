@@ -31,6 +31,7 @@ class PostFormQuote extends React.Component {
 
         <fieldset className='post-main'>
           <div className='post-quote'>
+            {/* FIX: use Ref to auto focus on div */}
             <ContentEditable
               html={title}
               disabled={false}

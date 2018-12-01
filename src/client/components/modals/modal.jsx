@@ -5,7 +5,6 @@ import ConfirmModal from './confirm_modal';
 import PostModal from './post_modal'
 import { closeModal } from '../../actions/modal_actions';
 import { selectModal } from '../../selectors/selectors';
-import { log } from 'util';
 
 
 const mapStateToProps = function (state, ownProps) {
@@ -70,7 +69,7 @@ class Modal extends React.Component {
     );
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps) { //executes after modal is displayed
     const { modal } = this.props;
     if (!modal) return;
 

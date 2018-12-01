@@ -128,6 +128,7 @@ class PostForm extends React.Component {
       );
     }
     // to close form when user presses Esc key.
+    // FIX: USE REFS
     window.addEventListener('keydown', this.closePostForm);
   }
 
