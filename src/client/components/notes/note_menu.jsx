@@ -86,6 +86,7 @@ class NoteMenu extends React.Component {
   }
 
 
+  // FIX: this doesn't display on 'Posts' view
   renderCog() {
     const { post, popover } = this.props;
     // unique identifier for current popover

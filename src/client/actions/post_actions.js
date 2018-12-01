@@ -3,6 +3,7 @@ import { fetchBlog, receiveBlog } from '../actions/blog_actions';
 import { loadPostSubmit, loadPostIndex } from '../actions/loading_actions';
 
 export const RECEIVE_POSTS = 'RECEIVE_POSTS';
+export const RECEIVE_FEED = 'RECEIVE_FEED';
 export const RECEIVE_POST = 'RECEIVE_POST';
 export const REMOVE_POST = 'REMOVE_POST';
 export const CONFIRM_DELETE_POST = 'CONFIRM_DELETE_POST';
@@ -12,6 +13,13 @@ export const CHOOSE_POST_TYPE = 'CHOOSE_POST_TYPE';
 export const receivePosts = function (posts) {
     return {
         type: RECEIVE_POSTS,
+        payload: posts,
+    };
+};
+
+export const receiveFeed = function (posts) {
+    return {
+        type: RECEIVE_FEED,
         payload: posts,
     };
 };
@@ -41,7 +49,10 @@ export const fetchFeed = function () {
     return function (dispatch) {
         dispatch(loadPostIndex());
         return APIUtil.fetchFeed().then(
-            (posts) => dispatch(receivePosts(posts)),
+            (posts) => {
+                dispatch(receivePosts(posts));
+                dispatch(receiveFeed(posts));
+            },
             (err) => dispatch(receivePostErrors(err.responseJSON)),
         );
     };
@@ -95,9 +106,9 @@ export const confirmDeletePost = function (post) {
 export const deletePost = function (post) {
     return function (dispatch) {
         return APIUtil.deletePost(post).then(
-            (postId) => {
-                dispatch(fetchBlog(post.blog));
-                dispatch(removePost(postId));
+            (deletedPost) => {
+                dispatch(fetchBlog(deletedPost.blog));
+                dispatch(removePost(deletedPost));
             },
             (err) => dispatch(receivePostErrors(err.responseJSON))
         );

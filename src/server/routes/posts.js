@@ -78,7 +78,7 @@ router.delete('/posts/:postId',
             if (!deletedPost) throw { message: 'Post does not exist. ' };
             blog.postCount -= 1;
             blog.save();
-            return res.json(deletedPost._id);
+            return res.json(deletedPost);
           });
       })
       .catch((err) => res.status(422).json([err.message]));

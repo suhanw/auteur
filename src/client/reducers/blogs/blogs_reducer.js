@@ -1,9 +1,9 @@
 import { normalize, schema } from 'normalizr';
 import { merge, mergeWith, union } from 'lodash';
-import { RECEIVE_POSTS } from '../../actions/post_actions';
+import { RECEIVE_POSTS, REMOVE_POST } from '../../actions/post_actions';
 import { REMOVE_CURRENT_USER } from '../../actions/session_actions';
 import { RECEIVE_BLOG } from '../../actions/blog_actions';
-import { RECEIVE_USERS, RECEIVE_USER_FOLLOWING } from '../../actions/user_actions';
+import { RECEIVE_USERS } from '../../actions/user_actions';
 import { replaceArray } from '../../util/misc_util';
 
 const defaultState = {
@@ -41,21 +41,19 @@ const blogsReducer = function (state = defaultState, action) {
     let newState = {};
     let blogIdsArr = [];
     switch (action.type) {
-        case RECEIVE_USER_FOLLOWING:
-            payloadSchema = [postSchema];
-            normalizedPayload = normalize(action.payload, payloadSchema);
-            if (action.payload.length > 0) {
-                blogIdsArr = Object.keys(normalizedPayload.entities.blogs);
-            }
-            newState.byId = merge(
+        case RECEIVE_BLOG:
+            normalizedPayload = normalize(action.payload, blogSchema);
+            newState.byId = mergeWith(
                 {},
                 state.byId,
                 normalizedPayload.entities.blogs,
+                replaceArray,
             );
             newState.allIds = union(
                 state.allIds,
-                blogIdsArr,
+                [action.payload._id]
             );
+            return newState;
         case RECEIVE_POSTS:
             payloadSchema = [postSchema];
             normalizedPayload = normalize(action.payload, payloadSchema);
@@ -72,18 +70,13 @@ const blogsReducer = function (state = defaultState, action) {
                 blogIdsArr,
             );
             return newState;
-        case RECEIVE_BLOG:
-            normalizedPayload = normalize(action.payload, blogSchema);
-            newState.byId = mergeWith(
-                {},
-                state.byId,
-                normalizedPayload.entities.blogs,
-                replaceArray,
-            );
-            newState.allIds = union(
-                state.allIds,
-                [action.payload._id]
-            );
+        case REMOVE_POST:
+            const blogId = action.payload.blog;
+            const deletedPostId = action.payload._id;
+            newState = merge({}, state);
+            const blogPostsArr = newState.byId[blogId].posts;
+            // posts array in the blog slice of state is not always populated
+            if (blogPostsArr) newState.byId[blogId].posts = blogPostsArr.filter((postId) => postId !== deletedPostId);
             return newState;
         case RECEIVE_USERS:
             payloadSchema = [userSchema];

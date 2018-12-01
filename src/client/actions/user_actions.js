@@ -1,5 +1,6 @@
 import * as APIUtil from '../util/user_api_util';
 import { loadPostIndex } from '../actions/loading_actions';
+import { receivePosts } from '../actions/post_actions';
 
 export const RECEIVE_USERS = 'RECEIVE_USERS';
 export const RECEIVE_USER = 'RECEIVE_USER';
@@ -55,7 +56,10 @@ export const fetchUserFollowing = function (userId) {
   return function (dispatch) {
     dispatch(loadPostIndex());
     return APIUtil.fetchUserFollowing(userId).then(
-      (followedPosts) => dispatch(receiveUserFollowing(followedPosts)),
+      (followedPosts) => {
+        dispatch(receivePosts(followedPosts));
+        dispatch(receiveUserFollowing(followedPosts));
+      },
       (err) => dispatch(receiveUserErrors(err.responseJSON))
     );
   };

@@ -1,4 +1,4 @@
-import { RECEIVE_POSTS, RECEIVE_POST, REMOVE_POST } from '../../actions/post_actions';
+import { RECEIVE_FEED, RECEIVE_POST, REMOVE_POST } from '../../actions/post_actions';
 import { RECEIVE_USER_FOLLOWING } from '../../actions/user_actions';
 import { REMOVE_CURRENT_USER } from '../../actions/session_actions';
 import { normalize, schema } from 'normalizr';
@@ -8,7 +8,6 @@ const defaultState = {
   feed: [],
   following: [],
   likes: [],
-  blogId: null, // if populated, pull the posts from the 'blogs' state
 };
 
 const blogSchema = new schema.Entity('blogs',
@@ -33,7 +32,7 @@ const postIndexReducer = function (state = defaultState, action) {
       // FIX: this replaces the array everytime user clicks on Following, because this array doesn't update when user unfollows a blog
       newState.following = normalizedPayload.result; // array of postIds
       return newState;
-    case RECEIVE_POSTS: // used for fetching feed posts
+    case RECEIVE_FEED: // used for fetching feed posts
       payloadSchema = [postSchema];
       normalizedPayload = normalize(action.payload, payloadSchema);
       newState = merge({}, state);
@@ -57,7 +56,7 @@ const postIndexReducer = function (state = defaultState, action) {
       }
       return newState;
     case REMOVE_POST:
-      let removedPostId = action.payload;
+      let removedPostId = action.payload._id;
       newState = merge({}, state);
       newState.feed = newState.feed.filter((postId) => postId !== removedPostId)
       return newState;
