@@ -18,10 +18,10 @@ modelQuery.findOneBlog = function (blogId, handleSuccess, handleFailure) {
   // 'handleSuccess' callback func should be function(foundBlog) { ... }
   // 'handleFailure' callback func should be function(err) { ... }
   return Blog.findOne({ _id: blogId })
-    .populate({
-      path: 'author',
-      select: '_id',
-    })
+    // .populate({
+    //   path: 'author',
+    //   select: '_id',
+    // })
     // .lean(true) // make the query return a POJO instead of Document
     .exec()
     .then(function (foundBlog) {

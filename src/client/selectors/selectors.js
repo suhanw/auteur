@@ -12,10 +12,20 @@ export const selectSessionErrors = function (state) {
   return sessionErrors;
 };
 
-export const selectPosts = function (state, view) {
-  const { entities: { posts } } = state;
+export const selectPosts = function (state, view, blogId = null) { // optional blogId argument
+  const { entities: { posts, blogs } } = state;
   const { ui: { postIndex } } = state;
-  let postsArr = postIndex[view].map(function (postId) {
+  let postIdsArr = [];
+
+  if (view === 'blogId') {
+    // debugger
+    const blog = blogs.byId[blogId];
+    postIdsArr = (!blog || !blog.posts) ? [] : blog.posts;  // in case no blogs fetched in state yet
+  } else {
+    postIdsArr = postIndex[view];
+  }
+
+  let postsArr = postIdsArr.map(function (postId) {
     return posts.byId[postId];
   });
   return postsArr;

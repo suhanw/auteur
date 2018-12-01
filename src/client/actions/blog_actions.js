@@ -17,7 +17,7 @@ export const receiveBlogErrors = function (errors) {
   };
 };
 
-export const fetchBlog = function (blogId) {
+export const fetchBlog = function (blogId, queryParams) {
   return function (dispatch) {
     return APIUtil.fetchBlog(blogId).then(
       (blog) => dispatch(receiveBlog(blog)),

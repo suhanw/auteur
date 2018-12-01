@@ -15,10 +15,9 @@ class PostIndex extends React.Component {
   }
 
   render() {
-    const { currentUser, loadingPostIndex } = this.props;
-    const path = this.props.match.path;
+    const { currentUser, loadingPostIndex, view } = this.props;
 
-    if (path === '/dashboard/following' && currentUser.following.length === 0) {
+    if (view === 'following' && currentUser.following.length === 0) {
       // redirect to dashboard if user is not following any blogs
       // FIX: show some kind of message that user should start following blogs
       return <Redirect to='/dashboard' />

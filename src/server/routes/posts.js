@@ -19,6 +19,7 @@ router.get('/posts', middleware.isLoggedIn, function (req, res) {
       return Post.find({ blog: foundBlog._id })
         .sort({ 'createdAt': 'desc' })
         .select('type title media body likeCount commentCount blog createdAt')
+        .populate({ path: 'blog', select: '_id' })
         .exec()
     })
     .then((posts) => res.json(posts))

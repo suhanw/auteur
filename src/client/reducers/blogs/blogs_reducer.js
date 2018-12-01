@@ -1,9 +1,10 @@
 import { normalize, schema } from 'normalizr';
-import { merge, union } from 'lodash';
+import { merge, mergeWith, union } from 'lodash';
 import { RECEIVE_POSTS } from '../../actions/post_actions';
 import { REMOVE_CURRENT_USER } from '../../actions/session_actions';
 import { RECEIVE_BLOG } from '../../actions/blog_actions';
 import { RECEIVE_USERS, RECEIVE_USER_FOLLOWING } from '../../actions/user_actions';
+import { replaceArray } from '../../util/misc_util';
 
 const defaultState = {
     byId: {},
@@ -13,18 +14,17 @@ const defaultState = {
 const userSchema = new schema.Entity(
     'users',
     {
-        primaryBlog: new schema.Entity(
-            'blogs',
-            { author: userSchema },
-            { idAttribute: '_id' }
-        )
+        primaryBlog: new schema.Entity('blogs', { author: userSchema }, { idAttribute: '_id' })
     },
     { idAttribute: '_id' }
 );
 
 const blogSchema = new schema.Entity(
     'blogs',
-    { author: userSchema },
+    {
+        author: userSchema,
+        posts: [new schema.Entity('posts', {}, { idAttribute: '_id' })],
+    },
     { idAttribute: '_id' }
 );
 
@@ -74,10 +74,11 @@ const blogsReducer = function (state = defaultState, action) {
             return newState;
         case RECEIVE_BLOG:
             normalizedPayload = normalize(action.payload, blogSchema);
-            newState.byId = merge(
+            newState.byId = mergeWith(
                 {},
                 state.byId,
                 normalizedPayload.entities.blogs,
+                replaceArray,
             );
             newState.allIds = union(
                 state.allIds,

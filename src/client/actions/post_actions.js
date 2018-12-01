@@ -1,5 +1,5 @@
 import * as APIUtil from '../util/post_api_util';
-import { fetchBlog } from '../actions/blog_actions';
+import { fetchBlog, receiveBlog } from '../actions/blog_actions';
 import { loadPostSubmit, loadPostIndex } from '../actions/loading_actions';
 
 export const RECEIVE_POSTS = 'RECEIVE_POSTS';
@@ -42,6 +42,19 @@ export const fetchFeed = function () {
         dispatch(loadPostIndex());
         return APIUtil.fetchFeed().then(
             (posts) => dispatch(receivePosts(posts)),
+            (err) => dispatch(receivePostErrors(err.responseJSON)),
+        );
+    };
+};
+
+export const fetchPostsByBlog = function (blogId) {
+    return function (dispatch) {
+        dispatch(loadPostIndex());
+        return APIUtil.fetchPostsByBlog(blogId).then(
+            (posts) => {
+                dispatch(receivePosts(posts));
+                dispatch(receiveBlog({ _id: blogId, posts })); // to add posts array to blog slice of state
+            },
             (err) => dispatch(receivePostErrors(err.responseJSON)),
         );
     };

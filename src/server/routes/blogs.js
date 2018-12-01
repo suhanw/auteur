@@ -8,7 +8,11 @@ const middleware = require('../middleware/middleware');
 // GET api/blogs/:id - SHOW blog
 router.get('/blogs/:id', middleware.isLoggedIn, function (req, res) {
     modelQuery.findOneBlog(req.params.id)
-        .then((foundBlog) => res.json(foundBlog))
+        .then((foundBlog) => {
+            if (!req.query.includePosts) return res.json(foundBlog);
+            // debugger
+
+        })
         .catch((err) => res.status(404).json(['The blog does not exist.']));
 });
 
