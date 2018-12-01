@@ -6,6 +6,7 @@ const lodash = require('lodash');
 const middleware = require('../middleware/middleware');
 const User = require('../models/user');
 const Blog = require('../models/blog');
+const Post = require('../models/post');
 const Note = require('../models/note');
 
 // POST api/users
@@ -49,15 +50,32 @@ router.post('/users',
 );
 
 // GET api/users/:id/following - fetch posts from blogs that current user follows
+router.get('/users/:id/following', middleware.isLoggedIn, function (req, res) {
+  // debugger
+  User.findOne({ _id: req.user._id })
+    .select('following')
+    .then((foundUser) => {
+      const followedBlogs = foundUser.following;
+      return Post.find()
+        .where('blog').in(followedBlogs)
+        .sort({ 'createdAt': 'desc' })
+        .populate({ path: 'blog', select: '_id avatarImageUrl backgroundImageUrl name title' })
+        .exec()
+    })
+    .then((foundPosts) => {
+      return res.json(foundPosts);
+    })
+    .catch((err) => res.status(404).json([err.message]));
+});
 
 // GET api/users/:id/likes - fetch current user's liked posts
 router.get('/users/:id/likes', middleware.isLoggedIn, function (req, res) {
   let likesQuery = Note.find({ type: 'like', author: req.params.id })
-    .select('post');
+    .select('post')
 
-  if (req.query.populate === 'true') {
-    likesQuery = likesQuery.populate('post');
-  }
+  // if (req.query.populate === 'true') {
+  //   likesQuery = likesQuery.populate('post');
+  // }
 
   likesQuery.exec()
     .then((likes) => {

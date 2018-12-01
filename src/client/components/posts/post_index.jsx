@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, Redirect } from 'react-router-dom';
 
 import PostIndexHeader from './post_index_header';
 import PostShowItem from './post_show/post_show_item';
@@ -16,7 +16,16 @@ class PostIndex extends React.Component {
 
   render() {
     const { currentUser, loadingPostIndex } = this.props;
-    const spinnerClass = loadingPostIndex ? 'loading-post-index' : null;
+    const path = this.props.match.path;
+
+    if (path === '/dashboard/following' && currentUser.following.length === 0) {
+      // redirect to dashboard if user is not following any blogs
+      // FIX: show some kind of message that user should start following blogs
+      return <Redirect to='/dashboard' />
+    }
+
+    let spinnerClass = (loadingPostIndex) ? 'loading-post-index' : null;
+
     return (
       <div className='post-index'>
         <PostIndexHeader currentUser={currentUser} />
@@ -29,11 +38,10 @@ class PostIndex extends React.Component {
   }
 
   renderPostShowItems() {
-    // FIX: create postsArr slice in Redux UI state, to render posts depending on path/view
     const { postsArr, blogs, currentUser, createFollow } = this.props;
-    if (postsArr.length === 0 || !postsArr) {
-      return null;
-    }
+
+    if (postsArr.length === 0) return null;
+
     let postIndexItems = postsArr.map(function (post) {
       let blog = blogs[post.blog];
 
@@ -57,9 +65,17 @@ class PostIndex extends React.Component {
   }
 
   componentDidMount() {
-    const { fetchFeed, fetchUserLikes, currentUser } = this.props;
+    const { fetchPosts, fetchUserLikes, currentUser } = this.props;
     fetchUserLikes(currentUser._id);
-    fetchFeed();
+    fetchPosts(currentUser._id);
+  }
+
+  componentWillReceiveProps(newProps) {
+    // to call fetch when view changes
+    const oldView = this.props.view;
+    const newView = newProps.view;
+    const { fetchPosts, currentUser } = newProps;
+    if (newView !== oldView) fetchPosts(currentUser._id);
   }
 }
 

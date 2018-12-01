@@ -3,7 +3,7 @@ import { normalize, schema } from 'normalizr';
 import { RECEIVE_CURRENT_USER, REMOVE_CURRENT_USER } from '../../actions/session_actions';
 import { RECEIVE_BLOG } from '../../actions/blog_actions';
 import { FOLLOW_BLOG, UNFOLLOW_BLOG } from '../../actions/follow_actions';
-import { RECEIVE_USERS, RECEIVE_USER_LIKES } from '../../actions/user_actions';
+import { RECEIVE_USERS, RECEIVE_USER_LIKES, RECEIVE_USER_FOLLOWING } from '../../actions/user_actions';
 import { RECEIVE_NOTES } from '../../actions/note_actions';
 import { replaceArray } from '../../util/misc_util';
 

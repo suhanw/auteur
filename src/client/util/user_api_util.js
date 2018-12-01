@@ -11,3 +11,10 @@ export const fetchUserLikes = function (userId, queryParams) {
     url: `/api/users/${userId}/likes/${queryString}`,
   });
 };
+
+export const fetchUserFollowing = function (userId) {
+  return $.ajax({
+    method: 'GET',
+    url: `/api/users/${userId}/following`,
+  });
+};

@@ -36,7 +36,7 @@ class Sidemenu extends React.Component {
         </NavLink>
         <NavLink to={`/settings/blog/${blog._id}`} className='sidemenu-link'>
           <span className='sidemenu-item'>Edit Appearance</span>
-          <span className='sidemenu-count'>tbd</span>
+          <span className='sidemenu-count'><i className="fas fa-angle-right"></i></span>
         </NavLink>
       </aside>
     );

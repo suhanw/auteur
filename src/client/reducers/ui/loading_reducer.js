@@ -1,6 +1,8 @@
 import { merge } from 'lodash';
 import { LOAD_POST_SUBMIT, LOAD_POST_INDEX } from '../../actions/loading_actions';
 import { RECEIVE_POST, RECEIVE_POSTS } from '../../actions/post_actions';
+import { RECEIVE_USER_FOLLOWING } from '../../actions/user_actions';
+import { REMOVE_CURRENT_USER } from '../../actions/session_actions';
 
 const defaultState = {
   loadingPostIndex: false,
@@ -27,6 +29,12 @@ const loadingReducer = function (state = defaultState, action) {
       newState = merge({}, state);
       newState.loadingPostIndex = false;
       return newState;
+    case RECEIVE_USER_FOLLOWING:
+      newState = merge({}, state);
+      newState.loadingPostIndex = false;
+      return newState;
+    case REMOVE_CURRENT_USER:
+      return defaultState;
     default:
       return state;
   };

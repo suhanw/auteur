@@ -39,5 +39,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
 // TESTING===========================
 
+import { fetchUserFollowing } from './actions/user_actions';
+
+window.fetchUserFollowing = fetchUserFollowing;
 
 // TESTING===========================

@@ -2,6 +2,7 @@ import { normalize, schema } from 'normalizr';
 import { merge, union, mergeWith, isArray } from 'lodash';
 import { RECEIVE_POSTS, RECEIVE_POST, REMOVE_POST } from '../../actions/post_actions';
 import { RECEIVE_NOTES, RECEIVE_NOTE, REMOVE_NOTE } from '../../actions/note_actions';
+import { RECEIVE_USER_FOLLOWING } from '../../actions/user_actions';
 import { REMOVE_CURRENT_USER } from '../../actions/session_actions';
 import { replaceArray } from '../../util/misc_util';
 
@@ -38,6 +39,16 @@ const postsReducer = function (state = defaultState, action) {
     Object.freeze(state);
     let newState = {};
     switch (action.type) {
+        case RECEIVE_USER_FOLLOWING:
+            payloadSchema = [postSchema];
+            normalizedPayload = normalize(action.payload, payloadSchema);
+            newState.byId = mergeWith(
+                {},
+                state.byId,
+                normalizedPayload.entities.posts,
+                replaceArray,
+            );
+            return newState;
         case RECEIVE_NOTES:
             payloadSchema = [noteSchema];
             normalizedPayload = normalize(action.payload.notes, payloadSchema);
@@ -95,7 +106,7 @@ const postsReducer = function (state = defaultState, action) {
                 [action.payload.post._id]
             );
             return newState;
-        case RECEIVE_POSTS:
+        case RECEIVE_POSTS: // used for fetching feed posts
             payloadSchema = [postSchema];
             normalizedPayload = normalize(action.payload, payloadSchema);
             newState.byId = mergeWith(
