@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 import Logo from '../logo/logo';
 import Searchbar from '../searchbar/searchbar';
 import AccountPopover from '../popovers/account_popover';
+import ChatPopover from '../popovers/chat_popover';
+import NotificationPopover from '../popovers/notification_popover';
 
 class Navbar extends React.Component {
   constructor(props) {
@@ -12,6 +14,9 @@ class Navbar extends React.Component {
     this.dynamicClosePopover = this.dynamicClosePopover.bind(this);
     this.renderHomeIcon = this.renderHomeIcon.bind(this);
     this.renderAccountIcon = this.renderAccountIcon.bind(this);
+    this.renderChatIcon = this.renderChatIcon.bind(this);
+    this.renderNotificationIcon = this.renderNotificationIcon.bind(this);
+    this.renderPostIcon = this.renderPostIcon.bind(this);
     this.togglePopover = this.togglePopover.bind(this);
   }
 
@@ -26,10 +31,10 @@ class Navbar extends React.Component {
 
         <ul className='navbar-right'>
           {this.renderHomeIcon()}
-          <li className='navbar-right-item'><i className="fas fa-comment-alt"></i></li>
-          <li className='navbar-right-item'><i className="fas fa-bell"></i></li>
+          {this.renderChatIcon()}
+          {this.renderNotificationIcon()}
           {this.renderAccountIcon()}
-          <li className='navbar-right-item'><i className="fas fa-pen-square"></i></li>
+          {this.renderPostIcon()}
         </ul>
 
       </nav>
@@ -64,14 +69,60 @@ class Navbar extends React.Component {
     );
   }
 
+  renderChatIcon() {
+    const { popover } = this.props;
+    const chatPopover = {
+      popoverId: 'chatPopover',
+      popoverType: 'chatPopover',
+    };
+    let popoverStyle = { display: 'none' };
+    let activeIcon = null;
+    if (JSON.stringify(popover) === JSON.stringify(chatPopover)) {
+      popoverStyle = { display: 'inline-block' };
+      activeIcon = { color: 'white' };
+    }
+    return (
+      <li className='navbar-right-item' onClick={this.togglePopover(chatPopover)}>
+        <i className="fas fa-comment-alt" style={activeIcon}></i>
+        <ChatPopover
+          popoverStyle={popoverStyle} />
+      </li>
+    );
+  }
+
+  renderNotificationIcon() {
+    const { popover } = this.props;
+    const notificationPopover = {
+      popoverId: 'notificationPopover',
+      popoverType: 'notificationPopover',
+    };
+    let popoverStyle = { display: 'none' };
+    let activeIcon = null;
+    if (JSON.stringify(popover) === JSON.stringify(notificationPopover)) {
+      popoverStyle = { display: 'inline-block' };
+      activeIcon = { color: 'white' };
+    }
+    return (
+      <li className='navbar-right-item' onClick={this.togglePopover(notificationPopover)}>
+        <i className="fas fa-bell" style={activeIcon}></i>
+        <NotificationPopover
+          popoverStyle={popoverStyle} />
+      </li>
+    );
+  }
+
   renderAccountIcon() {
     const { currentUser, blog, popover, confirmLogout } = this.props;
     const accountPopover = {
       popoverId: 'accountPopover',
       popoverType: 'accountPopover',
     };
-    const popoverStyle = JSON.stringify(popover) === JSON.stringify(accountPopover) ? { display: 'inline-block' } : { display: 'none' };
-    const activeIcon = JSON.stringify(popover) === JSON.stringify(accountPopover) ? { color: 'white' } : null;
+    let popoverStyle = { display: 'none' };
+    let activeIcon = null;
+    if (JSON.stringify(popover) === JSON.stringify(accountPopover)) {
+      popoverStyle = { display: 'inline-block' };
+      activeIcon = { color: 'white' };
+    }
     return (
       <li className='navbar-right-item' onClick={this.togglePopover(accountPopover)}>
         <i className="fas fa-user" style={activeIcon}></i>
@@ -80,6 +131,15 @@ class Navbar extends React.Component {
           confirmLogout={confirmLogout}
           currentUser={currentUser}
           blog={blog} />
+      </li>
+    );
+  }
+
+  renderPostIcon() {
+    const { choosePostType } = this.props;
+    return (
+      <li className='navbar-right-item' onClick={choosePostType}>
+        <i className="fas fa-pen-square"></i>
       </li>
     );
   }

@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { deletePost } from '../../actions/post_actions';
 import { logout } from '../../actions/session_actions';
-import { closeModal } from '../../actions/modal_actions';
 
 export const mapStateToProps = function (state, ownProps) {
   const { action, data } = ownProps;
@@ -16,7 +15,6 @@ export const mapDispatchToProps = function (dispatch, ownProps) {
   return {
     logout: () => dispatch(logout()),
     deletePost: (post) => dispatch(deletePost(post)),
-    closeModal: () => dispatch(closeModal()),
   }
 };
 
@@ -46,7 +44,7 @@ class ConfirmModal extends React.Component {
     const message = this.modalMessages[action];
 
     return (
-      <div>
+      <div className='confirm-modal'>
         <p className='confirm-modal-message'>Are you sure you want to {message}?</p>
         <div className='confirm-modal-options'>
           <button className='btn btn-default btn-grey' onClick={this.handleClickCancel}>Cancel</button>
@@ -66,6 +64,8 @@ class ConfirmModal extends React.Component {
     e.preventDefault();
     this.props.closeModal();
   }
+
+
 
 }
 

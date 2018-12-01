@@ -39,8 +39,5 @@ document.addEventListener('DOMContentLoaded', function () {
 
 // TESTING===========================
 
-import { fetchNotes } from './actions/note_actions';
-
-window.fetchNotes = fetchNotes;
 
 // TESTING===========================

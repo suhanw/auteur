@@ -6,11 +6,15 @@
   align-items: center;  
 }
 
-.confirm-modal div {
+.post-modal,
+.confirm-modal {
   font-size: 24px;
   color: white;
   width: 370px;
   flex-direction: column;
+}
+
+.post-modal {
 }
 
 .confirm-modal-message {

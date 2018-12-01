@@ -2,47 +2,89 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import ConfirmModal from './confirm_modal';
+import PostModal from './post_modal'
+import { closeModal } from '../../actions/modal_actions';
 import { selectModal } from '../../selectors/selectors';
+import { log } from 'util';
+
 
 const mapStateToProps = function (state, ownProps) {
   const modal = selectModal(state);
   return {
     modal,
-  }
+  };
+};
+
+const mapDispatchToProps = function (dispatch, ownProps) {
+  return {
+    closeModal: () => dispatch(closeModal()),
+  };
 };
 
 
 class Modal extends React.Component {
   constructor(props) {
     super(props);
+
+    this.postModalRef = React.createRef(); // step 1: create ref
+    this.handleKeydown = this.handleKeydown.bind(this);
   }
 
 
   render() {
-    const { modal } = this.props;
+    const { modal, closeModal } = this.props;
     let modalComponent;
 
     if (!modal) return null;
 
     switch (modal.action) {
       case 'confirmLogout':
-        modalComponent = <ConfirmModal action={modal.action} data={modal.data} />
+        modalComponent = <ConfirmModal
+          action={modal.action}
+          data={modal.data}
+          closeModal={closeModal} />;
         break;
       case 'confirmDeletePost':
-        modalComponent = <ConfirmModal action={modal.action} data={modal.data} />
+        modalComponent = <ConfirmModal
+          action={modal.action}
+          data={modal.data}
+          closeModal={closeModal} />;
+        break;
+      case 'choosePostType':
+        modalComponent = <PostModal
+          action={modal.action}
+          closeModal={closeModal} />;
         break;
       default:
         return null;
     }
 
     return (
-      <div className='modal-container background-greyout'>
-        <div className='confirm-modal'>
-          {modalComponent}
-        </div>
+      <div className='modal-container background-greyout'
+        ref={this.postModalRef /* step 2: attach ref to DOM node */}
+        tabIndex={'0' /* step 3: need this attrib for focus() to work on DIVs */}
+        onClick={closeModal}
+        onKeyDown={this.handleKeydown} >
+        {modalComponent}
       </div>
     );
   }
+
+  componentDidUpdate(prevProps) {
+    const { modal } = this.props;
+    if (!modal) return;
+
+    // step 4: ref.current stores the DOM node, and you can call DOM methods
+    this.postModalRef.current.focus();
+  }
+
+  handleKeydown(e) {
+    e.preventDefault();
+    if (e.key === 'Escape') {
+      this.props.closeModal();
+    }
+  }
+
 }
 
-export default connect(mapStateToProps, null)(Modal);
+export default connect(mapStateToProps, mapDispatchToProps)(Modal);

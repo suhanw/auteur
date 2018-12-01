@@ -6,6 +6,8 @@ import PostFormText from './post_form_text';
 import PostFormPhoto from './post_form_photo';
 import PostFormQuote from './post_form_quote';
 import PostFormLink from './post_form_link';
+import PostFormAudio from './post_form_audio';
+import PostFormVideo from './post_form_video';
 import { fetchBlog } from '../../../actions/blog_actions';
 import { createPost, updatePost } from '../../../actions/post_actions';
 import { selectCurrentUser, selectBlog, selectLoadingPostSubmit } from '../../../selectors/selectors';
@@ -97,6 +99,8 @@ class PostForm extends React.Component {
       'photo': PostFormPhoto,
       'quote': PostFormQuote,
       'link': PostFormLink,
+      'audio': PostFormAudio,
+      'video': PostFormVideo,
     };
     const Component = postFormComponents[formType];
 
@@ -134,7 +138,7 @@ class PostForm extends React.Component {
   closePostForm(e) {
     // FIX: add modal for user to confirm discard edit changes
     if (e.type !== 'keydown' || // when user clicks 'Close' button
-      (e.type === 'keydown' && e.code === 'Escape')) { // when user hits Esc key
+      (e.type === 'keydown' && e.key === 'Escape')) { // when user hits Esc key
       this.setState({ closeForm: true });
       return;
     }

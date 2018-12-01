@@ -6,6 +6,7 @@ import NavbarGuest from './navbar_guest';
 import Navbar from './navbar';
 import { confirmLogout } from '../../actions/session_actions';
 import { closePopover, openPopover } from '../../actions/popover_actions';
+import { choosePostType } from '../../actions/post_actions';
 import { selectCurrentUser, selectBlog, selectPopover } from '../../selectors/selectors';
 
 
@@ -28,6 +29,7 @@ const mapDispatchToProps = function (dispatch, ownProps) {
     openPopover: (popover) => dispatch(openPopover(popover)),
     closePopover: () => dispatch(closePopover()),
     confirmLogout: () => dispatch(confirmLogout()),
+    choosePostType: () => dispatch(choosePostType()),
   };
 };
 
@@ -46,6 +48,7 @@ class NavbarContainer extends React.Component {
       scrollCarousel,
       activeSlide,
       confirmLogout,
+      choosePostType,
       openPopover,
       closePopover,
       popover } = this.props;
@@ -67,7 +70,8 @@ class NavbarContainer extends React.Component {
         confirmLogout={confirmLogout}
         popover={popover}
         openPopover={openPopover}
-        closePopover={closePopover} />
+        closePopover={closePopover}
+        choosePostType={choosePostType} />
     );
   }
 }

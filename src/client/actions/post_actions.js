@@ -7,6 +7,7 @@ export const RECEIVE_POST = 'RECEIVE_POST';
 export const REMOVE_POST = 'REMOVE_POST';
 export const CONFIRM_DELETE_POST = 'CONFIRM_DELETE_POST';
 export const RECEIVE_POST_ERRORS = 'RECEIVE_POST_ERRORS';
+export const CHOOSE_POST_TYPE = 'CHOOSE_POST_TYPE';
 
 export const receivePosts = function (posts) {
     return {
@@ -102,3 +103,12 @@ export const updatePost = function (post) {
     };
 };
 
+
+export const choosePostType = function () {
+    return {
+        type: CHOOSE_POST_TYPE,
+        payload: {
+            action: 'choosePostType',
+        },
+    };
+};
