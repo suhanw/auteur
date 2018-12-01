@@ -48,7 +48,10 @@ modelQuery.createLike = function (likeBody) {
       return Note.create(likeBody);
     })
     .then((newLike) => {
-      return newLike.populate('post').execPopulate();
+      return newLike.populate({
+        path: 'post',
+        select: 'likeCount',
+      }).execPopulate();
     })
     .then((newLike) => {
       newLike.post.likeCount += 1;
@@ -62,7 +65,10 @@ modelQuery.deleteLike = function (likeId) {
     .exec()
     .then((deletedLike) => {
       if (!deletedLike) throw { message: 'You never liked this post to be able to unlike it. ' };
-      return deletedLike.populate('post').execPopulate();
+      return deletedLike.populate({
+        path: 'post',
+        select: 'likeCount'
+      }).execPopulate();
     })
     .then((deletedLike) => {
       deletedLike.post.likeCount -= 1;

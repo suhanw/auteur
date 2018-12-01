@@ -5,7 +5,7 @@ const modelQuery = require('../util/model_query_util');
 const middleware = require('../middleware/middleware');
 const User = require('../models/user');
 
-// GET api/blogs/:id/follows - INDEX
+// GET api/blogs/:id/follows - INDEX followERS
 router.get('/follows', middleware.isLoggedIn, function (req, res) {
   modelQuery.findOneBlog(req.params.id)
     .then((foundBlog) => {

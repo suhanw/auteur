@@ -106,7 +106,7 @@ const postsReducer = function (state = defaultState, action) {
             );
             newState.allIds = union(
                 state.allIds,
-                action.payload.map((post) => post._id),
+                normalizedPayload.result, // array of postIds
             );
             return newState;
         case RECEIVE_POST:

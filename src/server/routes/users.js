@@ -48,6 +48,7 @@ router.post('/users',
   }
 );
 
+// GET api/users/:id/following - fetch posts from blogs that current user follows
 
 // GET api/users/:id/likes - fetch current user's liked posts
 router.get('/users/:id/likes', middleware.isLoggedIn, function (req, res) {
@@ -73,5 +74,6 @@ router.get('/users/:id/likes', middleware.isLoggedIn, function (req, res) {
     })
     .catch((err) => res.status(400).json([err.message]));
 });
+
 
 module.exports = router;
