@@ -2,9 +2,9 @@ import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import Dashboard from './dashboard';
 import Carousel from './carousel';
+import Settings from './settings';
 import Modal from './modals/modal';
 import { AuthRoute, ProtectRoute } from '../util/route_util';
-import NavbarContainer from './navbar/navbar_container';
 
 class App extends React.Component {
   constructor(props) {
@@ -17,6 +17,7 @@ class App extends React.Component {
       <div>
         <Modal />
         <Switch>
+          <ProtectRoute path='/settings' component={Settings} />
           <ProtectRoute path='/dashboard' component={Dashboard} />
           <AuthRoute exact path='/login' component={Carousel} />
           <AuthRoute exact path='/signup' component={Carousel} />

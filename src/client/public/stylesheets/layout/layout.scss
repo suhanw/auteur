@@ -4,6 +4,7 @@ body {
   overflow: hidden; //so the screen doesn't move when mouse scroll
 }
 
+.settings, 
 .dashboard {
   position: fixed;
   top: 0;
@@ -13,6 +14,7 @@ body {
   overflow: scroll; // to allow scrolling thru content in div.dashboard-content even though body is set to overflow: hidden.
 }
 
+.settings-content, 
 .dashboard-content {
   width: 990px;
   min-width: 990px;
@@ -31,6 +33,7 @@ body {
 .side-column {
   width: 320px;
 }
+
 
 .background-greyout {
   position: fixed;
