@@ -1,4 +1,5 @@
 import React from 'react';
+import { NavLink } from 'react-router-dom';
 
 class Sidemenu extends React.Component {
   constructor(props) {
@@ -17,26 +18,26 @@ class Sidemenu extends React.Component {
           <h1>{blog.name}</h1>
           <h2>{blog.title}</h2>
         </header>
-        <div className='sidemenu-link'>
+        <NavLink to={`/dashboard/blog/${blog._id}`} className='sidemenu-link'>
           <span className='sidemenu-item'>Posts</span>
           <span className='sidemenu-count'>{blog.postCount}</span>
-        </div>
-        <div className='sidemenu-link'>
+        </NavLink>
+        <NavLink to='/dashboard/followers' className='sidemenu-link'>
           <span className='sidemenu-item'>Followers</span>
           <span className='sidemenu-count'>{blog.followerCount}</span>
-        </div>
-        <div className='sidemenu-link'>
+        </NavLink>
+        <NavLink to='/dashboard/likes' className='sidemenu-link'>
+          <span className='sidemenu-item'>Likes</span>
+          <span className='sidemenu-count'>{currentUser.likeCount}</span>
+        </NavLink>
+        <NavLink to='/dashboard/following' className='sidemenu-link'>
           <span className='sidemenu-item'>Following</span>
           <span className='sidemenu-count'>{currentUser.following.length}</span>
-        </div>
-        <div className='sidemenu-link'>
-          <span className='sidemenu-item'>Drafts</span>
-          <span className='sidemenu-count'>tbd</span>
-        </div>
-        <div className='sidemenu-link'>
+        </NavLink>
+        <NavLink to={`/settings/blog/${blog._id}`} className='sidemenu-link'>
           <span className='sidemenu-item'>Edit Appearance</span>
           <span className='sidemenu-count'>tbd</span>
-        </div>
+        </NavLink>
       </aside>
     );
   }

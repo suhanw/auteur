@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 import Logo from '../logo/logo';
 import Searchbar from '../searchbar/searchbar';
@@ -58,14 +58,12 @@ class Navbar extends React.Component {
   }
 
   renderHomeIcon() {
-    const { pathname } = this.props;
-    const activeIcon = pathname === '/dashboard' ? { color: 'white' } : null;
     return (
-      <Link to='/dashboard'>
-        <li className='navbar-right-item'>
-          <i className="fas fa-home" style={activeIcon}></i>
-        </li>
-      </Link>
+      <li className='navbar-right-item'>
+        <NavLink exact to='/dashboard'>
+          <i className="fas fa-home"></i>
+        </NavLink>
+      </li>
     );
   }
 
@@ -124,8 +122,11 @@ class Navbar extends React.Component {
       activeIcon = { color: 'white' };
     }
     return (
-      <li className='navbar-right-item' onClick={this.togglePopover(accountPopover)}>
-        <i className="fas fa-user" style={activeIcon}></i>
+      <li className='navbar-right-item' >
+        <NavLink to='/settings'>
+          <i className="fas fa-user" style={activeIcon}
+            onClick={this.togglePopover(accountPopover)}></i>
+        </NavLink>
         <AccountPopover
           popoverStyle={popoverStyle}
           confirmLogout={confirmLogout}
@@ -147,6 +148,7 @@ class Navbar extends React.Component {
   togglePopover(currPopover) {
     const { popover, openPopover, closePopover } = this.props;
     return function (e) {
+      e.preventDefault(); // to avoid navigating to new page when clicking on a tag
       e.stopPropagation(); // to avoid bubbling up to window handler which will close any popovers
       if (JSON.stringify(popover) === JSON.stringify(currPopover)) {
         closePopover(); // if current popover is open, then close popover

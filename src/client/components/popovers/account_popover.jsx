@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 class AccountPopover extends React.Component {
   constructor(props) {
@@ -39,19 +40,25 @@ class AccountPopover extends React.Component {
     if (currentUser.likeCount) likeCount = currentUser.likeCount;
     return (
       <ul>
-        <li className='popover-menu-item'>
-          <span><i className="fas fa-heart"></i> Likes</span>
-          <span className='popover-item-suffix'>{likeCount}</span>
-          {/* FIX: update with Notes (likes) feature */}
-        </li>
-        <li className='popover-menu-item'>
-          <span><i className="fas fa-user-plus"></i> Following</span>
-          <span className='popover-item-suffix'>{currentUser.following.length}</span>
-        </li>
-        <li className='popover-menu-item'>
-          <span><i className="fas fa-user-cog"></i> Settings</span>
-          {/* FIX: add a page to update user account */}
-        </li>
+        <Link to='/dashboard/likes'>
+          <li className='popover-menu-item'>
+            <span><i className="fas fa-heart"></i> Likes</span>
+            <span className='popover-item-suffix'>{likeCount}</span>
+            {/* FIX: update with Notes (likes) feature */}
+          </li>
+        </Link>
+        <Link to='/dashboard/following'>
+          <li className='popover-menu-item'>
+            <span><i className="fas fa-user-plus"></i> Following</span>
+            <span className='popover-item-suffix'>{currentUser.following.length}</span>
+          </li>
+        </Link>
+        <Link to='/settings'>
+          <li className='popover-menu-item'>
+            <span><i className="fas fa-user-cog"></i> Settings</span>
+            {/* FIX: add a page to update user account */}
+          </li>
+        </Link>
       </ul>
     );
   }
@@ -61,18 +68,20 @@ class AccountPopover extends React.Component {
     if (!blog) return null;
     return (
       <ul>
-        <li className='popover-menu-item'>
-          <div className='blog-item'>
-            {/* FIX: link to blog show page */}
-            <div className='blog-item-info'>
-              <img src={blog.avatarImageUrl} className='avatar avatar-small' />
-              <div className='blog-item-details'>
-                <span className='blog-item-details-name'>{blog.name}</span>
-                <span className='blog-item-details-title'>{blog.title}</span>
+        <Link to={`/dashboard/blog/${blog._id}`}>
+          <li className='popover-menu-item'>
+            <div className='blog-item'>
+              {/* FIX: link to blog show page */}
+              <div className='blog-item-info'>
+                <img src={blog.avatarImageUrl} className='avatar avatar-small' />
+                <div className='blog-item-details'>
+                  <span className='blog-item-details-name'>{blog.name}</span>
+                  <span className='blog-item-details-title'>{blog.title}</span>
+                </div>
               </div>
             </div>
-          </div>
-        </li>
+          </li>
+        </Link>
       </ul>
     );
   }

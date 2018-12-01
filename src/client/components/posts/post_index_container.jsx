@@ -7,10 +7,30 @@ import { fetchFeed } from '../../actions/post_actions';
 import { fetchUserLikes } from '../../actions/user_actions';
 
 const mapStateToProps = function (state, ownProps) {
-  const postsArr = selectPosts(state);
   const blogs = selectBlogs(state);
   const currentUser = selectCurrentUser(state);
   const loadingPostIndex = selectLoadingPostIndex(state);
+
+  // LOGIC FOR SELECTING THE RIGHT POSTS TO RENDER
+  let postsArr;
+  console.log('ownProps.view', ownProps.view);
+
+  if (ownProps.postsArr) {
+    postArr = ownProps.postsArr;// pass in posts array if used in sidebar
+  } else {
+    const { pathname } = ownProps.location;
+
+    switch (pathname) {
+      case pathname.includes('/dashboard/blog'): // for /dashboard/blog/blogId
+        // let blogId = pathname.split('/').pop();
+        // postsArr = selectPosts(state, )
+        break;
+      default: // any pathname that has '/dashboard', unless specified above, will render feed
+        postsArr = selectPosts(state, 'feed');
+        break;
+    }
+  }
+
   return {
     postsArr,
     blogs,
@@ -20,6 +40,7 @@ const mapStateToProps = function (state, ownProps) {
 };
 
 const mapDispatchToProps = function (dispatch, ownProps) {
+  // logic for defining what fetchPosts should fetch (feed, likes, following, etc)
   return {
 
     fetchFeed: () => dispatch(fetchFeed()),

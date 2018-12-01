@@ -29,6 +29,7 @@
   border-bottom: 1px solid $divider-line-white;
 }
 
-.sidemenu-link:hover {
+.sidemenu-link:hover,
+.sidemenu-link.active {
   background: hsla(0,0%,100%,.07);
 }

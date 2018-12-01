@@ -12,9 +12,10 @@ export const selectSessionErrors = function (state) {
   return sessionErrors;
 };
 
-export const selectPosts = function (state) {
+export const selectPosts = function (state, view) {
   const { entities: { posts } } = state;
-  let postsArr = posts.allIds.map(function (postId) {
+  const { ui: { postIndex } } = state;
+  let postsArr = postIndex[view].map(function (postId) {
     return posts.byId[postId];
   });
   return postsArr;

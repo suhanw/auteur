@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 class Logo extends React.Component {
   constructor(props) {
@@ -8,7 +9,7 @@ class Logo extends React.Component {
   render() {
 
     return (
-      <h1 className='logo'>a</h1>
+      <Link to='/dashboard' className='logo'>a</Link>
     );
   }
 }
