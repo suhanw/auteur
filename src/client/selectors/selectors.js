@@ -14,19 +14,19 @@ export const selectSessionErrors = function (state) {
 
 export const selectPosts = function (state, view, blogId = null) { // optional blogId argument
   const { entities: { posts } } = state;
-  const { ui: { postIndex } } = state;
   let postIdsArr = [];
   let postsArr = [];
 
-  if (view === 'blogId') {
+  if (view === 'blogId') { // get the array of postIds from the blog slice of state
     const blog = selectBlog(state, blogId);
     postIdsArr = (!blog || !blog.posts) ? [] : blog.posts;  // in case no blogs fetched in state yet
-  } else {
+  } else { // otherwise, array of postIds in postIndex slice of state
+    const { ui: { postIndex } } = state;
     postIdsArr = postIndex[view];
   }
 
   postIdsArr.forEach(function (postId) {
-    // the post may not have been fetched yet, only push into array when it's already in state
+    // the post may not have been fetched yet, push into array only when already in state
     if (posts.byId[postId]) postsArr.push(posts.byId[postId]);
   });
 

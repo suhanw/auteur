@@ -51,7 +51,6 @@ router.post('/users',
 
 // GET api/users/:id/following - fetch posts from blogs that current user follows
 router.get('/users/:id/following', middleware.isLoggedIn, function (req, res) {
-  // debugger
   User.findOne({ _id: req.user._id })
     .select('following')
     .then((foundUser) => {
@@ -71,7 +70,7 @@ router.get('/users/:id/following', middleware.isLoggedIn, function (req, res) {
 
 // GET api/users/:id/likes - fetch current user's liked posts
 router.get('/users/:id/likes', middleware.isLoggedIn, function (req, res) {
-  Note.find({ type: 'like', author: req.params.id })
+  Note.find({ type: 'like', author: req.user._id })
     .select('post')
     .populate('post')
     .then((likes) => {
@@ -97,7 +96,7 @@ router.get('/users/:id/likes', middleware.isLoggedIn, function (req, res) {
       }
       return res.json(responseJSON);
     })
-    .catch((err) => res.status(400).json([err.message]));
+    .catch((err) => res.status(404).json([err.message]));
 });
 
 

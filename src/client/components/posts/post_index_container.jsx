@@ -15,13 +15,11 @@ const mapStateToProps = function (state, ownProps) {
   let { view } = ownProps;
   let { blogId } = ownProps.match.params;
   let postsArr = [];
-  console.log('ownProps.view', ownProps.view);
 
   if (ownProps.postsArr) { // pass in posts array if used in BlogShow component
     postArr = ownProps.postsArr;
   } else {
     postsArr = selectPosts(state, view, blogId);
-    console.log('postsArr', postsArr);
   }
 
   return {
@@ -35,14 +33,13 @@ const mapStateToProps = function (state, ownProps) {
 
 const mapDispatchToProps = function (dispatch, ownProps) {
   // logic for defining what fetchPosts should fetch (feed, likes, following, etc)
-  // debugger
   let { view } = ownProps;
   let { userId, blogId } = ownProps.match.params;
   const fetchActions = {
     'feed': () => fetchFeed(),
-    'following': () => fetchUserFollowing(userId),
     'blogId': () => fetchPostsByBlog(blogId),
     'likes': () => fetchUserLikes(userId, { populate: true }),
+    'following': () => fetchUserFollowing(userId),
   }
   let fetchPosts = fetchActions[view];
   return {
