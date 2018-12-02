@@ -68,6 +68,7 @@ router.get('/users/:id/following', middleware.isLoggedIn, function (req, res) {
     .catch((err) => res.status(404).json([err.message]));
 });
 
+
 // GET api/users/:id/likes - fetch current user's liked posts
 router.get('/users/:id/likes', middleware.isLoggedIn, function (req, res) {
   Note.find({ type: 'like', author: req.params.id })

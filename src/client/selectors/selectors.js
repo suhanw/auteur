@@ -16,20 +16,20 @@ export const selectPosts = function (state, view, blogId = null) { // optional b
   const { entities: { posts } } = state;
   const { ui: { postIndex } } = state;
   let postIdsArr = [];
+  let postsArr = [];
 
   if (view === 'blogId') {
     const blog = selectBlog(state, blogId);
     postIdsArr = (!blog || !blog.posts) ? [] : blog.posts;  // in case no blogs fetched in state yet
-  } else if (view === 'likes') {
-    const currentUser = selectCurrentUser(state);
-    postIdsArr = (!currentUser.likedPosts) ? [] : Object.keys(currentUser.likedPosts);
   } else {
     postIdsArr = postIndex[view];
   }
 
-  let postsArr = postIdsArr.map(function (postId) {
-    return posts.byId[postId];
+  postIdsArr.forEach(function (postId) {
+    // the post may not have been fetched yet, only push into array when it's already in state
+    if (posts.byId[postId]) postsArr.push(posts.byId[postId]);
   });
+
   return postsArr;
 };
 

@@ -1,5 +1,5 @@
 import { RECEIVE_FEED, RECEIVE_POST, REMOVE_POST } from '../../actions/post_actions';
-import { RECEIVE_USER_FOLLOWING } from '../../actions/user_actions';
+import { RECEIVE_USER_FOLLOWING, RECEIVE_USER_LIKES } from '../../actions/user_actions';
 import { REMOVE_CURRENT_USER } from '../../actions/session_actions';
 import { normalize, schema } from 'normalizr';
 import { merge, union } from 'lodash';
@@ -31,6 +31,11 @@ const postIndexReducer = function (state = defaultState, action) {
       newState = merge({}, state);
       // FIX: this replaces the array everytime user clicks on Following, because this array doesn't update when user unfollows a blog
       newState.following = normalizedPayload.result; // array of postIds
+      return newState;
+    case RECEIVE_USER_LIKES:
+      const { likedPosts, likeCount } = action.payload;
+      newState = merge({}, state);
+      newState.likes = (likeCount > 0) ? Object.keys(likedPosts) : [];
       return newState;
     case RECEIVE_FEED: // used for fetching feed posts
       payloadSchema = [postSchema];

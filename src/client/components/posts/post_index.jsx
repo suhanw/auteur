@@ -37,7 +37,7 @@ class PostIndex extends React.Component {
   }
 
   renderPostShowItems() {
-    const { postsArr, blogs, currentUser, createFollow } = this.props;
+    const { postsArr, blogs, currentUser, createFollow, view } = this.props;
 
     if (postsArr.length === 0) return null;
 
@@ -65,7 +65,7 @@ class PostIndex extends React.Component {
 
   componentDidMount() {
     const { view, fetchPosts, fetchUserLikes, currentUser } = this.props;
-    if (view !== 'likes') fetchUserLikes(currentUser._id);
+    if (view !== 'likes') fetchUserLikes(currentUser._id); // to avoid calling fetchUserLikes twice
     fetchPosts();
   }
 
@@ -75,7 +75,7 @@ class PostIndex extends React.Component {
     const newView = newProps.view;
     const { fetchPosts, fetchUserLikes, currentUser } = newProps;
     if (newView !== oldView) {
-      if (newView !== 'likes') fetchUserLikes(currentUser._id);
+      if (newView !== 'likes') fetchUserLikes(currentUser._id); // to avoid calling fetchUserLikes twice
       fetchPosts();
     }
   }
