@@ -22,7 +22,7 @@ router.get('/posts', middleware.isLoggedIn, function (req, res) {
         .exec()
     })
     .then((posts) => res.json(posts))
-    .catch((err) => res.json([err.message]));
+    .catch((err) => res.status(404).json(['Blog does not exist.']));
 });
 
 

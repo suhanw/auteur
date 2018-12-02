@@ -50,6 +50,19 @@ $dogear-grey: rgb(208, 208, 208);
   position: relative;
 }
 
+.post-blank {
+  width: $post-content-width;
+  border-radius: 3px;
+  padding: 15px 0;
+  background: rgba(255, 255, 255, 0.05);
+  color: rgba(255,255,255,0.46);
+  font-size: 22px;
+  font-weight: 700;
+  align-self: flex-end;
+  display: flex;
+  justify-content: center;
+}
+
 .dogear {
   display: inline-block;
   height: 0px;

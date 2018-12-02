@@ -28,6 +28,7 @@ const mapStateToProps = function (state, ownProps) {
     blogs,
     currentUser,
     loadingPostIndex,
+    blogId,
   };
 };
 

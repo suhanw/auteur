@@ -15,11 +15,12 @@ class PostIndex extends React.Component {
   }
 
   render() {
-    const { currentUser, loadingPostIndex, view } = this.props;
+    // FIX: add error handlers!!
+    const { currentUser, loadingPostIndex, view, blogs, blogId } = this.props;
 
+    // redirect to dashboard if user is not following any blogs or doesn't have any likes
     if (view === 'following' && currentUser.following.length === 0
       || view === 'likes' && currentUser.likeCount === 0) {
-      // redirect to dashboard if user is not following any blogs or doesn't have any likes
       // FIX: show some kind of message
       return <Redirect to='/dashboard' />
     }
@@ -38,7 +39,11 @@ class PostIndex extends React.Component {
   }
 
   renderPostShowItems() {
-    const { postsArr, blogs, currentUser, createFollow, view } = this.props;
+    const { postsArr, blogs, blogId, currentUser, createFollow } = this.props;
+
+    if (blogs[blogId] && blogs[blogId].postCount === 0) { // if blog has no posts
+      return <div className='post-blank'>No posts found. </div>;
+    }
 
     if (postsArr.length === 0) return null;
 
@@ -75,7 +80,10 @@ class PostIndex extends React.Component {
     const oldView = this.props.view;
     const newView = newProps.view;
     const { fetchPosts, fetchUserLikes, currentUser } = newProps;
-    if (newView !== oldView) {
+    // debugger
+    const oldBlogId = this.props.match.params.blogId;
+    const newBlogId = newProps.match.params.blogId;
+    if (newView !== oldView || oldBlogId !== newBlogId) {
       if (newView !== 'likes') fetchUserLikes(currentUser._id); // to avoid calling fetchUserLikes twice
       fetchPosts();
     }
