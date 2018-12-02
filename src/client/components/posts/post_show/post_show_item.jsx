@@ -47,11 +47,11 @@ class PostShowItem extends React.Component {
   }
 
   renderPostContent() {
-    const { post, blog, currentUser, createFollow } = this.props;
+    const { post, blog, currentUser } = this.props;
     let suggestFollow = null;
     let followLink = null;
     let blogNameClass = '';
-    if (blog.author !== currentUser._id && !currentUser.following.includes(blog._id)) {
+    if (post.author !== currentUser._id && !currentUser.following.includes(post._id)) {
       suggestFollow = <small>Here's a blog: </small>
       followLink = <a onClick={this.handleClick}>Follow</a>
       blogNameClass = 'unfollowed';

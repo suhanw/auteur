@@ -46,7 +46,10 @@ export const receiveUserErrors = function (errors) {
 export const fetchUserLikes = function (userId, queryParams) {
   return function (dispatch) {
     return APIUtil.fetchUserLikes(userId, queryParams).then(
-      (likedPosts) => dispatch(receiveUserLikes(likedPosts)),
+      (userLikes) => {
+        if (queryParams && queryParams.populate) dispatch(receivePosts(userLikes.posts));
+        dispatch(receiveUserLikes(userLikes));
+      },
       (err) => dispatch(receiveUserErrors(err.responseJSON))
     );
   };

@@ -70,24 +70,30 @@ router.get('/users/:id/following', middleware.isLoggedIn, function (req, res) {
 
 // GET api/users/:id/likes - fetch current user's liked posts
 router.get('/users/:id/likes', middleware.isLoggedIn, function (req, res) {
-  let likesQuery = Note.find({ type: 'like', author: req.params.id })
+  Note.find({ type: 'like', author: req.params.id })
     .select('post')
-
-  // if (req.query.populate === 'true') {
-  //   likesQuery = likesQuery.populate('post');
-  // }
-
-  likesQuery.exec()
+    .populate('post')
     .then((likes) => {
       if (!likes) throw { message: 'Error.' }
-      let likedPosts = likes.reduce((acc, like) => {
-        return lodash.merge(acc, { [like.post]: like._id });
-      }, {});
+      return Note.populate( // Model.populate() returns a promise
+        likes,
+        { path: 'post.blog', select: '_id avatarImageUrl backgroundImageUrl name title' });
+    })
+    .then((likes) => {
+      let likedPosts = {};
+      let posts = [];
+      likes.forEach((like) => {
+        likedPosts[like.post._id] = like._id;
+        posts.push(like.post);
+      });
       let responseJSON = { // this will be merged with Redux 'users' state
         userId: req.params.id,
         likedPosts: likedPosts,
         likeCount: likes.length,
       };
+      if (req.query.populate === 'true') {
+        responseJSON['posts'] = posts;
+      }
       return res.json(responseJSON);
     })
     .catch((err) => res.status(400).json([err.message]));

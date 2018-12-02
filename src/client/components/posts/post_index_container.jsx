@@ -42,7 +42,7 @@ const mapDispatchToProps = function (dispatch, ownProps) {
     'feed': () => fetchFeed(),
     'following': () => fetchUserFollowing(userId),
     'blogId': () => fetchPostsByBlog(blogId),
-    // 'likes': (userId) => fetchUserLikes(userId, { populate: true }),
+    'likes': () => fetchUserLikes(userId, { populate: true }),
   }
   let fetchPosts = fetchActions[view];
   return {

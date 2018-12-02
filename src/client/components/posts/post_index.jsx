@@ -64,17 +64,20 @@ class PostIndex extends React.Component {
   }
 
   componentDidMount() {
-    const { fetchPosts, fetchUserLikes, currentUser } = this.props;
-    fetchUserLikes(currentUser._id);
-    fetchPosts(currentUser._id);
+    const { view, fetchPosts, fetchUserLikes, currentUser } = this.props;
+    if (view !== 'likes') fetchUserLikes(currentUser._id);
+    fetchPosts();
   }
 
   componentWillReceiveProps(newProps) {
     // to call fetch when view changes
     const oldView = this.props.view;
     const newView = newProps.view;
-    const { fetchPosts, currentUser } = newProps;
-    if (newView !== oldView) fetchPosts(currentUser._id);
+    const { fetchPosts, fetchUserLikes, currentUser } = newProps;
+    if (newView !== oldView) {
+      if (newView !== 'likes') fetchUserLikes(currentUser._id);
+      fetchPosts();
+    }
   }
 }
 

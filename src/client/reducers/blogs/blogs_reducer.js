@@ -57,7 +57,7 @@ const blogsReducer = function (state = defaultState, action) {
         case RECEIVE_POSTS:
             payloadSchema = [postSchema];
             normalizedPayload = normalize(action.payload, payloadSchema);
-            if (action.payload.length > 0) {
+            if (normalizedPayload.entities.blogs) {
                 blogIdsArr = Object.keys(normalizedPayload.entities.blogs);
             }
             newState.byId = merge(

@@ -10,6 +10,7 @@ class PostIndexHeader extends React.Component {
 
   render() {
     const { currentUser } = this.props;
+    // FIX: don't use URL path to conditionally render post forms
     return (
       <header className='post-index-header'>
         <Switch>

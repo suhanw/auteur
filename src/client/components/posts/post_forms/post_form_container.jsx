@@ -16,7 +16,7 @@ import { renderSpinner } from '../../../util/misc_util';
 const mapStateToProps = function (state, ownProps) {
   let formType; // whether it's text, photo, video, etc
   const currentUser = selectCurrentUser(state); //this includes primaryBlog id
-  let loadingPostSubmit = selectLoadingPostSubmit(state);
+  const loadingPostSubmit = selectLoadingPostSubmit(state);
   let blog;
   let post;
 
@@ -40,8 +40,6 @@ const mapStateToProps = function (state, ownProps) {
 };
 
 const mapDispatchToProps = function (dispatch, ownProps) {
-  // need updatePost
-  // need fetchPost
   return {
     fetchBlog: (blogId) => dispatch(fetchBlog(blogId)),
     createPost: (post) => dispatch(createPost(post)),

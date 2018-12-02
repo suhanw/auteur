@@ -13,14 +13,16 @@ export const selectSessionErrors = function (state) {
 };
 
 export const selectPosts = function (state, view, blogId = null) { // optional blogId argument
-  const { entities: { posts, blogs } } = state;
+  const { entities: { posts } } = state;
   const { ui: { postIndex } } = state;
   let postIdsArr = [];
 
   if (view === 'blogId') {
-    // debugger
-    const blog = blogs.byId[blogId];
+    const blog = selectBlog(state, blogId);
     postIdsArr = (!blog || !blog.posts) ? [] : blog.posts;  // in case no blogs fetched in state yet
+  } else if (view === 'likes') {
+    const currentUser = selectCurrentUser(state);
+    postIdsArr = (!currentUser.likedPosts) ? [] : Object.keys(currentUser.likedPosts);
   } else {
     postIdsArr = postIndex[view];
   }
