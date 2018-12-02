@@ -40,14 +40,14 @@ class AccountPopover extends React.Component {
     if (currentUser.likeCount) likeCount = currentUser.likeCount;
     return (
       <ul>
-        <Link to='/dashboard/likes'>
+        <Link to={`/dashboard/${currentUser._id}/likes`}>
           <li className='popover-menu-item'>
             <span><i className="fas fa-heart"></i> Likes</span>
             <span className='popover-item-suffix'>{likeCount}</span>
             {/* FIX: update with Notes (likes) feature */}
           </li>
         </Link>
-        <Link to='/dashboard/following'>
+        <Link to={`/dashboard/${currentUser._id}/following`}>
           <li className='popover-menu-item'>
             <span><i className="fas fa-user-plus"></i> Following</span>
             <span className='popover-item-suffix'>{currentUser.following.length}</span>
