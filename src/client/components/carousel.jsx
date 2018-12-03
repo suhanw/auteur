@@ -58,13 +58,13 @@ class Carousel extends React.Component {
     const introBg = new Image();
     introBg.src = 'https://wallpapers.moviemania.io/desktop/movie/335984/e85174/blade-runner-2049-desktop-wallpaper.jpg?w=1920&h=1200';
     introBg.onload = (e) => {
-      this.setState({ introBg: true }, () => console.log('state renewed'));
+      this.setState({ introBg: true });
     };
 
     const welcomeBg = new Image();
     welcomeBg.src = 'https://wallpapers.moviemania.io/desktop/movie/105/28f908/back-to-the-future-desktop-wallpaper.jpg?w=1920&h=1200';
     welcomeBg.onload = (e) => {
-      this.setState({ welcomeBg: true }, () => console.log('state renewed'));
+      this.setState({ welcomeBg: true });
     };
   }
 
