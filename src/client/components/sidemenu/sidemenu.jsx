@@ -1,5 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import { fetchUserLikes } from '../../actions/user_actions';
 
 class Sidemenu extends React.Component {
   constructor(props) {
@@ -43,9 +44,10 @@ class Sidemenu extends React.Component {
   }
 
   componentDidMount() {
-    const { fetchBlog, currentUser } = this.props;
+    const { fetchBlog, fetchUserLikes, currentUser } = this.props;
     fetchBlog(currentUser.primaryBlog);
+    fetchUserLikes(currentUser._id);
   }
 }
 
-export default Sidemenu
+export default Sidemenu;

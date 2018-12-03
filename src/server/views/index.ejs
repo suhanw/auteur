@@ -18,6 +18,7 @@
   <script type="text/javascript">
     // to bootstrap current user logged in to add to Redux state
     window.currentUser = {};
+    window.currentUser._id = '<%= currentUser._id %>';
     window.currentUser.username = '<%= currentUser.username %>';
     window.currentUser.email = '<%= currentUser.email %>';
     window.currentUser.avatarImageUrl = '<%= currentUser.avatarImageUrl %>';
@@ -37,7 +38,6 @@
       window.currentUser.following = window.currentUser.following.split(','); // to turn string into array
     }
 
-    window.currentUser._id = '<%= currentUser._id %>';
   </script>
   <% } %>
 

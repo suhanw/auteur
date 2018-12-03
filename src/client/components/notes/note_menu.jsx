@@ -70,7 +70,6 @@ class NoteMenu extends React.Component {
       popoverId: post._id,
       popoverType: 'notePopover',
     };
-    // let notePopoverComponent = <NotePopover post={post} togglePopover={this.togglePopover} />;
     let notePopoverComponent = null;
     if (JSON.stringify(popover) === JSON.stringify(notePopover)) {
       notePopoverComponent = <NotePopover post={post} />
@@ -85,8 +84,6 @@ class NoteMenu extends React.Component {
     );
   }
 
-
-  // FIX: this doesn't display on 'Posts' view
   renderCog() {
     const { post, popover } = this.props;
     // unique identifier for current popover
@@ -119,12 +116,12 @@ class NoteMenu extends React.Component {
 
   handleClick(clickAction, payload) {
     const executeAction = this.props[clickAction];
-    const { closePopover } = this.props;
+    const { popover, closePopover } = this.props;
     const that = this;
     return function (e) {
       e.stopPropagation();
       executeAction(payload);
-      closePopover();
+      if (popover) closePopover();
     };
   }
 

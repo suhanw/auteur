@@ -1,6 +1,7 @@
 import { connect } from 'react-redux';
 
 import { selectCurrentUser, selectBlog } from '../../selectors/selectors';
+import { fetchUserLikes } from '../../actions/user_actions';
 import { fetchBlog } from '../../actions/blog_actions';
 import Sidemenu from './sidemenu';
 
@@ -16,6 +17,7 @@ const mapStateToProps = function (state, ownProps) {
 const mapDispatchToProps = function (dispatch, ownProps) {
   return {
     fetchBlog: (blogId) => dispatch(fetchBlog(blogId)),
+    fetchUserLikes: (userId) => dispatch(fetchUserLikes(userId)),
   };
 };
 

@@ -71,8 +71,8 @@ class PostIndex extends React.Component {
 
   componentDidMount() {
     const { view, fetchPosts, fetchUserLikes, currentUser } = this.props;
-    if (view !== 'likes') fetchUserLikes(currentUser._id); // to avoid calling fetchUserLikes twice
     fetchPosts();
+    if (!currentUser.likedPosts) fetchUserLikes(currentUser._id); // to fetch only when it's not populated
   }
 
   componentWillReceiveProps(newProps) {
@@ -80,12 +80,11 @@ class PostIndex extends React.Component {
     const oldView = this.props.view;
     const newView = newProps.view;
     const { fetchPosts, fetchUserLikes, currentUser } = newProps;
-    // debugger
     const oldBlogId = this.props.match.params.blogId;
     const newBlogId = newProps.match.params.blogId;
     if (newView !== oldView || oldBlogId !== newBlogId) {
-      if (newView !== 'likes') fetchUserLikes(currentUser._id); // to avoid calling fetchUserLikes twice
       fetchPosts();
+      if (!currentUser.likedPosts) fetchUserLikes(currentUser._id); // to fetch only when it's not populated
     }
   }
 }
