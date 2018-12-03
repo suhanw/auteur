@@ -17,8 +17,12 @@ class Carousel extends React.Component {
         3: '',
         4: '',
       },
+      introBg: false,
+      welcomeBg: false,
     }
 
+    this.renderIntroSlide = this.renderIntroSlide.bind(this);
+    this.renderWelcomeSlide = this.renderWelcomeSlide.bind(this);
     this.scrollCarousel = this.scrollCarousel.bind(this);
     this.throttleWheel = this.throttleWheel.bind(this);
     this.handleClick = this.handleClick.bind(this);
@@ -35,54 +39,112 @@ class Carousel extends React.Component {
             scrollCarousel={this.scrollCarousel}
             activeSlide={activeSlide} />
         } />
-        <div className={'welcome-slide' + slideClasses[4]}
-          onWheel={activeSlide === 4 ? this.throttleWheel(500, this.scrollCarousel) : null}>
-          <div className='welcome-slide-content object-fade-in'>
-            <h1 className='welcome-slide-title'>Okay, it's not actually hard to explain.</h1>
-            <p>
-              We lied. But now you understand this thing. So come on in.
-            </p>
-            <Route exact path='/' component={SessionFormContainer} />
-            <AuthRoute path='/login' component={SessionFormContainer} />
-            <AuthRoute path='/signup' component={SessionFormContainer} />
-          </div>
-        </div>
-        <div className={'create-slide' + slideClasses[3]}
-          onWheel={activeSlide === 3 ? this.throttleWheel(500, this.scrollCarousel) : null}>
-          This is create slide.
-        </div>
-        <div className={'about-slide' + slideClasses[2]}
-          onWheel={activeSlide === 2 ? this.throttleWheel(500, this.scrollCarousel) : null}>
-          This is about slide.
-        </div>
-        <div className={'intro-slide' + slideClasses[1]}
-          onWheel={activeSlide === 1 ? this.throttleWheel(500, this.scrollCarousel) : null}>
-          <div className='intro-slide-content object-fade-in'>
-            <h1 className='logo'>auteur</h1>
-            <p>
-              Come for what you love.
-            </p>
-            <p>
-              Stay for what you discover.
-            </p>
-            <Route exact path='/' component={SessionFormContainer} />
-            <AuthRoute path='/login' component={SessionFormContainer} />
-            <AuthRoute path='/signup' component={SessionFormContainer} />
-          </div>
-          <footer className='intro-slide-footer footer-slide-up' onClick={this.handleClick(2)}>
-            What is Auteur?
-          </footer>
-        </div>
 
-        <div className='carousel-indicator'>
-          <ul className='carousel-dots'>
-            <li className={'carousel-dot' + slideClasses[1]} onClick={this.handleClick(1)}></li>
-            <li className={'carousel-dot' + slideClasses[2]} onClick={this.handleClick(2)}></li>
-            <li className={'carousel-dot' + slideClasses[3]} onClick={this.handleClick(3)}></li>
-            <li className={'carousel-dot' + slideClasses[4]} onClick={this.handleClick(4)}></li>
-          </ul>
-        </div>
+        {this.renderWelcomeSlide()}
+
+        {this.renderCreateSlide()}
+
+        {this.renderAboutSlide()}
+
+        {this.renderIntroSlide()}
+
+        {this.renderCarouselIndicator()}
+
       </section>
+    );
+  }
+
+  componentWillMount() {
+    const introBg = new Image();
+    introBg.src = 'https://wallpapers.moviemania.io/desktop/movie/335984/e85174/blade-runner-2049-desktop-wallpaper.jpg?w=1920&h=1200';
+    introBg.onload = (e) => {
+      this.setState({ introBg: true }, () => console.log('state renewed'));
+    };
+
+    const welcomeBg = new Image();
+    welcomeBg.src = 'https://wallpapers.moviemania.io/desktop/movie/105/28f908/back-to-the-future-desktop-wallpaper.jpg?w=1920&h=1200';
+    welcomeBg.onload = (e) => {
+      this.setState({ welcomeBg: true }, () => console.log('state renewed'));
+    };
+  }
+
+  renderIntroSlide() {
+    const { activeSlide, slideClasses, introBg } = this.state;
+    const introBgClass = (introBg) ? ' intro-bg' : ''
+
+    return (
+      <div className={'intro-slide' + introBgClass + slideClasses[1]}
+        onWheel={activeSlide === 1 ? this.throttleWheel(500, this.scrollCarousel) : null}>
+        <div className='intro-slide-content object-fade-in'>
+          <h1 className='logo'>auteur</h1>
+          <p>
+            Come for what you love.
+            </p>
+          <p>
+            Stay for what you discover.
+            </p>
+          <Route exact path='/' component={SessionFormContainer} />
+          <AuthRoute path='/login' component={SessionFormContainer} />
+          <AuthRoute path='/signup' component={SessionFormContainer} />
+        </div>
+        <footer className='intro-slide-footer footer-slide-up' onClick={this.handleClick(2)}>
+          What is Auteur?
+          </footer>
+
+      </div>
+    );
+  }
+
+  renderCreateSlide() {
+    const { activeSlide, slideClasses } = this.state;
+    return (
+      <div className={'create-slide' + slideClasses[3]}
+        onWheel={activeSlide === 3 ? this.throttleWheel(500, this.scrollCarousel) : null}>
+        This is create slide.
+        </div>
+    );
+  }
+
+  renderAboutSlide() {
+    const { activeSlide, slideClasses } = this.state;
+    return (
+      <div className={'about-slide' + slideClasses[2]}
+        onWheel={activeSlide === 2 ? this.throttleWheel(500, this.scrollCarousel) : null}>
+        This is about slide.
+      </div>
+    );
+  }
+
+  renderWelcomeSlide() {
+    const { activeSlide, slideClasses, welcomeBg } = this.state;
+    const welcomeBgClass = (welcomeBg) ? ' welcome-bg' : ''
+    return (
+      <div className={'welcome-slide' + welcomeBgClass + slideClasses[4]}
+        onWheel={activeSlide === 4 ? this.throttleWheel(500, this.scrollCarousel) : null}>
+        <div className='welcome-slide-content object-fade-in'>
+          <h1 className='welcome-slide-title'>Okay, it's not actually hard to explain.</h1>
+          <p>
+            We lied. But now you understand this thing. So come on in.
+            </p>
+          <Route exact path='/' component={SessionFormContainer} />
+          <AuthRoute path='/login' component={SessionFormContainer} />
+          <AuthRoute path='/signup' component={SessionFormContainer} />
+        </div>
+      </div>
+    );
+  }
+
+  renderCarouselIndicator() {
+    const { slideClasses } = this.state;
+    return (
+      <div className='carousel-indicator'>
+        <ul className='carousel-dots'>
+          <li className={'carousel-dot' + slideClasses[1]} onClick={this.handleClick(1)}></li>
+          <li className={'carousel-dot' + slideClasses[2]} onClick={this.handleClick(2)}></li>
+          <li className={'carousel-dot' + slideClasses[3]} onClick={this.handleClick(3)}></li>
+          <li className={'carousel-dot' + slideClasses[4]} onClick={this.handleClick(4)}></li>
+        </ul>
+      </div>
     );
   }
 

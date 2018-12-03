@@ -45,18 +45,11 @@
   cursor: pointer;
 }
 
-.intro-slide {
-  background: $intro-slide-bg; //FIX: figure out how to fade in bg image
-  transition: opacity 0.5s linear;
-}
 .about-slide {
-  background: $green;
+  background-color: $green;
 }
 .create-slide {
-  background: $orange;
-}
-.welcome-slide {
-  background: $welcome-slide-bg;
+  background-color: $orange;
 }
 
 .intro-slide,
@@ -70,7 +63,7 @@
   height: 100%;
   width: 100%;
   opacity: 0;
-  transition: opacity 0s linear 0.5s;
+  transition: opacity 0s linear 0.5s; // so that inactive slide remains visible as it's sliding up
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -78,12 +71,18 @@
   z-index: 0;
 }
 
+.intro-slide.intro-bg {
+  background-image: $intro-slide-bg;
+}
+
+.welcome-slide.welcome-bg {
+  background-image: $welcome-slide-bg;
+}
+
 .active {
-  top: 0vh;
   opacity: 1;
   z-index: 1;
-  transition: opacity 0s linear;
-  transition: z-index 0s linear 0.5s;
+  transition: z-index 0s linear 0.5s; 
 }
 
 .slideup {
