@@ -25,16 +25,16 @@
 @import 'components/navbar';
 @import 'components/session_form';
 @import 'components/carousel';
-@import 'components/post_index';
-@import 'components/post_menu';
-@import 'components/post_form';
-@import 'components/note_menu';
+@import 'components/posts/post_index';
+@import 'components/posts/post_menu';
+@import 'components/posts/post_form';
+@import 'components/notes/note_menu';
+@import 'components/notes/notes_popover';
 @import 'components/sidemenu';
 @import 'components/modals';
-@import 'components/follow_popover';
+@import 'components/follows/followers';
+@import 'components/follows/follow_popover';
 @import 'components/account_popover';
-@import 'components/notes_popover';
-@import 'components/followers';
 
 
 // Animation

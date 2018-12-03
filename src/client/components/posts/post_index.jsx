@@ -11,31 +11,33 @@ class PostIndex extends React.Component {
   constructor(props) {
     super(props);
 
+    this.renderPostIndexHeader = this.renderPostIndexHeader.bind(this);
     this.renderPostShowItems = this.renderPostShowItems.bind(this);
   }
 
   render() {
     // FIX: add error handlers!!
-    const { currentUser, loadingPostIndex, view, blogs, blogId } = this.props;
-
-    // redirect to dashboard if user is not following any blogs or doesn't have any likes
-    if (view === 'following' && currentUser.following.length === 0
-      || view === 'likes' && currentUser.likeCount === 0) {
-      // FIX: show some kind of message
-      return <Redirect to='/dashboard' />
-    }
+    const { loadingPostIndex } = this.props;
 
     let spinnerClass = (loadingPostIndex) ? 'loading-post-index' : null;
 
     return (
       <div className='post-index'>
-        <PostIndexHeader currentUser={currentUser} />
+        {this.renderPostIndexHeader()}
         <ul className='post-container'>
           {this.renderPostShowItems()}
         </ul>
         {renderSpinner(spinnerClass)}
       </div>
     );
+  }
+
+  renderPostIndexHeader() {
+    const { currentUser, view } = this.props;
+    if (view === 'likes' || view === 'following') return null;
+    return (
+      <PostIndexHeader currentUser={currentUser} />
+    )
   }
 
   renderPostShowItems() {
@@ -70,7 +72,7 @@ class PostIndex extends React.Component {
   }
 
   componentDidMount() {
-    const { view, fetchPosts, fetchUserLikes, currentUser } = this.props;
+    const { fetchPosts, fetchUserLikes, currentUser } = this.props;
     fetchPosts();
     if (!currentUser.likedPosts) fetchUserLikes(currentUser._id); // to fetch only when it's not populated
   }

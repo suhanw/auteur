@@ -36,27 +36,21 @@ class Modal extends React.Component {
 
     if (!modal) return null;
 
-    switch (modal.action) {
-      case 'confirmLogout':
-        modalComponent = <ConfirmModal
-          action={modal.action}
-          data={modal.data}
-          closeModal={closeModal} />;
-        break;
-      case 'confirmDeletePost':
-        modalComponent = <ConfirmModal
-          action={modal.action}
-          data={modal.data}
-          closeModal={closeModal} />;
-        break;
-      case 'choosePostType':
-        modalComponent = <PostModal
-          action={modal.action}
-          closeModal={closeModal} />;
-        break;
-      default:
-        return null;
-    }
+    const modalComponents = {
+      'confirmLogout': <ConfirmModal
+        action={modal.action}
+        data={modal.data}
+        closeModal={closeModal} />,
+      'confirmDeletePost': <ConfirmModal
+        action={modal.action}
+        data={modal.data}
+        closeModal={closeModal} />,
+      'choosePostType': <PostModal
+        action={modal.action}
+        closeModal={closeModal} />
+    };
+
+    modalComponent = modalComponents[modal.action];
 
     return (
       <div className='modal-container background-greyout'
