@@ -17,9 +17,12 @@ class Carousel extends React.Component {
         3: '',
         4: '',
       },
-      introBg: false,
-      welcomeBg: false,
+      introBgLoaded: false,
+      welcomeBgLoaded: false,
     }
+
+    this.introBg = 'https://wallpapers.moviemania.io/desktop/movie/335984/e85174/blade-runner-2049-desktop-wallpaper.jpg?w=1920&h=1200';
+    this.welcomeBg = 'https://wallpapers.moviemania.io/desktop/movie/105/28f908/back-to-the-future-desktop-wallpaper.jpg?w=1920&h=1200';
 
     this.renderIntroSlide = this.renderIntroSlide.bind(this);
     this.renderWelcomeSlide = this.renderWelcomeSlide.bind(this);
@@ -56,25 +59,32 @@ class Carousel extends React.Component {
 
   componentWillMount() {
     const introBg = new Image();
-    introBg.src = 'https://wallpapers.moviemania.io/desktop/movie/335984/e85174/blade-runner-2049-desktop-wallpaper.jpg?w=1920&h=1200';
+    introBg.src = this.introBg;
     introBg.onload = (e) => {
-      this.setState({ introBg: true });
+      this.setState({ introBgLoaded: true });
     };
 
     const welcomeBg = new Image();
-    welcomeBg.src = 'https://wallpapers.moviemania.io/desktop/movie/105/28f908/back-to-the-future-desktop-wallpaper.jpg?w=1920&h=1200';
+    welcomeBg.src = this.welcomeBg;
     welcomeBg.onload = (e) => {
-      this.setState({ welcomeBg: true });
+      this.setState({ welcomeBgLoaded: true });
     };
   }
 
   renderIntroSlide() {
-    const { activeSlide, slideClasses, introBg } = this.state;
-    const introBgClass = (introBg) ? ' intro-bg' : ''
+    const { activeSlide, slideClasses, introBgLoaded } = this.state;
+    // const introBgClass = (introBg) ? ' intro-bg' : ''
+    const introBgImg = (introBgLoaded) ?
+      <div className='slide-bg bg-fade-in'
+        style={{ backgroundImage: `url(${this.introBg})` }} /> :
+      null;
 
     return (
-      <div className={'intro-slide' + introBgClass + slideClasses[1]}
+      <div className={'intro-slide' + slideClasses[1]}
         onWheel={activeSlide === 1 ? this.throttleWheel(500, this.scrollCarousel) : null}>
+
+        {introBgImg}
+
         <div className='intro-slide-content object-fade-in'>
           <h1 className='logo'>auteur</h1>
           <p>
@@ -101,7 +111,7 @@ class Carousel extends React.Component {
       <div className={'create-slide' + slideClasses[3]}
         onWheel={activeSlide === 3 ? this.throttleWheel(500, this.scrollCarousel) : null}>
         This is create slide.
-        </div>
+      </div>
     );
   }
 
@@ -116,11 +126,15 @@ class Carousel extends React.Component {
   }
 
   renderWelcomeSlide() {
-    const { activeSlide, slideClasses, welcomeBg } = this.state;
-    const welcomeBgClass = (welcomeBg) ? ' welcome-bg' : ''
+    const { activeSlide, slideClasses, welcomeBgLoaded } = this.state;
+    // const welcomeBgClass = (welcomeBg) ? ' welcome-bg' : ''
+    const welcomeBgImg = (welcomeBgLoaded) ? <img className='slide-bg' src={this.welcomeBg} /> : null;
     return (
-      <div className={'welcome-slide' + welcomeBgClass + slideClasses[4]}
+      <div className={'welcome-slide' + slideClasses[4]}
         onWheel={activeSlide === 4 ? this.throttleWheel(500, this.scrollCarousel) : null}>
+
+        {welcomeBgImg}
+
         <div className='welcome-slide-content object-fade-in'>
           <h1 className='welcome-slide-title'>Okay, it's not actually hard to explain.</h1>
           <p>
