@@ -72,14 +72,18 @@ class PostForm extends React.Component {
     return (
       <div className='post-form-container'>
         {/* to grey out dashboard when PostForm is opened */}
-        <div className='background-greyout'></div>
+        <div className='background-greyout'
+          tabIndex='0'
+          onKeyDown={this.closePostForm}></div>
 
         <picture className='avatar-container'>
           <img className='avatar avatar-default' src={currentUser.avatarImageUrl} />
         </picture>
 
 
-        <div className='post-form-wrapper'>
+        <div className='post-form-wrapper'
+          tabIndex='0'
+          onKeyDown={this.closePostForm}>
           {this.renderPostFormType()}
           {renderSpinner(spinnerClass)}
         </div>
@@ -127,11 +131,11 @@ class PostForm extends React.Component {
     }
     // to close form when user presses Esc key.
     // FIX: USE REFS
-    window.addEventListener('keydown', this.closePostForm);
+    // window.addEventListener('keydown', this.closePostForm);
   }
 
   componentWillUnmount() {
-    window.removeEventListener('keydown', this.closePostForm);
+    // window.removeEventListener('keydown', this.closePostForm);
   }
 
   closePostForm(e) {

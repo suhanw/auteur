@@ -30,6 +30,8 @@ class PostFormPhoto extends React.Component {
       };
     }
 
+    this.mediaInputRef = React.createRef();
+
     this.renderMediaInput = this.renderMediaInput.bind(this);
     this.renderMediaPreview = this.renderMediaPreview.bind(this);
     this.renderSmallUploadDropzone = this.renderSmallUploadDropzone.bind(this);
@@ -102,7 +104,9 @@ class PostFormPhoto extends React.Component {
         onDragEnter={this.handleDragAndDrop}
         onDragLeave={this.handleDragAndDrop}
         onDragOver={this.handleDragAndDrop}
-        onDrop={this.handleDragAndDrop}>
+        onDrop={this.handleDragAndDrop}
+        tabIndex='0'
+        ref={this.mediaInputRef}>
 
         <label htmlFor='file' className='media-upload'>
           <i className="fas fa-camera"></i>
@@ -123,6 +127,10 @@ class PostFormPhoto extends React.Component {
 
       </div>
     );
+  }
+
+  componentDidMount() {
+    this.mediaInputRef.current.focus();
   }
 
   renderUrlInput() {

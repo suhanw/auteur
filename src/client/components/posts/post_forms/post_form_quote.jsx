@@ -16,6 +16,8 @@ class PostFormQuote extends React.Component {
       body: '',
     };
 
+    this.quoteFieldRef = React.createRef();
+
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -31,13 +33,14 @@ class PostFormQuote extends React.Component {
 
         <fieldset className='post-main'>
           <div className='post-quote'>
-            {/* FIX: use Ref to auto focus on div */}
             <ContentEditable
               html={title}
               disabled={false}
               placeholder='Quote'
               onChange={this.handleChange('title')}
-              tagName='div' />
+              tagName='div'
+              tabIndex='0'
+              ref={this.quoteFieldRef} />
           </div>
           <span className='post-source'>
             <input type='text'
@@ -55,6 +58,10 @@ class PostFormQuote extends React.Component {
 
       </form>
     );
+  }
+
+  componentDidMount() {
+    this.quoteFieldRef.current.getEl().focus();
   }
 
   handleChange(inputField) {

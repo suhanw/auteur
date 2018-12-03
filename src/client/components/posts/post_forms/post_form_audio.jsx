@@ -14,6 +14,8 @@ class PostFormAudio extends React.Component {
       body: '',
     };
 
+    this.mainRef = React.createRef();
+
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -27,7 +29,9 @@ class PostFormAudio extends React.Component {
 
         <PostFormHeader blog={blog} />
 
-        <span className='post-main'>
+        <span className='post-main'
+          tabIndex='0'
+          ref={this.mainRef}>
           Working on it! Stay tuned!
         </span>
 
@@ -37,6 +41,10 @@ class PostFormAudio extends React.Component {
 
       </form>
     );
+  }
+
+  componentDidMount() {
+    this.mainRef.current.focus();
   }
 
   handleChange(inputField) {
