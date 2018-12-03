@@ -1,5 +1,5 @@
 import React from 'react';
-import NavbarContainer from './navbar/navbar_container';
+import NavbarContainer from '../navbar/navbar_container';
 
 class Settings extends React.Component {
   constructor(props) {

@@ -71,7 +71,6 @@ class AccountPopover extends React.Component {
         <Link to={`/dashboard/blog/${blog._id}`}>
           <li className='popover-menu-item'>
             <div className='blog-item'>
-              {/* FIX: link to blog show page */}
               <div className='blog-item-info'>
                 <img src={blog.avatarImageUrl} className='avatar avatar-small' />
                 <div className='blog-item-details'>

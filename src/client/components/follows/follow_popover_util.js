@@ -1,5 +1,5 @@
 import React from 'react';
-import FollowPopover from '../components/popovers/follow_popover';
+import FollowPopover from './follow_popover';
 
 
 export const showPopover = function (componentContext, popoverState) {
@@ -22,7 +22,7 @@ export const hidePopover = function (componentContext, hoverLink = true, popover
 
     if (hoverLink && cursorPosY >= elPosY + elHeight) {
       return; // do nothing if cursor moves below the hover link
-    } else if (!hoverLink) { // when hoverlink=false, this is the handler for the popover
+    } else if (!hoverLink) { // when hoverlink===false, this is the handler for the popover
       // cursor is within the currentTarget's area (parent element that represents entire popover area)
       if (cursorPosY <= elPosY + elHeight && // bottom bound of currentTarget
         cursorPosY >= (elPosY) && // top bound of currentTarget 

@@ -11,11 +11,16 @@ router.get('/follows', middleware.isLoggedIn, function (req, res) {
     .then((foundBlog) => {
       return User.find({ following: foundBlog._id })
         .select('username avatarImageUrl primaryBlog')
-        .populate({ path: 'primaryBlog', select: 'title', model: 'Blog' })
+        .populate({ path: 'primaryBlog', select: 'name title avatarImageUrl backgroundImageUrl' })
         .exec()
     })
     .then((foundUsers) => {
-      res.json(foundUsers);
+      let blog = { _id: req.params.id }
+      let responseJSON = {
+        blog: blog,
+        followers: foundUsers,
+      }
+      return res.json(responseJSON);
     })
     .catch((err) => res.status(404).json([err.message]));
 });

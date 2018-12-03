@@ -1,8 +1,8 @@
 import * as APIUtil from '../util/follow_api_util';
-import { receiveUsers } from '../actions/user_actions';
 
 export const FOLLOW_BLOG = 'FOLLOW_BLOG';
 export const UNFOLLOW_BLOG = 'UNFOLLOW_BLOG';
+export const RECEIVE_FOLLOWERS = 'RECEIVE_FOLLOWERS';
 export const RECEIVE_FOLLOW_ERRORS = 'RECEIVE_FOLLOW_ERRORS';
 
 export const followBlog = function (currentUser) {
@@ -18,6 +18,13 @@ export const unfollowBlog = function (currentUser) {
     payload: currentUser,
   };
 };
+
+export const receiveFollowers = function (followers) {
+  return {
+    type: RECEIVE_FOLLOWERS,
+    payload: followers,
+  }
+}
 
 export const receiveFollowErrors = function (errors) {
   // FIX: add follow errors reducer
@@ -49,7 +56,9 @@ export const fetchFollowers = function (blogId) {
   // FIX: dispatch this action for another React Route to list the followers
   return function (dispatch) {
     return APIUtil.fetchFollowers(blogId).then(
-      (followers) => dispatch(receiveUsers(followers)),
+      (response) => {
+        dispatch(receiveFollowers(response));
+      },
       (err) => dispatch(receiveFollowErrors(err.responseJSON)),
     );
   };

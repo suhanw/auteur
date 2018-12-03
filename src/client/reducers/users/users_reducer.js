@@ -1,7 +1,7 @@
 import { mergeWith, merge, union } from 'lodash';
 import { normalize, schema } from 'normalizr';
 import { RECEIVE_CURRENT_USER, REMOVE_CURRENT_USER } from '../../actions/session_actions';
-import { FOLLOW_BLOG, UNFOLLOW_BLOG } from '../../actions/follow_actions';
+import { FOLLOW_BLOG, UNFOLLOW_BLOG, RECEIVE_FOLLOWERS } from '../../actions/follow_actions';
 import { RECEIVE_USERS, RECEIVE_USER_LIKES, RECEIVE_USER_FOLLOWING } from '../../actions/user_actions';
 import { RECEIVE_NOTES } from '../../actions/note_actions';
 import { replaceArray } from '../../util/misc_util';
@@ -76,6 +76,17 @@ const usersReducer = function (state = defaultState, action) {
         byId: mergeWith({}, state.byId, newCurrentUser, replaceArray),
         allIds: union(state.allIds, [action.payload._id]),
       };
+      return newState;
+    case RECEIVE_FOLLOWERS:
+      payloadSchema = [userSchema];
+      normalizedPayload = normalize(action.payload.followers, payloadSchema);
+      newState.byId = mergeWith(
+        {},
+        state.byId,
+        normalizedPayload.entities.users,
+        replaceArray,
+      );
+      newState.allIds = union(state.allIds, normalizedPayload.result);
       return newState;
     case RECEIVE_USER_LIKES:
       newCurrentUser = {

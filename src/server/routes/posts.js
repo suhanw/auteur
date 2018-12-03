@@ -58,6 +58,7 @@ router.post('/posts',
 
 
 // DELETE api/blogs/:id/posts/:id (Destroy)
+// FIX: also need to delete related notes
 router.delete('/posts/:postId',
   middleware.checkPostOwnership,
   function (req, res) {

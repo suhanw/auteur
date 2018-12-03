@@ -4,7 +4,7 @@ import PostShowPhoto from './post_show_photo';
 import PostShowQuote from './post_show_quote';
 import PostShowLink from './post_show_link';
 import NoteMenuContainer from '../../notes/note_menu_container';
-import { showPopover, hidePopover, renderFollowPopover } from '../../../util/popover_util';
+import { showPopover, hidePopover, renderFollowPopover } from '../../follows/follow_popover_util';
 
 class PostShowItem extends React.Component {
   constructor(props) {

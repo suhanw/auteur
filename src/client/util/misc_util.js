@@ -73,5 +73,10 @@ export const validateUrl = function (url, expectedType, next) {
     default:
       break;
   }
+};
 
+
+export const pluralize = function (count, singular, plural) {
+  if (count === 1) return singular;
+  return plural;
 };

@@ -2,7 +2,7 @@ import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import Dashboard from './dashboard';
 import Carousel from './carousel';
-import Settings from './settings';
+import Settings from './settings/settings';
 import Modal from './modals/modal';
 import { AuthRoute, ProtectRoute } from '../util/route_util';
 

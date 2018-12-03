@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 
 import PostIndex from './post_index';
 import { selectPosts, selectBlogs, selectCurrentUser, selectLoadingPostIndex } from '../../selectors/selectors';
-import { createFollow, fetchFollowers } from '../../actions/follow_actions';
+import { createFollow } from '../../actions/follow_actions';
 import { fetchFeed, fetchPostsByBlog } from '../../actions/post_actions';
 import { fetchUserFollowing, fetchUserLikes } from '../../actions/user_actions';
 

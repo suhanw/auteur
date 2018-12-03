@@ -4,6 +4,7 @@ import { RECEIVE_POSTS, REMOVE_POST } from '../../actions/post_actions';
 import { REMOVE_CURRENT_USER } from '../../actions/session_actions';
 import { RECEIVE_BLOG } from '../../actions/blog_actions';
 import { RECEIVE_USERS } from '../../actions/user_actions';
+import { RECEIVE_FOLLOWERS } from '../../actions/follow_actions';
 import { replaceArray } from '../../util/misc_util';
 
 const defaultState = {
@@ -93,6 +94,26 @@ const blogsReducer = function (state = defaultState, action) {
             return newState;
         case REMOVE_CURRENT_USER:
             return defaultState;
+        case RECEIVE_FOLLOWERS:
+            payloadSchema = [userSchema];
+            normalizedPayload = normalize(action.payload.followers, payloadSchema);
+            newState.byId = merge(
+                {},
+                state.byId,
+                normalizedPayload.entities.blogs, // thiese are followers' blogs
+                action.payload.blog // this is the current blog
+            );
+            // to add followers array to the blog for which we are fetching followers
+            newState.byId[action.payload.blog._id].followers = normalizedPayload.result;
+
+            // account for scenario that the blog has no followers
+            let followerBlogIds = (normalizedPayload.result.length > 0) ? Object.keys(normalizedPayload.entities.blogs) : [];
+            newState.allIds = union(
+                state.allIds,
+                followerBlogIds, // follower's blogIds
+                [action.payload.blog._id], // current blogId
+            );
+            return newState;
         default:
             return state;
     };

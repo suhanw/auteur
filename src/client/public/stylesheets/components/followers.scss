@@ -1,0 +1,66 @@
+$content-width: 625px;
+
+.followers {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: $content-width;
+  background: white;
+  border-radius: 3px;
+  padding: 28px;
+}
+
+.followers-header {
+  font-size: 26px;
+  font-weight: 400;
+  margin-top: 2px;
+  margin-bottom: 30px;
+  color: #444;
+}
+
+.followers-list {
+  border-top: solid 1px rgba(0, 0, 0, 0.05);
+}
+
+.follower-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border-bottom: solid 1px rgba(0, 0, 0, 0.05);
+  border-radius: 0;
+}
+
+.follower-info:nth-child(2n) {
+  background: rgb(248, 248, 248);
+}
+
+.follower-details {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  flex-grow: 1;
+  margin-left: 10px;
+  line-height: 1.3;
+}
+
+.follower-details-name {
+  font-weight: 700;
+  font-size: 14px;
+  display: flex;
+  justify-content: center;
+  position: relative;
+  cursor: pointer;
+}
+
+.follower-details-name .follow-popover {
+  top: 25px;
+}
+
+.follower-details-title {
+  font-weight: 400;
+  color: #444;
+  font-size: 13px;
+  margin-top: 4px;
+}

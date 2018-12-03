@@ -22,7 +22,7 @@ class Sidemenu extends React.Component {
           <span className='sidemenu-item'>Posts</span>
           <span className='sidemenu-count'>{blog.postCount}</span>
         </NavLink>
-        <NavLink to={`/dashboard/${currentUser._id}/followers`} className='sidemenu-link'>
+        <NavLink to={`/dashboard/${blog._id}/followers`} className='sidemenu-link'>
           <span className='sidemenu-item'>Followers</span>
           <span className='sidemenu-count'>{blog.followerCount}</span>
         </NavLink>
