@@ -42,6 +42,8 @@ class NotePopover extends React.Component {
       popover: null,
     };
 
+    this.commentInputRef = React.createRef();
+
     this.renderNoteIndex = this.renderNoteIndex.bind(this);
     this.scrollToBottom = this.scrollToBottom.bind(this);
     this.renderNoteShowItems = this.renderNoteShowItems.bind(this);
@@ -61,7 +63,7 @@ class NotePopover extends React.Component {
     // FIX: add spinner when fetching notes
     if (!notesArr) return <div className='note-popover popover'>Loading</div>;
     return (
-      <div className='note-popover popover'>
+      <div className='note-popover popover' >
         {this.renderNoteIndex()}
         {this.renderCommentForm()}
       </div >
@@ -110,7 +112,7 @@ class NotePopover extends React.Component {
     // to scroll to last/latest note
     e.currentTarget.scrollTop = e.currentTarget.scrollHeight;
     // to focus caret on textbox
-    document.querySelector('.comment-input').focus();
+    this.commentInputRef.current.getEl().focus();
   }
 
   renderNoteShowItems() {
@@ -232,7 +234,9 @@ class NotePopover extends React.Component {
           html={body}
           disabled={false}
           placeholder='Unleash a compliment.'
-          tagName='div' />
+          tagName='div'
+          tabIndex='0'
+          ref={this.commentInputRef} />
         <button className={`comment-submit`}
           onClick={this.handleSubmit}
           disabled={!readyToSubmit}>
