@@ -11,7 +11,7 @@ const session = require('express-session');
 const flash = require('connect-flash');
 
 const User = require('./models/user');
-const seedDB = require('./util/seeds');
+const seedDB = require('./util/seeds/seeds');
 
 // DB CONFIG==============================
 // switch between dev or prod
