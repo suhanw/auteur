@@ -124,7 +124,10 @@ class SessionForm extends React.Component {
   componentWillReceiveProps(newProps) {
     if (newProps.pathname.includes('demo')) {
       this.setState({ email: '' }, () => {
-        this.renderDemoEmail('denzel@gmail.com'.split(''));
+        setTimeout(
+          () => this.renderDemoEmail('denzel@gmail.com'.split('')),
+          500,
+        );
       });
     }
   }
