@@ -110,12 +110,10 @@ class SessionForm extends React.Component {
     );
   }
 
-  componentDidMount() {
+  componentDidUpdate() {
     if (this.emailFieldRef.current) { // this is null in the '/' route
       setTimeout(
-        () => {
-          this.emailFieldRef.current.focus();
-        },
+        () => this.emailFieldRef.current.focus(),
         500 // focus on field after animation
       );
     }
