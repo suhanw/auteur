@@ -1,6 +1,7 @@
 import React from 'react';
 import { Route, Link } from 'react-router-dom'
 import { merge } from 'lodash';
+
 import { AuthRoute } from '../util/route_util';
 import SessionFormContainer from './session/session_form_container';
 import NavbarContainer from './navbar/navbar_container';
@@ -21,11 +22,22 @@ class Carousel extends React.Component {
       welcomeBgLoaded: false,
     }
 
+    const backgroundImages = [
+      'https://wallpapers.moviemania.io/desktop/movie/335984/e85174/blade-runner-2049-desktop-wallpaper.jpg?w=1920&h=1200',
+      'https://wallpapers.moviemania.io/desktop/movie/105/28f908/back-to-the-future-desktop-wallpaper.jpg?w=1920&h=1200',
+      'https://wallpapers.moviemania.io/desktop/movie/335984/841643/blade-runner-2049-desktop-wallpaper.jpg?w=1920&h=1200',
+      'https://wallpapers.moviemania.io/desktop/movie/329/ec263a/jurassic-park-desktop-wallpaper.jpg?w=1920&h=1200',
+    ];
+
     this.introBg = 'https://wallpapers.moviemania.io/desktop/movie/335984/e85174/blade-runner-2049-desktop-wallpaper.jpg?w=1920&h=1200';
     this.welcomeBg = 'https://wallpapers.moviemania.io/desktop/movie/105/28f908/back-to-the-future-desktop-wallpaper.jpg?w=1920&h=1200';
 
     this.renderIntroSlide = this.renderIntroSlide.bind(this);
     this.renderWelcomeSlide = this.renderWelcomeSlide.bind(this);
+    this.renderAboutSlide = this.renderAboutSlide.bind(this)
+    this.renderAboutSlideGraphic = this.renderAboutSlideGraphic.bind(this);
+    this.renderCreateSlide = this.renderCreateSlide.bind(this);
+    this.renderCreateSlideGraphic = this.renderCreateSlideGraphic.bind(this);
     this.scrollCarousel = this.scrollCarousel.bind(this);
     this.throttleWheel = this.throttleWheel.bind(this);
     this.handleClick = this.handleClick.bind(this);
@@ -33,7 +45,7 @@ class Carousel extends React.Component {
 
   render() {
 
-    const { activeSlide, slideClasses } = this.state;
+    const { activeSlide } = this.state;
 
     return (
       <section className='carousel'>
@@ -87,12 +99,12 @@ class Carousel extends React.Component {
 
         <div className='intro-slide-content object-fade-in'>
           <h1 className='logo'>auteur</h1>
-          <p>
+          <p className='slide-description'>
             Come for what you love.
-            </p>
-          <p>
+          </p>
+          <p className='slide-description'>
             Stay for what you discover.
-            </p>
+          </p>
           <Route exact path='/' component={SessionFormContainer} />
           <AuthRoute path='/login' component={SessionFormContainer} />
           <AuthRoute path='/signup' component={SessionFormContainer} />
@@ -110,8 +122,92 @@ class Carousel extends React.Component {
     return (
       <div className={'create-slide' + slideClasses[3]}
         onWheel={activeSlide === 3 ? this.throttleWheel(500, this.scrollCarousel) : null}>
-        This is create slide.
+
+        {this.renderCreateSlideGraphic()}
+
+        <section className='slide-content'>
+          <h2 className='slide-title'>Seriously, I love coding and movies. </h2>
+          <p className='slide-description'>
+            Exercitation deserunt est aliquip labore minim ex sint cillum elit qui aute amet ut commodo.
+          </p>
+        </section>
       </div>
+    );
+  }
+
+  renderCreateSlideGraphic() {
+    const { activeSlide } = this.state;
+
+    const animatedGraphic = (
+      <section className='slide-graphic'>
+        <div className='icon-gallery'>
+          <div className='first-row'>
+            <span className='icon-wrapper'>
+              <span className='icon-grow-from-center icon-bg icon-text'><i className="fas fa-font"></i></span>
+              <h3 className='object-fade-in icon-label'>Text</h3>
+            </span>
+            <span className='icon-wrapper'>
+              <span className='icon-grow-from-center icon-bg icon-photo'><i className="fas fa-camera-retro"></i></span>
+              <h3 className='object-fade-in icon-label'>Photo</h3>
+            </span>
+            <span className='icon-wrapper'>
+              <span className='icon-grow-from-center icon-bg icon-quote'><i className="fas fa-quote-left"></i></span>
+              <h3 className='object-fade-in icon-label'>Quote</h3>
+            </span>
+          </div>
+          <div className='second-row'>
+            <span className='icon-wrapper'>
+              <span className='icon-grow-from-center icon-bg icon-link'><i className="fas fa-link"></i></span>
+              <h3 className='object-fade-in icon-label'>Link</h3>
+            </span>
+            <span className='icon-wrapper'>
+              <span className='icon-grow-from-center icon-bg icon-audio'><i className="fas fa-headphones-alt"></i></span>
+              <h3 className='object-fade-in icon-label'>Audio</h3>
+            </span>
+            <span className='icon-wrapper'>
+              <span className='icon-grow-from-center icon-bg icon-video'><i className="fas fa-video"></i></span>
+              <h3 className='object-fade-in icon-label'>Video</h3>
+            </span>
+          </div>
+        </div>
+      </section>
+    );
+
+    if (activeSlide === 3) return animatedGraphic;
+
+    return (
+      <section className='slide-graphic'>
+        <div className='icon-gallery'>
+          <div className='first-row'>
+            <span className='icon-wrapper'>
+              <span className='icon-bg icon-text'><i className="fas fa-font"></i></span>
+              <h3 className='icon-label'>Text</h3>
+            </span>
+            <span className='icon-wrapper'>
+              <span className='icon-bg icon-photo'><i className="fas fa-camera-retro"></i></span>
+              <h3 className='icon-label'>Photo</h3>
+            </span>
+            <span className='icon-wrapper'>
+              <span className='icon-bg icon-quote'><i className="fas fa-quote-left"></i></span>
+              <h3 className='icon-label'>Quote</h3>
+            </span>
+          </div>
+          <div className='second-row'>
+            <span className='icon-wrapper'>
+              <span className='icon-bg icon-link'><i className="fas fa-link"></i></span>
+              <h3 className='icon-label'>Link</h3>
+            </span>
+            <span className='icon-wrapper'>
+              <span className='icon-bg icon-audio'><i className="fas fa-headphones-alt"></i></span>
+              <h3 className='icon-label'>Audio</h3>
+            </span>
+            <span className='icon-wrapper'>
+              <span className='icon-bg icon-video'><i className="fas fa-video"></i></span>
+              <h3 className='icon-label'>Video</h3>
+            </span>
+          </div>
+        </div>
+      </section>
     );
   }
 
@@ -120,14 +216,84 @@ class Carousel extends React.Component {
     return (
       <div className={'about-slide' + slideClasses[2]}
         onWheel={activeSlide === 2 ? this.throttleWheel(500, this.scrollCarousel) : null}>
-        This is about slide.
-      </div>
+
+        {this.renderAboutSlideGraphic()}
+
+        <section className='slide-content'>
+          <h2 className='slide-title'>Auteur is my nerd project on coding and movies. </h2>
+          <p className='slide-description'>
+            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Impedit optio exercitationem iusto tempore quae quis explicabo laborum vero veritatis id quibusdam pariatur quaerat, at dolorem, deserunt aliquid adipisci magnam ut. Enim cillum est laborum eiusmod ut.
+          </p>
+        </section>
+      </div >
+    );
+  }
+
+  renderAboutSlideGraphic() {
+    const { activeSlide } = this.state;
+
+    let animatedGraphic = (
+      <section className='slide-graphic'>
+        <h1 className='logo font-grow-from-center'>a</h1>
+        <div className='icon-gallery'>
+          <i className="fly-in-tl-br fab fa-js-square" style={{ top: 120, left: 110, fontSize: 110 }}></i>
+          <i className="fly-in-br-tl fab fa-node-js" style={{ top: 270, left: 350, fontSize: 120 }}></i>
+          <i className="fly-in-t-b fab fa-html5" style={{ top: 110, left: 240, fontSize: 60 }}></i>
+          <i className="fly-in-b-t fab fa-css3-alt" style={{ top: 300, left: 210, fontSize: 100 }}></i>
+          <i className="fly-in-tr-bl fab fa-react" style={{ top: 80, left: 300, fontSize: 120 }}></i>
+          <i className="fly-in-b-t fas fa-code-branch" style={{ top: 300, left: 300, fontSize: 50 }}></i>
+          <i className="fly-in-r-l devicon-mongodb-plain" style={{ top: 120, left: 410, fontSize: 60 }}></i>
+          <i className="fly-in-bl-tr devicon-amazonwebservices-original" style={{ top: 320, left: 95, fontSize: 100 }}></i>
+          <i className="fly-in-tr-bl devicon-jquery-plain" style={{ top: 180, left: 400, fontSize: 80 }}></i>
+          <i className="fly-in-t-b devicon-webpack-plain" style={{ top: 20, left: 250, fontSize: 80 }}></i>
+          <i className="fly-in-br-tl devicon-heroku-original" style={{ top: 210, left: 340, fontSize: 50, fontWeight: 'bold' }}></i>
+          <img className='fly-in-tr-bl icon' src='images/icons/arrival.png' style={{ top: 30, right: 70, height: 100 }} />
+          <img className='fly-in-l-r icon' src='images/icons/bttf.png' style={{ top: 130, left: 30, height: 65 }} />
+          <img className='fly-in-bl-tr icon' src='images/icons/d9.png' style={{ bottom: 50, left: 30, height: 60 }} />
+          <img className='fly-in-br-tl icon' src='images/icons/die-hard.png' style={{ top: 230, right: 0, height: 110 }} />
+          <img className='fly-in-tl-br icon' src='images/icons/ghosbusters.png' style={{ top: 50, left: 180, height: 65 }} />
+          <img className='fly-in-tr-bl icon' src='images/icons/gits.png' style={{ top: 120, right: 0, height: 100 }} />
+          <img className='fly-in-l-r icon' src='images/icons/jurassic-park.png' style={{ top: 210, left: 0, height: 130 }} />
+          <img className='fly-in-b-t icon' src='images/icons/nostromo.png' style={{ bottom: 5, right: 80, height: 50 }} />
+          <img className='fly-in-l-r icon' src='images/icons/blade-runner.png' style={{ top: 230, left: 140, height: 80 }} />
+          <img className='fly-in-tl-br icon' src='images/icons/weyland-yutani.png' style={{ top: 20, left: 30, height: 150 }} />
+        </div>
+      </section>
+    );
+    if (activeSlide === 2) return animatedGraphic;
+
+    return (
+      <section className='slide-graphic'>
+        <h1 className='logo'>a</h1>
+        <div className='icon-gallery'>
+          <i className="fab fa-js-square" style={{ top: 120, left: 110, fontSize: 110 }}></i>
+          <i className="fab fa-node-js" style={{ top: 270, left: 350, fontSize: 120 }}></i>
+          <i className="fab fa-html5" style={{ top: 110, left: 240, fontSize: 60 }}></i>
+          <i className="fab fa-css3-alt" style={{ top: 300, left: 210, fontSize: 100 }}></i>
+          <i className="fab fa-react" style={{ top: 80, left: 300, fontSize: 120 }}></i>
+          <i className="fas fa-code-branch" style={{ top: 300, left: 300, fontSize: 50 }}></i>
+          <i className="devicon-mongodb-plain" style={{ top: 120, left: 410, fontSize: 60 }}></i>
+          <i className="devicon-amazonwebservices-original" style={{ top: 320, left: 95, fontSize: 100 }}></i>
+          <i className="devicon-jquery-plain" style={{ top: 180, left: 400, fontSize: 80 }}></i>
+          <i className="devicon-webpack-plain" style={{ top: 20, left: 250, fontSize: 80 }}></i>
+          <i className="devicon-heroku-original" style={{ top: 210, left: 340, fontSize: 50, fontWeight: 'bold' }}></i>
+          <img className='icon' src='images/icons/arrival.png' style={{ top: 30, right: 70, height: 100 }} />
+          <img className='icon' src='images/icons/bttf.png' style={{ top: 130, left: 30, height: 65 }} />
+          <img className='icon' src='images/icons/d9.png' style={{ bottom: 50, left: 30, height: 60 }} />
+          <img className='icon' src='images/icons/die-hard.png' style={{ top: 230, right: 0, height: 110 }} />
+          <img className='icon' src='images/icons/ghosbusters.png' style={{ top: 50, left: 180, height: 65 }} />
+          <img className='icon' src='images/icons/gits.png' style={{ top: 120, right: 0, height: 100 }} />
+          <img className='icon' src='images/icons/jurassic-park.png' style={{ top: 210, left: 0, height: 130 }} />
+          <img className='icon' src='images/icons/nostromo.png' style={{ bottom: 5, right: 80, height: 50 }} />
+          <img className='icon' src='images/icons/blade-runner.png' style={{ top: 230, left: 140, height: 80 }} />
+          <img className='icon' src='images/icons/weyland-yutani.png' style={{ top: 20, left: 30, height: 150 }} />
+        </div>
+      </section>
     );
   }
 
   renderWelcomeSlide() {
     const { activeSlide, slideClasses, welcomeBgLoaded } = this.state;
-    // const welcomeBgClass = (welcomeBg) ? ' welcome-bg' : ''
     const welcomeBgImg = (welcomeBgLoaded) ? <img className='slide-bg' src={this.welcomeBg} /> : null;
     return (
       <div className={'welcome-slide' + slideClasses[4]}
@@ -136,10 +302,10 @@ class Carousel extends React.Component {
         {welcomeBgImg}
 
         <div className='welcome-slide-content object-fade-in'>
-          <h1 className='welcome-slide-title'>Okay, it's not actually hard to explain.</h1>
-          <p>
-            We lied. But now you understand this thing. So come on in.
-            </p>
+          <h1 className='slide-title'>Okay, you get the point.</h1>
+          <p className='slide-description'>
+            Check this out and let me know your thoughts.
+          </p>
           <Route exact path='/' component={SessionFormContainer} />
           <AuthRoute path='/login' component={SessionFormContainer} />
           <AuthRoute path='/signup' component={SessionFormContainer} />
