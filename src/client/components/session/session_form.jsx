@@ -102,12 +102,7 @@ class SessionForm extends React.Component {
   handleSubmit(e) {
     e.preventDefault();
     const user = Object.assign({}, this.state);
-    this.props.submit(user).then(
-      () => {
-        // if (this.props.errors.length > 0) return this.setState({ password: '' });
-        // return this.props.clearErrors();
-      }
-    );
+    this.props.submit(user);
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -117,6 +112,8 @@ class SessionForm extends React.Component {
         () => this.emailFieldRef.current.focus(),
         500 // focus on field after animation
       );
+      // clear session errors if any
+      if (prevProps.errors.length > 0) this.props.clearErrors();
     }
   }
 
