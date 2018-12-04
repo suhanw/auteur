@@ -27,10 +27,18 @@ class Carousel extends React.Component {
       'https://wallpapers.moviemania.io/desktop/movie/105/28f908/back-to-the-future-desktop-wallpaper.jpg?w=1920&h=1200',
       'https://wallpapers.moviemania.io/desktop/movie/335984/841643/blade-runner-2049-desktop-wallpaper.jpg?w=1920&h=1200',
       'https://wallpapers.moviemania.io/desktop/movie/329/ec263a/jurassic-park-desktop-wallpaper.jpg?w=1920&h=1200',
+      'https://wallpapers.moviemania.io/desktop/movie/329865/c4839e/arrival-desktop-wallpaper.jpg?w=1920&h=1200',
+      'https://wallpapers.moviemania.io/desktop/movie/157336/4017e1/interstellar-desktop-wallpaper.jpg?w=1920&h=1200',
+      'https://wallpapers.moviemania.io/desktop/movie/27205/8475b1/inception-desktop-wallpaper.jpg?w=1920&h=1200',
+      'https://wallpapers.moviemania.io/desktop/movie/348/8f23af/alien-desktop-wallpaper.jpg?w=1920&h=1200',
+      'https://wallpapers.moviemania.io/desktop/movie/17654/6049b8/district-9-desktop-wallpaper.jpg?w=1920&h=1200',
+      'https://wallpapers.moviemania.io/desktop/movie/14160/46ef21/up-desktop-wallpaper.jpg?w=1920&h=1200',
+      'https://wallpapers.moviemania.io/desktop/tv/66732/ebe0a4/stranger-things-desktop-wallpaper.jpg?w=1920&h=1200',
     ];
 
-    this.introBg = 'https://wallpapers.moviemania.io/desktop/movie/335984/e85174/blade-runner-2049-desktop-wallpaper.jpg?w=1920&h=1200';
-    this.welcomeBg = 'https://wallpapers.moviemania.io/desktop/movie/105/28f908/back-to-the-future-desktop-wallpaper.jpg?w=1920&h=1200';
+
+    this.introBg = backgroundImages[Math.floor(Math.random() * backgroundImages.length)];
+    this.welcomeBg = backgroundImages[Math.floor(Math.random() * backgroundImages.length)];
 
     this.renderIntroSlide = this.renderIntroSlide.bind(this);
     this.renderWelcomeSlide = this.renderWelcomeSlide.bind(this);

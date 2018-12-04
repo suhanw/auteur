@@ -75,9 +75,6 @@
 .about-slide,
 .create-slide,
 .welcome-slide {
-  // background-size: cover;
-  // background-position: center;
-  // background-repeat: no-repeat;
   position: absolute;
   height: 100%;
   width: 100%;
@@ -200,6 +197,10 @@
   font-size: 18px;  
   font-weight: 300;
   font-family: $font-carousel;
+}
+
+.welcome-slide .slide-description {
+  font-weight: 400; 
 }
 
 .create-slide .slide-content, 
