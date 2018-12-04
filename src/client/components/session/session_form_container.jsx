@@ -7,7 +7,6 @@ import { clearErrors } from '../../actions/clear_actions';
 const mapStateToProps = function (state, ownProps) {
   const path = ownProps.path;
   const pathname = ownProps.pathname;
-  console.log('sess form container pathname', path);
 
   const errors = selectSessionErrors(state);
   const sessionId = state.session.id;

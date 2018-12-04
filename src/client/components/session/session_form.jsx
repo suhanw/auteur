@@ -91,6 +91,35 @@ class SessionForm extends React.Component {
     );
   }
 
+  componentDidMount() {
+    if (this.props.errors.length > 0) this.props.clearErrors();
+
+    if (this.emailFieldRef.current) { // null on the get started page
+      // focus on email field after animation
+      setTimeout(
+        () => this.emailFieldRef.current.focus(),
+        500
+      );
+    }
+
+    // demo login
+    if (this.props.pathname.includes('demo')) {
+      setTimeout( // start after animation
+        () => this.renderDemoEmail('denzel@gmail.com'.split('')),
+        500,
+      );
+    }
+  }
+
+  componentWillReceiveProps(newProps) { // when user clicks on demo on login page
+    if (newProps.pathname.includes('demo')) {
+      setTimeout(
+        () => this.renderDemoEmail('denzel@gmail.com'.split('')),
+        500,
+      );
+    }
+  }
+
   handleChange(inputField) {
     const that = this;
     return function (e) {
@@ -103,29 +132,6 @@ class SessionForm extends React.Component {
     e.preventDefault();
     const user = Object.assign({}, this.state);
     this.props.submit(user);
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    if (this.emailFieldRef.current && // this is null in the '/' route
-      prevProps.path !== this.props.path) { // only auto focus when switching betw login and signup
-      setTimeout(
-        () => this.emailFieldRef.current.focus(),
-        500 // focus on field after animation
-      );
-      // clear session errors if any
-      if (prevProps.errors.length > 0) this.props.clearErrors();
-    }
-  }
-
-  componentWillReceiveProps(newProps) {
-    if (newProps.pathname.includes('demo')) {
-      this.setState({ email: '' }, () => {
-        setTimeout(
-          () => this.renderDemoEmail('denzel@gmail.com'.split('')),
-          500,
-        );
-      });
-    }
   }
 
   renderDemoEmail(email) {
