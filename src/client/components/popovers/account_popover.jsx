@@ -43,6 +43,7 @@ class AccountPopover extends React.Component {
       <ul>
         <Link to={`/dashboard/${currentUser._id}/likes`}>
           <li className='popover-menu-item'>
+            {/* FIX: when there are no likes, disable link! */}
             <span><i className="fas fa-heart"></i> Likes</span>
             <span className='popover-item-suffix'>{likeCount}</span>
             {/* FIX: update with Notes (likes) feature */}

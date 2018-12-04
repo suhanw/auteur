@@ -19,8 +19,8 @@ class App extends React.Component {
         <Switch>
           <ProtectRoute path='/settings' component={Settings} />
           <ProtectRoute path='/dashboard' component={Dashboard} />
-          <AuthRoute exact path='/login' component={Carousel} />
-          <AuthRoute exact path='/signup' component={Carousel} />
+          <AuthRoute path='/login' component={Carousel} />
+          <AuthRoute path='/signup' component={Carousel} />
           <AuthRoute exact path='/' component={Carousel} />
           <Route render={(props) => <div>This is 404 page.</div>} />
           {/* FIX: need to add 404 page */}

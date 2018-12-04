@@ -26,7 +26,6 @@ class Carousel extends React.Component {
       'https://wallpapers.moviemania.io/desktop/movie/335984/e85174/blade-runner-2049-desktop-wallpaper.jpg?w=1920&h=1200',
       'https://wallpapers.moviemania.io/desktop/movie/105/28f908/back-to-the-future-desktop-wallpaper.jpg?w=1920&h=1200',
       'https://wallpapers.moviemania.io/desktop/movie/335984/841643/blade-runner-2049-desktop-wallpaper.jpg?w=1920&h=1200',
-      'https://wallpapers.moviemania.io/desktop/movie/329/ec263a/jurassic-park-desktop-wallpaper.jpg?w=1920&h=1200',
       'https://wallpapers.moviemania.io/desktop/movie/329865/c4839e/arrival-desktop-wallpaper.jpg?w=1920&h=1200',
       'https://wallpapers.moviemania.io/desktop/movie/157336/4017e1/interstellar-desktop-wallpaper.jpg?w=1920&h=1200',
       'https://wallpapers.moviemania.io/desktop/movie/27205/8475b1/inception-desktop-wallpaper.jpg?w=1920&h=1200',
@@ -34,6 +33,11 @@ class Carousel extends React.Component {
       'https://wallpapers.moviemania.io/desktop/movie/17654/6049b8/district-9-desktop-wallpaper.jpg?w=1920&h=1200',
       'https://wallpapers.moviemania.io/desktop/movie/14160/46ef21/up-desktop-wallpaper.jpg?w=1920&h=1200',
       'https://wallpapers.moviemania.io/desktop/tv/66732/ebe0a4/stranger-things-desktop-wallpaper.jpg?w=1920&h=1200',
+      'https://wallpapers.moviemania.io/desktop/movie/155/3ee006/the-dark-knight-desktop-wallpaper.jpg?w=1920&h=1200',
+      'https://wallpapers.moviemania.io/desktop/movie/286217/9c7511/the-martian-desktop-wallpaper.jpg?w=1920&h=1200',
+      'https://wallpapers.moviemania.io/desktop/movie/2756/f398a9/the-abyss-desktop-wallpaper.jpg?w=1920&h=1200',
+      'https://wallpapers.moviemania.io/desktop/movie/1417/3ab2d6/pans-labyrinth-desktop-wallpaper.jpg?w=1920&h=1200',
+
     ];
 
 
@@ -99,6 +103,7 @@ class Carousel extends React.Component {
         style={{ backgroundImage: `url(${this.introBg})` }} /> :
       null;
 
+
     return (
       <div className={'intro-slide' + slideClasses[1]}
         onWheel={activeSlide === 1 ? this.throttleWheel(500, this.scrollCarousel) : null}>
@@ -113,9 +118,9 @@ class Carousel extends React.Component {
           <p className='slide-description'>
             Stay for what you discover.
           </p>
-          <Route exact path='/' component={SessionFormContainer} />
-          <AuthRoute path='/login' component={SessionFormContainer} />
-          <AuthRoute path='/signup' component={SessionFormContainer} />
+          <SessionFormContainer
+            path={this.props.match.path}
+            pathname={this.props.location.pathname} />
         </div>
         <footer className='intro-slide-footer footer-slide-up' onClick={this.handleClick(2)}>
           What is Auteur?
@@ -314,9 +319,9 @@ class Carousel extends React.Component {
           <p className='slide-description'>
             Check this out and let me know your thoughts.
           </p>
-          <Route exact path='/' component={SessionFormContainer} />
-          <AuthRoute path='/login' component={SessionFormContainer} />
-          <AuthRoute path='/signup' component={SessionFormContainer} />
+          <SessionFormContainer
+            path={this.props.match.path}
+            pathname={this.props.location.pathname} />
         </div>
       </div>
     );

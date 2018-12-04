@@ -16,7 +16,7 @@ $session-form-input-text-height: 40px;
 // to create placeholder space for the submit button to end up in
 .session-form::after {
   display: inline-block;
-  height: $session-form-input-text-height + 5px;
+  height: $session-form-input-text-height + 45px;
   content: 'text';
   visibility: hidden;
 }
@@ -28,6 +28,20 @@ $session-form-input-text-height: 40px;
 
 .session-form.get-started .btn {
   margin-bottom: 10px;
+}
+
+.session-form .demo-link {
+  padding: 5px;
+  font-weight: 700;
+  font-size: 13px;
+  text-align: center;
+  background: rgba(0,0,0,0.2);
+  border-radius: 3px;
+  margin-top: 10px;
+}
+
+.session-form .demo-link.object-fade-in {
+  animation-delay: 0.5s;
 }
 
 .session-form .input-text,

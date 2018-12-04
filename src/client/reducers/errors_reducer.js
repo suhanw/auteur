@@ -9,4 +9,6 @@ const errorsReducer = combineReducers({
   blogErrors: blogErrorsReducer,
 });
 
+// FIX: create a clearErrors action for when logging out
+
 export default errorsReducer;

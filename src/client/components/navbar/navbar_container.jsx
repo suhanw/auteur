@@ -53,7 +53,7 @@ class NavbarContainer extends React.Component {
       closePopover,
       popover } = this.props;
 
-    if (pathname === '/' || pathname === '/login' || pathname === '/signup') {
+    if (pathname === '/' || pathname === '/signup' || pathname === '/login' || pathname === '/login/demo') {
       return (
         <NavbarGuest
           pathname={pathname}

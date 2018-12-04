@@ -12,12 +12,15 @@ class SessionForm extends React.Component {
       password: '',
     };
 
+    this.emailFieldRef = React.createRef();
+    this.demoLoginTimer = null;
+
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   render() {
-    if (this.props.match.path === '/') {
+    if (this.props.path === '/') {
       return (
         <ul className='session-form get-started'>
           <Link to='/signup' className='btn btn-default btn-blue'>
@@ -30,7 +33,12 @@ class SessionForm extends React.Component {
               Log In
             </li>
           </Link>
-        </ul>
+          <li className='demo-link'>
+            <Link to='/login/demo'>
+              Click here for demo
+            </Link>
+          </li>
+        </ul >
       );
     }
     const emailField = (
@@ -39,6 +47,7 @@ class SessionForm extends React.Component {
         name='email'
         value={this.state.email}
         placeholder='Email'
+        ref={this.emailFieldRef}
         onChange={this.handleChange('email')} />
     );
     const passwordField = (
@@ -72,6 +81,11 @@ class SessionForm extends React.Component {
         {errorMessage}
         <div className='slide-down-container'>
           {submitButton}
+          <span className='demo-link object-fade-in'>
+            <Link to='/login/demo'>
+              Click here for demo
+            </Link>
+          </span>
         </div>
       </form>
     );
@@ -90,22 +104,62 @@ class SessionForm extends React.Component {
     const user = Object.assign({}, this.state);
     this.props.submit(user).then(
       () => {
-        // if no error in redux state, clear fields
+        // FIX: if no error in redux state, clear fields
         // else, clear password field
       }
     );
   }
 
   componentDidMount() {
-    const emailField = document.querySelector('.intro-slide input[name="email"]');
-    if (emailField) {
-      // focus on email field after animation
+    if (this.emailFieldRef.current) { // this is null in the '/' route
       setTimeout(
-        () => emailField.focus(),
-        500
+        () => {
+          this.emailFieldRef.current.focus();
+        },
+        500 // focus on field after animation
       );
     }
-    // debugger
+  }
+
+  componentWillReceiveProps(newProps) {
+    if (newProps.pathname.includes('demo')) {
+      this.setState({ email: '' }, () => {
+        this.renderDemoEmail('denzel@gmail.com'.split(''));
+      });
+    }
+  }
+
+  renderDemoEmail(email) {
+    if (!email.length) {
+      clearTimeout(this.demoLoginTimer);
+      this.demoLoginTimer = 0;
+      this.setState({ password: '' }, () => {
+        this.renderDemoPassword('reallylongpassword'.split(''));
+      });
+      return;
+    }
+    let newEmail = this.state.email + email.shift();
+    this.setState({ email: newEmail });
+    this.demoLoginTimer = setTimeout(() => this.renderDemoEmail(email), 50);
+  }
+
+  renderDemoPassword(password) {
+    if (!password.length) {
+      clearTimeout(this.demoLoginTimer);
+      this.demoLoginTimer = 0;
+      this.demoLogin();
+      return;
+    }
+    let newPassword = this.state.password + password.shift();
+    this.setState({ password: newPassword });
+    this.demoLoginTimer = setTimeout(() => this.renderDemoPassword(password), 50);
+  }
+
+  demoLogin() {
+    this.props.submit({
+      email: 'denzel@gmail.com',
+      password: 'testing',
+    });
   }
 }
 
