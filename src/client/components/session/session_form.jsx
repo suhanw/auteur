@@ -104,14 +104,15 @@ class SessionForm extends React.Component {
     const user = Object.assign({}, this.state);
     this.props.submit(user).then(
       () => {
-        // FIX: if no error in redux state, clear fields
-        // else, clear password field
+        // if (this.props.errors.length > 0) return this.setState({ password: '' });
+        // return this.props.clearErrors();
       }
     );
   }
 
-  componentDidUpdate() {
-    if (this.emailFieldRef.current) { // this is null in the '/' route
+  componentDidUpdate(prevProps, prevState) {
+    if (this.emailFieldRef.current && // this is null in the '/' route
+      prevProps.path !== this.props.path) { // only auto focus when switching betw login and signup
       setTimeout(
         () => this.emailFieldRef.current.focus(),
         500 // focus on field after animation

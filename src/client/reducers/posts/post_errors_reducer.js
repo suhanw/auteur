@@ -1,3 +1,4 @@
+import { CLEAR_ERRORS } from '../../actions/clear_actions';
 import { RECEIVE_POST_ERRORS, RECEIVE_POSTS, RECEIVE_POST, REMOVE_POST } from '../../actions/post_actions';
 
 const postErrorsReducer = function (state = [], action) {
@@ -10,6 +11,8 @@ const postErrorsReducer = function (state = [], action) {
         case RECEIVE_POST:
             return [];
         case REMOVE_POST:
+            return [];
+        case CLEAR_ERRORS:
             return [];
         default:
             return state;
