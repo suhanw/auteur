@@ -73,7 +73,8 @@ class AccountPopover extends React.Component {
           <li className='popover-menu-item'>
             <div className='blog-item'>
               <div className='blog-item-info'>
-                <img src={blog.avatarImageUrl} className='avatar avatar-small' />
+                <div className='avatar avatar-small'
+                  style={{ backgroundImage: `url(${blog.avatarImageUrl})` }} />
                 <div className='blog-item-details'>
                   <span className='blog-item-details-name'>{blog.name}</span>
                   <span className='blog-item-details-title'>{blog.title}</span>

@@ -31,9 +31,9 @@ class PostShowItem extends React.Component {
         <picture className='avatar-container'>
           <div className='avatar'>
 
-            <img
+            <div
               className='avatar-default'
-              src={blog.avatarImageUrl}
+              style={{ backgroundImage: `url(${blog.avatarImageUrl})` }}
               onMouseOver={showPopover(this, 'avatarFollowPopover')}
               onMouseOut={hidePopover(this, true, 'avatarFollowPopover')} />
 

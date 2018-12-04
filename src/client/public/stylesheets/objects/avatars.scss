@@ -12,6 +12,13 @@
   justify-content: center;
 }
 
+.avatar-default, 
+.avatar-small, 
+.avatar-extra-small {
+  background-size: cover;
+  background-position: center;
+}
+
 .avatar-default {
   width: 64px;
   height: 64px;

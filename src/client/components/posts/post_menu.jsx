@@ -11,7 +11,8 @@ class PostMenu extends React.Component {
     return (
       <div className='post-menu-container'>
         <picture className='avatar-container'>
-          <img className='avatar avatar-default' src={currentUser.avatarImageUrl} />
+          <div className='avatar avatar-default'
+            style={{ backgroundImage: `url(${currentUser.avatarImageUrl})` }} />
         </picture>
         <ul className='post-menu'>
           <li className='post-menu-item'>

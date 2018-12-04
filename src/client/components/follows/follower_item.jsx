@@ -16,7 +16,8 @@ class FollowerItem extends React.Component {
 
     return (
       <li key={follower._id} className='follower-info'>
-        <img src={follower.avatarImageUrl} className='avatar avatar-small' />
+        <div className='avatar avatar-small'
+          style={{ backgroundImage: `url(${follower.avatarImageUrl})` }} />
         <div className='follower-details'>
           <span className='follower-details-name'
             onMouseOver={showPopover(this, 'followPopover')}

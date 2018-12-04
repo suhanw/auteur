@@ -44,7 +44,8 @@ class FollowPopover extends React.Component {
             {this.renderButton()}
           </nav>
           <div className='avatar-wrapper'>
-            <img className='avatar-default' src={blog.avatarImageUrl} />
+            <img className='avatar-default'
+              style={{ backgroundImage: `url(${blog.avatarImageUrl})` }} />
           </div>
         </header>
         <main className='follow-popover-info'>

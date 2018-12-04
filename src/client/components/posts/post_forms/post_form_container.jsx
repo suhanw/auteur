@@ -77,7 +77,8 @@ class PostForm extends React.Component {
           onKeyDown={this.closePostForm}></div>
 
         <picture className='avatar-container'>
-          <img className='avatar avatar-default' src={currentUser.avatarImageUrl} />
+          <div className='avatar avatar-default'
+            style={{ backgroundImage: `url(${currentUser.avatarImageUrl})` }} />
         </picture>
 
 
