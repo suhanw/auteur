@@ -41,10 +41,18 @@ class PostIndex extends React.Component {
   }
 
   renderPostShowItems() {
-    const { postsArr, blogs, blogId, currentUser, createFollow } = this.props;
+    const { view, postsArr, blogs, blogId, currentUser, createFollow } = this.props;
 
     if (blogs[blogId] && blogs[blogId].postCount === 0) { // if blog has no posts
-      return <div className='post-blank'>No posts found. </div>;
+      return <div className='post-blank'>
+        <img className='not-found-icon' src='images/notFound.png' />
+        No posts found.
+      </div>;
+    } else if (view === 'likes' && currentUser.likeCount === 0) {
+      return <div className='post-blank'>
+        <img className='not-found-icon' src='images/notFound.png' />
+        No posts to display.
+      </div>;
     }
 
     if (postsArr.length === 0) return null;

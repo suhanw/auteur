@@ -60,7 +60,15 @@ $dogear-grey: rgb(208, 208, 208);
   font-weight: 700;
   align-self: flex-end;
   display: flex;
+  flex-direction: column;
   justify-content: center;
+  align-items: center;
+}
+
+.post-blank .not-found-icon {
+  opacity: 0.46;
+  height: 100px;
+  padding-bottom: 10px;
 }
 
 .dogear {
