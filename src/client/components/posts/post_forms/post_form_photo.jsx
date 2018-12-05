@@ -75,7 +75,7 @@ class PostFormPhoto extends React.Component {
     if (Object.keys(mediaPreview).length > 0) { // only render when images have been selected
       return (
         <ContentEditable className='post-body'
-          html={body}
+          html={(!body) ? '' : body}
           disabled={false}
           onChange={this.handleChange('body')}
           placeholder='Add a caption, if you like.'
