@@ -1,8 +1,8 @@
 import { normalize, schema } from 'normalizr';
 import { merge, mergeWith, union } from 'lodash';
-import { RECEIVE_POSTS, REMOVE_POST } from '../../actions/post_actions';
-import { REMOVE_CURRENT_USER } from '../../actions/session_actions';
 import { RECEIVE_BLOG } from '../../actions/blog_actions';
+import { RECEIVE_POSTS, RECEIVE_POST, REMOVE_POST } from '../../actions/post_actions';
+import { REMOVE_CURRENT_USER } from '../../actions/session_actions';
 import { RECEIVE_USERS } from '../../actions/user_actions';
 import { RECEIVE_FOLLOWERS } from '../../actions/follow_actions';
 import { replaceArray } from '../../util/misc_util';
@@ -41,6 +41,8 @@ const blogsReducer = function (state = defaultState, action) {
     Object.freeze(state);
     let newState = {};
     let blogIdsArr = [];
+    let blogId = '';
+    let blogPostsArr = [];
     switch (action.type) {
         case RECEIVE_BLOG:
             normalizedPayload = normalize(action.payload, blogSchema);
@@ -71,11 +73,19 @@ const blogsReducer = function (state = defaultState, action) {
                 blogIdsArr,
             );
             return newState;
+        case RECEIVE_POST:
+            let post = action.payload;
+            blogId = action.payload.blog;
+            newState = merge({}, state);
+            blogPostsArr = newState.byId[blogId].posts;
+            // if new post, union will append postId to beginning of blog.posts array
+            if (blogPostsArr) newState.byId[blogId].posts = union([post._id], blogPostsArr);
+            return newState;
         case REMOVE_POST:
-            const blogId = action.payload.blog;
+            blogId = action.payload.blog;
             const deletedPostId = action.payload._id;
             newState = merge({}, state);
-            const blogPostsArr = newState.byId[blogId].posts;
+            blogPostsArr = newState.byId[blogId].posts;
             // posts array in the blog slice of state is not always populated
             if (blogPostsArr) newState.byId[blogId].posts = blogPostsArr.filter((postId) => postId !== deletedPostId);
             return newState;

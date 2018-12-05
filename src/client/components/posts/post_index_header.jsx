@@ -16,7 +16,6 @@ class PostIndexHeader extends React.Component {
 
   render() {
     const { currentUser } = this.props;
-    // FIX: don't use URL path to conditionally render post forms
     let headerComponent;
     if (this.state.showPostForm) {
       headerComponent = (
@@ -44,7 +43,7 @@ class PostIndexHeader extends React.Component {
     } else {
       newValue = null;
     }
-    this.setState({ showPostForm: newValue }, () => console.log(this.state));
+    this.setState({ showPostForm: newValue });
   }
 }
 

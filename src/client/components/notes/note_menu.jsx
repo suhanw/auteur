@@ -85,7 +85,7 @@ class NoteMenu extends React.Component {
   }
 
   renderCog() {
-    const { post, popover } = this.props;
+    const { post, popover, togglePostForm } = this.props;
     // unique identifier for current popover
     const editDeletePopover = {
       popoverId: post._id,
@@ -100,11 +100,10 @@ class NoteMenu extends React.Component {
           onClick={this.togglePopover(editDeletePopover)}></i>
         <div className='post-edit-delete popover'
           style={popoverStyle}>
-          <Link to={`/dashboard/edit/${post._id}`}>
-            <span className='popover-menu-item'>
-              Edit
-            </span>
-          </Link>
+          <span className='popover-menu-item'
+            onClick={togglePostForm}>
+            Edit
+          </span>
           <span className='popover-menu-item'
             onClick={this.handleClick('confirmDeletePost', post)}>
             Delete
@@ -117,7 +116,6 @@ class NoteMenu extends React.Component {
   handleClick(clickAction, payload) {
     const executeAction = this.props[clickAction];
     const { popover, closePopover } = this.props;
-    const that = this;
     return function (e) {
       e.stopPropagation();
       executeAction(payload);

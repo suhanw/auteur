@@ -3,6 +3,7 @@ import PostShowText from './post_show_text';
 import PostShowPhoto from './post_show_photo';
 import PostShowQuote from './post_show_quote';
 import PostShowLink from './post_show_link';
+import PostFormContainer from '../post_forms/post_form_container';
 import NoteMenuContainer from '../../notes/note_menu_container';
 import TagIndex from '../../tags/tag_index';
 import { showPopover, hidePopover, renderFollowPopover } from '../../follows/follow_popover_util';
@@ -14,16 +15,32 @@ class PostShowItem extends React.Component {
     this.state = {
       postFollowPopover: false,
       avatarFollowPopover: false,
+      showPostForm: false,
+    };
+
+    this.postShowComponents = {
+      'text': PostShowText,
+      'photo': PostShowPhoto,
+      'quote': PostShowQuote,
+      'link': PostShowLink,
     };
 
     this.renderPostContent = this.renderPostContent.bind(this);
     this.renderPostShow = this.renderPostShow.bind(this);
     this.handleClick = this.handleClick.bind(this);
+    this.togglePostForm = this.togglePostForm.bind(this);
   }
 
   render() {
     // FIX: fade out when deleted
-    const { blog } = this.props;
+    const { post, blog } = this.props;
+    if (this.state.showPostForm) {
+      return <PostFormContainer post={post}
+        blog={blog}
+        edit={true}
+        togglePostForm={this.togglePostForm} />
+    }
+
     return (
       <li className='post-show-item'>
 
@@ -75,7 +92,7 @@ class PostShowItem extends React.Component {
 
         <footer className='post-footer'>
           <TagIndex />
-          <NoteMenuContainer post={post} />
+          <NoteMenuContainer post={post} togglePostForm={this.togglePostForm} />
         </footer>
       </article >
     );
@@ -83,20 +100,21 @@ class PostShowItem extends React.Component {
 
   renderPostShow() {
     const { post } = this.props;
-    const postShowComponents = {
-      'text': PostShowText,
-      'photo': PostShowPhoto,
-      'quote': PostShowQuote,
-      'link': PostShowLink,
-    };
-    const Component = postShowComponents[post.type];
-    return <Component post={post} />;
+
+    const PostShowComponent = this.postShowComponents[post.type];
+    return <PostShowComponent post={post} />;
   }
 
   handleClick(e) {
     e.preventDefault();
     const { createFollow, blog } = this.props;
     createFollow(blog._id);
+  }
+
+  togglePostForm() {
+    const { showPostForm } = this.state;
+    let newValue = !showPostForm;
+    this.setState({ showPostForm: newValue });
   }
 }
 
