@@ -48,7 +48,8 @@ class PostIndex extends React.Component {
         <img className='not-found-icon' src='images/notFound.png' />
         No posts found.
       </div>;
-    } else if (view === 'likes' && currentUser.likeCount === 0) {
+    } else if (view === 'likes' && currentUser.likeCount === 0 ||
+      view === 'following' && currentUser.following.length === 0) {
       return <div className='post-blank'>
         <img className='not-found-icon' src='images/notFound.png' />
         No posts to display.
