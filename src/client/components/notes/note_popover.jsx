@@ -42,6 +42,7 @@ class NotePopover extends React.Component {
       popover: null,
     };
 
+    this.noteScrollingContainerRef = React.createRef();
     this.commentInputRef = React.createRef();
 
     this.renderNoteIndex = this.renderNoteIndex.bind(this);
@@ -75,6 +76,10 @@ class NotePopover extends React.Component {
     fetchNotes(post._id);
   }
 
+  componentDidUpdate() {
+    this.scrollToBottom();
+  }
+
   renderNoteIndex() {
     const { notesArr, blogs, post } = this.props;
     const postBlog = blogs[post.blog];
@@ -89,14 +94,15 @@ class NotePopover extends React.Component {
           </span>
         </header>
         <div className='note-scrolling-container'
-          onLoad={this.scrollToBottom}>
+          ref={this.noteScrollingContainerRef}>
           <ul className='note-container'>
 
             {this.renderNoteShowItems()}
 
             <li key={post._id} className='note-show-posted-by'>
               <div className='note-show-avatar'>
-                <img src={postBlog.avatarImageUrl} className='avatar avatar-extra-small' />
+                <div style={{ backgroundImage: `url(${postBlog.avatarImageUrl})` }}
+                  className='avatar avatar-extra-small' />
               </div>
               <h1>{postBlog.name}</h1> <small>posted this</small>
             </li>
@@ -107,10 +113,9 @@ class NotePopover extends React.Component {
     );
   }
 
-  scrollToBottom(e) {
-    e.stopPropagation();
+  scrollToBottom() {
     // to scroll to last/latest note
-    e.currentTarget.scrollTop = e.currentTarget.scrollHeight;
+    this.noteScrollingContainerRef.current.scrollTop = this.noteScrollingContainerRef.current.scrollHeight;
     // to focus caret on textbox
     this.commentInputRef.current.getEl().focus();
   }
@@ -141,7 +146,8 @@ class NotePopover extends React.Component {
     return (
       <li key={note._id} className='note-show-like'>
         <div className='note-show-avatar'>
-          <img src={noteAuthor.avatarImageUrl} className='avatar avatar-extra-small' />
+          <div style={{ backgroundImage: `url(${noteAuthor.avatarImageUrl})` }}
+            className='avatar avatar-extra-small' />
           <div className='note-show-like-icon'>
             <i className="fas fa-heart"></i>
           </div>
@@ -170,7 +176,8 @@ class NotePopover extends React.Component {
     return (
       <li key={note._id} className='note-show-comment'>
         <div className='note-show-avatar'>
-          <img src={noteAuthor.avatarImageUrl} className='avatar avatar-extra-small' />
+          <div style={{ backgroundImage: `url(${noteAuthor.avatarImageUrl})` }}
+            className='avatar avatar-extra-small' />
           <div className='note-show-comment-icon'>
             <i className="fas fa-comment"></i>
           </div>

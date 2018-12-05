@@ -4,6 +4,7 @@ import PostShowPhoto from './post_show_photo';
 import PostShowQuote from './post_show_quote';
 import PostShowLink from './post_show_link';
 import NoteMenuContainer from '../../notes/note_menu_container';
+import TagIndex from '../../tags/tag_index';
 import { showPopover, hidePopover, renderFollowPopover } from '../../follows/follow_popover_util';
 
 class PostShowItem extends React.Component {
@@ -73,7 +74,7 @@ class PostShowItem extends React.Component {
         {this.renderPostShow()}
 
         <footer className='post-footer'>
-          <div className='tag-index'>This will be TagIndex</div>
+          <TagIndex />
           <NoteMenuContainer post={post} />
         </footer>
       </article >
