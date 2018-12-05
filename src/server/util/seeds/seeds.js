@@ -1,4 +1,4 @@
-const faker = require('faker');
+// const faker = require('faker');
 const Blog = require('../../models/blog');
 const User = require('../../models/user');
 const Post = require('../../models/post');
