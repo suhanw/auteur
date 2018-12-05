@@ -261,7 +261,6 @@ class NotePopover extends React.Component {
     e.stopPropagation(); //to stop event from bubbling up to window closePopover
     if (this.state.body.length === 0) return; // don't submit if no comment text
     const { createNote } = this.props;
-    console.log('submitting comment', this.state);
     createNote(this.state)
       .then(this.setState({ body: '' }));
   }

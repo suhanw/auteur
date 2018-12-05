@@ -81,7 +81,7 @@ class PostFormLink extends React.Component {
       newState.title = linkMeta.linkTitle || linkMeta.linkMetaOgTitle || '';
       newState.body = linkMeta.linkMetaDesc || linkMeta.linkMetaOgDesc || '';
       newState.media = (linkMeta.linkMetaImage) ? [linkMeta.linkMetaImage] : [];
-      that.setState(newState, () => console.log(that.state));
+      that.setState(newState);
       e.target.value = null;
     });
   }

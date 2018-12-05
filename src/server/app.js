@@ -14,7 +14,6 @@ const User = require('./models/user');
 const seedDB = require('./util/seeds/seeds');
 
 // DB CONFIG==============================
-// switch between dev or prod
 var dbUrl = process.env.DATABASEURL;
 var dbOptions = {
   useNewUrlParser: true,
@@ -22,7 +21,7 @@ var dbOptions = {
   useFindAndModify: false,
 };
 mongoose.connect(dbUrl, dbOptions);
-// seedDB();
+seedDB();
 // DB CONFIG==============================  
 
 // APP CONFIG=============================

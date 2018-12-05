@@ -105,7 +105,7 @@ class SessionForm extends React.Component {
     // demo login
     if (this.props.pathname.includes('demo')) {
       setTimeout( // start after animation
-        () => this.renderDemoEmail('denzel@gmail.com'.split('')),
+        () => this.renderDemoEmail('denzel@washington.com'.split('')),
         500,
       );
     }
@@ -114,7 +114,7 @@ class SessionForm extends React.Component {
   componentWillReceiveProps(newProps) { // when user clicks on demo on login page
     if (newProps.pathname.includes('demo')) {
       setTimeout(
-        () => this.renderDemoEmail('denzel@gmail.com'.split('')),
+        () => this.renderDemoEmail('denzel@washington.com'.split('')),
         500,
       );
     }
@@ -162,7 +162,7 @@ class SessionForm extends React.Component {
 
   demoLogin() {
     this.props.submit({
-      email: 'denzel@gmail.com',
+      email: 'denzel@washington.com',
       password: 'testing',
     });
   }
