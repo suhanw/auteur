@@ -14,7 +14,7 @@ class Sidemenu extends React.Component {
     }
 
     return (
-      <aside>
+      <aside className='sidemenu'>
         <header className='sidemenu-header'>
           <h1>{blog.name}</h1>
           <h2>{blog.title}</h2>
