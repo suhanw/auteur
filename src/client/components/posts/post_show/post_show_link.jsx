@@ -9,10 +9,11 @@ class PostShowLink extends React.Component {
 
   render() {
     const { post } = this.props;
+    const publisher = post.linkUrl.match('(?<=\/\/)([^\/]+)')[0];
     return (
       <main className='post-main'>
         <a href={post.linkUrl} target='_blank' className='post-link'>
-          <small className='post-link-url'>{post.linkUrl}</small>
+          <small className='post-link-url'>{publisher}</small>
           {this.renderPostLinkImage()}
           <h1 className='post-link-title'>{post.title}</h1>
           <div className='post-link-desc'>{post.body}</div>
