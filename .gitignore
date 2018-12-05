@@ -1,10 +1,10 @@
 node_modules/
-seeds/
+# seeds/
 
 bundle.*
 
 credentials.csv
-seeds.js
+# seeds.js
 
 .vscode
 .env
