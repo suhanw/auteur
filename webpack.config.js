@@ -1,5 +1,29 @@
 const path = require('path');
+const webpack = require('webpack');
 const LiveReloadPlugin = require('webpack-livereload-plugin'); // to delete in PROD
+
+const plugins = [];
+
+const devPlugins = [
+  new LiveReloadPlugin({ port: 8080, hostname: 'localhost' })
+];
+
+const prodPlugins = [
+  new webpack.DefinePlugin({
+    'process.env': {
+      'NODE_ENV': JSON.stringify('production')
+    }
+  }),
+  new webpack.optimize.UglifyJsPlugin({
+    compress: {
+      warnings: true
+    }
+  })
+];
+
+plugins = plugins.concat(
+  process.env.NODE_ENV === 'production' ? prodPlugins : devPlugins
+);
 
 module.exports = {
   entry: './src/client/index.jsx',
@@ -33,7 +57,5 @@ module.exports = {
   resolve: {
     extensions: ['.jsx', '.js', '*']
   },
-  plugins: [
-    new LiveReloadPlugin({ port: 8080, hostname: 'localhost' }) // to delete in PROD
-  ]
+  plugins: plugins,
 }
