@@ -1,24 +1,25 @@
 const path = require('path');
 const webpack = require('webpack');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const LiveReloadPlugin = require('webpack-livereload-plugin'); // to delete in PROD
 
-const plugins = [];
+let plugins = [];
 
 const devPlugins = [
   new LiveReloadPlugin({ port: 8080, hostname: 'localhost' })
 ];
 
 const prodPlugins = [
-  new webpack.DefinePlugin({
-    'process.env': {
-      'NODE_ENV': JSON.stringify('production')
-    }
-  }),
-  new webpack.optimize.UglifyJsPlugin({
-    compress: {
-      warnings: true
-    }
-  })
+  // new webpack.DefinePlugin({
+  //   'process.env': {
+  //     'NODE_ENV': JSON.stringify('production')
+  //   }
+  // }),
+  // new webpack.optimize.UglifyJsPlugin({
+  //   compress: {
+  //     warnings: true
+  //   }
+  // })
 ];
 
 plugins = plugins.concat(
@@ -58,4 +59,18 @@ module.exports = {
     extensions: ['.jsx', '.js', '*']
   },
   plugins: plugins,
+  optimization: {
+    minimizer: [
+      new UglifyJsPlugin({
+        cache: true,
+        parallel: true,
+        uglifyOptions: {
+          compress: false,
+          ecma: 6,
+          mangle: true
+        },
+        sourceMap: true
+      })
+    ]
+  }
 }
