@@ -1,9 +1,10 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 
 class PostMenu extends React.Component {
   constructor(props) {
     super(props);
+
+    this.handleClick = this.handleClick.bind(this);
   }
 
   render() {
@@ -15,45 +16,40 @@ class PostMenu extends React.Component {
             style={{ backgroundImage: `url(${currentUser.avatarImageUrl})` }} />
         </picture>
         <ul className='post-menu'>
-          <li className='post-menu-item'>
-            <Link to='/dashboard/new/text'>
-              <i className="fas fa-font"></i>
-              <span>Text</span>
-            </Link>
+          <li className='post-menu-item' onClick={this.handleClick('text')}>
+            <i className="fas fa-font"></i>
+            <span>Text</span>
           </li>
-          <li className='post-menu-item'>
-            <Link to='/dashboard/new/photo'>
-              <i className="fas fa-camera-retro"></i>
-              <span>Photo</span>
-            </Link>
+          <li className='post-menu-item' onClick={this.handleClick('photo')}>
+            <i className="fas fa-camera-retro"></i>
+            <span>Photo</span>
           </li>
-          <li className='post-menu-item'>
-            <Link to='/dashboard/new/quote'>
-              <i className="fas fa-quote-left"></i>
-              <span>Quote</span>
-            </Link>
+          <li className='post-menu-item' onClick={this.handleClick('quote')}>
+            <i className="fas fa-quote-left"></i>
+            <span>Quote</span>
           </li>
-          <li className='post-menu-item'>
-            <Link to='/dashboard/new/link'>
-              <i className="fas fa-link"></i>
-              <span>Link</span>
-            </Link>
+          <li className='post-menu-item' onClick={this.handleClick('link')}>
+            <i className="fas fa-link"></i>
+            <span>Link</span>
           </li>
-          <li className='post-menu-item'>
-            <Link to='/dashboard/new/audio'>
-              <i className="fas fa-headphones-alt"></i>
-              <span>Audio</span>
-            </Link>
+          <li className='post-menu-item' onClick={this.handleClick('audio')}>
+            <i className="fas fa-headphones-alt"></i>
+            <span>Audio</span>
           </li>
-          <li className='post-menu-item'>
-            <Link to='/dashboard/new/video'>
-              <i className="fas fa-video"></i>
-              <span>Video</span>
-            </Link>
+          <li className='post-menu-item' onClick={this.handleClick('video')}>
+            <i className="fas fa-video"></i>
+            <span>Video</span>
           </li>
         </ul>
       </div>
     )
+  }
+
+  handleClick(formType) {
+    const { togglePostForm } = this.props;
+    return function (e) {
+      togglePostForm(formType);
+    }
   }
 }
 

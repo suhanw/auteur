@@ -25,7 +25,7 @@ const mapStateToProps = function (state, ownProps) {
     blog = ownProps.blog;
     post = ownProps.post;
   } else { // props when it's new form
-    formType = ownProps.match.params.type;
+    formType = ownProps.formType;
     blog = selectBlog(state, currentUser.primaryBlog);
     post = null;
   }
@@ -56,7 +56,16 @@ class PostForm extends React.Component {
     this.state = {
       blog: props.blog,
       post: props.post,
-      closeForm: false,
+    };
+
+    // object that stores all the different PostForm types
+    this.postFormComponents = {
+      'text': PostFormText,
+      'photo': PostFormPhoto,
+      'quote': PostFormQuote,
+      'link': PostFormLink,
+      'audio': PostFormAudio,
+      'video': PostFormVideo,
     };
 
     this.renderPostFormType = this.renderPostFormType.bind(this);
@@ -64,9 +73,6 @@ class PostForm extends React.Component {
   }
 
   render() {
-    // to 'reactivate' dashboard when user closes out PostForm
-    if (this.state.closeForm) return <Redirect to='/dashboard' />;
-
     const { currentUser, loadingPostSubmit } = this.props;
     const spinnerClass = loadingPostSubmit ? 'loading-post-submit' : null;
     return (
@@ -96,21 +102,13 @@ class PostForm extends React.Component {
   renderPostFormType() {
     const { formType, createPost, updatePost, currentUser } = this.props;
     const { blog, post } = this.state;
-    // object that stores all the different PostForm types
-    const postFormComponents = {
-      'text': PostFormText,
-      'photo': PostFormPhoto,
-      'quote': PostFormQuote,
-      'link': PostFormLink,
-      'audio': PostFormAudio,
-      'video': PostFormVideo,
-    };
-    const Component = postFormComponents[formType];
+
+    const PostFormComponent = this.postFormComponents[formType];
 
     // if post is null, pass in createPost for 'new' form, else, pass in updateForm for 'edit' form
     let submitAction = (!post) ? createPost : updatePost;
 
-    return <Component
+    return <PostFormComponent
       currentUser={currentUser}
       blog={blog}
       post={post}
@@ -135,11 +133,11 @@ class PostForm extends React.Component {
   closePostForm(e) {
     // FIX: add modal for user to confirm discard edit changes
     // FIX: Esc doesn't work for edit form
-    if (e.type !== 'keydown' || // when user clicks 'Close' button
-      (e.type === 'keydown' && e.key === 'Escape')) { // when user hits Esc key
-      this.setState({ closeForm: true });
+    const { togglePostForm } = this.props;
+    if (e.type === 'keydown' && e.key !== 'Escape') { // when user hits Esc key
       return;
     }
+    togglePostForm();
   }
 
   toggleBlog() {
