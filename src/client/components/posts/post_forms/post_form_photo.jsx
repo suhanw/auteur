@@ -130,7 +130,9 @@ class PostFormPhoto extends React.Component {
   }
 
   componentDidMount() {
-    this.mediaInputRef.current.focus();
+    if (this.mediaInputRef.current) { // is null in edit form
+      this.mediaInputRef.current.focus();
+    }
   }
 
   renderUrlInput() {
