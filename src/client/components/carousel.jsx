@@ -171,7 +171,7 @@ class Carousel extends React.Component {
         <section className='slide-content'>
           <h2 className='slide-title'>Seriously, I love coding and movies. </h2>
           <p className='slide-description'>
-            Exercitation deserunt est aliquip labore minim ex sint cillum elit qui aute amet ut commodo.
+            I'm not sure what else to say, so here's some lorem ipsum. Exercitation deserunt est aliquip labore minim ex sint cillum elit qui aute amet ut commodo.
           </p>
         </section>
       </div>
@@ -265,7 +265,7 @@ class Carousel extends React.Component {
         <section className='slide-content'>
           <h2 className='slide-title'>Auteur is my nerd project on coding and movies. </h2>
           <p className='slide-description'>
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Impedit optio exercitationem iusto tempore quae quis explicabo laborum vero veritatis id quibusdam pariatur quaerat, at dolorem, deserunt aliquid adipisci magnam ut. Enim cillum est laborum eiusmod ut.
+            Auteur is a full-stack single-page web application inspired by Tumblr. It utilizes Node.js Express framework on the backend, a MongoDB database, React.js with Redux framework on the frontend, CSS3 and JavaScript for UI animations, and good old HTML5.
           </p>
         </section>
       </div >
