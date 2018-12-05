@@ -11,7 +11,7 @@ const session = require('express-session');
 const flash = require('connect-flash');
 
 const User = require('./models/user');
-const seedDB = require('./util/seeds/seeds');
+// const seedDB = require('./util/seeds/seeds');
 
 // DB CONFIG==============================
 var dbUrl = process.env.DATABASEURL;
@@ -21,7 +21,7 @@ var dbOptions = {
   useFindAndModify: false,
 };
 mongoose.connect(dbUrl, dbOptions);
-seedDB();
+// seedDB();
 // DB CONFIG==============================    
 
 // APP CONFIG=============================
