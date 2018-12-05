@@ -15,6 +15,8 @@
   align-self: flex-start;
   height: 100%;
   margin-left: 40px;
+  margin-top: 80px;
+  margin-bottom: 80px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -172,15 +174,36 @@
   height: 50px;
   width: 100%;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   color: white;
   font-weight: 500;
   background: $green;
   box-shadow: inset 0 3px 0 rgba(0, 0, 0, 0.1);
-  overflow: hidden;
+  // overflow: hidden;
+}
+
+.footer-next-slide {
   cursor: pointer;
 }
+
+.footer-links {
+  align-self: flex-start;
+  position: absolute;
+  top: -30px;
+  padding: 0 20px;
+  font-size: 14px;
+  font-weight: 400;
+  display: flex;
+  flex-direction: row;
+}
+
+.footer-link {
+  margin-right: 12px;
+  cursor: pointer;
+}
+
 
 .slide-content {
   text-align: center;

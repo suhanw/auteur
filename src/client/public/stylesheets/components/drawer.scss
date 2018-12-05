@@ -1,0 +1,64 @@
+$drawer-width: 600px;
+
+.drawer {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: $drawer-width;
+  height: inherit;
+}
+
+.drawer-slide-in {
+  animation-duration: 0.2s;
+  animation-iteration-count: 1;
+  animation-timing-function: ease-in;
+  animation-name: drawerslidein;
+  animation-fill-mode: both;
+}
+
+@keyframes drawerslidein {
+  0% {
+    right: -600px;
+  }
+
+  100% {
+
+    right: 0;
+  }
+}
+
+.credits {
+  height: inherit;
+  width: inherit;
+  background-color: white;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.credits .slide-title {
+  margin-bottom: 30px;
+}
+
+.credits-list {
+  text-align: center;
+  flex-grow: 1;
+}
+
+.credit-item {
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.credit-link {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.copyright-disclaimer {
+  font-family: $font-carousel;
+  font-size: 0.8em;
+  margin-top: 10px;
+}

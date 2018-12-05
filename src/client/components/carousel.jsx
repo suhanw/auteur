@@ -2,9 +2,9 @@ import React from 'react';
 import { Route, Link } from 'react-router-dom'
 import { merge } from 'lodash';
 
-import { AuthRoute } from '../util/route_util';
 import SessionFormContainer from './session/session_form_container';
 import NavbarContainer from './navbar/navbar_container';
+import Drawer from './drawer/drawer';
 
 class Carousel extends React.Component {
   constructor(props) {
@@ -20,7 +20,8 @@ class Carousel extends React.Component {
       },
       introBgLoaded: false,
       welcomeBgLoaded: false,
-    }
+      openCreditDrawer: false,
+    };
 
     const backgroundImages = [
       'https://wallpapers.moviemania.io/desktop/movie/335984/e85174/blade-runner-2049-desktop-wallpaper.jpg?w=1920&h=1200',
@@ -44,15 +45,18 @@ class Carousel extends React.Component {
     this.introBg = backgroundImages[Math.floor(Math.random() * backgroundImages.length)];
     this.welcomeBg = backgroundImages[Math.floor(Math.random() * backgroundImages.length)];
 
+    this.renderSessionForm = this.renderSessionForm.bind(this);
     this.renderIntroSlide = this.renderIntroSlide.bind(this);
     this.renderWelcomeSlide = this.renderWelcomeSlide.bind(this);
     this.renderAboutSlide = this.renderAboutSlide.bind(this)
     this.renderAboutSlideGraphic = this.renderAboutSlideGraphic.bind(this);
     this.renderCreateSlide = this.renderCreateSlide.bind(this);
     this.renderCreateSlideGraphic = this.renderCreateSlideGraphic.bind(this);
+    this.renderDrawer = this.renderDrawer.bind(this);
     this.scrollCarousel = this.scrollCarousel.bind(this);
     this.throttleWheel = this.throttleWheel.bind(this);
     this.handleClick = this.handleClick.bind(this);
+    this.toggleDrawer = this.toggleDrawer.bind(this);
   }
 
   render() {
@@ -74,6 +78,8 @@ class Carousel extends React.Component {
         {this.renderAboutSlide()}
 
         {this.renderIntroSlide()}
+
+        {this.renderDrawer()}
 
         {this.renderCarouselIndicator()}
 
@@ -97,7 +103,6 @@ class Carousel extends React.Component {
 
   renderIntroSlide() {
     const { activeSlide, slideClasses, introBgLoaded } = this.state;
-    // const introBgClass = (introBg) ? ' intro-bg' : ''
     const introBgImg = (introBgLoaded) ?
       <div className='slide-bg bg-fade-in'
         style={{ backgroundImage: `url(${this.introBg})` }} /> :
@@ -110,7 +115,7 @@ class Carousel extends React.Component {
 
         {introBgImg}
 
-        <div className='intro-slide-content object-fade-in'>
+        <section className='intro-slide-content object-fade-in'>
           <h1 className='logo'>auteur</h1>
           <p className='slide-description'>
             Come for what you love.
@@ -118,16 +123,41 @@ class Carousel extends React.Component {
           <p className='slide-description'>
             Stay for what you discover.
           </p>
-          <SessionFormContainer
-            path={this.props.match.path}
-            pathname={this.props.location.pathname} />
-        </div>
-        <footer className='intro-slide-footer footer-slide-up' onClick={this.handleClick(2)}>
-          What is Auteur?
-          </footer>
+          {this.renderSessionForm()}
+
+        </section>
+
+
+        <footer className='intro-slide-footer footer-slide-up'>
+          <ul className='footer-links'>
+            <li className='footer-link'>
+              <a href='#' onClick={this.toggleDrawer}>
+                Credits
+              </a>
+            </li>
+            <li className='footer-link'>
+              <a href='https://www.linkedin.com/in/suhanwijaya/' target='_blank'>LinkedIn</a>
+            </li>
+            <li className='footer-link'>
+              <a href='https://github.com/suhanw' target='_blank'>Github</a>
+            </li>
+            <li className='footer-link'>
+              <a href='mailto:suhanw@gmail.com'>Contact Me</a>
+            </li>
+          </ul>
+          <span className='footer-next-slide'
+            onClick={this.handleClick(2)}>What is Auteur?</span>
+        </footer>
 
       </div>
     );
+  }
+
+  toggleDrawer(e) {
+    e.preventDefault();
+    const { openCreditDrawer } = this.state;
+    let newBool = !openCreditDrawer;
+    this.setState({ openCreditDrawer: newBool });
   }
 
   renderCreateSlide() {
@@ -307,7 +337,10 @@ class Carousel extends React.Component {
 
   renderWelcomeSlide() {
     const { activeSlide, slideClasses, welcomeBgLoaded } = this.state;
-    const welcomeBgImg = (welcomeBgLoaded) ? <img className='slide-bg' src={this.welcomeBg} /> : null;
+    const welcomeBgImg = (welcomeBgLoaded) ?
+      <div className='slide-bg bg-fade-in'
+        style={{ backgroundImage: `url(${this.welcomeBg})` }} /> :
+      null;
     return (
       <div className={'welcome-slide' + slideClasses[4]}
         onWheel={activeSlide === 4 ? this.throttleWheel(500, this.scrollCarousel) : null}>
@@ -319,12 +352,32 @@ class Carousel extends React.Component {
           <p className='slide-description'>
             Check this out and let me know your thoughts.
           </p>
-          <SessionFormContainer
-            path={this.props.match.path}
-            pathname={this.props.location.pathname} />
+          {this.renderSessionForm()}
         </div>
       </div>
     );
+  }
+
+  renderSessionForm() {
+    return (
+      <div>
+        <Route path='/login' render={() => {
+          return <SessionFormContainer
+            path={this.props.match.path}
+            pathname={this.props.location.pathname} />
+        }} />
+        <Route path='/signup' render={() => {
+          return <SessionFormContainer
+            path={this.props.match.path}
+            pathname={this.props.location.pathname} />
+        }} />
+        <Route exact path='/' render={() => {
+          return <SessionFormContainer
+            path={this.props.match.path}
+            pathname={this.props.location.pathname} />
+        }} />
+      </div>
+    )
   }
 
   renderCarouselIndicator() {
@@ -339,6 +392,11 @@ class Carousel extends React.Component {
         </ul>
       </div>
     );
+  }
+
+  renderDrawer() {
+    if (!this.state.openCreditDrawer) return null;
+    return <Drawer view='credits' toggleDrawer={this.toggleDrawer} />;
   }
 
   throttleWheel(delay, handleWheel) {
@@ -394,7 +452,6 @@ class Carousel extends React.Component {
       activeSlide: newActiveSlide,
       slideClasses: newSlideClasses
     });
-    // that.firstTouch = null;
   }
 
 }
