@@ -1,10 +1,9 @@
 import React from 'react';
-import ContentEditable from 'react-contenteditable';
-import { merge, union } from 'lodash';
+import { merge } from 'lodash';
 
 import PostFormHeader from './post_form_header';
 import PostFormFooter from './post_form_footer';
-import { toArray, validateUrl } from '../../../util/misc_util';
+import { validateUrl } from '../../../util/misc_util';
 
 class PostFormLink extends React.Component {
   constructor(props) {
@@ -106,7 +105,8 @@ class PostFormLink extends React.Component {
           onChange={this.handleChange('title')}
           type='text'
           value={title}
-          placeholder='Enter a title' />
+          placeholder='Enter a title'
+          autoFocus={true} />
 
         <textarea className='post-link-desc'
           onChange={this.handleChange('body')}

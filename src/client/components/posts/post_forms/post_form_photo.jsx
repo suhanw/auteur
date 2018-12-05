@@ -31,6 +31,7 @@ class PostFormPhoto extends React.Component {
     }
 
     this.mediaInputRef = React.createRef();
+    this.bodyInputRef = React.createRef();
 
     this.renderMediaInput = this.renderMediaInput.bind(this);
     this.renderMediaPreview = this.renderMediaPreview.bind(this);
@@ -79,7 +80,8 @@ class PostFormPhoto extends React.Component {
           disabled={false}
           onChange={this.handleChange('body')}
           placeholder='Add a caption, if you like.'
-          tagName='div' />
+          tagName='div'
+          ref={this.bodyInputRef} />
       );
     }
     return null;
@@ -130,8 +132,10 @@ class PostFormPhoto extends React.Component {
   }
 
   componentDidMount() {
-    if (this.mediaInputRef.current) { // is null in edit form
+    if (this.mediaInputRef.current) { // for new form
       this.mediaInputRef.current.focus();
+    } else if (this.bodyInputRef.current.getEl()) { // for edit form or when there are preview images
+      this.bodyInputRef.current.getEl().focus();
     }
   }
 

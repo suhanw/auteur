@@ -132,7 +132,6 @@ class PostForm extends React.Component {
 
   closePostForm(e) {
     // FIX: add modal for user to confirm discard edit changes
-    // FIX: Esc doesn't work for edit form
     const { togglePostForm } = this.props;
     if (e.type === 'keydown' && e.key !== 'Escape') { // only close post form when user hits Esc key
       return;
