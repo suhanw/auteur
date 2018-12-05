@@ -5,6 +5,7 @@
   "main": "src/server/app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node src/server/app.js",
     "client": "webpack --mode=development --watch",
     "server": "nodemon src/server/app.js",
     "dev": "concurrently \"npm run server\" \"npm run client\""
