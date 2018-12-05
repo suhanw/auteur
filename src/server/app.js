@@ -22,7 +22,7 @@ var dbOptions = {
 };
 mongoose.connect(dbUrl, dbOptions);
 // seedDB();
-// DB CONFIG==============================  
+// DB CONFIG==============================    
 
 // APP CONFIG=============================
 app.set('view engine', 'ejs');
