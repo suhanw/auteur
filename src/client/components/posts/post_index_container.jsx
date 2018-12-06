@@ -37,14 +37,14 @@ const mapDispatchToProps = function (dispatch, ownProps) {
   let { view } = ownProps;
   let { userId, blogId } = ownProps.match.params;
   const fetchActions = {
-    'feed': () => fetchFeed(),
+    'feed': (limit, lastPostDate, lastPostId) => fetchFeed(limit, lastPostDate, lastPostId),
     'blogId': () => fetchPostsByBlog(blogId),
     'likes': () => fetchUserLikes(userId, { populate: true }),
     'following': () => fetchUserFollowing(userId),
   }
   let fetchPosts = fetchActions[view];
   return {
-    fetchPosts: () => dispatch(fetchPosts()),
+    fetchPosts: (limit, lastPostDate, lastPostId) => dispatch(fetchPosts(limit, lastPostDate, lastPostId)),
     fetchUserLikes: (userId) => dispatch(fetchUserLikes(userId)),
     createFollow: (blogId) => dispatch(createFollow(blogId)),
   };

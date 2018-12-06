@@ -87,7 +87,6 @@ class PostForm extends React.Component {
       };
       closeModal = () => this.setState({ confirmDiscardPostModal: false });
     }
-    console.log('localModal', localModal);
     return (
       <div className='post-form-container'>
         <Modal localModal={localModal}

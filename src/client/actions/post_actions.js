@@ -45,10 +45,10 @@ export const receivePostErrors = function (errors) {
     };
 };
 
-export const fetchFeed = function () {
+export const fetchFeed = function (limit = 10, lastPostDate = null, lastPostId = null) {
     return function (dispatch) {
         dispatch(loadPostIndex());
-        return APIUtil.fetchFeed().then(
+        return APIUtil.fetchFeed(limit, lastPostDate, lastPostId).then(
             (posts) => {
                 dispatch(receivePosts(posts));
                 dispatch(receiveFeed(posts));

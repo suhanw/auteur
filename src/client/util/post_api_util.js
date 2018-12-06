@@ -1,7 +1,7 @@
-export const fetchFeed = function () {
+export const fetchFeed = function (limit, lastPostDate, lastPostId) {
     return $.ajax({
         method: 'GET',
-        url: '/api/feed',
+        url: `/api/feed/?limit=${limit}&lastPostDate=${lastPostDate}&lastPostId=${lastPostId}`,
     });
 };
 
