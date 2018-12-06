@@ -14,15 +14,8 @@ modelQuery.getCurrentUserLikes = function (userId) {
     });
 };
 
-modelQuery.findOneBlog = function (blogId, handleSuccess, handleFailure) {
-  // 'handleSuccess' callback func should be function(foundBlog) { ... }
-  // 'handleFailure' callback func should be function(err) { ... }
+modelQuery.findOneBlog = function (blogId) {
   return Blog.findOne({ _id: blogId })
-    // .populate({
-    //   path: 'author',
-    //   select: '_id',
-    // })
-    // .lean(true) // make the query return a POJO instead of Document
     .exec()
     .then(function (foundBlog) {
       if (!foundBlog) throw { message: 'The blog does not exist.' }; // case when ObjectId is valid, but doesn't belong to a blog

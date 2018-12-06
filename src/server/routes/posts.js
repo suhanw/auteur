@@ -29,7 +29,7 @@ router.get('/posts', middleware.isLoggedIn, function (req, res) {
 // POST api/blogs/:id/posts (Create)
 router.post('/posts',
   middleware.isLoggedIn,
-  upload.array('newFiles'), // file upload middleware - looks for the 'newFiles' key in request data
+  upload.array('newFiles'), // file upload middleware - looks for the 'newFiles' key in body of http request
   function (req, res) {
     modelQuery.findOneBlog(req.params.id)
       .then((foundBlog) => {

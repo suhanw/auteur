@@ -81,7 +81,7 @@ mediaUpload.deleteFiles = function (post, blog) {
 
 mediaUpload.updateFiles = function (newFiles, urls, post) {
   return new Promise(function (resolve, reject) {
-    return mediaUpload.deleteFiles(post, null) // blog is not updated on post update, hence no need to pass in
+    return mediaUpload.deleteFiles(post, null) // blog is not updated on post update, hence no need to pass as argument
       .then(({ post }) => {
         return mediaUpload.uploadFiles(newFiles, urls, post, null) // blog is not updated on post update, hence no need to pass in
       })

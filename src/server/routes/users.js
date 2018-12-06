@@ -26,6 +26,7 @@ router.post('/users',
           primary: true,
           avatarImageUrl: createdUser.avatarImageUrl,
           name: createdUser.username,
+          title: `${createdUser.username}'s blog`
         }, function (err, createdBlog) {
           if (err) {
             return res.status(422).json([err.message]);
@@ -71,6 +72,7 @@ router.get('/users/:id/following', middleware.isLoggedIn, function (req, res) {
 // GET api/users/:id/likes - fetch current user's liked posts
 router.get('/users/:id/likes', middleware.isLoggedIn, function (req, res) {
   Note.find({ type: 'like', author: req.user._id })
+    // FIX: figure out how to sort likes by post.createdAt
     .select('post')
     .populate('post')
     .then((likes) => {
