@@ -104,16 +104,16 @@ class SessionForm extends React.Component {
 
     // demo login
     if (this.props.pathname.includes('demo')) {
-      setTimeout( // start after animation
+      this.demoLoginTimer = setTimeout( // start after animation
         () => this.renderDemoEmail('denzel@washington.com'.split('')),
         500,
       );
     }
   }
 
-  componentWillReceiveProps(newProps) { // when user clicks on demo on login page
+  componentWillReceiveProps(newProps) { // when user clicks on demo on login page AND the login rendering hasn't started yet
     if (newProps.pathname.includes('demo')) {
-      setTimeout(
+      this.demoLoginTimer = setTimeout(
         () => this.renderDemoEmail('denzel@washington.com'.split('')),
         500,
       );
@@ -136,29 +136,29 @@ class SessionForm extends React.Component {
   }
 
   renderDemoEmail(email) {
+    clearTimeout(this.demoLoginTimer);
+    this.demoLoginTimer = 0;
     if (!email.length) {
-      clearTimeout(this.demoLoginTimer);
-      this.demoLoginTimer = 0;
-      this.setState({ password: '' }, () => {
-        this.renderDemoPassword('reallylongpassword'.split(''));
-      });
+      this.renderDemoPassword('password'.split(''));
       return;
     }
     let newEmail = this.state.email + email.shift();
-    this.setState({ email: newEmail });
-    this.demoLoginTimer = setTimeout(() => this.renderDemoEmail(email), 50);
+    this.setState({ email: newEmail }, () => {
+      this.demoLoginTimer = setTimeout(() => this.renderDemoEmail(email), 50);
+    });
   }
 
   renderDemoPassword(password) {
+    clearTimeout(this.demoLoginTimer);
+    this.demoLoginTimer = 0;
     if (!password.length) {
-      clearTimeout(this.demoLoginTimer);
-      this.demoLoginTimer = 0;
       this.demoLogin();
       return;
     }
     let newPassword = this.state.password + password.shift();
-    this.setState({ password: newPassword });
-    this.demoLoginTimer = setTimeout(() => this.renderDemoPassword(password), 50);
+    this.setState({ password: newPassword }, () => {
+      this.demoLoginTimer = setTimeout(() => this.renderDemoPassword(password), 50);
+    });
   }
 
   demoLogin() {

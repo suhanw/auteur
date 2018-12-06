@@ -352,7 +352,7 @@ class Carousel extends React.Component {
           <p className='slide-description'>
             Check this out and let me know your thoughts.
           </p>
-          {this.renderSessionForm()}
+          {activeSlide === 1 ? null : this.renderSessionForm() /* don't render sess form when intro slide is rendering it */}
         </div>
       </div>
     );
