@@ -35,7 +35,7 @@ class PostIndex extends React.Component {
   }
 
   componentDidMount() {
-    const { view, fetchPosts, fetchUserLikes, currentUser } = this.props;
+    const { fetchPosts, fetchUserLikes, currentUser } = this.props;
     if (!currentUser.likedPosts) fetchUserLikes(currentUser._id); // to fetch only when it's not populated
     fetchPosts();
     document.querySelector('div.dashboard') // event only fires on element that has overflow: scroll
@@ -43,20 +43,18 @@ class PostIndex extends React.Component {
   }
 
   componentWillReceiveProps(newProps) {
-    // to call fetch when view changes
     const oldView = this.props.view;
     const newView = newProps.view;
     const { fetchPosts, fetchUserLikes, currentUser } = newProps;
     const oldBlogId = this.props.match.params.blogId;
     const newBlogId = newProps.match.params.blogId;
     if (newView !== oldView || oldBlogId !== newBlogId) { // to fetch posts when view changes
-      if (!currentUser.likedPosts) fetchUserLikes(currentUser._id); // to fetch only when it's not populated
+      if (!currentUser.likedPosts) fetchUserLikes(currentUser._id); // to fetch current user likes only when it's not populated
       fetchPosts();
     }
   }
 
   componentWillUnmount() {
-    const { view } = this.props;
     document.querySelector('div.dashboard')
       .removeEventListener('scroll', this.handleScroll);
   }
@@ -72,13 +70,13 @@ class PostIndex extends React.Component {
   renderPostShowItems() {
     const { view, postsArr, blogs, blogId, currentUser, createFollow } = this.props;
 
-    if (blogs[blogId] && blogs[blogId].postCount === 0) { // if blog has no posts
+    if (blogs[blogId] && blogs[blogId].postCount === 0) { // if at the blog view page and blog has no posts
       return <div className='post-blank'>
         <img className='not-found-icon' src='images/notFound.png' />
         No posts found.
       </div>;
-    } else if (view === 'likes' && currentUser.likeCount === 0 ||
-      view === 'following' && currentUser.following.length === 0) {
+    } else if (view === 'likes' && currentUser.likeCount === 0 || // if at the likes page and no lkes
+      view === 'following' && currentUser.following.length === 0) { // if at the following page and user doesn't follow any blogs
       return <div className='post-blank'>
         <img className='not-found-icon' src='images/notFound.png' />
         No posts to display.
@@ -117,8 +115,9 @@ class PostIndex extends React.Component {
   scrollFetch(limit) {
     const { view, postsArr, fetchPosts } = this.props;
     if (view !== 'feed') return; // implement this for feed for now
-    // if there is no change in the last post, user has reached the end of feed
-    if (this.lastPost && this.lastPost._id === postsArr[postsArr.length - 1]._id) return;
+    if (this.lastPost && this.lastPost._id === postsArr[postsArr.length - 1]._id) {
+      return; // if there is no change in the last post, user has reached the end of feed
+    }
     this.lastPost = postsArr[postsArr.length - 1];
     fetchPosts(limit, this.lastPost.createdAt, this.lastPost._id);
   }
