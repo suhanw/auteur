@@ -126,6 +126,7 @@ class NoteMenu extends React.Component {
   togglePopover(currPopover) {
     const { popover, openPopover, closePopover } = this.props;
     return function (e) {
+      // debugger
       e.stopPropagation(); // to avoid bubbling up to window handler which will close any popovers
       if (JSON.stringify(popover) === JSON.stringify(currPopover)) {
         closePopover(); // if current popover is open, then close popover

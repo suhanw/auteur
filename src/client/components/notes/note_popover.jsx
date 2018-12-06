@@ -74,11 +74,9 @@ class NotePopover extends React.Component {
 
   componentDidMount() {
     const { fetchNotes, post } = this.props;
-    fetchNotes(post._id);
-  }
-
-  componentDidUpdate() {
-    this.scrollToBottom();
+    fetchNotes(post._id).then(
+      () => this.scrollToBottom()
+    );
   }
 
   renderNoteIndex() {

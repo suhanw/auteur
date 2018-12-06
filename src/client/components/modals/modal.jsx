@@ -75,6 +75,7 @@ class Modal extends React.Component {
 
   handleKeydown(e) {
     e.preventDefault();
+    e.stopPropagation();
     if (e.key === 'Escape') {
       this.props.closeModal();
     }

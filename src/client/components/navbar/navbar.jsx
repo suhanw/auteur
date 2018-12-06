@@ -44,13 +44,16 @@ class Navbar extends React.Component {
   componentDidMount() { // FIX: USE REFS
     // clicking anywhere else on the window should close any/all popovers
     window.addEventListener('click', this.dynamicClosePopover);
+    window.addEventListener('keydown', this.dynamicClosePopover);
   }
 
   componentWillUnmount() {
     window.removeEventListener('click', this.dynamicClosePopover);
+    window.removeEventListener('keydown', this.dynamicClosePopover);
   }
 
-  dynamicClosePopover() {
+  dynamicClosePopover(e) {
+    if (e.type === 'keydown' && e.key !== 'Escape') return; // do nothing when user hits a key other than Esc
     const { popover, closePopover } = this.props;
     if (popover) { // only dispatch closePopover if there is an open popover
       closePopover();
