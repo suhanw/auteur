@@ -28,8 +28,8 @@ class ConfirmModal extends React.Component {
     this.modalActions = {
       'confirmLogout': logout,
       'confirmDeletePost': deletePost,
-      'confirmDiscardPostNew': localAction,
-      'confirmDiscardPostEdit': localAction,
+      'confirmDiscardPostNew': localAction, // local modals will pass in local actions
+      'confirmDiscardPostEdit': localAction, // local modals will pass in local actions
     };
 
     // the message to display on modal depending on action

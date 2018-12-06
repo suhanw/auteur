@@ -17,7 +17,7 @@ const mapStateToProps = function (state, ownProps) {
 };
 
 const mapDispatchToProps = function (dispatch, ownProps) {
-  if (ownProps.localModal) return { closeModal: ownProps.closeModal }; // local modals will have local closeModal func
+  if (ownProps.localModal) return { closeModal: ownProps.closeModal }; // local modals will pass in local closeModal func
   return {
     // closeModal,
     closeModal: () => dispatch(closeModal())
