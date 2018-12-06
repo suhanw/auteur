@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom';
 
 import PostFormText from './post_form_text';
 import PostFormPhoto from './post_form_photo';
@@ -154,7 +153,7 @@ class PostForm extends React.Component {
 
   closePostForm(e) {
     const { togglePostForm } = this.props;
-    if (e && e.type === 'keydown' && e.key !== 'Escape') { // only close post form when user hits Esc key
+    if (e && e.type === 'keydown' && e.key !== 'Escape') { // close post form only when user hits the Esc key
       return;
     }
     togglePostForm();

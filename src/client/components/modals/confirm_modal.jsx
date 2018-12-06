@@ -66,7 +66,7 @@ class ConfirmModal extends React.Component {
   handleClickOk(e) {
     const { action, data } = this.props;
     e.preventDefault();
-    e.stopPropagation(); // to prevent bubbling up to modal background which will closeModal
+    e.stopPropagation(); // to prevent bubbling up to modal background which will call closeModal
     this.modalActions[action](data);
   }
 

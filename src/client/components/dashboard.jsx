@@ -12,10 +12,6 @@ class Dashboard extends React.Component {
   }
 
   render() {
-    // Pass in location as prop, so that changes in URL will 
-    // change the props and hence re-render child components
-    // that depend on URL
-    const { location } = this.props;
     return (
       <div className='dashboard'>
         <NavbarContainer />
@@ -30,7 +26,7 @@ class Dashboard extends React.Component {
             </Switch>
           </div>
           <div className='side-column'>
-            <SidemenuContainer location={location} />
+            <SidemenuContainer />
           </div>
         </div>
       </div>
