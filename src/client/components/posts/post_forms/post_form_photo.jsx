@@ -15,9 +15,9 @@ class PostFormPhoto extends React.Component {
       this.state = merge({}, props.post);
       let mediaPreview = {};
       props.post.media.forEach(function (mediaURL) {
-        let mediaFilename = mediaURL.split('/').pop();
-        mediaPreview[mediaFilename] = mediaURL;
+        mediaPreview[mediaURL] = mediaURL;
       });
+
       this.state.mediaPreview = mediaPreview;
       this.state.urlInput = false;
     } else {
@@ -49,7 +49,8 @@ class PostFormPhoto extends React.Component {
     const { blog, closePostForm } = this.props;
     const readyToSubmit = (this.state.media.length > 0) ? true : false;
     return (
-      <form className='post-form' onSubmit={this.handleSubmit}>
+      <form className='post-form'
+        onSubmit={this.handleSubmit}>
 
         <PostFormHeader blog={blog} />
 

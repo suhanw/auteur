@@ -60,7 +60,6 @@ class PostIndex extends React.Component {
     let postIndexItems = postsArr.map(function (post) {
       let blog = blogs[post.blog];
 
-      // FIX: scroll to the PostForm position when editing
       return (
         <div key={post._id} >
           <PostShowItem

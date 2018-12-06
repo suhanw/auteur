@@ -146,3 +146,4 @@ class PostForm extends React.Component {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(PostForm);
+
