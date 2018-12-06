@@ -171,7 +171,7 @@ class Carousel extends React.Component {
         <section className='slide-content'>
           <h2 className='slide-title'>Seriously, I love coding and movies. </h2>
           <p className='slide-description'>
-            I'm not sure what else to say, so here's some lorem ipsum. Exercitation deserunt est aliquip labore minim ex sint cillum elit qui aute amet ut commodo.
+            I promise to give you a callback soon. A crazy event occurred when I was in the queue to get some curry at an Indian wedding. I was almost killed by an arrow at this function, but I apply a chokehold on the assailant, bind him with some ropes and call the police. Thankfully I survived despite the context stacked against me. Now, I need this.. to find closure.
           </p>
         </section>
       </div>
