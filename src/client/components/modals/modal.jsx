@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { merge } from 'lodash';
 
 import ConfirmModal from './confirm_modal';
 import PostModal from './post_modal'
@@ -8,15 +9,18 @@ import { selectModal } from '../../selectors/selectors';
 
 
 const mapStateToProps = function (state, ownProps) {
-  const modal = selectModal(state);
+  let modal = selectModal(state);
+  if (ownProps.localModal) modal = ownProps.localModal; // for modals that depend on 'local' React state
   return {
     modal,
   };
 };
 
 const mapDispatchToProps = function (dispatch, ownProps) {
+  if (ownProps.localModal) return { closeModal: ownProps.closeModal }; // local modals will have local closeModal func
   return {
-    closeModal: () => dispatch(closeModal()),
+    // closeModal,
+    closeModal: () => dispatch(closeModal())
   };
 };
 
@@ -25,40 +29,38 @@ class Modal extends React.Component {
   constructor(props) {
     super(props);
 
-    this.postModalRef = React.createRef(); // step 1: create ref
+    this.modalComponents = {
+      'confirmLogout': ConfirmModal,
+      'confirmDeletePost': ConfirmModal,
+      'confirmDiscardPostNew': ConfirmModal,
+      'confirmDiscardPostEdit': ConfirmModal,
+      'choosePostType': PostModal,
+    };
+
+    this.modalContainerRef = React.createRef(); // step 1: create ref
     this.handleKeydown = this.handleKeydown.bind(this);
   }
 
 
   render() {
     const { modal, closeModal } = this.props;
-    let modalComponent;
 
     if (!modal) return null;
 
-    const modalComponents = {
-      'confirmLogout': <ConfirmModal
-        action={modal.action}
-        data={modal.data}
-        closeModal={closeModal} />,
-      'confirmDeletePost': <ConfirmModal
-        action={modal.action}
-        data={modal.data}
-        closeModal={closeModal} />,
-      'choosePostType': <PostModal
-        action={modal.action}
-        closeModal={closeModal} />
-    };
-
-    modalComponent = modalComponents[modal.action];
+    const ModalComponent = this.modalComponents[modal.action];
 
     return (
       <div className='modal-container background-greyout'
-        ref={this.postModalRef /* step 2: attach ref to DOM node */}
+        style={{ zIndex: 8 }}
+        ref={this.modalContainerRef /* step 2: attach ref to DOM node */}
         tabIndex={'0' /* step 3: need this attrib for focus() to work on DIVs */}
         onClick={closeModal}
         onKeyDown={this.handleKeydown} >
-        {modalComponent}
+        <ModalComponent
+          action={modal.action}
+          data={modal.data}
+          localAction={modal.localAction} // only for non-redux actions
+          closeModal={closeModal} />
       </div>
     );
   }
@@ -68,7 +70,7 @@ class Modal extends React.Component {
     if (!modal) return;
 
     // step 4: ref.current stores the DOM node, and you can call DOM methods
-    this.postModalRef.current.focus();
+    this.modalContainerRef.current.focus();
   }
 
   handleKeydown(e) {

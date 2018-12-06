@@ -6,11 +6,11 @@ class PostFormFooter extends React.Component {
   }
 
   render() {
-    const { closePostForm, readyToSubmit } = this.props;
+    const { confirmDiscardPost, readyToSubmit } = this.props;
     return (
       <footer className='post-footer'>
         <a className='btn btn-default btn-grey'
-          onClick={closePostForm}>
+          onClick={confirmDiscardPost}>
           Close
         </a>
         <input type='submit'

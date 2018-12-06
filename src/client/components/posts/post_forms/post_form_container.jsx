@@ -8,6 +8,7 @@ import PostFormQuote from './post_form_quote';
 import PostFormLink from './post_form_link';
 import PostFormAudio from './post_form_audio';
 import PostFormVideo from './post_form_video';
+import Modal from '../../modals/modal';
 import { fetchBlog } from '../../../actions/blog_actions';
 import { createPost, updatePost } from '../../../actions/post_actions';
 import { selectCurrentUser, selectBlog, selectLoadingPostSubmit } from '../../../selectors/selectors';
@@ -17,10 +18,11 @@ const mapStateToProps = function (state, ownProps) {
   let formType; // whether it's text, photo, video, etc
   const currentUser = selectCurrentUser(state); //this includes primaryBlog id
   const loadingPostSubmit = selectLoadingPostSubmit(state);
+  const { edit, togglePostForm } = ownProps;
   let blog;
   let post;
 
-  if (ownProps.edit) { // props when it's edit form
+  if (edit) { // props when it's edit form
     formType = ownProps.post.type;
     blog = ownProps.blog;
     post = ownProps.post;
@@ -36,6 +38,7 @@ const mapStateToProps = function (state, ownProps) {
     blog,
     post,
     loadingPostSubmit,
+    togglePostForm,
   }
 };
 
@@ -54,8 +57,7 @@ class PostForm extends React.Component {
     super(props);
 
     this.state = {
-      blog: props.blog,
-      post: props.post,
+      confirmDiscardPostModal: false,
     };
 
     // object that stores all the different PostForm types
@@ -70,13 +72,27 @@ class PostForm extends React.Component {
 
     this.renderPostFormType = this.renderPostFormType.bind(this);
     this.closePostForm = this.closePostForm.bind(this);
+    this.confirmDiscardPost = this.confirmDiscardPost.bind(this);
   }
 
   render() {
-    const { currentUser, loadingPostSubmit } = this.props;
+    const { currentUser, loadingPostSubmit, edit } = this.props;
     const spinnerClass = loadingPostSubmit ? 'loading-post-submit' : null;
+    const { confirmDiscardPostModal } = this.state;
+    let localModal = null;
+    let closeModal;
+    if (confirmDiscardPostModal) {
+      localModal = {
+        action: `confirmDiscardPost${(edit) ? 'Edit' : 'New'}`,
+        localAction: this.closePostForm,
+      };
+      closeModal = () => this.setState({ confirmDiscardPostModal: false });
+    }
+    console.log('localModal', localModal);
     return (
       <div className='post-form-container'>
+        <Modal localModal={localModal}
+          closeModal={closeModal} />
         {/* to grey out dashboard when PostForm is opened */}
         <div className='background-greyout'
           tabIndex='0'
@@ -100,8 +116,8 @@ class PostForm extends React.Component {
   }
 
   renderPostFormType() {
-    const { formType, createPost, updatePost, currentUser } = this.props;
-    const { blog, post } = this.state;
+    const { formType, createPost, updatePost, currentUser, blog, post } = this.props;
+    // const { blog, post } = this.state;
 
     const PostFormComponent = this.postFormComponents[formType];
 
@@ -112,13 +128,13 @@ class PostForm extends React.Component {
       currentUser={currentUser}
       blog={blog}
       post={post}
+      confirmDiscardPost={this.confirmDiscardPost}
       closePostForm={this.closePostForm}
       submitAction={submitAction} />;
   }
 
   componentDidMount() {
-    const { currentUser, fetchBlog } = this.props;
-    const { blog } = this.state;
+    const { currentUser, fetchBlog, blog } = this.props;
     //if blog not already in Redux state, fetch blog
     if (!blog) {
       fetchBlog(currentUser.primaryBlog).then(
@@ -130,10 +146,16 @@ class PostForm extends React.Component {
     }
   }
 
+  confirmDiscardPost() {
+    this.setState({
+      confirmDiscardPostModal: true
+    });
+  }
+
   closePostForm(e) {
     // FIX: add modal for user to confirm discard edit changes
     const { togglePostForm } = this.props;
-    if (e.type === 'keydown' && e.key !== 'Escape') { // only close post form when user hits Esc key
+    if (e && e.type === 'keydown' && e.key !== 'Escape') { // only close post form when user hits Esc key
       return;
     }
     togglePostForm();

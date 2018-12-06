@@ -46,7 +46,7 @@ class PostFormPhoto extends React.Component {
   }
 
   render() {
-    const { blog, closePostForm } = this.props;
+    const { blog, confirmDiscardPost } = this.props;
     const readyToSubmit = (this.state.media.length > 0) ? true : false;
     return (
       <form className='post-form'
@@ -65,7 +65,7 @@ class PostFormPhoto extends React.Component {
         </main>
 
         <PostFormFooter
-          closePostForm={closePostForm}
+          confirmDiscardPost={confirmDiscardPost}
           readyToSubmit={readyToSubmit} />
 
       </form>

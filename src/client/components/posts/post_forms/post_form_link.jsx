@@ -32,7 +32,7 @@ class PostFormLink extends React.Component {
   }
 
   render() {
-    const { blog, closePostForm } = this.props;
+    const { blog, confirmDiscardPost } = this.props;
     const readyToSubmit = (this.state.linkUrl) ? true : false;
     return (
       <form className='post-form' onSubmit={this.handleSubmit}>
@@ -48,7 +48,7 @@ class PostFormLink extends React.Component {
         </main>
 
         <PostFormFooter
-          closePostForm={closePostForm}
+          confirmDiscardPost={confirmDiscardPost}
           readyToSubmit={readyToSubmit} />
 
       </form>

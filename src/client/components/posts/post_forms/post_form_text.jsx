@@ -21,7 +21,7 @@ class PostFormText extends React.Component {
   }
 
   render() {
-    const { blog, closePostForm } = this.props;
+    const { blog, confirmDiscardPost } = this.props;
     const { title, body } = this.state;
     const readyToSubmit = (title === '' && body === '') ? false : true;
     return (
@@ -46,7 +46,7 @@ class PostFormText extends React.Component {
         </fieldset>
 
         <PostFormFooter
-          closePostForm={closePostForm}
+          confirmDiscardPost={confirmDiscardPost}
           readyToSubmit={readyToSubmit} />
 
       </form>

@@ -4,10 +4,11 @@ import { deletePost } from '../../actions/post_actions';
 import { logout } from '../../actions/session_actions';
 
 export const mapStateToProps = function (state, ownProps) {
-  const { action, data } = ownProps;
+  const { action, data, localAction } = ownProps;
   return {
     action,
     data,
+    localAction,
   }
 };
 
@@ -22,17 +23,21 @@ class ConfirmModal extends React.Component {
   constructor(props) {
     super(props);
 
-    const { logout, deletePost } = props;
+    const { logout, deletePost, localAction } = props;
     // 'registry' of actions that require confirmations
     this.modalActions = {
       'confirmLogout': logout,
       'confirmDeletePost': deletePost,
+      'confirmDiscardPostNew': localAction,
+      'confirmDiscardPostEdit': localAction,
     };
 
     // the message to display on modal depending on action
     this.modalMessages = {
       'confirmLogout': 'log out',
       'confirmDeletePost': 'delete this post',
+      'confirmDiscardPostNew': 'discard this post',
+      'confirmDiscardPostEdit': 'discard edits to this post',
     };
 
     this.handleClickOk = this.handleClickOk.bind(this);
