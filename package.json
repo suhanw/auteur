@@ -12,8 +12,8 @@
     "webpack": "webpack --mode=production --watch",
     "postinstall": "webpack",
     "clientDev": "webpack --mode=development --watch",
-    "serverDev": "nodemon src/server/app.js",
-    "dev": "concurrently \"npm run server\" \"npm run client\""
+    "serverDev": "nodemon --inspect src/server/app.js",
+    "dev": "concurrently \"npm run serverDev\" \"npm run clientDev\""
   },
   "repository": {
     "type": "git",

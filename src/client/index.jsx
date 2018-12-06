@@ -31,12 +31,12 @@ document.addEventListener('DOMContentLoaded', function () {
   const rootDOM = document.querySelector('#root');
   ReactDOM.render(<Root store={store} />, rootDOM);
 
-  // TESTING===========================
+  // REMOVE IN PROD===========================
   window.getState = store.getState;
   window.dispatch = store.dispatch;
-  // TESTING===========================
+  // REMOVE IN PROD===========================
 });
 
-// TESTING===========================
+// REMOVE IN PROD===========================
 
-// TESTING===========================
+// REMOVE IN PROD===========================

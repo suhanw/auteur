@@ -8,10 +8,9 @@ const methodOverride = require('method-override');
 const path = require('path');
 const passport = require('passport');
 const session = require('express-session');
-const flash = require('connect-flash');
 
 const User = require('./models/user');
-// const seedDB = require('./util/seeds/seeds');
+
 
 // DB CONFIG==============================
 var dbUrl = process.env.DATABASEURL;
@@ -21,7 +20,7 @@ var dbOptions = {
   useFindAndModify: false,
 };
 mongoose.connect(dbUrl, dbOptions);
-// seedDB();
+// require('./util/seeds/seeds')(); // to seed the DB
 // DB CONFIG==============================    
 
 // APP CONFIG=============================
@@ -49,7 +48,6 @@ if (app.get('env') === 'production') {
 }
 
 app.use(session(sessionOptions));
-app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
 passport.use(User.createStrategy()); // method provided by passport-local-mongoose

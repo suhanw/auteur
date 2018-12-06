@@ -41,7 +41,7 @@ class Navbar extends React.Component {
     );
   }
 
-  componentDidMount() { // FIX: USE REFS
+  componentDidMount() {
     // clicking anywhere else on the window should close any/all popovers
     window.addEventListener('click', this.dynamicClosePopover);
     window.addEventListener('keydown', this.dynamicClosePopover);

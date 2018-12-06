@@ -8,18 +8,7 @@ const devPlugins = [
   new LiveReloadPlugin({ port: 8080, hostname: 'localhost' })
 ];
 
-const prodPlugins = [
-  // new webpack.DefinePlugin({
-  //   'process.env': {
-  //     'NODE_ENV': JSON.stringify('production')
-  //   }
-  // }),
-  // new webpack.optimize.UglifyJsPlugin({
-  //   compress: {
-  //     warnings: true
-  //   }
-  // })
-];
+const prodPlugins = [];
 
 plugins = plugins.concat(
   process.env.NODE_ENV === 'production' ? prodPlugins : devPlugins
