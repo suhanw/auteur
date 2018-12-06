@@ -38,6 +38,7 @@ router.post('/posts',
         let newPost = new Post(postBody);
         // if a media post, upload files to AWS
         if (['photo', 'video', 'audio'].includes(newPost.type)) {
+          // FIX: CHECK FILE SIZE BEFORE UPLOAD
           return mediaUpload.uploadFiles(req.files, req.body.urls, newPost, foundBlog);
         }
         // if not a media post, pass on to the next 'then' block

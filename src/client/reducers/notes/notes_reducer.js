@@ -1,6 +1,7 @@
 import { normalize, schema } from 'normalizr';
 import { merge, union } from 'lodash';
 import { RECEIVE_NOTE, REMOVE_NOTE, RECEIVE_NOTES } from '../../actions/note_actions';
+import { REMOVE_CURRENT_USER } from '../../actions/session_actions';
 
 const defaultState = {
   byId: {},
@@ -49,14 +50,14 @@ const notesReducer = function (state = defaultState, action) {
       newState.allIds = union(state.allIds, [action.payload._id]);
       return newState;
     case REMOVE_NOTE:
-      const noteId = action.payload._id;
+      const deletedNoteId = action.payload._id;
       newState.byId = merge({}, state.byId);
-      delete newState.byId[noteId];
+      delete newState.byId[deletedNoteId];
       newState.allIds = state.allIds.slice();
-      const indexToDel = newState.allIds.indexOf(noteId);
-      newState.allIds = union(state.allIds, [action.payload._id]);
-      newState.allIds.splice(indexToDel, 1);
+      newState.allIds = newState.allIds.filter((noteId) => noteId !== deletedNoteId);
       return newState;
+    case REMOVE_CURRENT_USER:
+      return defaultState;
     default:
       return state;
   };
