@@ -10,9 +10,27 @@ const followRoutes = require('../routes/follows');
 const noteRoutes = require('../routes/notes');
 const linkPreviewRoute = require('../routes/link_preview');
 
-router.get("/", function (req, res) {
-    res.render('index', { currentUser: req.user });
-});
+const User = require('../models/user');
+
+router.get(
+    "/",
+    function (req, res, next) { // REMOVE IN PROD
+        if (process.env.NODE_ENV === 'development') {
+            User.findOne({ email: 'denzel@washington.com' })
+                .then((user) => {
+                    req.login(
+                        user,
+                        (err) => {
+                            if (err) return next(err);
+                            return next();
+                        }
+                    );
+                });
+        } else next();
+    },
+    function (req, res) {
+        return res.render('index', { currentUser: req.user });
+    });
 
 router.use('/api', userRoutes);
 router.use('/api', sessionRoutes);
