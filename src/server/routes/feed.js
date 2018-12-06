@@ -9,24 +9,20 @@ const middleware = require('../middleware/middleware');
 
 // GET api/feed - Index posts for current user's feed
 router.get('/feed', middleware.isLoggedIn, function (req, res) {
-    User.findById(req.user._id)
-        .exec(function (err, foundUser) {
-            if (err || !foundUser) return res.status(404).json(['User not found.']);
-            Post.find()
-                // FIX: figure out criteria of what to display on feed
-                // .where('blog').in(lodash.concat(
-                //     [foundUser.primaryBlog], // user's primary blog
-                //     foundUser.following, // blogs that user follows
-                //     foundUser.blogs)) // add'l blogs that user created
-                .select('_id type title body media blog author linkUrl likeCount commentCount createdAt')
-                .sort({ 'createdAt': 'desc' })
-                .populate({ path: 'blog', select: '_id avatarImageUrl backgroundImageUrl name title' })
-                .exec()
-                .then((foundPosts) => {
-                    return res.json(foundPosts);
-                })
-                .catch((err) => res.json([err.message]));
-        });
+    return Post.find()
+        // FIX: figure out criteria of what to display on feed
+        // .where('blog').in(lodash.concat(
+        //     [req.user.primaryBlog], // user's primary blog
+        //     req.user.following, // blogs that user follows
+        //     req.user.blogs)) // add'l blogs that user created
+        .select('_id type title body media blog author linkUrl likeCount commentCount createdAt')
+        .sort({ 'createdAt': 'desc' })
+        .populate({ path: 'blog', select: '_id avatarImageUrl backgroundImageUrl name title' })
+        .exec()
+        .then((foundPosts) => {
+            return res.json(foundPosts);
+        })
+        .catch((err) => res.status(400).json([err.message]));
 });
 
 module.exports = router;
