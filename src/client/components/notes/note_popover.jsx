@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import ContentEditable from 'react-contenteditable';
 
-import { fetchNotes, createNote, deleteNote } from '../../actions/note_actions';
+import { fetchNotes, createNote, deleteNote, confirmDeleteComment } from '../../actions/note_actions';
 import { selectNotes, selectUsers, selectCurrentUser, selectPopover, selectBlogs } from '../../selectors/selectors';
 
 const mapStateToProps = function (state, ownProps) {
@@ -26,6 +26,7 @@ const mapDispatchToProps = function (dispatch, ownProps) {
     fetchNotes: (postId) => dispatch(fetchNotes(postId)),
     createNote: (note) => dispatch(createNote(note)),
     deleteNote: (note) => dispatch(deleteNote(note)),
+    confirmDeleteComment: (comment) => dispatch(confirmDeleteComment(comment)),
   }
 };
 
@@ -170,7 +171,7 @@ class NotePopover extends React.Component {
     let ellipsisPopoverComponent = null;
     if (JSON.stringify(popover) === JSON.stringify(ellipsisPopover) &&
       currentUser._id === noteAuthor._id) { // user can only delete own notes
-      ellipsisPopoverComponent = this.renderEllipsisPopover(note);
+      ellipsisPopoverComponent = this.renderEllipsisPopover(note, ellipsisPopover);
     }
 
     return (
@@ -196,12 +197,14 @@ class NotePopover extends React.Component {
     );
   }
 
-  renderEllipsisPopover(note) {
-    // FIX: add a confirm modal to delete comment
+  renderEllipsisPopover(note, currPopover) {
     return (
       <div className='ellipsis-popover popover'>
         <span className='popover-menu-item'
-          onClick={this.handleClick('deleteNote', note)}>
+          onClick={(e) => {
+            this.toggleEllipsisPopover(currPopover)(e); // close the ellipsis popover when ...
+            this.props.confirmDeleteComment(note); // ...rendering confirm modal
+          }}>
           Delete reply
         </span>
       </div>

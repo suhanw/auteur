@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { deletePost } from '../../actions/post_actions';
+import { deleteNote } from '../../actions/note_actions';
 import { logout } from '../../actions/session_actions';
 
 export const mapStateToProps = function (state, ownProps) {
@@ -16,6 +17,7 @@ export const mapDispatchToProps = function (dispatch, ownProps) {
   return {
     logout: () => dispatch(logout()),
     deletePost: (post) => dispatch(deletePost(post)),
+    deleteNote: (note) => dispatch(deleteNote(note)),
   }
 };
 
@@ -23,11 +25,12 @@ class ConfirmModal extends React.Component {
   constructor(props) {
     super(props);
 
-    const { logout, deletePost, localAction } = props;
+    const { logout, deletePost, deleteNote, localAction } = props;
     // 'registry' of actions that require confirmations
     this.modalActions = {
       'confirmLogout': logout,
       'confirmDeletePost': deletePost,
+      'confirmDeleteComment': deleteNote, // comment is a type of note
       'confirmDiscardPostNew': localAction, // local modals will pass in local actions
       'confirmDiscardPostEdit': localAction, // local modals will pass in local actions
     };
@@ -36,6 +39,7 @@ class ConfirmModal extends React.Component {
     this.modalMessages = {
       'confirmLogout': 'log out',
       'confirmDeletePost': 'delete this post',
+      'confirmDeleteComment': 'delete this comment',
       'confirmDiscardPostNew': 'discard this post',
       'confirmDiscardPostEdit': 'discard edits to this post',
     };
@@ -62,16 +66,15 @@ class ConfirmModal extends React.Component {
   handleClickOk(e) {
     const { action, data } = this.props;
     e.preventDefault();
+    e.stopPropagation(); // to prevent bubbling up to modal background which will closeModal
     this.modalActions[action](data);
   }
 
   handleClickCancel(e) {
     e.preventDefault();
+    e.stopPropagation(); // to prevent bubbling up to close popover
     this.props.closeModal();
   }
-
-
-
 }
 
 

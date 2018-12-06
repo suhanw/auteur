@@ -6,6 +6,7 @@ export const RECEIVE_NOTE = 'RECEIVE_NOTE';
 export const RECEIVE_NOTES = 'RECEIVE_NOTES';
 export const REMOVE_NOTE = 'REMOVE_NOTE';
 export const RECEIVE_NOTE_ERRORS = 'RECEIVE_NOTE_ERRORS';
+export const CONFIRM_DELETE_COMMENT = 'CONFIRM_DELETE_COMMENT';
 
 export const receiveNote = function (note) {
   return {
@@ -33,6 +34,16 @@ export const receiveNoteErrors = function (errors) {
   return {
     type: RECEIVE_NOTE_ERRORS,
     payload: errors,
+  };
+};
+
+export const confirmDeleteComment = function (comment) {
+  return {
+    type: CONFIRM_DELETE_COMMENT,
+    payload: {
+      action: 'confirmDeleteComment',
+      data: comment,
+    },
   };
 };
 

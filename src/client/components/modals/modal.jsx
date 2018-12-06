@@ -19,7 +19,6 @@ const mapStateToProps = function (state, ownProps) {
 const mapDispatchToProps = function (dispatch, ownProps) {
   if (ownProps.localModal) return { closeModal: ownProps.closeModal }; // local modals will pass in local closeModal func
   return {
-    // closeModal,
     closeModal: () => dispatch(closeModal())
   };
 };
@@ -32,12 +31,13 @@ class Modal extends React.Component {
     this.modalComponents = {
       'confirmLogout': ConfirmModal,
       'confirmDeletePost': ConfirmModal,
+      'confirmDeleteComment': ConfirmModal,
       'confirmDiscardPostNew': ConfirmModal,
       'confirmDiscardPostEdit': ConfirmModal,
       'choosePostType': PostModal,
     };
 
-    this.modalContainerRef = React.createRef(); // step 1: create ref
+    this.modalContainerRef = React.createRef(); // step 1: create ref to focus on div and enable keydown
     this.handleKeydown = this.handleKeydown.bind(this);
   }
 

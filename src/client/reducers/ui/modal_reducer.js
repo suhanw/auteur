@@ -1,14 +1,18 @@
 import { CLOSE_MODAL } from '../../actions/modal_actions';
-import { CONFIRM_DELETE_POST, REMOVE_POST } from '../../actions/post_actions';
+import { CONFIRM_DELETE_POST, REMOVE_POST, CHOOSE_POST_TYPE } from '../../actions/post_actions';
+import { CONFIRM_DELETE_COMMENT, REMOVE_NOTE } from '../../actions/note_actions';
 import { CONFIRM_LOGOUT, REMOVE_CURRENT_USER } from '../../actions/session_actions';
-import { CHOOSE_POST_TYPE } from '../../actions/post_actions';
 
 const modalsReducer = function (state = null, action) {
   Object.freeze(state);
   switch (action.type) {
     case CONFIRM_DELETE_POST:
       return action.payload;
+    case CONFIRM_DELETE_COMMENT:
+      return action.payload;
     case REMOVE_POST:
+      return null;
+    case REMOVE_NOTE:
       return null;
     case CONFIRM_LOGOUT:
       return action.payload;
