@@ -1,7 +1,8 @@
 import { connect } from 'react-redux';
 import React from 'react';
 
-import Credits from './credits';
+import CreditsDrawer from './credits_drawer';
+import BlogDrawer from '../blogs/blog_drawer';
 import { selectDrawer } from '../../selectors/selectors';
 import { closeDrawer } from '../../actions/drawer_actions';
 
@@ -24,7 +25,8 @@ class Drawer extends React.Component {
     super(props);
 
     this.drawerComponents = {
-      'credits': Credits,
+      'credits': CreditsDrawer,
+      'blog': BlogDrawer,
     };
 
     this.drawerRef = React.createRef();
@@ -45,7 +47,7 @@ class Drawer extends React.Component {
           tabIndex='0'
           onClick={(e) => e.stopPropagation() /* to close drawer only when clicking outside drawer */}
           onKeyDown={this.handleKeydown}>
-          <DrawerComponent />
+          <DrawerComponent data={drawer.data} />
         </aside>
       </div>
     );

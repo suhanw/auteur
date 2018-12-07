@@ -151,13 +151,12 @@ class Carousel extends React.Component {
 
   toggleDrawer(e) {
     e.preventDefault();
-
     const { openDrawer } = this.props;
-    let drawer = {
+    let creditsDrawer = {
       view: 'credits',
       data: null,
     };
-    openDrawer(drawer);
+    openDrawer(creditsDrawer);
   }
 
   renderCreateSlide() {

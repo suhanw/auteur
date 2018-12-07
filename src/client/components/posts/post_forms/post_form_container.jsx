@@ -70,27 +70,20 @@ class PostForm extends React.Component {
     };
 
     this.renderPostFormType = this.renderPostFormType.bind(this);
+    this.renderConfirmModal = this.renderConfirmModal.bind(this);
     this.closePostForm = this.closePostForm.bind(this);
     this.confirmDiscardPost = this.confirmDiscardPost.bind(this);
   }
 
   render() {
-    const { currentUser, loadingPostSubmit, edit } = this.props;
+    const { currentUser, loadingPostSubmit } = this.props;
     const spinnerClass = loadingPostSubmit ? 'loading-post-submit' : null;
-    const { confirmDiscardPostModal } = this.state;
-    let localModal = null;
-    let closeModal;
-    if (confirmDiscardPostModal) {
-      localModal = {
-        action: `confirmDiscardPost${(edit) ? 'Edit' : 'New'}`,
-        localAction: this.closePostForm,
-      };
-      closeModal = () => this.setState({ confirmDiscardPostModal: false });
-    }
+
     return (
       <div className='post-form-container'>
-        <Modal localModal={localModal}
-          closeModal={closeModal} />
+
+        {this.renderConfirmModal()}
+
         {/* to grey out dashboard when PostForm is opened */}
         <div className='background-greyout'
           tabIndex='0'
@@ -113,6 +106,39 @@ class PostForm extends React.Component {
     );
   }
 
+  componentDidMount() {
+    const { currentUser, fetchBlog, blog } = this.props;
+    //if blog not already in Redux state, fetch blog
+    if (!blog) {
+      fetchBlog(currentUser.primaryBlog).then(
+        (result) => {
+          const { payload: { _id, name, avatarImageUrl } } = result;
+          this.setState({ blog: { _id, name, avatarImageUrl } });
+        }
+      );
+    }
+  }
+
+  renderConfirmModal() {
+    // to render confirm modal when user close form without posting
+    const { edit } = this.props;
+    const { confirmDiscardPostModal } = this.state;
+    let localModal = null;
+    let closeModal;
+    if (confirmDiscardPostModal) {
+      localModal = {
+        action: `confirmDiscardPost${(edit) ? 'Edit' : 'New'}`,
+        localAction: this.closePostForm,
+      };
+      closeModal = () => this.setState({ confirmDiscardPostModal: false });
+    }
+
+    return (
+      <Modal localModal={localModal}
+        closeModal={closeModal} />
+    )
+  }
+
   renderPostFormType() {
     const { formType, createPost, updatePost, currentUser, blog, post } = this.props;
     // const { blog, post } = this.state;
@@ -129,19 +155,6 @@ class PostForm extends React.Component {
       confirmDiscardPost={this.confirmDiscardPost}
       closePostForm={this.closePostForm}
       submitAction={submitAction} />;
-  }
-
-  componentDidMount() {
-    const { currentUser, fetchBlog, blog } = this.props;
-    //if blog not already in Redux state, fetch blog
-    if (!blog) {
-      fetchBlog(currentUser.primaryBlog).then(
-        (result) => {
-          const { payload: { _id, name, avatarImageUrl } } = result;
-          this.setState({ blog: { _id, name, avatarImageUrl } });
-        }
-      );
-    }
   }
 
   confirmDiscardPost() {

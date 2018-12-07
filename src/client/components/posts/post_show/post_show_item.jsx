@@ -25,9 +25,11 @@ class PostShowItem extends React.Component {
       'link': PostShowLink,
     };
 
+    this.renderAvatar = this.renderAvatar.bind(this);
     this.renderPostContent = this.renderPostContent.bind(this);
     this.renderPostShow = this.renderPostShow.bind(this);
     this.handleClick = this.handleClick.bind(this);
+    this.toggleDrawer = this.toggleDrawer.bind(this);
     this.togglePostForm = this.togglePostForm.bind(this);
   }
 
@@ -46,22 +48,40 @@ class PostShowItem extends React.Component {
 
         {this.renderPostContent()}
 
-        <picture className='avatar-container'>
-          <div className='avatar'>
-
-            <div
-              className='avatar-default'
-              style={{ backgroundImage: `url(${blog.avatarImageUrl})` }}
-              onMouseOver={showPopover(this, 'avatarFollowPopover')}
-              onMouseOut={hidePopover(this, true, 'avatarFollowPopover')} />
-
-            {renderFollowPopover(this, blog._id, 'avatarFollowPopover')}
-
-          </div>
-        </picture>
+        {this.renderAvatar()}
 
       </li >
     );
+  }
+
+  renderAvatar() {
+    const { blog, openDrawer } = this.props;
+    return (
+      <picture className='avatar-container'>
+        <div className='avatar'>
+
+          <div
+            className='avatar-default'
+            style={{ backgroundImage: `url(${blog.avatarImageUrl})` }}
+            onMouseOver={showPopover(this, 'avatarFollowPopover')}
+            onMouseOut={hidePopover(this, true, 'avatarFollowPopover')}
+            onClick={this.toggleDrawer} />
+
+          {renderFollowPopover(this, blog._id, 'avatarFollowPopover')}
+
+        </div>
+      </picture>
+    );
+  }
+
+  toggleDrawer(e) {
+    e.preventDefault();
+    const { openDrawer, blog } = this.props;
+    let blogDrawer = {
+      view: 'blog',
+      data: blog,
+    };
+    openDrawer(blogDrawer);
   }
 
   renderPostContent() {
@@ -69,11 +89,14 @@ class PostShowItem extends React.Component {
     let suggestFollow = null;
     let followLink = null;
     let blogNameClass = '';
+
+    // if not already followed, suggest user to follow blog
     if (blog.author !== currentUser._id && !currentUser.following.includes(blog._id)) {
       suggestFollow = <small>Here's a blog: </small>
       followLink = <a onClick={this.handleClick}>Follow</a>
       blogNameClass = 'unfollowed';
     }
+
     return (
       <article className='post-content'>
         <div className='dogear'></div>

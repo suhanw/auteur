@@ -68,7 +68,15 @@ class PostIndex extends React.Component {
   }
 
   renderPostShowItems() {
-    const { view, postsArr, blogs, blogId, currentUser, createFollow } = this.props;
+    const {
+      view,
+      postsArr,
+      blogId,
+      blogs,
+      currentUser,
+      createFollow,
+      openDrawer,
+    } = this.props;
 
     if (blogs[blogId] && blogs[blogId].postCount === 0) { // if at the blog view page and blog has no posts
       return <div className='post-blank'>
@@ -94,7 +102,8 @@ class PostIndex extends React.Component {
             post={post}
             blog={blog}
             currentUser={currentUser}
-            createFollow={createFollow} />
+            createFollow={createFollow}
+            openDrawer={openDrawer} />
         </div>
       );
     });

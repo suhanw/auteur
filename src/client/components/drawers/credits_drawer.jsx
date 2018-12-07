@@ -1,6 +1,6 @@
 import React from 'react';
 
-class Credits extends React.Component {
+class CreditsDrawer extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -10,7 +10,7 @@ class Credits extends React.Component {
     return (
       <div className='credits'>
         <header className='slide-title'>
-          Credits
+          CreditsDrawer
         </header>
 
         <ul className='credits-list'>
@@ -98,4 +98,4 @@ class Credits extends React.Component {
   }
 }
 
-export default Credits;
+export default CreditsDrawer;

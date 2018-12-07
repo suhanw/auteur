@@ -5,6 +5,7 @@ import { selectPosts, selectBlogs, selectCurrentUser, selectLoadingPostIndex } f
 import { createFollow } from '../../actions/follow_actions';
 import { fetchFeed, fetchPostsByBlog } from '../../actions/post_actions';
 import { fetchUserFollowing, fetchUserLikes } from '../../actions/user_actions';
+import { openDrawer } from '../../actions/drawer_actions';
 
 const mapStateToProps = function (state, ownProps) {
   const blogs = selectBlogs(state);
@@ -47,6 +48,7 @@ const mapDispatchToProps = function (dispatch, ownProps) {
     fetchPosts: (limit, lastPostDate, lastPostId) => dispatch(fetchPosts(limit, lastPostDate, lastPostId)),
     fetchUserLikes: (userId) => dispatch(fetchUserLikes(userId)),
     createFollow: (blogId) => dispatch(createFollow(blogId)),
+    openDrawer: (drawer) => dispatch(openDrawer(drawer)),
   };
 };
 
