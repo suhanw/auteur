@@ -1,11 +1,16 @@
 $drawer-width: 600px;
 
+
 .drawer {
   position: absolute;
   top: 0;
   right: 0;
   width: $drawer-width;
   height: inherit;
+}
+
+.background-greyout.bg-fade-in {
+  animation-duration: 0.2s;
 }
 
 .drawer-slide-in {
@@ -24,6 +29,24 @@ $drawer-width: 600px;
   100% {
 
     right: 0;
+  }
+}
+
+.drawer-slide-out {
+  animation-duration: 0.2s;
+  animation-iteration-count: 1;
+  animation-timing-function: ease-out;
+  animation-name: drawerslideout;
+  animation-fill-mode: both;
+}
+
+@keyframes drawerslideout {
+  0% {
+    right: 0;
+  }
+
+  100% {
+    right: -600px;
   }
 }
 

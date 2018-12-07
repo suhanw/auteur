@@ -87,3 +87,40 @@
     bottom: 0;
   }
 }
+
+
+.bg-fade-in {
+  animation-duration: 0.5s;
+  animation-iteration-count: 1;
+  animation-timing-function: cubic-bezier(0.77, 0, 0.175, 1);
+  animation-name: bgfadein;
+  animation-fill-mode: both;
+}
+
+@keyframes bgfadein {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+.bg-fade-out {
+  animation-duration: 0.5s;
+  animation-iteration-count: 1;
+  animation-timing-function: cubic-bezier(0.77, 0, 0.175, 1);
+  animation-name: bgfadeout;
+  animation-fill-mode: both;
+}
+
+@keyframes bgfadeout {
+  0% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}

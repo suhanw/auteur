@@ -30,7 +30,11 @@ class Drawer extends React.Component {
     };
 
     this.drawerRef = React.createRef();
+    this.greyBackgroundRef = React.createRef();
 
+    this.closeDrawerTimer = null;
+
+    this.animateCloseDrawer = this.animateCloseDrawer.bind(this);
     this.handleKeydown = this.handleKeydown.bind(this);
     this.handleClick = this.handleClick.bind(this);
   }
@@ -40,7 +44,8 @@ class Drawer extends React.Component {
     if (!drawer) return null; // drawer in ui state is null when there is no open drawer
     const DrawerComponent = this.drawerComponents[drawer.view];
     return (
-      <div className='background-greyout'
+      <div className='background-greyout bg-fade-in'
+        ref={this.greyBackgroundRef}
         onClick={this.handleClick}>
         <aside className='drawer drawer-slide-in'
           ref={this.drawerRef}
@@ -59,14 +64,28 @@ class Drawer extends React.Component {
     }
   }
 
+  animateCloseDrawer() {
+    // apply drawer-slide-out class to render drawer sliding out of view
+    this.greyBackgroundRef.current.classList.replace('bg-fade-in', 'bg-fade-out');
+    this.drawerRef.current.classList.replace('drawer-slide-in', 'drawer-slide-out');
+
+    this.closeDrawerTimer = setTimeout(
+      () => {
+        this.props.closeDrawer();
+        this.closeDrawerTimer = null;
+      },
+      200,
+    );
+  }
+
   handleKeydown(e) {
     e.persist();
-    if (e.key === 'Escape') this.props.closeDrawer();
+    if (e.key === 'Escape') this.animateCloseDrawer();
   }
 
   handleClick(e) {
     e.persist();
-    this.props.closeDrawer();
+    this.animateCloseDrawer();
   }
 }
 
