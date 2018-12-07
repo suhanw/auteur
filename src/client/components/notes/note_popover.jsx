@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 import ContentEditable from 'react-contenteditable';
 
 import { fetchNotes, createNote, deleteNote, confirmDeleteComment } from '../../actions/note_actions';
-import { selectNotes, selectUsers, selectCurrentUser, selectPopover, selectBlogs } from '../../selectors/selectors';
+import { selectNotes, selectUsers, selectCurrentUser, selectBlogs } from '../../selectors/selectors';
+import { closePopover } from '../../actions/popover_actions';
 
 const mapStateToProps = function (state, ownProps) {
   const { post } = ownProps;
@@ -27,6 +28,7 @@ const mapDispatchToProps = function (dispatch, ownProps) {
     createNote: (note) => dispatch(createNote(note)),
     deleteNote: (note) => dispatch(deleteNote(note)),
     confirmDeleteComment: (comment) => dispatch(confirmDeleteComment(comment)),
+    closePopover: () => dispatch(closePopover()),
   }
 };
 
@@ -52,6 +54,7 @@ class NotePopover extends React.Component {
     this.renderNoteShow = this.renderNoteShow.bind(this);
     this.renderLike = this.renderLike.bind(this);
     this.renderComment = this.renderComment.bind(this);
+    this.toggleNotePopover = this.toggleNotePopover.bind(this);
     this.renderEllipsisPopover = this.renderEllipsisPopover.bind(this);
     this.toggleEllipsisPopover = this.toggleEllipsisPopover.bind(this);
     this.renderCommentForm = this.renderCommentForm.bind(this);
@@ -235,7 +238,8 @@ class NotePopover extends React.Component {
     const { body } = this.state;
     let readyToSubmit = (body.length > 0) ? true : false;
     return (
-      <div className='note-form-comment'>
+      <div className='note-form-comment'
+        onKeyDown={this.toggleNotePopover}>
         <ContentEditable className='comment-input'
           onChange={this.handleChange('body')}
           onClick={(e) => e.stopPropagation() /* to stop event from bubbling up to window closePopover */}
@@ -252,6 +256,11 @@ class NotePopover extends React.Component {
           </button>
       </div >
     );
+  }
+
+  toggleNotePopover(e) {
+    e.stopPropagation();
+    if (e.key === 'Escape') this.props.closePopover();
   }
 
 

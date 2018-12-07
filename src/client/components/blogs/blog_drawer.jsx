@@ -8,6 +8,7 @@ class BlogDrawer extends React.Component {
 
     this.renderHeader = this.renderHeader.bind(this);
     this.renderPostIndex = this.renderPostIndex.bind(this);
+    this.renderFollowButton = this.renderFollowButton.bind(this);
   }
 
   render() {
@@ -33,7 +34,7 @@ class BlogDrawer extends React.Component {
             <span className='blog-name'>
               {data.name}
             </span>
-            {this.renderButton()}
+            {this.renderFollowButton()}
           </nav>
         </div>
         <div className='blog-drawer-avatar-wrapper'>
@@ -43,17 +44,18 @@ class BlogDrawer extends React.Component {
         </div>
         <div className='blog-drawer-info'>
           <h1 className='blog-title'>
-            Blog Title
-            </h1>
+            {data.title}
+          </h1>
           <p className='blog-description'>
-            Blog description.
-            </p>
+            {data.description}
+          </p>
         </div>
       </header>
     )
   }
 
-  renderButton() {
+  renderFollowButton() {
+    // FIX: how to pass in followBlog action?
     const { data, currentUser } = this.props;
     let buttonText = '';
     if (data.author === currentUser._id) {
@@ -65,8 +67,7 @@ class BlogDrawer extends React.Component {
     }
     return (
       <button
-        className='btn btn-default btn-white'
-      >
+        className='btn btn-default btn-white'>
         {buttonText}
       </button>
     );

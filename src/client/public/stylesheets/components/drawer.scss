@@ -9,6 +9,7 @@ $blog-drawer-bg-color: rgb(250, 250, 250);
   width: $drawer-width;
   height: inherit;
   overflow: scroll;
+  z-index: 1;
 }
 
 .background-greyout.bg-fade-in {

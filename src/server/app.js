@@ -12,7 +12,7 @@ const session = require('express-session');
 const User = require('./models/user');
 
 
-// DB CONFIG==============================
+DB CONFIG ==============================
 var dbUrl = process.env.DATABASEURL;
 var dbOptions = {
   useNewUrlParser: true,
@@ -20,7 +20,7 @@ var dbOptions = {
   useFindAndModify: false,
 };
 mongoose.connect(dbUrl, dbOptions);
-// require('./util/seeds/seeds')(); // to seed the DB
+require('./util/seeds/seeds')(); // to seed the DB
 // DB CONFIG==============================    
 
 // APP CONFIG=============================
