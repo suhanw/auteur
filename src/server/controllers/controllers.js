@@ -14,20 +14,20 @@ const User = require('../models/user');
 
 router.get(
     "/",
-    function (req, res, next) { // REMOVE IN PROD
-        if (process.env.NODE_ENV === 'development') {
-            User.findOne({ email: 'john@wick.com' })
-                .then((user) => {
-                    req.login(
-                        user,
-                        (err) => {
-                            if (err) return next(err);
-                            return next();
-                        }
-                    );
-                });
-        } else next();
-    },
+    // function (req, res, next) { // REMOVE IN PROD
+    //     if (process.env.NODE_ENV === 'development') {
+    //         User.findOne({ email: 'john@wick.com' })
+    //             .then((user) => {
+    //                 req.login(
+    //                     user,
+    //                     (err) => {
+    //                         if (err) return next(err);
+    //                         return next();
+    //                     }
+    //                 );
+    //             });
+    //     } else next();
+    // },
     function (req, res) {
         return res.render('index', { currentUser: req.user });
     });

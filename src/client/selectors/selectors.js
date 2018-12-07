@@ -1,3 +1,4 @@
+// SESSION SELECTORS=================================
 export const selectCurrentUser = function (state) {
   const currentUserId = state.session.id;
   if (!currentUserId) {
@@ -12,6 +13,7 @@ export const selectSessionErrors = function (state) {
   return sessionErrors;
 };
 
+// ENTITIES SELECTORS=================================
 export const selectPosts = function (state, view, blogId = null) { // optional blogId argument
   const { entities: { posts } } = state;
   let postIdsArr = [];
@@ -38,7 +40,7 @@ export const selectPost = function (state, postId) {
   const { entities: { posts: { byId } } } = state;
   let post = byId[postId];
   return post;
-}
+};
 
 export const selectNotes = function (state, postId) {
   const { entities: { notes } } = state; // pull the notes slice of state
@@ -65,24 +67,31 @@ export const selectBlogs = function (state) {
 export const selectBlog = function (state, blogId) {
   const blog = selectBlogs(state)[blogId];
   return blog;
-}
+};
 
+
+// UI SELECTORS=================================
 export const selectModal = function (state) {
   const { ui: { modal } } = state;
   return modal;
-}
+};
 
 export const selectPopover = function (state) {
   const { ui: { popover } } = state;
   return popover;
-}
+};
+
+export const selectDrawer = function (state) {
+  const { ui: { drawer } } = state;
+  return drawer;
+};
 
 export const selectLoadingPostSubmit = function (state) {
   const { ui: { loading: { loadingPostSubmit } } } = state;
   return loadingPostSubmit;
-}
+};
 
 export const selectLoadingPostIndex = function (state) {
   const { ui: { loading: { loadingPostIndex } } } = state;
   return loadingPostIndex;
-}
+};

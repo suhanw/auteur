@@ -1,10 +1,10 @@
 import React from 'react';
-import { Route, Link } from 'react-router-dom'
+import { Route } from 'react-router-dom'
 import { merge } from 'lodash';
 
 import SessionFormContainer from './session/session_form_container';
 import NavbarContainer from './navbar/navbar_container';
-import Drawer from './drawer/drawer';
+import Drawer from './drawers/drawer';
 
 class Carousel extends React.Component {
   constructor(props) {
@@ -20,7 +20,6 @@ class Carousel extends React.Component {
       },
       introBgLoaded: false,
       welcomeBgLoaded: false,
-      openCreditDrawer: false,
     };
 
     const backgroundImages = [
@@ -52,7 +51,6 @@ class Carousel extends React.Component {
     this.renderAboutSlideGraphic = this.renderAboutSlideGraphic.bind(this);
     this.renderCreateSlide = this.renderCreateSlide.bind(this);
     this.renderCreateSlideGraphic = this.renderCreateSlideGraphic.bind(this);
-    this.renderDrawer = this.renderDrawer.bind(this);
     this.scrollCarousel = this.scrollCarousel.bind(this);
     this.throttleWheel = this.throttleWheel.bind(this);
     this.handleClick = this.handleClick.bind(this);
@@ -78,8 +76,6 @@ class Carousel extends React.Component {
         {this.renderAboutSlide()}
 
         {this.renderIntroSlide()}
-
-        {this.renderDrawer()}
 
         {this.renderCarouselIndicator()}
 
@@ -155,9 +151,13 @@ class Carousel extends React.Component {
 
   toggleDrawer(e) {
     e.preventDefault();
-    const { openCreditDrawer } = this.state;
-    let newBool = !openCreditDrawer;
-    this.setState({ openCreditDrawer: newBool });
+
+    const { openDrawer } = this.props;
+    let drawer = {
+      view: 'credits',
+      data: null,
+    };
+    openDrawer(drawer);
   }
 
   renderCreateSlide() {
@@ -392,11 +392,6 @@ class Carousel extends React.Component {
         </ul>
       </div>
     );
-  }
-
-  renderDrawer() {
-    if (!this.state.openCreditDrawer) return null;
-    return <Drawer view='credits' toggleDrawer={this.toggleDrawer} />;
   }
 
   throttleWheel(delay, handleWheel) {

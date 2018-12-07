@@ -4,6 +4,7 @@ import Dashboard from './dashboard';
 import Carousel from './carousel';
 import Settings from './settings/settings';
 import Modal from './modals/modal';
+import Drawer from './drawers/drawer';
 import { AuthRoute, ProtectRoute } from '../util/route_util';
 
 class App extends React.Component {
@@ -16,6 +17,7 @@ class App extends React.Component {
     return (
       <div>
         <Modal />
+        <Drawer />
         <Switch>
           <ProtectRoute path='/settings' component={Settings} />
           <ProtectRoute path='/dashboard' component={Dashboard} />
