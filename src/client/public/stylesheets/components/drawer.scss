@@ -1,4 +1,5 @@
 $drawer-width: 600px;
+$blog-drawer-bg-color: rgb(250, 250, 250);
 
 
 .drawer {
@@ -7,6 +8,7 @@ $drawer-width: 600px;
   right: 0;
   width: $drawer-width;
   height: inherit;
+  overflow: scroll;
 }
 
 .background-greyout.bg-fade-in {
@@ -50,6 +52,92 @@ $drawer-width: 600px;
   }
 }
 
+// BLOG DRAWER
+.blog-drawer {
+  min-height: 100vh;
+  background-color: $blog-drawer-bg-color;
+}
+
+
+.blog-drawer-header-image {
+  height: 338px;
+  background-color: grey;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.blog-drawer-nav {
+  width: $drawer-width;
+  // height: 40px;
+  padding: 10px;
+  position: fixed;
+  top: 0;
+  z-index: 2; 
+  background-image: linear-gradient(rgba(68, 68, 68, 0.5), rgba(255, 255, 255, 0));
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.blog-drawer-nav .blog-name {
+  font-size: 14px;
+  font-weight: 600;
+  padding-left: 5px;
+}
+
+.blog-drawer-nav .btn {
+  display: inline;
+}
+
+.blog-drawer-avatar-wrapper {
+  height: 100px;
+  width: 100px;
+  margin: 0 auto;
+  margin-top: -72px;
+  margin-bottom: 20px;
+  border-radius: 4px;
+  background-color:$blog-drawer-bg-color;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.blog-drawer-avatar-wrapper .avatar {
+  // padding: 2px;
+}
+
+.blog-drawer-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 25px 50px;
+  padding-top: 0;
+}
+
+.blog-drawer-info .blog-title {
+  font-size: 42px;
+  margin-bottom: 5px;
+  font-family: $font-carousel;
+  font-weight: 600;
+}
+
+.blog-drawer-info .blog-description {
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.blog-drawer-posts {
+  padding: 30px;
+}
+
+.blog-drawer-posts .post-content {
+  box-shadow: 0 0 0 1px rgba(0,0,0,.08);
+}
+
+
+// CREDITS DRAWER
 .credits {
   height: inherit;
   width: inherit;

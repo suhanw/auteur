@@ -14,7 +14,8 @@
 
 .avatar-default, 
 .avatar-small, 
-.avatar-extra-small {
+.avatar-extra-small, 
+.avatar-large {
   background-size: cover;
   background-position: center;
 }
@@ -22,6 +23,11 @@
 .avatar-default {
   width: 64px;
   height: 64px;
+}
+
+.avatar-large {
+  width: 96px;
+  height: 96px;
 }
 
 .avatar-small {

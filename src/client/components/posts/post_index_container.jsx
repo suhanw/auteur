@@ -13,15 +13,18 @@ const mapStateToProps = function (state, ownProps) {
   const loadingPostIndex = selectLoadingPostIndex(state);
 
   // LOGIC FOR SELECTING THE RIGHT POSTS TO RENDER
-  let { view } = ownProps;
-  let { blogId } = ownProps.match.params;
+  const { view } = ownProps;
+  let blogId;
+  if (view === 'currentBlog') blogId = ownProps.match.params.blogId;
+  else if (view === 'blogDrawer') blogId = ownProps.blogId;
   let postsArr = [];
 
-  if (ownProps.postsArr) { // pass in posts array if used in BlogShow component
-    postArr = ownProps.postsArr;
-  } else {
-    postsArr = selectPosts(state, view, blogId);
-  }
+  // if (ownProps.postsArr) { // pass in posts array if used in BlogShow component
+  //   postArr = ownProps.postsArr;
+  // } else {
+  //   postsArr = selectPosts(state, view, blogId);
+  // }
+  postsArr = selectPosts(state, view, blogId);
 
   return {
     view,
@@ -35,11 +38,17 @@ const mapStateToProps = function (state, ownProps) {
 
 const mapDispatchToProps = function (dispatch, ownProps) {
   // logic for defining what fetchPosts should fetch (feed, likes, following, etc)
-  let { view } = ownProps;
-  let { userId, blogId } = ownProps.match.params;
+  const { view } = ownProps;
+  let userId;
+  let blogId;
+  if (view === 'currentBlog') blogId = ownProps.match.params.blogId;
+  else if (view === 'likes' || view === 'following') userId = ownProps.match.params.userId;
+  else if (view === 'blogDrawer') blogId = ownProps.blogId;
+
   const fetchActions = {
     'feed': (limit, lastPostDate, lastPostId) => fetchFeed(limit, lastPostDate, lastPostId),
-    'blogId': () => fetchPostsByBlog(blogId),
+    'currentBlog': () => fetchPostsByBlog(blogId),
+    'blogDrawer': () => fetchPostsByBlog(blogId),
     'likes': () => fetchUserLikes(userId, { populate: true }),
     'following': () => fetchUserFollowing(userId),
   }

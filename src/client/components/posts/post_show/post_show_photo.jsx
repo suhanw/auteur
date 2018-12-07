@@ -5,16 +5,14 @@ class PostShowPhoto extends React.Component {
     super(props);
 
     this.renderPhotos = this.renderPhotos.bind(this);
+    this.renderBody = this.renderBody.bind(this);
   }
 
   render() {
-    const { post } = this.props;
     return (
       <main className='post-main'>
         {this.renderPhotos()}
-        <div className='post-body'
-          dangerouslySetInnerHTML={{ __html: post.body }}>
-        </div>
+        {this.renderBody()}
       </main >
     )
   }
@@ -28,6 +26,16 @@ class PostShowPhoto extends React.Component {
         className='post-photo' />);
     })
     return photos;
+  }
+
+  renderBody() {
+    const { post } = this.props;
+    if (!post.body) return null;
+    return (
+      <div className='post-body'
+        dangerouslySetInnerHTML={{ __html: post.body }}>
+      </div>
+    )
   }
 }
 

@@ -53,6 +53,7 @@ class Navbar extends React.Component {
   }
 
   dynamicClosePopover(e) {
+    e.stopPropagation();
     if (e.type === 'keydown' && e.key !== 'Escape') return; // do nothing when user hits a key other than Esc
     const { popover, closePopover } = this.props;
     if (popover) { // only dispatch closePopover if there is an open popover

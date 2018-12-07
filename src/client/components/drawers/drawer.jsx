@@ -3,12 +3,14 @@ import React from 'react';
 
 import CreditsDrawer from './credits_drawer';
 import BlogDrawer from '../blogs/blog_drawer';
-import { selectDrawer } from '../../selectors/selectors';
+import { selectDrawer, selectCurrentUser } from '../../selectors/selectors';
 import { closeDrawer } from '../../actions/drawer_actions';
 
 const mapStateToProps = function (state, ownProps) {
   const drawer = selectDrawer(state);
+  const currentUser = selectCurrentUser(state);
   return {
+    currentUser,
     drawer,
   };
 };
@@ -40,7 +42,11 @@ class Drawer extends React.Component {
   }
 
   render() {
-    const { drawer } = this.props;
+    const { drawer, currentUser } = this.props;
+    // const drawer = {
+    //   view: 'blog',
+    //   data: null,
+    // };
     if (!drawer) return null; // drawer in ui state is null when there is no open drawer
     const DrawerComponent = this.drawerComponents[drawer.view];
     return (
@@ -52,7 +58,9 @@ class Drawer extends React.Component {
           tabIndex='0'
           onClick={(e) => e.stopPropagation() /* to close drawer only when clicking outside drawer */}
           onKeyDown={this.handleKeydown}>
-          <DrawerComponent data={drawer.data} />
+          <DrawerComponent
+            data={drawer.data}
+            currentUser={currentUser} />
         </aside>
       </div>
     );
@@ -79,6 +87,8 @@ class Drawer extends React.Component {
   }
 
   handleKeydown(e) {
+    // FIX: when user hits Esc to close popovers, drawer also closes...
+    e.stopPropagation();
     e.persist();
     if (e.key === 'Escape') this.animateCloseDrawer();
   }

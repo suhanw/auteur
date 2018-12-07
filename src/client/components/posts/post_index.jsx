@@ -46,8 +46,8 @@ class PostIndex extends React.Component {
     const oldView = this.props.view;
     const newView = newProps.view;
     const { fetchPosts, fetchUserLikes, currentUser } = newProps;
-    const oldBlogId = this.props.match.params.blogId;
-    const newBlogId = newProps.match.params.blogId;
+    const oldBlogId = (this.props.match) ? this.props.match.params.blogId : 0;
+    const newBlogId = (newProps.match) ? newProps.match.params.blogId : 0;
     if (newView !== oldView || oldBlogId !== newBlogId) { // to fetch posts when view changes
       if (!currentUser.likedPosts) fetchUserLikes(currentUser._id); // to fetch current user likes only when it's not populated
       fetchPosts();
@@ -61,7 +61,9 @@ class PostIndex extends React.Component {
 
   renderPostIndexHeader() {
     const { currentUser, view } = this.props;
-    if (view === 'likes' || view === 'following') return null;
+    if (view === 'likes' ||
+      view === 'following' ||
+      view === 'blogDrawer') return null;
     return (
       <PostIndexHeader currentUser={currentUser} />
     )
@@ -99,6 +101,7 @@ class PostIndex extends React.Component {
       return (
         <div key={post._id} >
           <PostShowItem
+            view={view}
             post={post}
             blog={blog}
             currentUser={currentUser}

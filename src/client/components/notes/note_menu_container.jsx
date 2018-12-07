@@ -8,12 +8,13 @@ import { selectCurrentUser, selectPopover } from '../../selectors/selectors';
 
 const mapStateToProps = function (state, ownProps) {
   const currentUser = selectCurrentUser(state);
-  const { post } = ownProps;
+  const { post, view } = ownProps;
   const popover = selectPopover(state);
   return {
     currentUser,
     post,
     popover,
+    view,
   };
 };
 

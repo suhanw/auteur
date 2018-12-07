@@ -19,7 +19,7 @@ class Dashboard extends React.Component {
         <div className='dashboard-content'>
           <div className='main-column'>
             <Switch>
-              <Route path='/dashboard/blog/:blogId' render={(props) => <PostIndexContainer {...props} view='blogId' />} />
+              <Route path='/dashboard/blog/:blogId' render={(props) => <PostIndexContainer {...props} view='currentBlog' />} />
               <Route path='/dashboard/:blogId/followers' component={FollowerIndex} />
               <Route path='/dashboard/:userId/following' render={(props) => <PostIndexContainer {...props} view='following' />} />
               <Route path='/dashboard/:userId/likes' render={(props) => <PostIndexContainer {...props} view='likes' />} />

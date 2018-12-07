@@ -55,7 +55,8 @@ class PostShowItem extends React.Component {
   }
 
   renderAvatar() {
-    const { blog, openDrawer } = this.props;
+    const { view, blog } = this.props;
+    if (view === 'blogDrawer') return null;
     return (
       <picture className='avatar-container'>
         <div className='avatar'>
@@ -85,7 +86,7 @@ class PostShowItem extends React.Component {
   }
 
   renderPostContent() {
-    const { post, blog, currentUser } = this.props;
+    const { post, blog, currentUser, view } = this.props;
     let suggestFollow = null;
     let followLink = null;
     let blogNameClass = '';
@@ -115,7 +116,10 @@ class PostShowItem extends React.Component {
 
         <footer className='post-footer'>
           <TagIndex />
-          <NoteMenuContainer post={post} togglePostForm={this.togglePostForm} />
+          <NoteMenuContainer
+            view={view}
+            post={post}
+            togglePostForm={this.togglePostForm} />
         </footer>
       </article >
     );

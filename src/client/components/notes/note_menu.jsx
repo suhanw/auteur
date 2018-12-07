@@ -65,9 +65,9 @@ class NoteMenu extends React.Component {
   }
 
   renderCommentBubble() {
-    const { post, popover } = this.props;
+    const { view, post, popover } = this.props;
     const notePopover = {
-      popoverId: post._id,
+      popoverId: `${post._id}_${view}`,
       popoverType: 'notePopover',
     };
     let notePopoverComponent = null;
@@ -85,10 +85,11 @@ class NoteMenu extends React.Component {
   }
 
   renderCog() {
-    const { post, popover, togglePostForm } = this.props;
+    const { view, post, popover, togglePostForm } = this.props;
+    if (view === 'blogDrawer') return null;
     // unique identifier for current popover
     const editDeletePopover = {
-      popoverId: post._id,
+      popoverId: `${post._id}_${view}`,
       popoverType: 'editDeletePopover',
     };
     // if open popover in redux state is current popover, display the popover

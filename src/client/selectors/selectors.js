@@ -19,7 +19,7 @@ export const selectPosts = function (state, view, blogId = null) { // optional b
   let postIdsArr = [];
   let postsArr = [];
 
-  if (view === 'blogId') { // get the array of postIds from the blog slice of state
+  if (view === 'currentBlog' || view === 'blogDrawer') { // get the array of postIds from the blog slice of state
     const blog = selectBlog(state, blogId);
     postIdsArr = (!blog || !blog.posts) ? [] : blog.posts;  // in case no blogs fetched in state yet
   } else { // otherwise, array of postIds in postIndex slice of state

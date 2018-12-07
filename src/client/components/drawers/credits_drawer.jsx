@@ -10,7 +10,7 @@ class CreditsDrawer extends React.Component {
     return (
       <div className='credits'>
         <header className='slide-title'>
-          CreditsDrawer
+          Credits
         </header>
 
         <ul className='credits-list'>
