@@ -16,7 +16,7 @@ router.get(
     "/",
     function (req, res, next) { // REMOVE IN PROD
         if (process.env.NODE_ENV === 'development') {
-            User.findOne({ email: 'denzel@washington.com' })
+            User.findOne({ email: 'john@wick.com' })
                 .then((user) => {
                     req.login(
                         user,
