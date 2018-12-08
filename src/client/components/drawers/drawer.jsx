@@ -80,6 +80,7 @@ class Drawer extends React.Component {
     this.closeDrawerTimer = setTimeout(
       () => {
         this.props.closeDrawer();
+        clearTimeout(this.closeDrawerTimer);
         this.closeDrawerTimer = null;
       },
       200,
@@ -98,4 +99,4 @@ class Drawer extends React.Component {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Drawer);
+export default connect(mapStateToProps, mapDispatchToProps)(Drawer)

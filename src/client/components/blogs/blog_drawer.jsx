@@ -1,4 +1,5 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom';
 
 import PostIndexContainer from '../posts/post_index_container';
 
@@ -76,7 +77,7 @@ class BlogDrawer extends React.Component {
   }
 
   handleSubmit(buttonText) {
-    const { createFollow, deleteFollow, data } = this.props;
+    const { createFollow, deleteFollow, data, history } = this.props;
     const submitActions = {
       'Follow': createFollow,
       'Unfollow': deleteFollow,
@@ -105,4 +106,4 @@ class BlogDrawer extends React.Component {
 
 }
 
-export default BlogDrawer;
+export default withRouter(BlogDrawer);
