@@ -61,6 +61,14 @@ $blog-bg-color: rgb(250, 250, 250);
 }
 
 .follow-popover-info h1 {
-  font-weight: bold;
+  font-family: $font-carousel;
+  font-weight: 700;
   font-size: 20px;
+  margin-bottom: 5px;
+}
+
+.follow-popover-info h2 {
+  font-size: 12px;
+  font-weight: 400;
+  margin-bottom: 5px;
 }
