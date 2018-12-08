@@ -100,7 +100,6 @@ class PostShowItem extends React.Component {
 
     return (
       <article className='post-content'>
-        {/* FIX: dogear doesn't render correctly in blog drawer */}
         <div className='dogear'></div>
         <header className='post-header'>
           {suggestFollow}

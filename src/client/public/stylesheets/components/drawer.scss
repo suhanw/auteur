@@ -137,6 +137,11 @@ $blog-drawer-bg-color: rgb(250, 250, 250);
   box-shadow: 0 0 0 1px rgba(0,0,0,.08);
 }
 
+.blog-drawer-posts .post-content .dogear {
+  background-image: linear-gradient(45deg, #d0d0d0 50%, $blog-drawer-bg-color 50%);
+  top: -1px;
+  right: -1px;
+}
 
 // CREDITS DRAWER
 .credits {
