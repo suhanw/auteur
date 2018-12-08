@@ -13,8 +13,8 @@ class PostShowItem extends React.Component {
     super(props);
 
     this.state = {
-      postFollowPopover: false,
-      avatarFollowPopover: false,
+      postFollowPopover: null,
+      avatarFollowPopover: null,
       showPostForm: false,
     };
 
@@ -46,9 +46,11 @@ class PostShowItem extends React.Component {
     return (
       <li className='post-show-item'>
 
+        {this.renderAvatar()}
         {this.renderPostContent()}
 
-        {this.renderAvatar()}
+        {renderFollowPopover(this, blog._id, 'avatarFollowPopover')}
+        {renderFollowPopover(this, blog._id, 'postFollowPopover')}
 
       </li >
     );
@@ -64,11 +66,10 @@ class PostShowItem extends React.Component {
           <div
             className='avatar-default'
             style={{ backgroundImage: `url(${blog.avatarImageUrl})` }}
-            onMouseOver={showPopover(this, 'avatarFollowPopover')}
-            onMouseOut={hidePopover(this, true, 'avatarFollowPopover')}
+            onMouseEnter={showPopover(this, 'avatarFollowPopover')}
+            onMouseLeave={hidePopover(this, 'avatarFollowPopover')}
             onClick={this.toggleDrawer} />
 
-          {renderFollowPopover(this, blog._id, 'avatarFollowPopover')}
 
         </div>
       </picture>
@@ -103,11 +104,13 @@ class PostShowItem extends React.Component {
         <div className='dogear'></div>
         <header className='post-header'>
           {suggestFollow}
-          <span className={`post-blog-name ${blogNameClass}`}
-            onMouseOver={showPopover(this, 'postFollowPopover')}
-            onMouseOut={hidePopover(this, true, 'postFollowPopover')}>
-            <span>{blog.name}</span>
-            {renderFollowPopover(this, blog._id, 'postFollowPopover')}
+          <span className={`post-blog-name ${blogNameClass}`}>
+            <span
+              onMouseEnter={showPopover(this, 'postFollowPopover')}
+              onMouseLeave={hidePopover(this, 'postFollowPopover')}
+              onClick={this.toggleDrawer} >
+              {blog.name}
+            </span>
           </span>
           {followLink}
         </header>

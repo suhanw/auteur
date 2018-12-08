@@ -1,16 +1,11 @@
+$blog-bg-color: rgb(250, 250, 250);
+
 .follow-popover {
   width: 280px;
-  position: absolute;
-  padding-top: 0;
+  // position: absolute;
+  position: fixed;
   z-index: 8;
-}
-
-.post-blog-name .follow-popover {
-  top: 25px;  
-}
-
-.avatar-container .follow-popover {
-  top: 75px;
+  background-color: transparent;
 }
 
 .follow-popover-header {
@@ -23,7 +18,9 @@
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  border-radius: inherit;
+  border-radius: 3px;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
 }
 
 .follow-popover-nav {
@@ -57,6 +54,10 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  background-color: $blog-bg-color;
+  border-radius: 3px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
 }
 
 .follow-popover-info h1 {

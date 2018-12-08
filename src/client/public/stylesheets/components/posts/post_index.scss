@@ -17,10 +17,9 @@ $dogear-grey: rgb(208, 208, 208);
   padding: 30px 0;
 }
 
-// FIX: think of a better way to render follow popover so that it doesn't depend on ordering of lis
 .post-container {
   display: flex;
-  flex-direction: column-reverse; 
+  flex-direction: column; 
 }
 
 .post-show-item,
@@ -29,10 +28,6 @@ $dogear-grey: rgb(208, 208, 208);
   display: flex;
   justify-content: space-between;
   margin-bottom: 20px;
-}
-
-.post-show-item {
-  flex-direction: row-reverse; // so that the avatar appears left of post content
 }
 
 .post-show-item .avatar {

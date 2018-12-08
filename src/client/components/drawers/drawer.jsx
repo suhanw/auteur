@@ -56,7 +56,7 @@ class Drawer extends React.Component {
         <aside className='drawer drawer-slide-in'
           ref={this.drawerRef}
           tabIndex='0'
-          onClick={(e) => e.stopPropagation() /* to close drawer only when clicking outside drawer */}
+          // onClick={(e) => e.stopPropagation() /* to close drawer only when clicking outside drawer */}
           onKeyDown={this.handleKeydown}>
           <DrawerComponent
             data={drawer.data}
@@ -87,14 +87,13 @@ class Drawer extends React.Component {
   }
 
   handleKeydown(e) {
-    // FIX: when user hits Esc to close popovers, drawer also closes...
     e.stopPropagation();
     e.persist();
     if (e.key === 'Escape') this.animateCloseDrawer();
   }
 
   handleClick(e) {
-    e.persist();
+    if (e.currentTarget !== e.target) return;
     this.animateCloseDrawer();
   }
 }

@@ -110,8 +110,7 @@ class PostIndex extends React.Component {
         </div>
       );
     });
-    // FIX: think of a better way to render follow popover so that it doesn't depend on ordering of lis
-    return postIndexItems.reverse();
+    return postIndexItems;
   }
 
   handleScroll(e) {

@@ -33,12 +33,20 @@ class FollowPopover extends React.Component {
   }
 
   render() {
-    const { blog, hidePopover } = this.props;
+    const { blog, hidePopover, popover } = this.props;
     if (!blog) return null;
+    const popoverStyle = {
+      top: popover.posY,
+      left: popover.posX,
+      paddingTop: popover.paddingTop,
+    };
 
     return (
-      <div className='follow-popover popover' onMouseOut={hidePopover}>
-        <header className='follow-popover-header' style={{ backgroundImage: `url(${blog.backgroundImageUrl})` }}>
+      <div className='follow-popover'
+        style={popoverStyle}
+        onMouseLeave={hidePopover}>
+        <header className='follow-popover-header'
+          style={{ backgroundImage: `url(${blog.backgroundImageUrl})` }}>
           <nav className='follow-popover-nav'>
             <span className='blog-name'>{blog.name}</span>
             {this.renderButton()}
