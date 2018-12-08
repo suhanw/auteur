@@ -5,6 +5,7 @@ import CreditsDrawer from './credits_drawer';
 import BlogDrawer from '../blogs/blog_drawer';
 import { selectDrawer, selectCurrentUser } from '../../selectors/selectors';
 import { closeDrawer } from '../../actions/drawer_actions';
+import { createFollow, deleteFollow } from '../../actions/follow_actions';
 
 const mapStateToProps = function (state, ownProps) {
   const drawer = selectDrawer(state);
@@ -18,6 +19,8 @@ const mapStateToProps = function (state, ownProps) {
 const mapDispatchToProps = function (dispatch, ownProps) {
   return {
     closeDrawer: () => dispatch(closeDrawer()),
+    createFollow: (blogId) => dispatch(createFollow(blogId)),
+    deleteFollow: (blogId) => dispatch(deleteFollow(blogId)),
   };
 };
 
@@ -42,11 +45,7 @@ class Drawer extends React.Component {
   }
 
   render() {
-    const { drawer, currentUser } = this.props;
-    // const drawer = {
-    //   view: 'blog',
-    //   data: null,
-    // };
+    const { drawer, currentUser, createFollow, deleteFollow } = this.props;
     if (!drawer) return null; // drawer in ui state is null when there is no open drawer
     const DrawerComponent = this.drawerComponents[drawer.view];
     return (
@@ -56,11 +55,12 @@ class Drawer extends React.Component {
         <aside className='drawer drawer-slide-in'
           ref={this.drawerRef}
           tabIndex='0'
-          // onClick={(e) => e.stopPropagation() /* to close drawer only when clicking outside drawer */}
           onKeyDown={this.handleKeydown}>
           <DrawerComponent
             data={drawer.data}
-            currentUser={currentUser} />
+            currentUser={currentUser}
+            createFollow={createFollow}
+            deleteFollow={deleteFollow} />
         </aside>
       </div>
     );
@@ -93,7 +93,7 @@ class Drawer extends React.Component {
   }
 
   handleClick(e) {
-    if (e.currentTarget !== e.target) return;
+    if (e.currentTarget !== e.target) return; // if user click doesn't land on grey background, do nothing
     this.animateCloseDrawer();
   }
 }

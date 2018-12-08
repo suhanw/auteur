@@ -17,7 +17,6 @@ const mapStateToProps = function (state, ownProps) {
 };
 
 const mapDispatchToProps = function (dispatch, ownProps) {
-  const { blogId } = ownProps;
   return {
     fetchBlog: (blogId) => dispatch(fetchBlog(blogId)),
     createFollow: (blogId) => dispatch(createFollow(blogId)),

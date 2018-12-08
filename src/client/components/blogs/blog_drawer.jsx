@@ -9,6 +9,7 @@ class BlogDrawer extends React.Component {
     this.renderHeader = this.renderHeader.bind(this);
     this.renderPostIndex = this.renderPostIndex.bind(this);
     this.renderFollowButton = this.renderFollowButton.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   render() {
@@ -67,10 +68,25 @@ class BlogDrawer extends React.Component {
     }
     return (
       <button
-        className='btn btn-default btn-white'>
+        className='btn btn-default btn-white'
+        onClick={this.handleSubmit(buttonText)}>
         {buttonText}
       </button>
     );
+  }
+
+  handleSubmit(buttonText) {
+    const { createFollow, deleteFollow, data } = this.props;
+    const submitActions = {
+      'Follow': createFollow,
+      'Unfollow': deleteFollow,
+      'Edit appearance': null,
+    };
+    return function (e) {
+      e.preventDefault();
+      const submitAction = submitActions[buttonText];
+      if (submitAction) submitAction(data._id);
+    }
   }
 
   renderPostIndex() {
