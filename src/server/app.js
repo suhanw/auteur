@@ -8,11 +8,12 @@ const methodOverride = require('method-override');
 const path = require('path');
 const passport = require('passport');
 const session = require('express-session');
+const MongoDBStore = require('connect-mongodb-session')(session);
 
 const User = require('./models/user');
 
 
-DB CONFIG ==============================
+// DB CONFIG ==============================
 var dbUrl = process.env.DATABASEURL;
 var dbOptions = {
   useNewUrlParser: true,
@@ -20,7 +21,7 @@ var dbOptions = {
   useFindAndModify: false,
 };
 mongoose.connect(dbUrl, dbOptions);
-require('./util/seeds/seeds')(); // to seed the DB
+// require('./util/seeds/seeds')(); // to seed the DB
 // DB CONFIG==============================    
 
 // APP CONFIG=============================
@@ -33,13 +34,19 @@ app.use(express.static(path.join(__dirname + '/../client/public')));
 // APP CONFIG=============================
 
 // AUTH CONFIG============================
+const store = new MongoDBStore({
+  uri: process.env.DATABASEURL,
+  collection: 'sessions',
+});
+
 const sessionOptions = {
   secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
   cookie: {
-    maxAge: 86400000, // converts to 1 day
-  }
+    maxAge: 1000 * 60 * 60 * 24, // converts to 1 day
+  },
+  store: store,
 };
 
 if (app.get('env') === 'production') {
