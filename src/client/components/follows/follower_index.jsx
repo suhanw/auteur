@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import FollowerItem from './follower_item';
 import { selectUsers, selectCurrentUser, selectBlog, selectBlogs } from '../../selectors/selectors';
 import { fetchFollowers, createFollow } from '../../actions/follow_actions';
+import { openDrawer } from '../../actions/drawer_actions';
 import { pluralize } from '../../util/misc_util';
 
 const mapStateToProps = function (state, ownProps) {
@@ -25,6 +26,7 @@ const mapDispatchToProps = function (dispatch, ownProps) {
   return {
     fetchFollowers: () => dispatch(fetchFollowers(blogId)),
     createFollow: (blogId) => dispatch(createFollow(blogId)),
+    openDrawer: (drawer) => dispatch(openDrawer(drawer)),
   };
 };
 
@@ -58,7 +60,7 @@ class FollowerIndex extends React.Component {
   }
 
   renderFollowers() {
-    const { currentUser, currentBlog, users, blogs, createFollow } = this.props;
+    const { currentUser, currentBlog, users, blogs, createFollow, openDrawer } = this.props;
 
     let followers = currentBlog.followers.map((followerId) => {
       let follower = users[followerId];
@@ -67,7 +69,8 @@ class FollowerIndex extends React.Component {
         follower={follower}
         followerPrimaryBlog={followerPrimaryBlog}
         currentUser={currentUser}
-        createFollow={createFollow} />
+        createFollow={createFollow}
+        openDrawer={openDrawer} />
     });
     return followers;
   }

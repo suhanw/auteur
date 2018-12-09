@@ -31,6 +31,10 @@ $content-width: 625px;
   border-radius: 0;
 }
 
+.follower-info .avatar {
+  cursor: pointer;
+}
+
 .follower-info:nth-child(2n) {
   background: rgb(248, 248, 248);
 }

@@ -2,10 +2,26 @@ $blog-bg-color: rgb(250, 250, 250);
 
 .follow-popover {
   width: 280px;
-  // position: absolute;
   position: fixed;
   z-index: 8;
   background-color: transparent;
+}
+
+.follow-popover {
+  animation-name: popoverfadein;
+  animation-duration: 0.2s;
+  animation-timing-function: ease-out;
+  animation-fill-mode: both;
+}
+
+@keyframes popoverfadein {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
 }
 
 .follow-popover-header {
@@ -22,6 +38,7 @@ $blog-bg-color: rgb(250, 250, 250);
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
 }
+
 
 .follow-popover-nav {
   width: 100%;
@@ -42,6 +59,24 @@ $blog-bg-color: rgb(250, 250, 250);
   position: absolute;
   bottom: -20px;
   margin: 0 auto;
+}
+
+.follow-popover .avatar-wrapper {
+  animation-name: avatargrowfromcenter;
+  animation-delay: 0.2s;
+  animation-duration: 0.2s;
+  animation-timing-function: ease-out;
+  animation-fill-mode: both;
+}
+
+@keyframes avatargrowfromcenter {
+  0% {
+    transform: scale(0);
+  }
+
+  100% {
+    transform: scale(1);
+  }
 }
 
 .follow-popover .btn {
@@ -71,4 +106,9 @@ $blog-bg-color: rgb(250, 250, 250);
   font-size: 12px;
   font-weight: 400;
   margin-bottom: 5px;
+}
+
+.follow-popover-info .object-fade-in {
+  animation-delay: 0.2s;
+  animation-duration: 0.2s;
 }

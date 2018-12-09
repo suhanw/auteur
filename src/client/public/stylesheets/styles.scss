@@ -10,6 +10,11 @@
 // --------
 @import 'layout/layout';
 
+
+// Animation
+// ----------
+@import 'animation/animation';
+
 // Objects
 // --------
 @import 'objects/inputs';
@@ -19,6 +24,7 @@
 @import 'objects/avatars';
 @import 'objects/popovers';
 @import 'objects/spinner';
+
 
 // Components
 // ----------
@@ -38,6 +44,3 @@
 @import 'components/drawer';
 
 
-// Animation
-// ----------
-@import 'animation/animation';

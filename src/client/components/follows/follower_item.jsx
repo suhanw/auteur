@@ -9,6 +9,10 @@ class FollowerItem extends React.Component {
     this.state = {
       followPopover: false,
     };
+
+    this.renderFollowButton = this.renderFollowButton.bind(this);
+    this.toggleDrawer = this.toggleDrawer.bind(this);
+    this.handleClick = this.handleClick.bind(this);
   }
 
   render() {
@@ -17,17 +21,21 @@ class FollowerItem extends React.Component {
     return (
       <li key={follower._id} className='follower-info'>
         <div className='avatar avatar-small'
-          style={{ backgroundImage: `url(${follower.avatarImageUrl})` }} />
+          style={{ backgroundImage: `url(${follower.avatarImageUrl})` }}
+          onMouseEnter={showPopover(this, 'followPopover')}
+          onMouseLeave={hidePopover(this, 'followPopover')}
+          onClick={this.toggleDrawer} />
         <div className='follower-details'>
           <span className='follower-details-name'
-            onMouseOver={showPopover(this, 'followPopover')}
-            onMouseOut={hidePopover(this, true, 'followPopover')}>
+            onMouseEnter={showPopover(this, 'followPopover')}
+            onMouseLeave={hidePopover(this, 'followPopover')}
+            onClick={this.toggleDrawer}>
             {follower.username}
-            {renderFollowPopover(this, followerPrimaryBlog._id, 'followPopover')}
           </span>
           <span className='follower-details-title'>{followerPrimaryBlog.title}</span>
         </div>
         {this.renderFollowButton(followerPrimaryBlog._id)}
+        {renderFollowPopover(this, followerPrimaryBlog._id, 'followPopover')}
       </li>
     );
   }
@@ -41,6 +49,16 @@ class FollowerItem extends React.Component {
         Follow
       </button>
     );
+  }
+
+  toggleDrawer(e) {
+    e.preventDefault();
+    const { openDrawer, followerPrimaryBlog } = this.props;
+    let blogDrawer = {
+      view: 'blog',
+      data: followerPrimaryBlog,
+    };
+    openDrawer(blogDrawer);
   }
 
   handleClick(blogId) {

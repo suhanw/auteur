@@ -56,8 +56,8 @@ class FollowPopover extends React.Component {
           </div>
         </header>
         <main className='follow-popover-info'>
-          <h1>{blog.title}</h1>
-          <h2>{blog.description}</h2>
+          <h1 className='object-fade-in'>{blog.title}</h1>
+          <h2 className='object-fade-in'>{blog.description}</h2>
         </main>
       </div >
     );

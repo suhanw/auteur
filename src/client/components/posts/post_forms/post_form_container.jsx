@@ -59,7 +59,6 @@ class PostForm extends React.Component {
       confirmDiscardPostModal: false,
     };
 
-    // object that stores all the different PostForm types
     this.postFormComponents = {
       'text': PostFormText,
       'photo': PostFormPhoto,
@@ -141,7 +140,6 @@ class PostForm extends React.Component {
 
   renderPostFormType() {
     const { formType, createPost, updatePost, currentUser, blog, post } = this.props;
-    // const { blog, post } = this.state;
 
     const PostFormComponent = this.postFormComponents[formType];
 

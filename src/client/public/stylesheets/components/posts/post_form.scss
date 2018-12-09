@@ -4,6 +4,38 @@
   justify-content: center;
 }
 
+.post-form {
+  animation-name: formappear;
+  animation-duration: 0.2s;
+  animation-timing-function: cubic-bezier(.64,.21,.42,1.36);
+}
+
+@keyframes formappear {
+  0% {
+    height: 100px;
+  }
+
+  100% {
+    height: 100%;
+  }
+}
+
+.post-header, .post-main, .post-footer {
+  animation-name: formcontentappear;
+  animation-duration: 0.2s;
+  animation-timing-function: ease-in;
+}
+
+@keyframes formcontentappear {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
 .post-form,
 .post-form-container .avatar {
   z-index: 6;

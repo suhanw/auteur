@@ -19,6 +19,7 @@ class PostIndex extends React.Component {
 
   render() {
     // FIX: add error handlers!!
+    // FIX: scroll to top when changing views
     const { loadingPostIndex } = this.props;
 
     let spinnerClass = (loadingPostIndex) ? 'loading-post-index' : null;

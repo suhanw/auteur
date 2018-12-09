@@ -9,6 +9,24 @@
   line-height: 1.5;
 }
 
+.popover {
+  animation-name: popoverfadein;
+  animation-duration: 0.2s;
+  animation-timing-function: ease-out;
+}
+
+@keyframes popoverfadein {
+  0% {
+    opacity: 0;
+    transform: translate(0, -20px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translate(0);
+  }
+}
+
 .popover-header {
   background: rgb(242, 242, 242);
   font-size: 11px;
