@@ -74,7 +74,6 @@ class PostFormPhoto extends React.Component {
 
   renderBodyInput() {
     const { mediaPreview, body } = this.state;
-    // FIX: body shows undefined....
     if (Object.keys(mediaPreview).length > 0) { // only render when images have been selected
       return (
         <ContentEditable className='post-body'

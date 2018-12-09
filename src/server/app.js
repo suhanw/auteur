@@ -21,7 +21,7 @@ var dbOptions = {
   useFindAndModify: false,
 };
 mongoose.connect(dbUrl, dbOptions);
-// require('./util/seeds/seeds')(); // to seed the DB
+require('./util/seeds/seeds')(); // to seed the DB
 // DB CONFIG==============================    
 
 // APP CONFIG=============================

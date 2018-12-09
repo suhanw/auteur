@@ -94,7 +94,7 @@ router.put('/posts/:postId',
     modelQuery.findOneBlog(req.params.id)
       .then((foundBlog) => {
         let post = lodash.merge({}, req.body);
-        post.body = sanitizeHtml(post.body);
+        if (post.body) post.body = sanitizeHtml(post.body); // body is not required, so key may not exist
         if (['photo', 'video', 'audio'].includes(post.type)) {
           return mediaUpload.updateFiles(req.files, req.body.urls, post);
         }

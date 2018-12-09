@@ -78,7 +78,6 @@ const blogsReducer = function (state = defaultState, action) {
             blogId = action.payload.blog;
             newState = merge({}, state);
             blogPostsArr = newState.byId[blogId].posts;
-            // if new post, union will append postId to beginning of blog.posts array
             if (blogPostsArr && !blogPostsArr.includes(post._id)) newState.byId[blogId].posts.unshift(post._id);
             return newState;
         case REMOVE_POST:

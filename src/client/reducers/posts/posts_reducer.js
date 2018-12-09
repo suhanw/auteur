@@ -117,18 +117,11 @@ const postsReducer = function (state = defaultState, action) {
                 normalizedPayload.entities.posts,
                 replaceArray,
             );
-            if (state.allIds.indexOf(action.payload._id) < 0) {
-                newState.allIds = state.allIds.slice();
+            newState.allIds = state.allIds.slice();
+            if (!state.allIds.includes(action.payload._id)) {
                 // insert latest post into beginning of array
                 newState.allIds.unshift(action.payload._id);
-            } else {
-                // FIX: post still showing up at top...
-                // else, the received post might be an updated post
-                newState.allIds = union(
-                    state.allIds,
-                    [action.payload._id]
-                );
-            }
+            } // else, the received post is an updated post already in array
             return newState;
         case REMOVE_POST:
             postId = action.payload._id;

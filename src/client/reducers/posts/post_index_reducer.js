@@ -49,16 +49,10 @@ const postIndexReducer = function (state = defaultState, action) {
     case RECEIVE_POST:
       normalizedPayload = normalize(action.payload, postSchema);
       newState = merge({}, state);
-      if (state.feed.indexOf(action.payload._id) < 0) {
+      if (!state.feed.includes(action.payload._id)) {
         // insert latest post into beginning of array
-        newState.feed.unshift(action.payload._id);
-      } else {
-        // else, the received post might be an updated post
-        newState.feed = union(
-          state.feed,
-          [action.payload._id]
-        );
-      }
+        newState.feed.unshift(action.payload._id); //FIX: this will also add updatd posts that are not yet fetched in feed to the top
+      } // else, the received post is an updated post, which is already in array
       return newState;
     case REMOVE_POST:
       let removedPostId = action.payload._id;
