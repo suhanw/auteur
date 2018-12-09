@@ -34,6 +34,7 @@
     "babel-loader": "^8.0.4",
     "body-parser": "^1.18.3",
     "connect-flash": "^0.1.1",
+    "connect-mongodb-session": "^2.0.6",
     "css-loader": "^1.0.1",
     "dotenv": "^6.1.0",
     "ejs": "^2.6.1",
