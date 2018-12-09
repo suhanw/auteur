@@ -38,6 +38,42 @@ const postsReducer = function (state = defaultState, action) {
     Object.freeze(state);
     let newState = {};
     switch (action.type) {
+        case RECEIVE_POSTS: // used for fetching feed posts
+            payloadSchema = [postSchema];
+            normalizedPayload = normalize(action.payload, payloadSchema);
+            newState.byId = mergeWith(
+                {},
+                state.byId,
+                normalizedPayload.entities.posts,
+                replaceArray,
+            );
+            newState.allIds = union(
+                state.allIds,
+                normalizedPayload.result, // array of postIds
+            );
+            return newState;
+        case RECEIVE_POST:
+            normalizedPayload = normalize(action.payload, postSchema);
+            newState.byId = mergeWith(
+                {},
+                state.byId,
+                normalizedPayload.entities.posts,
+                replaceArray,
+            );
+            newState.allIds = state.allIds.slice();
+            if (!state.allIds.includes(action.payload._id)) {
+                // insert latest post into beginning of array
+                newState.allIds.unshift(action.payload._id);
+            } // else, the received post is an updated post already in array
+            return newState;
+        case REMOVE_POST:
+            postId = action.payload._id;
+            newState.byId = mergeWith({}, state.byId, replaceArray);
+            delete newState.byId[postId];
+            newState.allIds = state.allIds.slice();
+            const indexToDel = newState.allIds.indexOf(postId);
+            newState.allIds.splice(indexToDel, 1);
+            return newState;
         case RECEIVE_NOTES:
             payloadSchema = [noteSchema];
             normalizedPayload = normalize(action.payload.notes, payloadSchema);
@@ -94,42 +130,6 @@ const postsReducer = function (state = defaultState, action) {
                 state.allIds,
                 [action.payload.post._id]
             );
-            return newState;
-        case RECEIVE_POSTS: // used for fetching feed posts
-            payloadSchema = [postSchema];
-            normalizedPayload = normalize(action.payload, payloadSchema);
-            newState.byId = mergeWith(
-                {},
-                state.byId,
-                normalizedPayload.entities.posts,
-                replaceArray,
-            );
-            newState.allIds = union(
-                state.allIds,
-                normalizedPayload.result, // array of postIds
-            );
-            return newState;
-        case RECEIVE_POST:
-            normalizedPayload = normalize(action.payload, postSchema);
-            newState.byId = mergeWith(
-                {},
-                state.byId,
-                normalizedPayload.entities.posts,
-                replaceArray,
-            );
-            newState.allIds = state.allIds.slice();
-            if (!state.allIds.includes(action.payload._id)) {
-                // insert latest post into beginning of array
-                newState.allIds.unshift(action.payload._id);
-            } // else, the received post is an updated post already in array
-            return newState;
-        case REMOVE_POST:
-            postId = action.payload._id;
-            newState.byId = mergeWith({}, state.byId, replaceArray);
-            delete newState.byId[postId];
-            newState.allIds = state.allIds.slice();
-            const indexToDel = newState.allIds.indexOf(postId);
-            newState.allIds.splice(indexToDel, 1);
             return newState;
         case REMOVE_CURRENT_USER:
             return defaultState;
