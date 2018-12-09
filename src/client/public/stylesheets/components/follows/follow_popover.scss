@@ -8,13 +8,13 @@ $blog-bg-color: rgb(250, 250, 250);
 }
 
 .follow-popover {
-  animation-name: popoverfadein;
+  animation-name: followpopoverfadein;
   animation-duration: 0.2s;
   animation-timing-function: ease-out;
   animation-fill-mode: both;
 }
 
-@keyframes popoverfadein {
+@keyframes followpopoverfadein {
   0% {
     opacity: 0;
   }

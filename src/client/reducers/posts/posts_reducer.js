@@ -122,6 +122,7 @@ const postsReducer = function (state = defaultState, action) {
                 // insert latest post into beginning of array
                 newState.allIds.unshift(action.payload._id);
             } else {
+                // FIX: post still showing up at top...
                 // else, the received post might be an updated post
                 newState.allIds = union(
                     state.allIds,
