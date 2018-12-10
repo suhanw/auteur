@@ -14,6 +14,7 @@ const blogSchema = new mongoose.Schema(
     name: {
       type: String,
       required: true,
+      unique: [true, 'Blog name has already been taken.'],
     },
     title: {
       type: String,

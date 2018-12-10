@@ -8,6 +8,7 @@ const lodash = require('lodash');
 
 const Post = require('../models/post');
 const Note = require('../models/note');
+const Tag = require('../models/tag');
 const modelQuery = require('../util/model_query_util');
 const mediaUpload = require('../util/media_upload_util');
 const middleware = require('../middleware/middleware');
@@ -31,6 +32,7 @@ router.post('/posts',
   middleware.isLoggedIn,
   upload.array('newFiles'), // file upload middleware - looks for the 'newFiles' key in body of http request
   function (req, res) {
+    // FIX: add existing tags or crete new tags
     modelQuery.findOneBlog(req.params.id)
       .then((foundBlog) => {
         let postBody = lodash.merge({}, req.body);
@@ -91,6 +93,7 @@ router.put('/posts/:postId',
   middleware.checkPostOwnership,
   upload.array('newFiles'),
   function (req, res) {
+    // FIX: add existing tags or crete new tags
     modelQuery.findOneBlog(req.params.id)
       .then((foundBlog) => {
         let post = lodash.merge({}, req.body);
