@@ -13,9 +13,9 @@ class PostShowItem extends React.Component {
     super(props);
 
     this.state = {
+      showPostForm: false,
       postFollowPopover: null,
       avatarFollowPopover: null,
-      showPostForm: false,
     };
 
     this.postShowComponents = {
@@ -25,16 +25,17 @@ class PostShowItem extends React.Component {
       'link': PostShowLink,
     };
 
+    this.postShowItemRef = React.createRef();
+
     this.renderAvatar = this.renderAvatar.bind(this);
     this.renderPostContent = this.renderPostContent.bind(this);
     this.renderPostShow = this.renderPostShow.bind(this);
-    this.handleClick = this.handleClick.bind(this);
+    this.handleClickFollow = this.handleClickFollow.bind(this);
     this.toggleDrawer = this.toggleDrawer.bind(this);
     this.togglePostForm = this.togglePostForm.bind(this);
   }
 
   render() {
-    // FIX: fade out when deleted
     const { post, blog } = this.props;
     if (this.state.showPostForm) {
       return <PostFormContainer post={post}
@@ -44,7 +45,7 @@ class PostShowItem extends React.Component {
     }
 
     return (
-      <li className='post-show-item'>
+      <li className='post-show-item' ref={this.postShowItemRef}>
 
         {this.renderAvatar()}
         {this.renderPostContent()}
@@ -95,7 +96,7 @@ class PostShowItem extends React.Component {
     // if not already followed, suggest user to follow blog
     if (blog.author !== currentUser._id && !currentUser.following.includes(blog._id)) {
       suggestFollow = <small>Here's a blog: </small>
-      followLink = <a onClick={this.handleClick}>Follow</a>
+      followLink = <a onClick={this.handleClickFollow}>Follow</a>
       blogNameClass = 'unfollowed';
     }
 
@@ -122,7 +123,8 @@ class PostShowItem extends React.Component {
           <NoteMenuContainer
             view={view}
             post={post}
-            togglePostForm={this.togglePostForm} />
+            togglePostForm={this.togglePostForm}
+            postShowItemRef={this.postShowItemRef} />
         </footer>
       </article >
     );
@@ -135,7 +137,7 @@ class PostShowItem extends React.Component {
     return <PostShowComponent post={post} />;
   }
 
-  handleClick(e) {
+  handleClickFollow(e) {
     e.preventDefault();
     const { createFollow, blog } = this.props;
     createFollow(blog._id);

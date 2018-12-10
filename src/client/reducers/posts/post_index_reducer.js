@@ -52,7 +52,7 @@ const postIndexReducer = function (state = defaultState, action) {
       if (!state.feed.includes(action.payload._id) &&
         state.feed[0] < action.payload._id) { // mongoDB Id has timestamp encoded
         // insert latest post into beginning of array
-        newState.feed.unshift(action.payload._id); //FIX: this will also add updatd posts that are not yet fetched in feed to the top
+        newState.feed.unshift(action.payload._id);
       } else if (state.feed.includes(action.payload._id)) {
         // else, the received post is an updated post, which is already in array
         newState.feed = union(state.feed, [action.payload._id]);

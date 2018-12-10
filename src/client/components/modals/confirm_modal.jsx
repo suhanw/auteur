@@ -66,7 +66,21 @@ class ConfirmModal extends React.Component {
   handleClickOk(e) {
     const { action, data } = this.props;
     e.preventDefault();
-    e.stopPropagation(); // to prevent bubbling up to modal background which will call closeModal
+    e.stopPropagation(); // to prevent bubbling up to modal background which will call closeModal before executing any action
+    this.props.closeModal();
+    if (action === 'confirmDeletePost') {
+      data.postShowItemRef.current.classList.add('bg-fade-out');
+      delete data.postShowItemRef;
+      let animateDeletePostTimer = setTimeout( // dispatch action only after animation ends
+        () => {
+          clearTimeout(animateDeletePostTimer);
+          animateDeletePostTimer = null;
+          this.modalActions[action](data);
+        },
+        400,
+      )
+      return;
+    }
     this.modalActions[action](data);
   }
 

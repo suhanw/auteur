@@ -96,8 +96,11 @@ class SessionForm extends React.Component {
 
     if (this.emailFieldRef.current) { // null on the get started page
       // focus on email field after animation
-      setTimeout(
-        () => this.emailFieldRef.current.focus(),
+      let emailFieldTimer = setTimeout(
+        () => {
+          clearTimeout(emailFieldTimer);
+          this.emailFieldRef.current.focus();
+        },
         500
       );
     }

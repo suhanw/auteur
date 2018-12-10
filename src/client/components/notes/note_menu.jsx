@@ -84,7 +84,7 @@ class NoteMenu extends React.Component {
   }
 
   renderCog() {
-    const { view, post, popover, togglePostForm } = this.props;
+    const { view, post, popover, togglePostForm, postShowItemRef } = this.props;
     if (view === 'blogDrawer') return null;
     // unique identifier for current popover
     const editDeletePopover = {
@@ -94,6 +94,8 @@ class NoteMenu extends React.Component {
     // if open popover in redux state is current popover, display the popover
     const popoverStyle = JSON.stringify(popover) === JSON.stringify(editDeletePopover) ? { display: 'inline-block' } : { display: 'none' };
 
+    // pass ref to confirm modal to animate post deletion
+    post.postShowItemRef = postShowItemRef;
     return (
       <li className='note-menu-item'>
         <i className="fas fa-cog"
