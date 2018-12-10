@@ -74,7 +74,10 @@ modelQuery.deleteLike = function (likeId) {
 modelQuery.createComment = function (commentBody) {
   return Note.create(commentBody)
     .then((newComment) => {
-      return newComment.populate('post').execPopulate();
+      return newComment.populate({
+        path: 'post',
+        select: 'commentCount',
+      }).execPopulate();
     })
     .then((newComment) => {
       newComment.post.commentCount += 1;
@@ -88,7 +91,10 @@ modelQuery.deleteComment = function (commentId) {
     .exec()
     .then((deletedComment) => {
       if (!deletedComment) throw { message: 'This comment does not exist. ' };
-      return deletedComment.populate('post').execPopulate();
+      return deletedComment.populate({
+        path: 'post',
+        select: 'commentCount',
+      }).execPopulate();
     })
     .then((deletedComment) => {
       deletedComment.post.commentCount -= 1;
