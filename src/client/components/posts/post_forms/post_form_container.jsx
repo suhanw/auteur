@@ -10,13 +10,17 @@ import PostFormVideo from './post_form_video';
 import Modal from '../../modals/modal';
 import { fetchBlog } from '../../../actions/blog_actions';
 import { createPost, updatePost } from '../../../actions/post_actions';
-import { selectCurrentUser, selectBlog, selectLoadingPostSubmit } from '../../../selectors/selectors';
+import { clearErrors } from '../../../actions/clear_actions';
+import { selectCurrentUser, selectBlog, selectLoadingPostSubmit, selectPostErrors } from '../../../selectors/selectors';
 import { renderSpinner } from '../../../util/misc_util';
+import { renderErrors } from '../../../util/error_util';
+
 
 const mapStateToProps = function (state, ownProps) {
   let formType; // whether it's text, photo, video, etc
   const currentUser = selectCurrentUser(state); //this includes primaryBlog id
   const loadingPostSubmit = selectLoadingPostSubmit(state);
+  const postErrors = selectPostErrors(state);
   const { edit, togglePostForm } = ownProps;
   let blog;
   let post;
@@ -37,6 +41,7 @@ const mapStateToProps = function (state, ownProps) {
     blog,
     post,
     loadingPostSubmit,
+    postErrors,
     togglePostForm,
   }
 };
@@ -46,6 +51,7 @@ const mapDispatchToProps = function (dispatch, ownProps) {
     fetchBlog: (blogId) => dispatch(fetchBlog(blogId)),
     createPost: (post) => dispatch(createPost(post)),
     updatePost: (post) => dispatch(updatePost(post)),
+    clearErrors: () => dispatch(clearErrors()),
   };
 };
 
@@ -75,9 +81,8 @@ class PostForm extends React.Component {
   }
 
   render() {
-    const { currentUser, loadingPostSubmit } = this.props;
+    const { currentUser, loadingPostSubmit, postErrors } = this.props;
     const spinnerClass = loadingPostSubmit ? 'loading-post-submit' : null;
-
     return (
       <div className='post-form-container'>
 
@@ -139,10 +144,18 @@ class PostForm extends React.Component {
   }
 
   renderPostFormType() {
-    const { formType, createPost, updatePost, currentUser, blog, post } = this.props;
+    const {
+      formType,
+      currentUser,
+      blog,
+      post,
+      createPost,
+      updatePost,
+      postErrors,
+    } = this.props;
 
     const PostFormComponent = this.postFormComponents[formType];
-
+    const errorMessage = (postErrors.length > 0) ? renderErrors(postErrors) : null;
     // if post is null, pass in createPost for 'new' form, else, pass in updateForm for 'edit' form
     let submitAction = (!post) ? createPost : updatePost;
 
@@ -152,7 +165,8 @@ class PostForm extends React.Component {
       post={post}
       confirmDiscardPost={this.confirmDiscardPost}
       closePostForm={this.closePostForm}
-      submitAction={submitAction} />;
+      submitAction={submitAction}
+      errorMessage={errorMessage} />;
   }
 
   confirmDiscardPost() {
@@ -162,10 +176,9 @@ class PostForm extends React.Component {
   }
 
   closePostForm(e) {
-    const { togglePostForm } = this.props;
-    if (e && e.type === 'keydown' && e.key !== 'Escape') { // close post form only when user hits the Esc key
-      return;
-    }
+    if (e && e.type === 'keydown' && e.key !== 'Escape') return; // do not close post form if user hits other keys but Esc
+    const { togglePostForm, postErrors, clearErrors } = this.props;
+    if (postErrors.length > 0) clearErrors();
     togglePostForm();
   }
 
@@ -176,4 +189,3 @@ class PostForm extends React.Component {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(PostForm);
-

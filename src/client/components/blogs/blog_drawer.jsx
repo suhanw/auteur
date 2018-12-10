@@ -57,7 +57,6 @@ class BlogDrawer extends React.Component {
   }
 
   renderFollowButton() {
-    // FIX: how to pass in followBlog action?
     const { data, currentUser } = this.props;
     let buttonText = '';
     if (data.author === currentUser._id) {

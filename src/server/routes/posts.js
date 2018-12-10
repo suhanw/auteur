@@ -6,8 +6,8 @@ const upload = multer({ storage });
 const sanitizeHtml = require('sanitize-html');
 const lodash = require('lodash');
 
-const Blog = require('../models/blog');
 const Post = require('../models/post');
+const Note = require('../models/note');
 const modelQuery = require('../util/model_query_util');
 const mediaUpload = require('../util/media_upload_util');
 const middleware = require('../middleware/middleware');
@@ -38,15 +38,15 @@ router.post('/posts',
         let newPost = new Post(postBody);
         // if a media post, upload files to AWS
         if (['photo', 'video', 'audio'].includes(newPost.type)) {
-          // FIX: CHECK FILE SIZE BEFORE UPLOAD
+          let totalFileSize = req.files.reduce((totalFileSize, currFile) => { return totalFileSize + currFile.size }, 0); // in bytes
+          if (totalFileSize > 2097152) throw { message: 'Total file size should not exceed 2 MB. Please try again.' };
           return mediaUpload.uploadFiles(req.files, req.body.urls, newPost, foundBlog);
         }
         // if not a media post, pass on to the next 'then' block
         // pass in single argument as resolution value
         return new Promise((resolve, reject) => resolve({ post: newPost, blog: foundBlog }));
       })
-      .then(({ post, blog }) => {
-        // destructure the single object argument
+      .then(({ post, blog }) => { // destructure the single object argument
         blog.postCount += 1;
         blog.save();
         return post.save();
@@ -59,7 +59,6 @@ router.post('/posts',
 
 
 // DELETE api/blogs/:id/posts/:id (Destroy)
-// FIX: also need to delete related notes
 router.delete('/posts/:postId',
   middleware.checkPostOwnership,
   function (req, res) {
@@ -77,6 +76,7 @@ router.delete('/posts/:postId',
         return Post.findOneAndDelete({ _id: post._id })
           .then((deletedPost) => {
             if (!deletedPost) throw { message: 'Post does not exist. ' };
+            Note.deleteMany({ post: deletedPost._id }, (err) => { if (err) throw err });
             blog.postCount -= 1;
             blog.save();
             return res.json(deletedPost);
@@ -96,10 +96,11 @@ router.put('/posts/:postId',
         let post = lodash.merge({}, req.body);
         if (post.body) post.body = sanitizeHtml(post.body); // body is not required, so key may not exist
         if (['photo', 'video', 'audio'].includes(post.type)) {
+          let totalFileSize = req.files.reduce((totalFileSize, currFile) => { return totalFileSize + currFile.size }, 0); // in bytes
+          if (totalFileSize > 2097152) throw { message: 'Total file size should not exceed 2 MB. Please try again.' };
           return mediaUpload.updateFiles(req.files, req.body.urls, post);
         }
         // if not a media post, pass on to the next 'then' block
-        // pass in single argument as resolution value
         return new Promise((resolve, reject) => resolve(post));
       })
       .then((post) => {

@@ -32,12 +32,15 @@ class PostFormLink extends React.Component {
   }
 
   render() {
-    const { blog, confirmDiscardPost } = this.props;
-    const readyToSubmit = (this.state.linkUrl) ? true : false;
+    const { blog, confirmDiscardPost, errorMessage } = this.props;
+    const { linkUrl, title } = this.state;
+    const readyToSubmit = (!linkUrl || title === '') ? false : true;
     return (
       <form className='post-form' onSubmit={this.handleSubmit}>
 
         <PostFormHeader blog={blog} />
+
+        {errorMessage}
 
         <main className='post-main'>
 
@@ -174,7 +177,10 @@ class PostFormLink extends React.Component {
       newPost.append('blog', blog._id);
     }
     submitAction(newPost).then(
-      () => closePostForm(e) // close form after posting
+      (errAction) => {
+        if (errAction) return; // if a post error is received, do nothing
+        closePostForm(e); // otherwise, close form after posting
+      }
     );
   }
 }

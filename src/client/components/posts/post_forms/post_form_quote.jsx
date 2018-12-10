@@ -23,13 +23,15 @@ class PostFormQuote extends React.Component {
   }
 
   render() {
-    const { blog, confirmDiscardPost } = this.props;
+    const { blog, confirmDiscardPost, errorMessage } = this.props;
     const { title, body } = this.state;
     const readyToSubmit = (title === '' || body === '') ? false : true;
     return (
       <form className='post-form' onSubmit={this.handleSubmit}>
 
         <PostFormHeader blog={blog} />
+
+        {errorMessage}
 
         <fieldset className='post-main'>
           <div className='post-quote'>
@@ -87,7 +89,10 @@ class PostFormQuote extends React.Component {
     }
 
     submitAction(newPost).then( // invoke AJAX to create new post or edit post
-      () => closePostForm(e) // close form after posting
+      (errAction) => {
+        if (errAction) return; // if a post error is received, do nothing
+        closePostForm(e); // otherwise, close form after posting
+      }
     );
   }
 }

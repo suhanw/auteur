@@ -46,13 +46,15 @@ class PostFormPhoto extends React.Component {
   }
 
   render() {
-    const { blog, confirmDiscardPost } = this.props;
+    const { blog, confirmDiscardPost, errorMessage } = this.props;
     const readyToSubmit = (this.state.media.length > 0) ? true : false;
     return (
       <form className='post-form'
         onSubmit={this.handleSubmit}>
 
         <PostFormHeader blog={blog} />
+
+        {errorMessage}
 
         <main className='post-main'>
 
@@ -339,7 +341,10 @@ class PostFormPhoto extends React.Component {
     }
     // invoke AJAX to create new post or edit post
     submitAction(newPost).then(
-      () => closePostForm(e) // close form after posting
+      (errAction) => {
+        if (errAction) return; // if a post error is received, do nothing
+        closePostForm(e); // otherwise, close form after posting
+      }
     );
   }
 }

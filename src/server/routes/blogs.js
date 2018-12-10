@@ -9,11 +9,9 @@ const middleware = require('../middleware/middleware');
 router.get('/blogs/:id', middleware.isLoggedIn, function (req, res) {
     modelQuery.findOneBlog(req.params.id)
         .then((foundBlog) => {
-            if (!req.query.includePosts) return res.json(foundBlog);
+            return res.json(foundBlog);
         })
         .catch((err) => res.status(404).json(['The blog does not exist.']));
 });
-
-
 
 module.exports = router;

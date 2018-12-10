@@ -21,13 +21,15 @@ class PostFormVideo extends React.Component {
   }
 
   render() {
-    const { blog, closePostForm } = this.props;
+    const { blog, closePostForm, errorMessage } = this.props;
     const { title, body } = this.state;
     const readyToSubmit = (title === '' && body === '') ? false : true;
     return (
       <form className='post-form' onSubmit={this.handleSubmit}>
 
         <PostFormHeader blog={blog} />
+
+        {errorMessage}
 
         <span className='post-main'
           tabIndex='0'
@@ -70,7 +72,10 @@ class PostFormVideo extends React.Component {
     }
 
     submitAction(newPost).then( // invoke AJAX to create new post or edit post
-      () => closePostForm(e) // close form after posting
+      (errAction) => {
+        if (errAction) return; // if a post error is received, do nothing
+        closePostForm(e); // otherwise, close form after posting
+      }
     );
   }
 }

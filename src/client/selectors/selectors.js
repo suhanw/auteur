@@ -95,3 +95,9 @@ export const selectLoadingPostIndex = function (state) {
   const { ui: { loading: { loadingPostIndex } } } = state;
   return loadingPostIndex;
 };
+
+// ERROR SELECTORS=================================
+export const selectPostErrors = function (state) {
+  const { errors: { postErrors } } = state;
+  return postErrors;
+}

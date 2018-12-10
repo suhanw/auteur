@@ -38,5 +38,4 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 // REMOVE IN PROD===========================
-
 // REMOVE IN PROD===========================
