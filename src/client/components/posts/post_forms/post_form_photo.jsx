@@ -156,7 +156,7 @@ class PostFormPhoto extends React.Component {
           onChange={this.handleMediaInput}
           autoFocus={true}
           type='text'
-          placeholder='Type or paste a URL.' />
+          placeholder='Type or paste a URL (please include https://)' />
         <span className='remove-icon'>
           <i className="fas fa-times-circle"
             onClick={() => this.setState({ urlInput: false })}></i>

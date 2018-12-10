@@ -72,7 +72,7 @@ class PostFormLink extends React.Component {
           onChange={this.handleUrlInput}
           autoFocus={true}
           type='text'
-          placeholder='Type or paste a URL.' />
+          placeholder='Type or paste a URL (please include https://)' />
       </div>
     );
   }

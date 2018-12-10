@@ -87,7 +87,8 @@ class TagForm extends React.Component {
   }
 
   handleChange(e) {
-    let tagInputWidth = (e.currentTarget.value.length * 8) + 10; // each letter is 8px wide, accounting for 5px margin on left & right
+    let valueWidth = (e.currentTarget.value.length * 8) + 10; // each letter is 8px wide, accounting for 5px margin on left & right
+    let tagInputWidth = (valueWidth > 50) ? valueWidth : 50; // min of 50px width
     e.currentTarget.style.width = `${tagInputWidth}px`; // increase width as user enters value
     let newState = { newTag: e.currentTarget.value };
     this.setState(newState);
