@@ -4,6 +4,7 @@ import { merge } from 'lodash';
 
 import PostFormHeader from './post_form_header';
 import PostFormFooter from './post_form_footer';
+import TagForm from '../../tags/tag_form';
 
 class PostFormText extends React.Component {
   constructor(props) {
@@ -14,6 +15,7 @@ class PostFormText extends React.Component {
       type: 'text',
       title: '',
       body: '',
+      tags: [],
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -43,6 +45,9 @@ class PostFormText extends React.Component {
             onChange={this.handleChange('body')}
             placeholder='Your text here.'
             tagName='div' />
+
+          <TagForm />
+
         </fieldset>
 
         {errorMessage}
