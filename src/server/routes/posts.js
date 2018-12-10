@@ -142,7 +142,6 @@ router.put('/posts/:postId',
       })
       .then((post) => {
         return Post.findOneAndUpdate({ _id: post._id }, post, { new: true })
-          .exec();
       })
       .then((updatedPost) => {
         if (!updatedPost) throw { message: 'Post does not exist. ' };
