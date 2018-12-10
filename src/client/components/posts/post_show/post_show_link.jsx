@@ -9,7 +9,7 @@ class PostShowLink extends React.Component {
 
   render() {
     const { post } = this.props;
-    const publisher = post.linkUrl.match('(?<=\/\/)([^\/]+)')[0];
+    const publisher = post.linkUrl.match('(https:\/\/)([^\/]+)')[2];
     return (
       <main className='post-main'>
         <a href={post.linkUrl} target='_blank' className='post-link'>
