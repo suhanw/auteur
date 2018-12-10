@@ -31,8 +31,6 @@ class PostFormQuote extends React.Component {
 
         <PostFormHeader blog={blog} />
 
-        {errorMessage}
-
         <fieldset className='post-main'>
           <div className='post-quote'>
             <ContentEditable
@@ -53,6 +51,8 @@ class PostFormQuote extends React.Component {
               onChange={this.handleChange('body')} />
           </span>
         </fieldset>
+
+        {errorMessage}
 
         <PostFormFooter
           confirmDiscardPost={confirmDiscardPost}

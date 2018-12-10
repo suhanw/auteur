@@ -29,13 +29,13 @@ class PostFormAudio extends React.Component {
 
         <PostFormHeader blog={blog} />
 
-        {errorMessage}
-
         <span className='post-main'
           tabIndex='0'
           ref={this.mainRef}>
           Working on it! Stay tuned!
         </span>
+
+        {errorMessage}
 
         <PostFormFooter
           closePostForm={closePostForm}

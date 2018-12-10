@@ -40,8 +40,6 @@ class PostFormLink extends React.Component {
 
         <PostFormHeader blog={blog} />
 
-        {errorMessage}
-
         <main className='post-main'>
 
           {this.renderUrlPreview()}
@@ -49,6 +47,8 @@ class PostFormLink extends React.Component {
           {this.renderUrlInput()}
 
         </main>
+
+        {errorMessage}
 
         <PostFormFooter
           confirmDiscardPost={confirmDiscardPost}

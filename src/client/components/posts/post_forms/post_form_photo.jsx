@@ -54,8 +54,6 @@ class PostFormPhoto extends React.Component {
 
         <PostFormHeader blog={blog} />
 
-        {errorMessage}
-
         <main className='post-main'>
 
           {this.renderMediaPreview()}
@@ -64,7 +62,10 @@ class PostFormPhoto extends React.Component {
 
           {this.renderBodyInput()}
 
+
         </main>
+
+        {errorMessage}
 
         <PostFormFooter
           confirmDiscardPost={confirmDiscardPost}

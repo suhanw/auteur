@@ -29,8 +29,6 @@ class PostFormText extends React.Component {
 
         <PostFormHeader blog={blog} />
 
-        {errorMessage}
-
         <fieldset className='post-main'>
           <input type='text'
             className='post-title'
@@ -46,6 +44,8 @@ class PostFormText extends React.Component {
             placeholder='Your text here.'
             tagName='div' />
         </fieldset>
+
+        {errorMessage}
 
         <PostFormFooter
           confirmDiscardPost={confirmDiscardPost}
