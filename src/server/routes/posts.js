@@ -38,7 +38,7 @@ router.post('/posts',
       .then((foundBlog) => {
         let postBody = lodash.merge({}, req.body);
         postBody.body = sanitizeHtml(postBody.body);
-        postBody.tags = postBody.tags.split(','); //FormData doesn't support nested array, which is turned into string        
+        postBody.tags = (postBody.tags.length) ? postBody.tags.split(',') : []; //FormData doesn't support nested array, which is turned into string        
 
         // add existing tags or create new tags
         return new Promise((resolve, reject) => {

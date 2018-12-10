@@ -99,7 +99,8 @@ modelQuery.deleteComment = function (commentId) {
 
 modelQuery.addTags = function (tags) {
   return new Promise((resolve, reject) => {
-    let tagObjIds = tags.map(() => null);
+    if (!tags.length) return resolve([]);
+    let tagObjIds = tags.map(() => null); // create a placeholder array with same num of elements
     tags.forEach((tagLabel, i) => {
       Tag.findOne({ label: tagLabel })
         .then((foundTag) => {
@@ -107,8 +108,8 @@ modelQuery.addTags = function (tags) {
           return foundTag;
         })
         .then((tag) => {
-          tagObjIds[i] = tag._id;
-          if (!tagObjIds.includes(null)) return resolve(tagObjIds);
+          tagObjIds[i] = tag._id; // to preserve the order in which user entered tags
+          if (!tagObjIds.includes(null)) return resolve(tagObjIds); // only resolve after all tags are either found or created
         })
         .catch((err) => reject(err));
     });
