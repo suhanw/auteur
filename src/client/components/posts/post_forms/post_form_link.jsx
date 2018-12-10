@@ -3,6 +3,7 @@ import { merge } from 'lodash';
 
 import PostFormHeader from './post_form_header';
 import PostFormFooter from './post_form_footer';
+import TagForm from '../../tags/tag_form';
 import { validateUrl } from '../../../util/misc_util';
 
 class PostFormLink extends React.Component {
@@ -19,6 +20,7 @@ class PostFormLink extends React.Component {
         body: '',
         linkUrl: null,
         media: [],
+        tags: [],
       };
     }
 
@@ -45,6 +47,9 @@ class PostFormLink extends React.Component {
           {this.renderUrlPreview()}
 
           {this.renderUrlInput()}
+
+          <TagForm tags={this.state.tags.slice()}
+            setPostTags={(tags) => this.setState({ tags: tags })} />
 
         </main>
 

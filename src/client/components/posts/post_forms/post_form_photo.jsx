@@ -4,6 +4,7 @@ import { merge, union } from 'lodash';
 
 import PostFormHeader from './post_form_header';
 import PostFormFooter from './post_form_footer';
+import TagForm from '../../tags/tag_form';
 import { toArray, validateUrl } from '../../../util/misc_util';
 
 class PostFormPhoto extends React.Component {
@@ -27,6 +28,7 @@ class PostFormPhoto extends React.Component {
         media: [],
         mediaPreview: {}, // mediaPreview will be an object: {'filename': 'file_url', ...}
         urlInput: false,
+        tags: [],
       };
     }
 
@@ -62,6 +64,8 @@ class PostFormPhoto extends React.Component {
 
           {this.renderBodyInput()}
 
+          <TagForm tags={this.state.tags.slice()}
+            setPostTags={(tags) => this.setState({ tags: tags })} />
 
         </main>
 

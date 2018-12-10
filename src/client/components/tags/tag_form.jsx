@@ -1,13 +1,10 @@
 import React from 'react';
-import { merge } from 'lodash';
-import { log } from 'util';
 
 class TagForm extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      tags: [],
       activeTag: null,
       newTag: '',
     };
@@ -36,7 +33,8 @@ class TagForm extends React.Component {
   }
 
   renderTagInput() {
-    const { tags, newTag } = this.state;
+    const { newTag } = this.state;
+    const { tags } = this.props;
     let placeholderValue = (tags.length) ? '' : '#tags';
     return (
       <input className='tag-input'
@@ -52,11 +50,12 @@ class TagForm extends React.Component {
 
   renderTags() {
     // FIX: make tags draggable
-    const { tags, activeTag } = this.state;
+    const { activeTag } = this.state;
+    const { tags } = this.props;
     if (!tags.length) return null;
     let tagList = tags.map((tagLabel) => {
       let active = (activeTag === tagLabel) ? 'active' : '';
-      let removeTag = (activeTag === tagLabel) ? this.handleTagLabelKeydown(tagLabel) : null;
+      let removeTag = (activeTag === tagLabel) ? this.handleTagLabelKeydown(tagLabel) : null; // only allow user to delete selected tag
       return (
         <span className={`tag-label ${active}`}
           key={tagLabel}
@@ -88,13 +87,13 @@ class TagForm extends React.Component {
   }
 
   handleChange(e) {
-    if (e.key === 'Enter') debugger
     let newState = { newTag: e.currentTarget.value };
     this.setState(newState);
   }
 
   handleTagInputKeydown(e) {
-    const { tags, newTag } = this.state;
+    const { newTag } = this.state;
+    const { tags } = this.props;
     if ((e.key === 'Enter' || e.key === 'Tab') && newTag.length) { //only add tag when there is value in input field
       e.preventDefault(); // to prevent moving focus away from the input field when pressing Tab
       this.addTag();
@@ -113,23 +112,23 @@ class TagForm extends React.Component {
 
   addTag() {
     const { newTag } = this.state;
-    let newState = merge({}, this.state);
-    if (!newState.tags.includes(newTag)) {
-      newState.tags.push(newTag);
+    const { tags, setPostTags } = this.props;
+    if (!tags.includes(newTag)) {
+      tags.push(newTag);
     }
-    newState.newTag = '';
+    setPostTags(tags);
     this.setState(
-      newState,
+      { newTag: '' }, // clear input field after adding
       () => this.tagInputRef.current.focus() // focus on tagInput after deletion
     );
   }
 
   removeTag(removedTagLabel) {
-    let newState = merge({}, this.state);
-    newState.tags = this.state.tags.filter((tagLabel) => tagLabel !== removedTagLabel);
-    newState.activeTag = null; // reset activeTag to null after user deletes active tag
+    const { tags, setPostTags } = this.props;
+    let newTags = tags.filter((tagLabel) => tagLabel !== removedTagLabel);
+    setPostTags(newTags);
     this.setState(
-      newState,
+      { activeTag: null }, // deselect any active tag after removing
       () => this.tagInputRef.current.focus() // focus on tagInput after deletion
     );
   }

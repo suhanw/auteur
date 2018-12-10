@@ -46,7 +46,8 @@ class PostFormText extends React.Component {
             placeholder='Your text here.'
             tagName='div' />
 
-          <TagForm />
+          <TagForm tags={this.state.tags.slice()}
+            setPostTags={(tags) => this.setState({ tags: tags })} />
 
         </fieldset>
 
