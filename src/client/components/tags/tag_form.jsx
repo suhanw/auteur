@@ -1,16 +1,26 @@
 import React from 'react';
+import { merge } from 'lodash';
+import { log } from 'util';
 
 class TagForm extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      tags: ['tag1', 'tag2'],
-      // tags: [],
+      tags: [],
+      activeTag: null,
+      newTag: '',
     };
+
+    this.tagInputRef = React.createRef();
 
     this.renderTagInput = this.renderTagInput.bind(this);
     this.renderTags = this.renderTags.bind(this);
+    this.toggleHoverTag = this.toggleHoverTag.bind(this);
+    this.toggleActiveTag = this.toggleActiveTag.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.handleTagInputKeydown = this.handleTagInputKeydown.bind(this);
+    this.handleTagLabelKeydown = this.handleTagLabelKeydown.bind(this);
     this.addTag = this.addTag.bind(this);
     this.removeTag = this.removeTag.bind(this);
   }
@@ -19,45 +29,109 @@ class TagForm extends React.Component {
 
     return (
       <div className='tag-form'>
-        {this.renderTags()}
         {this.renderTagInput()}
+        {this.renderTags()}
       </div>
     );
   }
 
   renderTagInput() {
-    const { tags } = this.state;
+    const { tags, newTag } = this.state;
     let placeholderValue = (tags.length) ? '' : '#tags';
     return (
       <input className='tag-input'
         type='text'
         placeholder={placeholderValue}
+        value={newTag}
+        ref={this.tagInputRef}
+        onChange={this.handleChange}
+        onKeyDown={this.handleTagInputKeydown}
       />
     )
   }
 
   renderTags() {
     // FIX: make tags draggable
-    const { tags } = this.state;
+    const { tags, activeTag } = this.state;
     if (!tags.length) return null;
     let tagList = tags.map((tagLabel) => {
-      return <span className='tag-label'>
-        {`#${tagLabel}`}
-      </span>
+      let active = (activeTag === tagLabel) ? 'active' : '';
+      let removeTag = (activeTag === tagLabel) ? this.handleTagLabelKeydown(tagLabel) : null;
+      return (
+        <span className={`tag-label ${active}`}
+          key={tagLabel}
+          tabIndex='0' // to enable onKeyDown
+          onClick={this.toggleActiveTag(tagLabel)}
+          onMouseEnter={this.toggleHoverTag}
+          onMouseLeave={this.toggleHoverTag}
+          onKeyDown={removeTag}>
+          {`#${tagLabel}`}
+        </span>
+      );
     });
-    return tagList;
+    return tagList.reverse(); // reversing order with css to preserve tab order on tag input
   }
 
-  addTag(newTagLabel) {
-    let newState = merge({}, this.state);
-    newState.tags.push(newTagLabel);
+  toggleActiveTag(tagLabel) {
+    return (e) => {
+      e.preventDefault();
+      const { activeTag } = this.state;
+      let newState = {};
+      newState.activeTag = (activeTag === tagLabel) ? null : tagLabel;
+      this.setState(newState);
+    };
+  }
+
+  toggleHoverTag(e) {
+    if (e.type === 'mouseenter') e.currentTarget.classList.add('hover');
+    else e.currentTarget.classList.remove('hover');
+  }
+
+  handleChange(e) {
+    if (e.key === 'Enter') debugger
+    let newState = { newTag: e.currentTarget.value };
     this.setState(newState);
+  }
+
+  handleTagInputKeydown(e) {
+    const { tags, newTag } = this.state;
+    if ((e.key === 'Enter' || e.key === 'Tab') && newTag.length) { //only add tag when there is value in input field
+      e.preventDefault(); // to prevent moving focus away from the input field when pressing Tab
+      this.addTag();
+    } else if (e.key === 'Backspace' && !newTag.length) { // delete last tag only when there is no value in tagInput field
+      let lastTag = tags[tags.length - 1];
+      this.removeTag(lastTag);
+    }
+  }
+
+  handleTagLabelKeydown(removedTagLabel) {
+    return (e) => {
+      if (e.key !== 'Backspace') return; // only remove when user hits Backspace
+      this.removeTag(removedTagLabel);
+    };
+  }
+
+  addTag() {
+    const { newTag } = this.state;
+    let newState = merge({}, this.state);
+    if (!newState.tags.includes(newTag)) {
+      newState.tags.push(newTag);
+    }
+    newState.newTag = '';
+    this.setState(
+      newState,
+      () => this.tagInputRef.current.focus() // focus on tagInput after deletion
+    );
   }
 
   removeTag(removedTagLabel) {
     let newState = merge({}, this.state);
     newState.tags = this.state.tags.filter((tagLabel) => tagLabel !== removedTagLabel);
-    this.setState(newState);
+    newState.activeTag = null; // reset activeTag to null after user deletes active tag
+    this.setState(
+      newState,
+      () => this.tagInputRef.current.focus() // focus on tagInput after deletion
+    );
   }
 }
 
