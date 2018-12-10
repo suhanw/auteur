@@ -97,7 +97,9 @@ class TagForm extends React.Component {
   handleTagInputKeydown(e) {
     const { newTag } = this.state;
     const { tags } = this.props;
-    if ((e.key === 'Enter' || e.key === 'Tab') && newTag.length) { //only add tag when there is value in input field
+    if ((e.key === 'Enter' || e.key === 'Tab') &&
+      newTag.length && // only add tag when there is value in input field
+      newTag.replace(/\s/, '').length > 0) { // tag has more than just whitespace
       e.preventDefault(); // to prevent moving focus away from the input field when pressing Tab
       this.addTag();
     } else if (e.key === 'Backspace' && !newTag.length) { // delete last tag only when there is no value in tagInput field
