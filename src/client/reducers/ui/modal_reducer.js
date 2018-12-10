@@ -3,6 +3,12 @@ import { CONFIRM_DELETE_POST, CHOOSE_POST_TYPE } from '../../actions/post_action
 import { CONFIRM_DELETE_COMMENT } from '../../actions/note_actions';
 import { CONFIRM_LOGOUT, REMOVE_CURRENT_USER } from '../../actions/session_actions';
 
+// modal slice of state: 
+// modal: {
+//   action: 'confirmDeletePost',
+//   data: {_id: '123', ...}
+// }
+
 const modalsReducer = function (state = null, action) {
   Object.freeze(state);
   switch (action.type) {

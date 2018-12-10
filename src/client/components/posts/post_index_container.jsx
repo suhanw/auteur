@@ -19,11 +19,6 @@ const mapStateToProps = function (state, ownProps) {
   else if (view === 'blogDrawer') blogId = ownProps.blogId;
   let postsArr = [];
 
-  // if (ownProps.postsArr) { // pass in posts array if used in BlogShow component
-  //   postArr = ownProps.postsArr;
-  // } else {
-  //   postsArr = selectPosts(state, view, blogId);
-  // }
   postsArr = selectPosts(state, view, blogId);
 
   return {
@@ -42,8 +37,8 @@ const mapDispatchToProps = function (dispatch, ownProps) {
   let userId;
   let blogId;
   if (view === 'currentBlog') blogId = ownProps.match.params.blogId;
-  else if (view === 'likes' || view === 'following') userId = ownProps.match.params.userId;
   else if (view === 'blogDrawer') blogId = ownProps.blogId;
+  else if (view === 'likes' || view === 'following') userId = ownProps.match.params.userId;
 
   const fetchActions = {
     'feed': (limit, lastPostDate, lastPostId) => fetchFeed(limit, lastPostDate, lastPostId),

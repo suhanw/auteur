@@ -22,9 +22,8 @@ const mapStateToProps = function (state, ownProps) {
 };
 
 const mapDispatchToProps = function (dispatch, ownProps) {
-  const { blogId } = ownProps.match.params;
   return {
-    fetchFollowers: () => dispatch(fetchFollowers(blogId)),
+    fetchFollowers: (blogId) => dispatch(fetchFollowers(blogId)),
     createFollow: (blogId) => dispatch(createFollow(blogId)),
     openDrawer: (drawer) => dispatch(openDrawer(drawer)),
   };
@@ -78,7 +77,20 @@ class FollowerIndex extends React.Component {
 
   componentDidMount() {
     const { fetchFollowers } = this.props;
-    fetchFollowers();
+    fetchFollowers(this.props.match.params.blogId)
+      .then((errAction) => {
+        if (errAction) this.props.history.push('/dashboard'); // if someone updates URl with non-existent blog id, redirect to dashboard
+      });
+  }
+
+  componentWillReceiveProps(newProps) {
+    if (newProps.match.params.blogId !== this.props.match.params.blogId) {
+      const { fetchFollowers } = this.props;
+      fetchFollowers(newProps.match.params.blogId)
+        .then((errAction) => {
+          if (errAction) this.props.history.push('/dashboard'); // if someone updates URl with non-existent blog id, redirect to dashboard
+        });
+    }
   }
 }
 

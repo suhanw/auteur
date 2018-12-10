@@ -9,6 +9,7 @@ const User = require('../models/user');
 router.get('/follows', middleware.isLoggedIn, function (req, res) {
   modelQuery.findOneBlog(req.params.id)
     .then((foundBlog) => {
+      if (!foundBlog) throw { message: 'Blog does not exist.' };
       return User.find({ following: foundBlog._id })
         .select('username avatarImageUrl primaryBlog')
         .populate({ path: 'primaryBlog', select: 'name title avatarImageUrl backgroundImageUrl' })

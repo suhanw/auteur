@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { merge } from 'lodash';
 
 import ConfirmModal from './confirm_modal';
 import PostModal from './post_modal'
