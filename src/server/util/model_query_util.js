@@ -2,6 +2,7 @@ let modelQuery = {};
 const Blog = require('../models/blog');
 const Post = require('../models/post');
 const Note = require('../models/note');
+const Tag = require('../models/tag');
 
 modelQuery.getCurrentUserLikes = function (userId) {
   return Note.find({ type: 'like', author: userId })
@@ -73,7 +74,10 @@ modelQuery.deleteLike = function (likeId) {
 modelQuery.createComment = function (commentBody) {
   return Note.create(commentBody)
     .then((newComment) => {
-      return newComment.populate('post').execPopulate();
+      return newComment.populate({
+        path: 'post',
+        select: 'commentCount',
+      }).execPopulate();
     })
     .then((newComment) => {
       newComment.post.commentCount += 1;
@@ -87,7 +91,10 @@ modelQuery.deleteComment = function (commentId) {
     .exec()
     .then((deletedComment) => {
       if (!deletedComment) throw { message: 'This comment does not exist. ' };
-      return deletedComment.populate('post').execPopulate();
+      return deletedComment.populate({
+        path: 'post',
+        select: 'commentCount',
+      }).execPopulate();
     })
     .then((deletedComment) => {
       deletedComment.post.commentCount -= 1;
@@ -96,5 +103,23 @@ modelQuery.deleteComment = function (commentId) {
     });
 }
 
+modelQuery.addTags = function (tags) {
+  return new Promise((resolve, reject) => {
+    if (!tags.length) return resolve([]);
+    let tagObjIds = tags.map(() => null); // create a placeholder array with same num of elements
+    tags.forEach((tagLabel, i) => {
+      Tag.findOne({ label: tagLabel })
+        .then((foundTag) => {
+          if (!foundTag) return Tag.create({ label: tagLabel });
+          return foundTag;
+        })
+        .then((tag) => {
+          tagObjIds[i] = tag._id; // to preserve the order in which user entered tags
+          if (!tagObjIds.includes(null)) return resolve(tagObjIds); // only resolve after all tags are either found or created
+        })
+        .catch((err) => reject(err));
+    });
+  });
+};
 
 module.exports = modelQuery;

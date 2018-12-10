@@ -15,9 +15,10 @@ router.get('/feed', middleware.isLoggedIn, function (req, res) {
     let limit = Number(req.query.limit);
 
     let feedQuery = Post.find()
-        .select('_id type title body media blog author linkUrl likeCount commentCount createdAt')
+        .select('_id type title body media blog author linkUrl likeCount commentCount tags createdAt')
         .sort({ 'createdAt': 'desc' })
         .populate({ path: 'blog', select: '_id avatarImageUrl backgroundImageUrl name title' })
+        .populate({ path: 'tags', select: 'label' })
         .limit(limit);
 
     if (req.query.lastPostDate !== 'null') { // this will be null in the initial fetch

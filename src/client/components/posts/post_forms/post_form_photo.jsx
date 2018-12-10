@@ -4,6 +4,7 @@ import { merge, union } from 'lodash';
 
 import PostFormHeader from './post_form_header';
 import PostFormFooter from './post_form_footer';
+import TagForm from '../../tags/tag_form';
 import { toArray, validateUrl } from '../../../util/misc_util';
 
 class PostFormPhoto extends React.Component {
@@ -27,6 +28,7 @@ class PostFormPhoto extends React.Component {
         media: [],
         mediaPreview: {}, // mediaPreview will be an object: {'filename': 'file_url', ...}
         urlInput: false,
+        tags: [],
       };
     }
 
@@ -62,7 +64,6 @@ class PostFormPhoto extends React.Component {
 
           {this.renderBodyInput()}
 
-
         </main>
 
         {errorMessage}
@@ -79,13 +80,18 @@ class PostFormPhoto extends React.Component {
     const { mediaPreview, body } = this.state;
     if (Object.keys(mediaPreview).length > 0) { // only render when images have been selected
       return (
-        <ContentEditable className='post-body'
-          html={(!body) ? '' : body}
-          disabled={false}
-          onChange={this.handleChange('body')}
-          placeholder='Add a caption, if you like.'
-          tagName='div'
-          ref={this.bodyInputRef} />
+        <div>
+          <ContentEditable className='post-body'
+            html={(!body) ? '' : body}
+            disabled={false}
+            onChange={this.handleChange('body')}
+            placeholder='Add a caption, if you like.'
+            tagName='div'
+            ref={this.bodyInputRef} />
+
+          <TagForm tags={this.state.tags.slice()}
+            setPostTags={(tags) => this.setState({ tags: tags })} />
+        </div>
       );
     }
     return null;
@@ -150,7 +156,7 @@ class PostFormPhoto extends React.Component {
           onChange={this.handleMediaInput}
           autoFocus={true}
           type='text'
-          placeholder='Type or paste a URL.' />
+          placeholder='Type or paste a URL (please include https://)' />
         <span className='remove-icon'>
           <i className="fas fa-times-circle"
             onClick={() => this.setState({ urlInput: false })}></i>

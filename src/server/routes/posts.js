@@ -8,6 +8,7 @@ const lodash = require('lodash');
 
 const Post = require('../models/post');
 const Note = require('../models/note');
+const Tag = require('../models/tag');
 const modelQuery = require('../util/model_query_util');
 const mediaUpload = require('../util/media_upload_util');
 const middleware = require('../middleware/middleware');
@@ -19,6 +20,7 @@ router.get('/posts', middleware.isLoggedIn, function (req, res) {
       return Post.find({ blog: foundBlog._id })
         .sort({ 'createdAt': 'desc' })
         .populate({ path: 'blog', select: '_id' })
+        .populate({ path: 'tags', select: 'label' })
         .exec()
     })
     .then((posts) => res.json(posts))
@@ -31,13 +33,29 @@ router.post('/posts',
   middleware.isLoggedIn,
   upload.array('newFiles'), // file upload middleware - looks for the 'newFiles' key in body of http request
   function (req, res) {
+    // FIX: add existing tags or crete new tags
     modelQuery.findOneBlog(req.params.id)
       .then((foundBlog) => {
         let postBody = lodash.merge({}, req.body);
-        postBody.body = sanitizeHtml(postBody.body);
+        if (postBody.body) postBody.body = sanitizeHtml(postBody.body); // body is not required, so key may not exist
+        postBody.tags = (postBody.tags.length) ? postBody.tags.split(',') : []; //FormData doesn't support nested array, which is turned into string        
+
+        // add existing tags or create new tags
+        return new Promise((resolve, reject) => {
+          modelQuery.addTags(postBody.tags)
+            .then((tagObjIds) => {
+              // debugger
+              postBody.tags = tagObjIds;
+              resolve({ postBody, foundBlog });
+            })
+            .catch((err) => reject(err));
+        });
+      })
+      .then(({ postBody, foundBlog }) => {
         let newPost = new Post(postBody);
         // if a media post, upload files to AWS
         if (['photo', 'video', 'audio'].includes(newPost.type)) {
+          // check file size before uploading
           let totalFileSize = req.files.reduce((totalFileSize, currFile) => { return totalFileSize + currFile.size }, 0); // in bytes
           if (totalFileSize > 2097152) throw { message: 'Total file size should not exceed 2 MB. Please try again.' };
           return mediaUpload.uploadFiles(req.files, req.body.urls, newPost, foundBlog);
@@ -49,7 +67,11 @@ router.post('/posts',
       .then(({ post, blog }) => { // destructure the single object argument
         blog.postCount += 1;
         blog.save();
-        return post.save();
+        return post.save()
+      })
+      .then((post) => {
+        return post.populate({ path: 'tags', select: 'label' })
+          .execPopulate();
       })
       .then((post) => {
         return res.json(post);
@@ -69,8 +91,7 @@ router.delete('/posts/:postId',
           return mediaUpload.deleteFiles(post, foundBlog);
         }
         // if not a media post, pass on to the next 'then' block
-        // pass in single argument as resolution value
-        return new Promise((resolve, reject) => resolve({ post, blog: foundBlog }));
+        return new Promise((resolve, reject) => resolve({ post, blog: foundBlog })); // pass in single object argument with 2 items as resolution value
       })
       .then(({ post, blog }) => {
         return Post.findOneAndDelete({ _id: post._id })
@@ -95,7 +116,23 @@ router.put('/posts/:postId',
       .then((foundBlog) => {
         let post = lodash.merge({}, req.body);
         if (post.body) post.body = sanitizeHtml(post.body); // body is not required, so key may not exist
+        post.tags = (post.tags.length) ? post.tags.split(',') : []; //FormData doesn't support nested array, which is turned into string        
+
+        // add existing tags or create new tags
+        return new Promise((resolve, reject) => {
+          modelQuery.addTags(post.tags)
+            .then((tagObjIds) => {
+              // debugger
+              post.tags = tagObjIds;
+              resolve(post);
+            })
+            .catch((err) => reject(err));
+        });
+      })
+      .then((post) => {
+        // if a media post, upload files to AWS
         if (['photo', 'video', 'audio'].includes(post.type)) {
+          // check file size before uploading
           let totalFileSize = req.files.reduce((totalFileSize, currFile) => { return totalFileSize + currFile.size }, 0); // in bytes
           if (totalFileSize > 2097152) throw { message: 'Total file size should not exceed 2 MB. Please try again.' };
           return mediaUpload.updateFiles(req.files, req.body.urls, post);
@@ -105,10 +142,13 @@ router.put('/posts/:postId',
       })
       .then((post) => {
         return Post.findOneAndUpdate({ _id: post._id }, post, { new: true })
-          .exec();
       })
       .then((updatedPost) => {
         if (!updatedPost) throw { message: 'Post does not exist. ' };
+        return updatedPost.populate({ path: 'tags', select: 'label' })
+          .execPopulate();
+      })
+      .then((updatedPost) => {
         return res.json(updatedPost);
       })
       .catch((err) => res.status(422).json([err.message]));

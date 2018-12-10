@@ -6,11 +6,22 @@ class TagIndex extends React.Component {
   }
 
   render() {
+    // FIX: fade out tags if all don't fit into a row
+    const { postId, tags } = this.props;
+    if (!tags.length) return null;
+    let tagList = tags.map((tagLabel) => {
+      return (
+        <li key={`${postId}_${tagLabel}`}
+          className='tag-label'>
+          {`#${tagLabel}`}
+        </li>
+      )
+    });
 
     return (
-      <div className='tag-index'>
-        {/* This will be TagIndex */}
-      </div>
+      <ul className='tag-index'>
+        {tagList}
+      </ul>
     );
   }
 }

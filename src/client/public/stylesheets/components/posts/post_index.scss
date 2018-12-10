@@ -92,10 +92,10 @@ $dogear-grey: rgb(208, 208, 208);
 .post-footer, 
 .post-main {
   padding: 0px 20px;
-  margin-bottom: 10px;
 }
 
 .post-header {
+  margin-bottom: 10px;
   font-size: 13px;
   font-weight: bold;
 }
@@ -131,6 +131,7 @@ $dogear-grey: rgb(208, 208, 208);
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin-bottom: 0;
 }
 
 .post-title, 

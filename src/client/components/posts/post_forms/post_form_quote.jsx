@@ -4,6 +4,7 @@ import { merge } from 'lodash';
 
 import PostFormHeader from './post_form_header';
 import PostFormFooter from './post_form_footer';
+import TagForm from '../../tags/tag_form';
 
 class PostFormQuote extends React.Component {
   constructor(props) {
@@ -14,6 +15,7 @@ class PostFormQuote extends React.Component {
       type: 'quote',
       title: '',
       body: '',
+      tags: [],
     };
 
     this.quoteFieldRef = React.createRef();
@@ -50,6 +52,8 @@ class PostFormQuote extends React.Component {
               placeholder='Source'
               onChange={this.handleChange('body')} />
           </span>
+          <TagForm tags={this.state.tags.slice()}
+            setPostTags={(tags) => this.setState({ tags: tags })} />
         </fieldset>
 
         {errorMessage}

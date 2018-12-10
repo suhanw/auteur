@@ -9,6 +9,7 @@ class PostIndexHeader extends React.Component {
 
     this.state = {
       showPostForm: null,
+      // showPostForm: 'text', //FOR TESTING: REMOVE IN PROD  
     };
 
     this.togglePostForm = this.togglePostForm.bind(this);
