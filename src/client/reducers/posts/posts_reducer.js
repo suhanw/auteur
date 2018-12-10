@@ -18,8 +18,15 @@ const blogSchema = new schema.Entity('blogs',
     {},
     { idAttribute: '_id', });
 
+const tagSchema = new schema.Entity('tags',
+    {},
+    { idAttribute: 'label' }); // instead of ids, this will be array of strings in the posts slice of state
+
 const postSchema = new schema.Entity('posts',
-    { blog: blogSchema },
+    {
+        blog: blogSchema,
+        tags: [tagSchema],
+    },
     { idAttribute: '_id' });
 
 const noteSchema = new schema.Entity('notes',

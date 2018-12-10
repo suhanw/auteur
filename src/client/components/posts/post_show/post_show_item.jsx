@@ -119,7 +119,8 @@ class PostShowItem extends React.Component {
         {this.renderPostShow()}
 
         <footer className='post-footer'>
-          <TagIndex />
+          <TagIndex postId={post._id}
+            tags={post.tags} />
           <NoteMenuContainer
             view={view}
             post={post}
