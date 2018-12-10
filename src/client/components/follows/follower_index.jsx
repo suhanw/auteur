@@ -79,7 +79,7 @@ class FollowerIndex extends React.Component {
     const { fetchFollowers } = this.props;
     fetchFollowers(this.props.match.params.blogId)
       .then((errAction) => {
-        if (errAction) this.props.history.push('/dashboard'); // if someone updates URl with non-existent blog id, redirect to dashboard
+        if (errAction) this.props.history.push('/404'); // if someone updates URl with non-existent blog id, redirect to dashboard
       });
   }
 
@@ -88,7 +88,7 @@ class FollowerIndex extends React.Component {
       const { fetchFollowers } = this.props;
       fetchFollowers(newProps.match.params.blogId)
         .then((errAction) => {
-          if (errAction) this.props.history.push('/dashboard'); // if someone updates URl with non-existent blog id, redirect to dashboard
+          if (errAction) this.props.history.push('/404'); // if someone updates URl with non-existent blog id, redirect to dashboard
         });
     }
   }

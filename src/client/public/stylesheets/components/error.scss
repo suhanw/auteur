@@ -1,0 +1,45 @@
+.error-page {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: url('https://i.gifer.com/3aM.gif');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+.error-message {
+  width: 480px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: white;
+  background-color: rgba(0,0,0,0.3);
+  border-radius: 4px;
+  padding: 20px;
+}
+
+.error-message h1 {
+  font-size: 36px;
+  font-weight: 400;
+  font-family: $font-carousel;
+  margin-bottom: 15px;
+}
+
+.error-message p {
+  text-align: center;
+  font-size: 16px;
+  font-weight: 400;
+  margin-bottom: 15px;
+}
+
+.error-message a {
+  text-decoration: underline;
+  font-weight: 600;
+  font-size: 18px;
+}

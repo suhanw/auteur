@@ -40,7 +40,7 @@ class PostIndex extends React.Component {
     if (!currentUser.likedPosts) fetchUserLikes(currentUser._id); // to fetch only when it's not populated
     fetchPosts()
       .then((errAction) => {
-        if (errAction) this.props.history.push('/dashboard'); // if someone updates URl with non-existent blog id, redirect to dashboard
+        if (errAction) this.props.history.push('/404'); // if someone updates URl with non-existent blog id, redirect to dashboard
       });
     document.querySelector('div.dashboard') // event only fires on element that has overflow: scroll
       .addEventListener('scroll', this.handleScroll);
@@ -56,7 +56,7 @@ class PostIndex extends React.Component {
       if (!currentUser.likedPosts) fetchUserLikes(currentUser._id); // to fetch current user likes only when it's not populated
       fetchPosts()
         .then((errAction) => {
-          if (errAction) this.props.history.push('/dashboard'); // if someone updates URl with non-existent blog id, redirect to dashboard
+          if (errAction) this.props.history.push('/404'); // if someone updates URl with non-existent blog id, redirect to dashboard
         });
     }
   }
