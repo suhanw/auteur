@@ -1,4 +1,5 @@
 import * as APIUtil from '../util/session_api_util';
+import { clearErrors } from '../actions/clear_actions';
 
 export const RECEIVE_CURRENT_USER = 'RECEIVE_CURRENT_USER';
 export const REMOVE_CURRENT_USER = 'REMOVE_CURRENT_USER';
@@ -57,7 +58,10 @@ export const confirmLogout = function () {
 export const logout = function () {
   return function (dispatch) {
     return APIUtil.logout().then(
-      () => dispatch(removeCurrentUser()),
+      () => {
+        dispatch(clearErrors());
+        dispatch(removeCurrentUser());
+      },
       (err) => dispatch(receiveSessionErrors(err.responseJSON))
     )
   }
