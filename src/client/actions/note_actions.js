@@ -30,7 +30,6 @@ export const receiveNotes = function (notes) {
 };
 
 export const receiveNoteErrors = function (errors) {
-  // FIX: add reducer for note errors
   return {
     type: RECEIVE_NOTE_ERRORS,
     payload: errors,
