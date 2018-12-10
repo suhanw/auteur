@@ -48,8 +48,8 @@ class PostFormLink extends React.Component {
 
           {this.renderUrlInput()}
 
-          <TagForm tags={this.state.tags.slice()}
-            setPostTags={(tags) => this.setState({ tags: tags })} />
+          {!linkUrl ? null : <TagForm tags={this.state.tags.slice()}
+            setPostTags={(tags) => this.setState({ tags: tags })} />}
 
         </main>
 
@@ -122,7 +122,10 @@ class PostFormLink extends React.Component {
           value={body}
           placeholder='Enter a summary'>
         </textarea>
+
+
       </article >
+
     );
     return linkPreview;
   }

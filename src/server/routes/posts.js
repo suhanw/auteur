@@ -20,6 +20,7 @@ router.get('/posts', middleware.isLoggedIn, function (req, res) {
       return Post.find({ blog: foundBlog._id })
         .sort({ 'createdAt': 'desc' })
         .populate({ path: 'blog', select: '_id' })
+        .populate({ path: 'tags', select: 'label' })
         .exec()
     })
     .then((posts) => res.json(posts))
@@ -37,6 +38,20 @@ router.post('/posts',
       .then((foundBlog) => {
         let postBody = lodash.merge({}, req.body);
         postBody.body = sanitizeHtml(postBody.body);
+        postBody.tags = postBody.tags.split(','); //FormData doesn't support nested array, which is turned into string        
+
+        // add existing tags or create new tags
+        return new Promise((resolve, reject) => {
+          modelQuery.addTags(postBody.tags)
+            .then((tagObjIds) => {
+              // debugger
+              postBody.tags = tagObjIds;
+              resolve({ postBody, foundBlog });
+            })
+            .catch((err) => reject(err));
+        });
+      })
+      .then(({ postBody, foundBlog }) => {
         let newPost = new Post(postBody);
         // if a media post, upload files to AWS
         if (['photo', 'video', 'audio'].includes(newPost.type)) {

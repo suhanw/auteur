@@ -68,6 +68,10 @@
   width: 100%;
   display: flex;
   justify-content: space-between;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 0;
 }
 
 .post-form input[disabled] {

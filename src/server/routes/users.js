@@ -60,6 +60,7 @@ router.get('/users/:id/following', middleware.isLoggedIn, function (req, res) {
         .where('blog').in(followedBlogs)
         .sort({ 'createdAt': 'desc' })
         .populate({ path: 'blog', select: '_id avatarImageUrl backgroundImageUrl name title' })
+        .populate({ path: 'tags', select: 'label' })
         .exec()
     })
     .then((foundPosts) => {
@@ -79,7 +80,12 @@ router.get('/users/:id/likes', middleware.isLoggedIn, function (req, res) {
       if (!likes) throw { message: 'Error.' }
       return Note.populate( // Model.populate() returns a promise
         likes,
-        { path: 'post.blog', select: '_id avatarImageUrl backgroundImageUrl name title' });
+        [
+          { path: 'post.blog', select: '_id avatarImageUrl backgroundImageUrl name title' },
+          { path: 'post.tags', select: 'label' }
+        ],
+      );
+
     })
     .then((likes) => {
       let likedPosts = {};

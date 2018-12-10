@@ -64,9 +64,6 @@ class PostFormPhoto extends React.Component {
 
           {this.renderBodyInput()}
 
-          <TagForm tags={this.state.tags.slice()}
-            setPostTags={(tags) => this.setState({ tags: tags })} />
-
         </main>
 
         {errorMessage}
@@ -83,13 +80,18 @@ class PostFormPhoto extends React.Component {
     const { mediaPreview, body } = this.state;
     if (Object.keys(mediaPreview).length > 0) { // only render when images have been selected
       return (
-        <ContentEditable className='post-body'
-          html={(!body) ? '' : body}
-          disabled={false}
-          onChange={this.handleChange('body')}
-          placeholder='Add a caption, if you like.'
-          tagName='div'
-          ref={this.bodyInputRef} />
+        <div>
+          <ContentEditable className='post-body'
+            html={(!body) ? '' : body}
+            disabled={false}
+            onChange={this.handleChange('body')}
+            placeholder='Add a caption, if you like.'
+            tagName='div'
+            ref={this.bodyInputRef} />
+
+          <TagForm tags={this.state.tags.slice()}
+            setPostTags={(tags) => this.setState({ tags: tags })} />
+        </div>
       );
     }
     return null;

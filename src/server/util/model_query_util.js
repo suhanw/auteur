@@ -2,6 +2,7 @@ let modelQuery = {};
 const Blog = require('../models/blog');
 const Post = require('../models/post');
 const Note = require('../models/note');
+const Tag = require('../models/tag');
 
 modelQuery.getCurrentUserLikes = function (userId) {
   return Note.find({ type: 'like', author: userId })
@@ -96,5 +97,22 @@ modelQuery.deleteComment = function (commentId) {
     });
 }
 
+modelQuery.addTags = function (tags) {
+  return new Promise((resolve, reject) => {
+    let tagObjIds = tags.map(() => null);
+    tags.forEach((tagLabel, i) => {
+      Tag.findOne({ label: tagLabel })
+        .then((foundTag) => {
+          if (!foundTag) return Tag.create({ label: tagLabel });
+          return foundTag;
+        })
+        .then((tag) => {
+          tagObjIds[i] = tag._id;
+          if (!tagObjIds.includes(null)) return resolve(tagObjIds);
+        })
+        .catch((err) => reject(err));
+    });
+  });
+};
 
 module.exports = modelQuery;

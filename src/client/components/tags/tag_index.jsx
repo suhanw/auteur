@@ -15,4 +15,4 @@ class TagIndex extends React.Component {
   }
 }
 
-export default TagIndex;
+export default TagIndex; 
