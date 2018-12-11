@@ -40,7 +40,7 @@ userSchema.plugin(
     usernameField: 'email',
     errorMessages: {
       MissingUsernameError: 'You do have to fill this out, you know. ',
-      MissingPasswordError: 'You do have to fill this out, you know. ',
+      MissingPasswordError: 'You forgot your password. ',
       UserExistsError: 'A user with the given email has already signed up. '
     }
   }
