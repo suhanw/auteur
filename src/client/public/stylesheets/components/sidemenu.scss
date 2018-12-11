@@ -30,6 +30,10 @@
   cursor: pointer;
 }
 
+.sidemenu-link:last-of-type {
+  border-bottom: 1px solid $divider-line-white;
+}
+
 .sidemenu-link:last-child {
   border-bottom: 1px solid $divider-line-white;
 }
@@ -38,3 +42,74 @@
 .sidemenu-link.active {
   background: hsla(0,0%,100%,.07);
 }
+
+// CONNECT SECTION
+.connect {
+  margin-top: 30px;
+}
+
+.connect-header,
+.connect-item {
+  padding: 5px 10px;
+}
+
+.connect-header {
+  font-size: 12px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.25);
+  border-bottom: 2px solid $divider-line-white;
+}
+
+.connect-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid $divider-line-white;
+  color: rgba(255, 255, 255, 0.6);
+  cursor: pointer;
+}
+
+.connect-item:hover {
+  background: hsla(0,0%,100%,.07);
+}
+
+.connect-item .fab,
+.connect-item .fas.fa-envelope-square {
+  margin-top: 5px;
+  margin-bottom: 5px;
+  font-size: 37px;
+  margin-left: 0;
+  margin-right: 10px;
+}
+
+.connect-item .fas.fa-plus-square {
+  font-size: 26px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 18px;
+  width: 18px;
+}
+
+.connect-item .fas.fa-plus-square:hover {
+  color: #529ecc;
+  background-color: white;
+}
+
+.connect-info {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: flex-start;
+  font-size: 13px;
+}
+
+.connect-info strong {
+  font-weight: 700;
+}
+
+.connect-info span {
+  color: rgba(255, 255, 255, 0.25);
+}
+

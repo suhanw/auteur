@@ -5,6 +5,8 @@ import { fetchUserLikes } from '../../actions/user_actions';
 class Sidemenu extends React.Component {
   constructor(props) {
     super(props);
+
+    this.renderConnect = this.renderConnect.bind(this);
   }
 
   render() {
@@ -33,6 +35,8 @@ class Sidemenu extends React.Component {
           <span className='sidemenu-item'>Edit Appearance</span>
           <span className='sidemenu-count'><i className="fas fa-angle-right"></i></span>
         </NavLink>
+
+        {this.renderConnect()}
       </aside>
     );
   }
@@ -56,6 +60,45 @@ class Sidemenu extends React.Component {
         <span className='sidemenu-item'>Following</span>
         <span className='sidemenu-count'>{currentUser.following.length}</span>
       </NavLink>
+    );
+  }
+
+  renderConnect() {
+
+    return (
+      <section className='connect'>
+        <h1 className='connect-header'>LETS CONNECT</h1>
+        <a className='connect-item'
+          href='https://www.linkedin.com/in/suhanwijaya/'
+          target='_blank'>
+          <i className="fab fa-linkedin"></i>
+          <div className='connect-info'>
+            <strong>LinkedIn</strong>
+            <span>linkedin.com/in/suhanwijaya</span>
+          </div>
+          <i className="fas fa-plus-square"></i>
+        </a>
+        <a className='connect-item'
+          href='https://github.com/suhanw'
+          target='_blank'>
+          <i className="fab fa-github-square"></i>
+          <div className='connect-info'>
+            <strong>GitHub</strong>
+            <span>github.com/suhanw</span>
+          </div>
+          <i className="fas fa-plus-square"></i>
+        </a>
+        <a className='connect-item'
+          href='mailto:suhanw@gmail.com'
+          target='_blank'>
+          <i className="fas fa-envelope-square"></i>
+          <div className='connect-info'>
+            <strong>Email</strong>
+            <span>suhanw@gmail.com</span>
+          </div>
+          <i className="fas fa-plus-square"></i>
+        </a>
+      </section>
     );
   }
 
