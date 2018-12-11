@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import PostMenu from './post_menu';
-import PostFormContainer from './post_forms/post_form_container';
+import PostFormContainer from '../post_forms/post_form_container';
 
 class PostIndexHeader extends React.Component {
   constructor(props) {

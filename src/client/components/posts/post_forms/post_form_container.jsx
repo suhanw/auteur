@@ -13,7 +13,7 @@ import { createPost, updatePost } from '../../../actions/post_actions';
 import { clearErrors } from '../../../actions/clear_actions';
 import { selectCurrentUser, selectBlog, selectLoadingPostSubmit, selectPostErrors } from '../../../selectors/selectors';
 import { renderSpinner } from '../../../util/misc_util';
-import { renderErrors } from '../../../util/error_util';
+import { ErrorMessage } from '../../errors/errors';
 
 
 const mapStateToProps = function (state, ownProps) {
@@ -155,7 +155,7 @@ class PostForm extends React.Component {
     } = this.props;
 
     const PostFormComponent = this.postFormComponents[formType];
-    const errorMessage = (postErrors.length > 0) ? renderErrors(postErrors) : null;
+    const errorMessage = <ErrorMessage errorArr={postErrors} />;
     // if post is null, pass in createPost for 'new' form, else, pass in updateForm for 'edit' form
     let submitAction = (!post) ? createPost : updatePost;
 

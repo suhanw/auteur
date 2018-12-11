@@ -5,7 +5,7 @@ import Carousel from './carousel';
 import Settings from './settings/settings';
 import Modal from './modals/modal';
 import Drawer from './drawers/drawer';
-import Error from './error';
+import { ErrorPage } from './errors/errors';
 import { AuthRoute, ProtectRoute } from '../util/route_util';
 
 class App extends React.Component {
@@ -25,7 +25,7 @@ class App extends React.Component {
           <AuthRoute path='/login' component={Carousel} />
           <AuthRoute path='/signup' component={Carousel} />
           <AuthRoute exact path='/' component={Carousel} />
-          <Route component={Error} />
+          <Route component={ErrorPage} />
         </Switch>
       </div>
     );

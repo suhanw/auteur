@@ -1,11 +1,11 @@
 import { connect } from 'react-redux';
 
 import PostIndex from './post_index';
-import { selectPosts, selectBlogs, selectCurrentUser, selectLoadingPostIndex } from '../../selectors/selectors';
-import { createFollow } from '../../actions/follow_actions';
-import { fetchFeed, fetchPostsByBlog } from '../../actions/post_actions';
-import { fetchUserFollowing, fetchUserLikes } from '../../actions/user_actions';
-import { openDrawer } from '../../actions/drawer_actions';
+import { selectPosts, selectBlogs, selectCurrentUser, selectLoadingPostIndex } from '../../../selectors/selectors';
+import { createFollow } from '../../../actions/follow_actions';
+import { fetchFeed, fetchPostsByBlog } from '../../../actions/post_actions';
+import { fetchUserFollowing, fetchUserLikes } from '../../../actions/user_actions';
+import { openDrawer } from '../../../actions/drawer_actions';
 
 const mapStateToProps = function (state, ownProps) {
   const blogs = selectBlogs(state);

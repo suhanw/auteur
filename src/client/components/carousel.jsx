@@ -4,7 +4,6 @@ import { merge } from 'lodash';
 
 import SessionFormContainer from './session/session_form_container';
 import NavbarContainer from './navbar/navbar_container';
-import Drawer from './drawers/drawer';
 
 class Carousel extends React.Component {
   constructor(props) {
@@ -20,6 +19,7 @@ class Carousel extends React.Component {
       },
       introBgLoaded: false,
       welcomeBgLoaded: false,
+      // FIX: use isTransitioning state, to control when to fire scroll event
     };
 
     const backgroundImages = [
@@ -419,6 +419,7 @@ class Carousel extends React.Component {
   }
 
   scrollCarousel(scrollDir, nextSlide) {
+    // FIX: also attach listener for up and down arrows
     const that = this;
     const { activeSlide, slideClasses } = that.state;
     let newActiveSlide = nextSlide;

@@ -1,4 +1,4 @@
-import * as APIUtil from '../util/note_api_util';
+import * as APIUtil from '../util/api_util/note_api_util';
 import { fetchPost } from '../actions/post_actions';
 import { fetchUserLikes } from '../actions/user_actions';
 

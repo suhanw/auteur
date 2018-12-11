@@ -1,9 +1,9 @@
 import React from 'react';
 
 import PostIndexHeader from './post_index_header';
-import PostShowItem from './post_show/post_show_item';
+import PostShowItem from '../post_show/post_show_item';
 
-import { renderSpinner } from '../../util/misc_util';
+import { renderSpinner } from '../../../util/misc_util';
 
 class PostIndex extends React.Component {
   constructor(props) {

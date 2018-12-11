@@ -1,4 +1,4 @@
-import * as APIUtil from '../util/user_api_util';
+import * as APIUtil from '../util/api_util/user_api_util';
 import { loadPostIndex } from '../actions/loading_actions';
 import { receivePosts } from '../actions/post_actions';
 

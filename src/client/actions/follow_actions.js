@@ -1,4 +1,4 @@
-import * as APIUtil from '../util/follow_api_util';
+import * as APIUtil from '../util/api_util/follow_api_util';
 
 export const FOLLOW_BLOG = 'FOLLOW_BLOG';
 export const UNFOLLOW_BLOG = 'UNFOLLOW_BLOG';

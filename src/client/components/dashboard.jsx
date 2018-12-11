@@ -2,7 +2,7 @@ import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 
 import NavbarContainer from './navbar/navbar_container';
-import PostIndexContainer from './posts/post_index_container';
+import PostIndexContainer from './posts/post_index/post_index_container';
 import SidemenuContainer from './sidemenu/sidemenu_container';
 import FollowerIndex from './follows/follower_index';
 

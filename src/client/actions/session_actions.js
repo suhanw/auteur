@@ -1,4 +1,4 @@
-import * as APIUtil from '../util/session_api_util';
+import * as APIUtil from '../util/api_util/session_api_util';
 import { clearErrors } from '../actions/clear_actions';
 
 export const RECEIVE_CURRENT_USER = 'RECEIVE_CURRENT_USER';

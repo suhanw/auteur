@@ -1,4 +1,4 @@
-import * as APIUtil from '../util/blog_api_util';
+import * as APIUtil from '../util/api_util/blog_api_util';
 
 export const RECEIVE_BLOG = 'RECEIVE_BLOG';
 export const RECEIVE_BLOG_ERRORS = 'RECEIVE_BLOG_ERRORS';

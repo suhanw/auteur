@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const Error = function (props) {
+export const ErrorPage = function (props) {
   return (
     <div className='error-page'>
       <div className='error-message'>
@@ -18,4 +18,13 @@ const Error = function (props) {
   );
 };
 
-export default Error;
+export const ErrorMessage = function (props) {
+  const { errorArr } = props;
+  if (!errorArr || errorArr.length === 0) { return null; }
+  let errorLis = errorArr.map((error, idx) => (<li key={idx}>{error}</li>));
+  return (
+    <ul className='error-alert object-fade-in'>
+      {errorLis}
+    </ul>
+  );
+};

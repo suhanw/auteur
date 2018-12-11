@@ -1,7 +1,7 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 
-import PostIndexContainer from '../posts/post_index_container';
+import PostIndexContainer from '../posts/post_index/post_index_container';
 
 class BlogDrawer extends React.Component {
   constructor(props) {

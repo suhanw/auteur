@@ -1,4 +1,4 @@
-import * as APIUtil from '../util/post_api_util';
+import * as APIUtil from '../util/api_util/post_api_util';
 import { fetchBlog, receiveBlog } from '../actions/blog_actions';
 import { loadPostSubmit, loadPostIndex } from '../actions/loading_actions';
 

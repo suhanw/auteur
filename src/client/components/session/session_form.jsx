@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { renderErrors } from '../../util/error_util';
+import { ErrorMessage } from '../errors/errors';
 
 class SessionForm extends React.Component {
   constructor(prop) {
@@ -71,14 +71,14 @@ class SessionForm extends React.Component {
       );
       submitButton = (<input className='btn btn-default btn-blue slide-down' type='submit' value='Sign up' />);
     }
-    const errorMessage = renderErrors(this.props.errors);
 
     return (
       <form className='session-form' onSubmit={this.handleSubmit}>
         {emailField}
         {passwordField}
         {usernameField}
-        {errorMessage}
+        {/* {errorMessage} */}
+        <ErrorMessage errorArr={this.props.errors} />
         <div className='slide-down-container'>
           {submitButton}
           <span className='demo-link object-fade-in'>
