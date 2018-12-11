@@ -19,7 +19,7 @@ router.get('/posts', middleware.isLoggedIn, function (req, res) {
     .then((foundBlog) => {
       return Post.find({ blog: foundBlog._id })
         .sort({ 'createdAt': 'desc' })
-        .populate({ path: 'blog', select: '_id' })
+        .populate({ path: 'blog', select: '_id avatarImageUrl' })
         .populate({ path: 'tags', select: 'label' })
         .exec()
     })
