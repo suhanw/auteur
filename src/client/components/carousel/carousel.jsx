@@ -2,8 +2,8 @@ import React from 'react';
 import { Route } from 'react-router-dom'
 import { merge } from 'lodash';
 
-import SessionFormContainer from './session/session_form_container';
-import NavbarContainer from './navbar/navbar_container';
+import SessionFormContainer from '../session/session_form_container';
+import NavbarContainer from '../navbar/navbar_container';
 
 class Carousel extends React.Component {
   constructor(props) {
@@ -37,7 +37,6 @@ class Carousel extends React.Component {
       'https://wallpapers.moviemania.io/desktop/movie/286217/9c7511/the-martian-desktop-wallpaper.jpg?w=1920&h=1200',
       'https://wallpapers.moviemania.io/desktop/movie/2756/f398a9/the-abyss-desktop-wallpaper.jpg?w=1920&h=1200',
       'https://wallpapers.moviemania.io/desktop/movie/1417/3ab2d6/pans-labyrinth-desktop-wallpaper.jpg?w=1920&h=1200',
-
     ];
 
 

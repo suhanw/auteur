@@ -1,6 +1,6 @@
 const lodash = require('lodash');
 
-let mediaUpload = {};
+let mediaUtil = {};
 
 // SET UP AWS FILE UPLOAD=====================
 const AWS = require('aws-sdk');
@@ -15,7 +15,7 @@ let s3bucket = new AWS.S3({
 let bucket = process.env.AWS_BUCKET;
 // SET UP AWS FILE UPLOAD=====================
 
-mediaUpload.uploadFiles = function (newFiles, urls, post, blog) {
+mediaUtil.uploadFiles = function (newFiles, urls, post, blog) {
   return new Promise(function (resolve, reject) {
     urls = (typeof urls === 'string') ? [urls] : urls; // single element is passed by FormData as a string, so need to turn into array
     post.media = lodash.union(post.media, urls); // add urls to persist
@@ -50,7 +50,7 @@ mediaUpload.uploadFiles = function (newFiles, urls, post, blog) {
   });
 };
 
-mediaUpload.deleteFiles = function (post, blog) {
+mediaUtil.deleteFiles = function (post, blog) {
   return new Promise(function (resolve, reject) {
     let keyPrefix = `users/${post.author}/blogs/${post.blog}/posts/${post._id}/`;
     let files = [];
@@ -79,11 +79,11 @@ mediaUpload.deleteFiles = function (post, blog) {
   });
 }
 
-mediaUpload.updateFiles = function (newFiles, urls, post) {
+mediaUtil.updateFiles = function (newFiles, urls, post) {
   return new Promise(function (resolve, reject) {
-    return mediaUpload.deleteFiles(post, null) // blog is not updated on post update, hence no need to pass as argument
+    return mediaUtil.deleteFiles(post, null) // blog is not updated on post update, hence no need to pass as argument
       .then(({ post }) => {
-        return mediaUpload.uploadFiles(newFiles, urls, post, null) // blog is not updated on post update, hence no need to pass in
+        return mediaUtil.uploadFiles(newFiles, urls, post, null) // blog is not updated on post update, hence no need to pass in
       })
       .then(({ post }) => {
         return resolve(post);
@@ -92,4 +92,4 @@ mediaUpload.updateFiles = function (newFiles, urls, post) {
   });
 }
 
-module.exports = mediaUpload;
+module.exports = mediaUtil;

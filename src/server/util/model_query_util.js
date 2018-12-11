@@ -103,7 +103,18 @@ modelQuery.deleteComment = function (commentId) {
     });
 }
 
-modelQuery.addTags = function (tags) {
+modelQuery.addTagsToPost = function (post, blog) {
+  return new Promise((resolve, reject) => {
+    modelQuery.findOrCreateTags(post.tags)
+      .then((tagObjIds) => {
+        post.tags = tagObjIds;
+        resolve({ post, blog });
+      })
+      .catch((err) => reject(err));
+  });
+}
+
+modelQuery.findOrCreateTags = function (tags) {
   return new Promise((resolve, reject) => {
     if (!tags.length) return resolve([]);
     let tagObjIds = tags.map(() => null); // create a placeholder array with same num of elements

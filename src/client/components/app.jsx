@@ -1,7 +1,7 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import Dashboard from './dashboard';
-import Carousel from './carousel';
+import Carousel from './carousel/carousel';
 import Settings from './settings/settings';
 import Modal from './modals/modal';
 import Drawer from './drawers/drawer';

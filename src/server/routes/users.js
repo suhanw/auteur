@@ -94,7 +94,7 @@ router.get('/users/:id/likes', middleware.isLoggedIn, function (req, res) {
         likedPosts[like.post._id] = like._id;
         posts.push(like.post);
       });
-      let responseJSON = { // this will be merged with Redux 'users' state
+      let responseJSON = { // this will be added to Redux 'users' state
         userId: req.params.id,
         likedPosts: likedPosts,
         likeCount: likes.length,
