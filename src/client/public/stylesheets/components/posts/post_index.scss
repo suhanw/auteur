@@ -209,6 +209,10 @@ h1.post-quote div {
   border-radius: 0;
 }
 
+.post-photo:last-of-type {
+  margin-bottom: 15px;
+}
+
 .post-link {
   position: relative;
   width: calc(100% + 40px);
