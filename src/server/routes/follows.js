@@ -13,6 +13,7 @@ router.get('/follows', middleware.isLoggedIn, function (req, res) {
       return User.find({ following: foundBlog._id })
         .select('username avatarImageUrl primaryBlog')
         .populate({ path: 'primaryBlog', select: 'name title avatarImageUrl backgroundImageUrl' })
+        .sort({ 'username': 'asc' })
         .exec()
     })
     .then((foundUsers) => {
