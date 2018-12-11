@@ -12,7 +12,7 @@ import { fetchBlog } from '../../../actions/blog_actions';
 import { createPost, updatePost } from '../../../actions/post_actions';
 import { clearErrors } from '../../../actions/clear_actions';
 import { selectCurrentUser, selectBlog, selectLoadingPostSubmit, selectPostErrors } from '../../../selectors/selectors';
-import { renderSpinner } from '../../../util/misc_util';
+import { PostSpinner } from '../../spinners/spinners';
 import { ErrorMessage } from '../../errors/errors';
 
 
@@ -103,7 +103,7 @@ class PostForm extends React.Component {
           tabIndex='0'
           onKeyDown={this.closePostForm}>
           {this.renderPostFormType()}
-          {renderSpinner(spinnerClass)}
+          <PostSpinner spinnerClass={spinnerClass} />
         </div>
 
       </div>

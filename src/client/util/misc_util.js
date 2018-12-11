@@ -1,27 +1,4 @@
-import React from 'react';
 import { isArray } from 'lodash';
-
-
-export const toArray = function (list) {
-  return Array.prototype.slice.call(list);
-}
-
-
-export const renderSpinner = function (className) {
-  if (!className) return null; // only pass in className if need to render spinner
-  return (
-    <div className={className}>
-      <div className="spinner">
-        <div className="rect1"></div>
-        <div className="rect2"></div>
-        <div className="rect3"></div>
-        <div className="rect4"></div>
-        <div className="rect5"></div>
-      </div>
-    </div>
-  );
-};
-
 
 export const replaceArray = function (objValue, srcValue) {
   if (isArray(objValue)) {
@@ -33,6 +10,9 @@ export const replaceArray = function (objValue, srcValue) {
   // mergewith(new, old, replaceArray) => {arr: [1,2]}
 };
 
+export const toArray = function (list) {
+  return Array.prototype.slice.call(list);
+}
 
 export const validateUrl = function (url, expectedType, next) {
   // https://www.website.com is a valid URL

@@ -18,8 +18,7 @@ export const ErrorPage = function (props) {
   );
 };
 
-export const ErrorMessage = function (props) {
-  const { errorArr } = props;
+export const ErrorMessage = function ({ errorArr }) {
   if (!errorArr || errorArr.length === 0) { return null; }
   let errorLis = errorArr.map((error, idx) => (<li key={idx}>{error}</li>));
   return (

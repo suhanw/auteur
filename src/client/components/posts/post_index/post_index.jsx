@@ -3,7 +3,7 @@ import React from 'react';
 import PostIndexHeader from './post_index_header';
 import PostShowItem from '../post_show/post_show_item';
 
-import { renderSpinner } from '../../../util/misc_util';
+import { PostSpinner } from '../../spinners/spinners';
 
 class PostIndex extends React.Component {
   constructor(props) {
@@ -30,7 +30,7 @@ class PostIndex extends React.Component {
         <ul className='post-container'>
           {this.renderPostShowItems()}
         </ul>
-        {renderSpinner(spinnerClass)}
+        <PostSpinner spinnerClass={spinnerClass} />
       </div>
     );
   }
