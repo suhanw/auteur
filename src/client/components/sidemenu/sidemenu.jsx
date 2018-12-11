@@ -67,7 +67,7 @@ class Sidemenu extends React.Component {
 
     return (
       <section className='connect'>
-        <h1 className='connect-header'>LETS CONNECT</h1>
+        <h1 className='connect-header'>LET'S CONNECT</h1>
         <a className='connect-item'
           href='https://www.linkedin.com/in/suhanwijaya/'
           target='_blank'>
@@ -95,6 +95,16 @@ class Sidemenu extends React.Component {
           <div className='connect-info'>
             <strong>Email</strong>
             <span>suhanw@gmail.com</span>
+          </div>
+          <i className="fas fa-plus-square"></i>
+        </a>
+        <a className='connect-item'
+          href='https://www.suhanwijaya.com/assets/suhan_wijaya_resume.pdf'
+          target='_blank'>
+          <i className="fas fa-file-download"></i>
+          <div className='connect-info'>
+            <strong>Resume</strong>
+            <span>download</span>
           </div>
           <i className="fas fa-plus-square"></i>
         </a>

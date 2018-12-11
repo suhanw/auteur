@@ -6,6 +6,7 @@
 .sidemenu-header {
   font-size: 13px;
   padding: 7px 10px;
+  border-bottom: 2px solid $divider-line-white;
 }
 .sidemenu-header h1,
 .sidemenu-item {
@@ -26,15 +27,11 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-top: 1px solid $divider-line-white;
+  border-bottom: 1px solid $divider-line-white;
   cursor: pointer;
 }
 
 .sidemenu-link:last-of-type {
-  border-bottom: 1px solid $divider-line-white;
-}
-
-.sidemenu-link:last-child {
   border-bottom: 1px solid $divider-line-white;
 }
 
@@ -67,20 +64,47 @@
   border-bottom: 1px solid $divider-line-white;
   color: rgba(255, 255, 255, 0.6);
   cursor: pointer;
+  padding-right: 12px;
 }
 
 .connect-item:hover {
-  background: hsla(0,0%,100%,.07);
+  background-color: hsla(0,0%,100%,.07);
 }
 
 .connect-item .fab,
-.connect-item .fas.fa-envelope-square {
+.connect-item .fas.fa-envelope-square, 
+.connect-item .fas.fa-file-download {
   margin-top: 5px;
   margin-bottom: 5px;
-  font-size: 37px;
   margin-left: 0;
   margin-right: 10px;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 37px;
+  transition: all 0.35s ease-in-out;
 }
+
+.connect-item:hover .fas.fa-envelope-square {
+  color:#435268;
+  background-color: white;
+}
+
+.connect-item:hover .fas.fa-file-download {
+  color: white;
+}
+
+.connect-item:hover .fab.fa-linkedin {
+  color: #0075b7;
+  background-color: white;
+}
+.connect-item:hover .fab.fa-github-square {
+  color: #24292e;
+  background-color: white;
+}
+
 
 .connect-item .fas.fa-plus-square {
   font-size: 26px;
@@ -91,10 +115,14 @@
   width: 18px;
 }
 
-.connect-item .fas.fa-plus-square:hover {
-  color: #529ecc;
-  background-color: white;
+.connect-item .resume-icon {
+  width: 37px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  margin-left: 0;
+  margin-right: 10px;
 }
+
 
 .connect-info {
   flex-grow: 1;
