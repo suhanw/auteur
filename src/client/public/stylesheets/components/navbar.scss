@@ -26,6 +26,10 @@
   background: inherit;
 }
 
+.navbar-left {
+  flex-grow: 1;
+}
+
 .navbar-right-item {
   height: 32px;
   width: 48px;

@@ -2,7 +2,7 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 
 import Logo from '../logo/logo';
-import Searchbar from '../searchbar/searchbar';
+import Searchbar from '../search/search_bar';
 import AccountPopover from '../popovers/account_popover';
 import ChatPopover from '../popovers/chat_popover';
 import NotificationPopover from '../popovers/notification_popover';

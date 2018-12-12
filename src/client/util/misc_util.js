@@ -60,3 +60,8 @@ export const pluralize = function (count, singular, plural) {
   if (count === 1) return singular;
   return plural;
 };
+
+export const toggleClass = function (condition, whenTrue, whenFalse) {
+  if (condition) return whenTrue;
+  whenFalse;
+};
