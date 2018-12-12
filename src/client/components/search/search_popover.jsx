@@ -5,6 +5,7 @@ class SearchPopover extends React.Component {
     super(props);
 
     this.renderTagResults = this.renderTagResults.bind(this);
+    this.renderBlogResults = this.renderBlogResults.bind(this);
   }
 
   render() {
@@ -13,6 +14,7 @@ class SearchPopover extends React.Component {
     return (
       <div className={`search-popover popover ${popoverActive}`}>
         {this.renderTagResults()}
+        {/* {this.renderBlogResults()} */}
       </div>
     );
   }
@@ -24,7 +26,11 @@ class SearchPopover extends React.Component {
         <header className='popover-header'>TAGS</header>
         {tagResults}
       </ul>
-    )
+    );
+  }
+
+  renderBlogResults() {
+    // FIX: later..
   }
 }
 

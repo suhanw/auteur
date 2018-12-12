@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { withRouter } from 'react-router-dom';
 
 import Logo from '../logo/logo';
-import Searchbar from '../search/search_bar';
+// import Searchbar from '../search/search_bar';
 
 class NavbarGuest extends React.Component {
   constructor(props) {
@@ -22,7 +22,7 @@ class NavbarGuest extends React.Component {
 
         <div className='navbar-left'>
           <Logo />
-          <Searchbar />
+          {/* <Searchbar /> */}
         </div>
 
         {this.renderSessionButtons()}

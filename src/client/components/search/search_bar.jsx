@@ -3,7 +3,7 @@ import React from 'react';
 import SearchPopover from './search_popover';
 import { toggleClass } from '../../util/misc_util';
 
-class Searchbar extends React.Component {
+class SearchBar extends React.Component {
   constructor(props) {
     super(props);
 
@@ -94,4 +94,4 @@ class Searchbar extends React.Component {
   }
 }
 
-export default Searchbar;
+export default SearchBar;

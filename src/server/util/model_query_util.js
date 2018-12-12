@@ -1,4 +1,5 @@
 let modelQuery = {};
+const { merge } = require('lodash');
 const Blog = require('../models/blog');
 const Post = require('../models/post');
 const Note = require('../models/note');
@@ -101,6 +102,32 @@ modelQuery.deleteComment = function (commentId) {
       deletedComment.post.save();
       return deletedComment;
     });
+}
+
+modelQuery.findTags = function (tagQuery) {
+  return Tag.$where(`this.label.includes('${tagQuery}')`)
+    .select('label postCount')
+    .limit(5)
+    .lean(true)
+    .exec()
+    .then((foundTags) => {
+      return new Promise((resolve, reject) => {
+        let tagsWithCount = foundTags.map(() => null);
+        foundTags.forEach((tag, i) => {
+          modelQuery.countTagPosts(tag)
+            .then((count) => {
+              tagsWithCount[i] = merge({ postCount: count }, tag);
+              if (!tagsWithCount.includes(null)) resolve(tagsWithCount);
+            })
+            .catch((err) => reject(err));
+        });
+      });
+    });
+};
+
+modelQuery.countTagPosts = function (tag) {
+  return Post.countDocuments({ tags: tag._id })
+    .exec();
 }
 
 modelQuery.addTagsToPost = function (post, blog) {
