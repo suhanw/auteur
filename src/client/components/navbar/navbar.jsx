@@ -21,12 +21,16 @@ class Navbar extends React.Component {
   }
 
   render() {
+    const { popover, openPopover, closePopover } = this.props;
     return (
       <nav className='navbar'>
 
         <div className='navbar-left'>
           <Logo />
-          <Searchbar />
+          <Searchbar
+            popover={popover}
+            openPopover={openPopover}
+            closePopover={closePopover} />
         </div>
 
         <ul className='navbar-right'>

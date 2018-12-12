@@ -4,7 +4,8 @@
   align-items: center;
   height: 34px;
   color: hsla(0,0%,100%,.6);
-  flex-grow: 1
+  flex-grow: 1;
+  position: relative;
 }
 
 .search .fas {
@@ -41,4 +42,20 @@
 
 .search.active .search-bar::placeholder {
   color: #8f8f8f;
+}
+
+.search-popover {
+  position: absolute;
+  top: 45px;
+  opacity: 0;
+  width: 100%;
+  max-width: 538px;
+}
+
+.search-popover.popover {
+  animation-name: none;
+}
+
+.search-popover.active {
+  opacity: 1;
 }
