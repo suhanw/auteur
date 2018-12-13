@@ -1,0 +1,31 @@
+.search-page-content {
+  width: 1275px;
+  min-width: 1275px;
+  padding-top: 92px;
+  margin: 0 auto;
+}
+
+.search-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.search-term {
+  font-size: 24px;
+  font-weight: 400;
+  color: white;
+}
+
+.masonry-wall {
+  display: flex;
+  justify-content: center;
+  flex-wrap: nowrap;
+}
+
+ul[class*='masonry-col']{
+  margin: 0 10px;
+}
+
+.masonry-wall .post-show-item {
+  width: 300px;
+}

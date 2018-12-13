@@ -98,6 +98,8 @@ $dogear-grey: rgb(208, 208, 208);
   margin-bottom: 10px;
   font-size: 13px;
   font-weight: bold;
+  display: flex;
+  align-items: center;
 }
 
 .post-header span {
@@ -107,6 +109,7 @@ $dogear-grey: rgb(208, 208, 208);
 .post-header small {
   color: #8f8f8f;
   font-weight: 400;
+  padding-right: 5px;
 }
 
 .post-header a {

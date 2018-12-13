@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import NavbarContainer from '../navbar/navbar_container';
+import PostIndexMasonry from '../posts/post_index/post_index_masonry';
 import PostShowItem from '../posts/post_show/post_show_item';
 import { selectPosts, selectCurrentUser, selectBlogs } from '../../selectors/selectors';
 import { fetchSearchPosts, clearSearchPosts } from '../../actions/search_actions';
@@ -33,6 +34,7 @@ class SearchPage extends React.Component {
     super(props)
 
     this.renderHeader = this.renderHeader.bind(this);
+    // this.renderSearchPosts = this.renderSearchPosts.bind(this);
     this.renderSearchPosts = this.renderSearchPosts.bind(this);
   }
 
@@ -41,9 +43,13 @@ class SearchPage extends React.Component {
     return (
       <div className='search-page'>
         <NavbarContainer />
-        {this.renderHeader()}
-        {/* {this.renderSearchBlogs()} */}
-        {this.renderSearchPosts()}
+        <div className='search-page-content'>
+          {this.renderHeader()}
+
+          {/* {this.renderSearchBlogs()} */}
+          {this.renderSearchPosts()}
+
+        </div>
       </div>
     );
   }
@@ -51,32 +57,30 @@ class SearchPage extends React.Component {
   renderHeader() {
     const { query } = this.props.match.params;
     return (
-      <div>
-        {query.toUpperCase()}
-      </div>
+      <header className='search-header'>
+        <h1 className='search-term'>
+          {query.toUpperCase()}
+        </h1>
+      </header>
     )
   }
 
   renderSearchPosts() {
     const { postsArr, blogs, currentUser, createFollow, openDrawer } = this.props;
     const view = 'searchPosts';
-    let searchPostItems = postsArr.map((post) => {
-      let blog = blogs[post.blog];
-      return (
-        <PostShowItem key={post._id}
+
+    return (
+      <section className='search-posts-container'>
+        {/* <div className='search-posts-controls'></div> */}
+        <PostIndexMasonry
           view={view}
-          post={post}
-          blog={blog}
+          postsArr={postsArr}
+          blogs={blogs}
           currentUser={currentUser}
           createFollow={createFollow}
           openDrawer={openDrawer} />
-      );
-    });
-    return (
-      <ul>
-        {searchPostItems}
-      </ul>
-    );
+      </section>
+    )
   }
 
   componentDidMount() {
