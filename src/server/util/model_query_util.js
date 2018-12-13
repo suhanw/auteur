@@ -111,10 +111,11 @@ modelQuery.findTags = function (tagQuery) {
     .lean(true)
     .exec()
     .then((foundTags) => {
-      if (!foundTags.length) return []; // if not tags matched, return empty array
+      if (!foundTags.length) return []; // if no tags matched, return empty array
       return modelQuery.countTagPosts(foundTags);
     })
     .then((tags) => {
+      tags.sort((a, b) => b.postCount - a.postCount) // short hand for desc based on a key value
       return tags;
     });
 };

@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 import { selectTags } from '../../selectors/selectors';
 import { fetchTags } from '../../actions/search_actions';
@@ -37,21 +38,25 @@ class SearchPopover extends React.Component {
   }
 
   renderTagResults() {
-    const { query, tags } = this.props;
+    const { query, tags, closePopover } = this.props;
     let tagResults;
     tagResults = tags.allIds.map((tagId) => {
       let tagLabel = tags.byId[tagId].label;
       let tagRegex = new RegExp(`(.*)(${query})(.*)`); // to underline the query string that matches the tag label
-      tagLabel = tagLabel.match(tagRegex);
-      if (!tagLabel) return null;
+      let tagLabelArr = tagLabel.match(tagRegex);
+      if (!tagLabelArr) return null;
       return (
-        <li className='popover-menu-item'
-          key={tagId}>
-          {/* {tagLabel} */}
-          {tagLabel[1]}
-          <u>{tagLabel[2]}</u>
-          {tagLabel[3]}
-        </li>
+        <Link to={`/search/${tagLabel}`}
+          key={tagId}
+          onMouseDown={(e) => e.preventDefault() /* prevent default on mouse down will block the popover from stealing focus (i.e., trigger blur event on the search input) */}
+          onClick={() => closePopover()}>
+          <li className='popover-menu-item'>
+            {/* {tagLabel} */}
+            {tagLabelArr[1]}
+            <u>{tagLabelArr[2]}</u>
+            {tagLabelArr[3]}
+          </li>
+        </Link>
       );
     });
 

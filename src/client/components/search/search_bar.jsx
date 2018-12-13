@@ -59,17 +59,20 @@ class SearchBar extends React.Component {
   }
 
   renderSearchPopover() {
-    const { popover } = this.props;
+    const { popover, closePopover } = this.props;
     const { query } = this.state;
-    // let popoverActive = toggleClass((JSON.stringify(popover) === JSON.stringify(this.searchPopover)), 'active', '');
     if (JSON.stringify(popover) !== JSON.stringify(this.searchPopover)) return null;
     return (
       <SearchPopover
-        query={query} />
+        query={query}
+        closePopover={closePopover} />
     );
   }
 
   handleFocusSearchBar(e) {
+    // if (e.type === 'blur') debugger
+    // const { popover } = this.props;
+    // if (JSON.stringify(popover) === JSON.stringify(this.searchPopover)) return; // if search popover is open, don't do anything
     let newState = { isActive: !this.state.isActive };
     this.setState(
       newState,
