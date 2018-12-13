@@ -1,5 +1,5 @@
 import { RECEIVE_FEED, RECEIVE_POST, REMOVE_POST } from '../../actions/post_actions';
-import { RECEIVE_SEARCH_POSTS } from '../../actions/search_actions';
+import { RECEIVE_SEARCH_POSTS, CLEAR_SEARCH_POSTS } from '../../actions/search_actions';
 import { RECEIVE_USER_FOLLOWING, RECEIVE_USER_LIKES } from '../../actions/user_actions';
 import { REMOVE_CURRENT_USER } from '../../actions/session_actions';
 import { normalize, schema } from 'normalizr';
@@ -35,6 +35,10 @@ const postIndexReducer = function (state = defaultState, action) {
         state.searchPosts,
         normalizedPayload.result, // array of postIds
       );
+      return newState;
+    case CLEAR_SEARCH_POSTS:
+      newState = merge({}, state);
+      newState.searchPosts = [];
       return newState;
     case RECEIVE_USER_FOLLOWING:
       payloadSchema = [postSchema];

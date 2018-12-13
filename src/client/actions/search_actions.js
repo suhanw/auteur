@@ -3,6 +3,7 @@ import { receivePosts } from './post_actions';
 
 export const RECEIVE_TAGS = 'RECEIVE_TAGS';
 export const RECEIVE_SEARCH_POSTS = 'RECEIVE_SEARCH_POSTS';
+export const CLEAR_SEARCH_POSTS = 'CLEAR_SEARCH_POSTS';
 export const RECEIVE_TAG_ERRORS = 'RECEIVE_TAG_ERRORS';
 
 export const receiveTags = function (tags) {
@@ -19,12 +20,19 @@ export const receiveSearchPosts = function (searchPosts) {
   };
 };
 
+export const clearSearchPosts = function () {
+  return {
+    type: CLEAR_SEARCH_POSTS,
+  };
+};
+
 export const receiveTagErrors = function (errors) {
   return {
     type: RECEIVE_TAG_ERRORS,
     payload: errors,
   };
 };
+
 
 export const fetchTags = function (tagQuery) {
   return function (dispatch) {

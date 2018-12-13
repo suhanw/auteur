@@ -36,14 +36,17 @@ class PostIndex extends React.Component {
   }
 
   componentDidMount() {
-    const { fetchPosts, fetchUserLikes, currentUser } = this.props;
+    const { fetchPosts, fetchUserLikes, currentUser, view } = this.props;
     if (!currentUser.likedPosts) fetchUserLikes(currentUser._id); // to fetch only when it's not populated
     fetchPosts()
       .then((errAction) => {
         if (errAction) this.props.history.push('/404'); // if someone updates URl with non-existent blog id, redirect to dashboard
       });
-    document.querySelector('div.dashboard') // event only fires on element that has overflow: scroll
-      .addEventListener('scroll', this.handleScroll);
+
+    if (view === 'feed') { // FIX: infinite scroll only implemented for feed now
+      document.querySelector('div.dashboard') // event only fires on element that has overflow: scroll
+        .addEventListener('scroll', this.handleScroll);
+    }
   }
 
   componentWillReceiveProps(newProps) {
@@ -62,8 +65,11 @@ class PostIndex extends React.Component {
   }
 
   componentWillUnmount() {
-    document.querySelector('div.dashboard')
-      .removeEventListener('scroll', this.handleScroll);
+    const { view } = this.props;
+    if (view === 'feed') { // FIX: infinite scroll only implemented for feed now
+      document.querySelector('div.dashboard')
+        .removeEventListener('scroll', this.handleScroll);
+    }
   }
 
   renderPostIndexHeader() {

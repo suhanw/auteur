@@ -59,7 +59,8 @@ class PostShowItem extends React.Component {
 
   renderAvatar() {
     const { view, blog } = this.props;
-    if (view === 'blogDrawer') return null;
+    if (view === 'blogDrawer' ||
+      view === 'searchPosts') return null;
     return (
       <picture className='avatar-container'>
         <div className='avatar'>

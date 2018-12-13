@@ -1,9 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
+import NavbarContainer from '../navbar/navbar_container';
 import PostShowItem from '../posts/post_show/post_show_item';
 import { selectPosts, selectCurrentUser, selectBlogs } from '../../selectors/selectors';
-import { fetchSearchPosts } from '../../actions/search_actions';
+import { fetchSearchPosts, clearSearchPosts } from '../../actions/search_actions';
 import { createFollow } from '../../actions/follow_actions';
 import { openDrawer } from '../../actions/drawer_actions';
 
@@ -21,6 +22,7 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     fetchSearchPosts: (query) => dispatch(fetchSearchPosts(query)),
+    clearSearchPosts: () => dispatch(clearSearchPosts()),
     createFollow: (blogId) => dispatch(createFollow(blogId)),
     openDrawer: (drawer) => dispatch(openDrawer(drawer)),
   };
@@ -38,6 +40,7 @@ class SearchPage extends React.Component {
 
     return (
       <div className='search-page'>
+        <NavbarContainer />
         {this.renderHeader()}
         {/* {this.renderSearchBlogs()} */}
         {this.renderSearchPosts()}
@@ -60,15 +63,13 @@ class SearchPage extends React.Component {
     let searchPostItems = postsArr.map((post) => {
       let blog = blogs[post.blog];
       return (
-        <li key={post._id} >
-          <PostShowItem
-            view={view}
-            post={post}
-            blog={blog}
-            currentUser={currentUser}
-            createFollow={createFollow}
-            openDrawer={openDrawer} />
-        </li>
+        <PostShowItem key={post._id}
+          view={view}
+          post={post}
+          blog={blog}
+          currentUser={currentUser}
+          createFollow={createFollow}
+          openDrawer={openDrawer} />
       );
     });
     return (
@@ -82,6 +83,15 @@ class SearchPage extends React.Component {
     const { query } = this.props.match.params;
     const { fetchSearchPosts } = this.props;
     fetchSearchPosts(query);
+  }
+
+  componentWillReceiveProps(newProps) {
+    // when user enters new search query on search page
+    if (newProps.match.params.query !== this.props.match.params.query) {
+      const { fetchSearchPosts, clearSearchPosts } = this.props;
+      clearSearchPosts(); // clear previous search results first
+      fetchSearchPosts(newProps.match.params.query);
+    }
   }
 }
 
