@@ -36,13 +36,17 @@ class SearchPage extends React.Component {
   constructor(props) {
     super(props)
 
+    this.state = {
+      noPostResults: false,
+    };
+
     this.renderHeader = this.renderHeader.bind(this);
-    // this.renderSearchPosts = this.renderSearchPosts.bind(this);
     this.renderSearchPosts = this.renderSearchPosts.bind(this);
   }
 
   render() {
     const { loadingSearchPosts } = this.props;
+
     return (
       <div className='search-page'>
         <NavbarContainer />
@@ -71,6 +75,16 @@ class SearchPage extends React.Component {
   }
 
   renderSearchPosts() {
+    const { noPostResults } = this.state;
+    if (noPostResults) {
+      return (
+        <div className='post-blank' >
+          <img className='not-found-icon' src='images/notFound.png' />
+          No posts found.
+        </div >
+      );
+    }
+
     const { postsArr, blogs, currentUser, createFollow, openDrawer } = this.props;
     const view = 'searchPosts';
 
@@ -91,7 +105,12 @@ class SearchPage extends React.Component {
   componentDidMount() {
     const { query } = this.props.match.params;
     const { fetchSearchPosts } = this.props;
-    fetchSearchPosts(query);
+    fetchSearchPosts(query).then(
+      (posts) => {
+        if (posts.length) this.setState({ noPostResults: false });
+        else this.setState({ noPostResults: true });
+      }
+    );
   }
 
   componentWillReceiveProps(newProps) {
@@ -99,7 +118,12 @@ class SearchPage extends React.Component {
     if (newProps.match.params.query !== this.props.match.params.query) {
       const { fetchSearchPosts, clearSearchPosts } = this.props;
       clearSearchPosts(); // clear previous search results first
-      fetchSearchPosts(newProps.match.params.query);
+      fetchSearchPosts(newProps.match.params.query).then(
+        (posts) => {
+          if (posts.length) this.setState({ noPostResults: false });
+          else this.setState({ noPostResults: true });
+        }
+      );
     }
   }
 }

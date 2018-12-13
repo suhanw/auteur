@@ -51,6 +51,7 @@ export const fetchSearchPosts = function (tagQuery) {
       (searchPosts) => {
         dispatch(receiveSearchPosts(searchPosts)) // to add post Ids to UI state for rendering
         dispatch(receivePosts(searchPosts));
+        return searchPosts;
       },
       (err) => dispatch(receiveTagErrors(err.responseJSON))
     );

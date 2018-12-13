@@ -15,11 +15,11 @@ router.get('/search', function (req, res) {
   Tag.findOne({ label: tagQuery }) // if user clicks on a tag result, then find that one tag
     .then((foundTag) => {
       // debugger
-      if (!foundTag) return modelQuery.findTags(tagQuery); // if no exact match, then find tags that contain the query string
+      if (!foundTag) return modelQuery.findTags(tagQuery, 0); // if no exact match, then find tags that contain the query string
       return [foundTag];
     })
     .then((tags) => {
-      // debugger
+      if (!tags.length) return [];
       // 2b. find posts with tag array that includes the matching tag ids
       return modelQuery.findTagPosts(tags);
     })

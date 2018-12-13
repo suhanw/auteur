@@ -101,6 +101,8 @@ class PostShowItem extends React.Component {
       blogNameClass = 'unfollowed';
     }
 
+    if (view === 'searchPosts') suggestFollow = null;
+
     return (
       <article className='post-content'>
         <div className='dogear'></div>

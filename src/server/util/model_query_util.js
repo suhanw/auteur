@@ -104,11 +104,11 @@ modelQuery.deleteComment = function (commentId) {
     });
 }
 
-modelQuery.findTags = function (tagQuery) {
+modelQuery.findTags = function (tagQuery, limit = 5) {
   // debugger
   return Tag.$where(`this.label.includes('${tagQuery}')`)
     .select('label postCount')
-    .limit(5)
+    .limit(limit)
     .lean(true)
     .exec()
     .then((foundTags) => {
