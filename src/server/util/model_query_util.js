@@ -111,6 +111,7 @@ modelQuery.findTags = function (tagQuery) {
     .lean(true)
     .exec()
     .then((foundTags) => {
+      if (!foundTags.length) return []; // if not tags matched, return empty array
       return modelQuery.countTagPosts(foundTags);
     })
     .then((tags) => {

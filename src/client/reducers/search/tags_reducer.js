@@ -23,8 +23,10 @@ const tagsReducer = function (state = defaultState, action) {
     case RECEIVE_TAGS:
       payloadSchema = [tagSchema];
       normalizedPayload = normalize(action.payload, payloadSchema);
-      newState.byId = merge({}, normalizedPayload.entities.tags, state.byId);
-      newState.allIds = union(normalizedPayload.result, state.allIds);
+      // newState.byId = merge({}, normalizedPayload.entities.tags, state.byId);
+      // newState.allIds = union(normalizedPayload.result, state.allIds);
+      newState.byId = normalizedPayload.entities.tags;
+      newState.allIds = normalizedPayload.result;
       return newState;
     default:
       return state;

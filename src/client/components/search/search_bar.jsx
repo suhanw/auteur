@@ -60,10 +60,12 @@ class SearchBar extends React.Component {
 
   renderSearchPopover() {
     const { popover } = this.props;
-    let popoverActive = toggleClass((JSON.stringify(popover) === JSON.stringify(this.searchPopover)), 'active', '');
+    const { query } = this.state;
+    // let popoverActive = toggleClass((JSON.stringify(popover) === JSON.stringify(this.searchPopover)), 'active', '');
+    if (JSON.stringify(popover) !== JSON.stringify(this.searchPopover)) return null;
     return (
       <SearchPopover
-        popoverActive={popoverActive} />
+        query={query} />
     );
   }
 
@@ -84,9 +86,10 @@ class SearchBar extends React.Component {
   }
 
   toggleSearchPopover() {
-    const { openPopover, closePopover } = this.props;
+    const { popover, openPopover, closePopover } = this.props;
     const { isActive, query } = this.state;
-    if (isActive && query.length) { // open popover only when user enters query
+    if (isActive && query.length && // open popover only if user enters query
+      JSON.stringify(popover) !== JSON.stringify(this.searchPopover)) { // and if popover is not already open
       openPopover(this.searchPopover);
     } else if (!isActive || !query.length) { // if user clicks away, or there is no text in input field
       closePopover();

@@ -47,7 +47,7 @@
 .search-popover {
   position: absolute;
   top: 45px;
-  opacity: 0;
+  // opacity: 0;
   width: 100%;
   max-width: 538px;
 }
@@ -56,6 +56,15 @@
   animation-name: none;
 }
 
-.search-popover.active {
-  opacity: 1;
+// .search-popover.active {
+//   opacity: 1;
+// }
+
+.search-popover .popover-menu-item {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.search-popover .popover-menu-item u {
+  text-decoration: underline;
 }

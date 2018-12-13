@@ -69,6 +69,10 @@ export const selectBlog = function (state, blogId) {
   return blog;
 };
 
+export const selectTags = function (state) {
+  const { entities: { tags } } = state;
+  return tags;
+}
 
 // UI SELECTORS=================================
 export const selectModal = function (state) {
