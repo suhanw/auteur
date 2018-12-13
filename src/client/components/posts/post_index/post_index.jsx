@@ -131,7 +131,7 @@ class PostIndex extends React.Component {
     const clientHeight = e.currentTarget.clientHeight; // visible height of feed
     const scrollTop = e.currentTarget.scrollTop; // distance from the top measured from top of window viewport
 
-    if (scrollTop + clientHeight >= scrollHeight) { // when user hits bottom of feed
+    if (scrollTop + clientHeight >= scrollHeight - 1000) { // when user hits bottom of feed
       this.scrollFetch(10);
     }
   }
