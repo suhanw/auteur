@@ -39,6 +39,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
 // REMOVE IN PROD
 // import { fetchTags } from './util/api_util/search_api_util';
-import { fetchTags } from './actions/search_actions';
+// import { fetchTags } from './actions/search_actions';
+// import { fetchSearchPosts } from './util/api_util/search_api_util';
+import { fetchSearchPosts } from './actions/search_actions';
 
-window.fetchTags = fetchTags;
+window.fetchSearchPosts = fetchSearchPosts;
+// window.fetchTags = fetchTags;

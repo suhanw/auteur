@@ -1,5 +1,5 @@
 let modelQuery = {};
-const { merge } = require('lodash');
+const { merge, union } = require('lodash');
 const Blog = require('../models/blog');
 const Post = require('../models/post');
 const Note = require('../models/note');
@@ -105,6 +105,7 @@ modelQuery.deleteComment = function (commentId) {
 }
 
 modelQuery.findTags = function (tagQuery) {
+  // debugger
   return Tag.$where(`this.label.includes('${tagQuery}')`)
     .select('label postCount')
     .limit(5)
@@ -114,8 +115,8 @@ modelQuery.findTags = function (tagQuery) {
       if (!foundTags.length) return []; // if no tags matched, return empty array
       return modelQuery.countTagPosts(foundTags);
     })
-    .then((tags) => {
-      tags.sort((a, b) => b.postCount - a.postCount) // short hand for desc based on a key value
+    .then((tags) => { // sort by most used tags
+      tags.sort((a, b) => b.postCount - a.postCount) // short hand for desc sort based on a key value
       return tags;
     });
 };
@@ -129,6 +130,24 @@ modelQuery.countTagPosts = function (tags) {
         .then((count) => {
           tagsWithCount[i] = merge({ postCount: count }, tag);
           if (!tagsWithCount.includes(null)) resolve(tagsWithCount);
+        })
+        .catch((err) => reject(err));
+    });
+  });
+};
+
+modelQuery.findTagPosts = function (tags) {
+  return new Promise((resolve, reject) => {
+    let tagsWithPosts = tags.map(() => null); // to track that we found posts for each tag
+    tags.forEach((tag, i) => {
+      Post.find({ tags: tag._id })
+        .sort({ 'createdAt': 'desc' }) // FIX: think about how to sort by most notes
+        .populate({ path: 'blog', select: 'avatarImageUrl' })
+        .populate({ path: 'tags', select: 'label' })
+        .exec()
+        .then((foundPosts) => {
+          tagsWithPosts[i] = merge({ posts: foundPosts }, tag);
+          if (!tagsWithPosts.includes(null)) resolve(tagsWithPosts);
         })
         .catch((err) => reject(err));
     });
