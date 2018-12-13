@@ -29,9 +29,7 @@ export const hidePopover = function (componentContext, popoverState) {
 
     event.stopPropagation();
 
-    if (event.relatedTarget.className === 'follow-popover') {
-      return;
-    }
+    if (event.relatedTarget.className === 'follow-popover') return; // if cursor moves from link to popover, do nothing
 
     let newState = { [popoverState]: null };
     componentContext.setState(newState);

@@ -5,6 +5,7 @@ bundle.*
 
 credentials.csv
 seeds.js
+masonry_test.html
 
 .vscode
 .env
