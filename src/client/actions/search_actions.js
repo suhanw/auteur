@@ -1,5 +1,6 @@
 import * as APIUtil from '../util/api_util/search_api_util';
 import { receivePosts } from './post_actions';
+import { loadSearchPosts } from '../actions/loading_actions';
 
 export const RECEIVE_TAGS = 'RECEIVE_TAGS';
 export const RECEIVE_SEARCH_POSTS = 'RECEIVE_SEARCH_POSTS';
@@ -45,6 +46,7 @@ export const fetchTags = function (tagQuery) {
 
 export const fetchSearchPosts = function (tagQuery) {
   return function (dispatch) {
+    dispatch(loadSearchPosts());
     return APIUtil.fetchSearchPosts(tagQuery).then(
       (searchPosts) => {
         dispatch(receiveSearchPosts(searchPosts)) // to add post Ids to UI state for rendering

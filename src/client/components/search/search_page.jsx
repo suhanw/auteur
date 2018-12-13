@@ -3,20 +3,23 @@ import { connect } from 'react-redux';
 
 import NavbarContainer from '../navbar/navbar_container';
 import PostIndexMasonry from '../posts/post_index/post_index_masonry';
-import PostShowItem from '../posts/post_show/post_show_item';
-import { selectPosts, selectCurrentUser, selectBlogs } from '../../selectors/selectors';
+import { PostSpinner } from '../spinners/spinners';
+import { selectPosts, selectCurrentUser, selectBlogs, selectLoadingSearchPosts } from '../../selectors/selectors';
 import { fetchSearchPosts, clearSearchPosts } from '../../actions/search_actions';
 import { createFollow } from '../../actions/follow_actions';
 import { openDrawer } from '../../actions/drawer_actions';
+import { toggleClass } from '../../util/misc_util';
 
 const mapStateToProps = (state, ownProps) => {
   const postsArr = selectPosts(state, 'searchPosts');
   const blogs = selectBlogs(state);
   const currentUser = selectCurrentUser(state);
+  const loadingSearchPosts = selectLoadingSearchPosts(state);
   return {
     postsArr,
     blogs,
     currentUser,
+    loadingSearchPosts,
   };
 };
 
@@ -39,7 +42,7 @@ class SearchPage extends React.Component {
   }
 
   render() {
-
+    const { loadingSearchPosts } = this.props;
     return (
       <div className='search-page'>
         <NavbarContainer />
@@ -48,6 +51,8 @@ class SearchPage extends React.Component {
 
           {/* {this.renderSearchBlogs()} */}
           {this.renderSearchPosts()}
+
+          <PostSpinner spinnerClass={toggleClass(loadingSearchPosts, 'loading-search-posts', null)} />
 
         </div>
       </div>

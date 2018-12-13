@@ -1,11 +1,13 @@
 import { merge } from 'lodash';
-import { LOAD_POST_SUBMIT, LOAD_POST_INDEX } from '../../actions/loading_actions';
+import { LOAD_POST_SUBMIT, LOAD_POST_INDEX, LOAD_SEARCH_POSTS } from '../../actions/loading_actions';
 import { RECEIVE_POST, RECEIVE_POSTS, RECEIVE_POST_ERRORS } from '../../actions/post_actions';
+import { RECEIVE_SEARCH_POSTS } from '../../actions/search_actions';
 import { REMOVE_CURRENT_USER } from '../../actions/session_actions';
 
 const defaultState = {
   loadingPostIndex: false,
   loadingPostSubmit: false,
+  loadingSearchPosts: false,
 };
 
 const loadingReducer = function (state = defaultState, action) {
@@ -27,6 +29,14 @@ const loadingReducer = function (state = defaultState, action) {
     case RECEIVE_POSTS:
       newState = merge({}, state);
       newState.loadingPostIndex = false;
+      return newState;
+    case LOAD_SEARCH_POSTS:
+      newState = merge({}, state);
+      newState.loadingSearchPosts = true;
+      return newState;
+    case RECEIVE_SEARCH_POSTS:
+      newState = merge({}, state);
+      newState.loadingSearchPosts = false;
       return newState;
     case RECEIVE_POST_ERRORS:
       newState.loadingPostIndex = false;

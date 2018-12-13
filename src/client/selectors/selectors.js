@@ -100,6 +100,11 @@ export const selectLoadingPostIndex = function (state) {
   return loadingPostIndex;
 };
 
+export const selectLoadingSearchPosts = function (state) {
+  const { ui: { loading: { loadingSearchPosts } } } = state;
+  return loadingSearchPosts;
+}
+
 // ERROR SELECTORS=================================
 export const selectPostErrors = function (state) {
   const { errors: { postErrors } } = state;

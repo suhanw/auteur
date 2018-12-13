@@ -5,6 +5,12 @@
   margin: 0 auto;
 }
 
+.search-page-content .loading-search-posts {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .search-header {
   text-align: center;
   margin-bottom: 30px;
