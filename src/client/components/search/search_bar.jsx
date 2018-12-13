@@ -103,7 +103,7 @@ class SearchBar extends React.Component {
     if (isActive && query.length && // open popover only if user enters query
       JSON.stringify(popover) !== JSON.stringify(this.searchPopover)) { // and if popover is not already open
       openPopover(this.searchPopover);
-    } else if (!isActive || !query.length) { // if user clicks away, or there is no text in input field
+    } else if ((!isActive || !query.length) && popover) { // if user clicks away, or there is no text in input field
       closePopover();
     }
   }

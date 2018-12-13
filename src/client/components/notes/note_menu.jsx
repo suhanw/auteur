@@ -85,7 +85,7 @@ class NoteMenu extends React.Component {
 
   renderCog() {
     const { view, post, popover, togglePostForm, postShowItemRef } = this.props;
-    if (view === 'blogDrawer') return null;
+    if (view === 'blogDrawer' || view === 'searchPosts') return null;
     // unique identifier for current popover
     const editDeletePopover = {
       popoverId: `${post._id}_${view}`,
