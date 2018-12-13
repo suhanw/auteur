@@ -31,4 +31,14 @@ document.addEventListener('DOMContentLoaded', function () {
   const rootDOM = document.querySelector('#root');
   ReactDOM.render(<Root store={store} />, rootDOM);
 
+  // REMOVE IN PROD
+  window.dispatch = store.dispatch;
+  window.getState = store.getState;
+
 });
+
+// REMOVE IN PROD
+// import { fetchTags } from './util/api_util/search_api_util';
+import { fetchTags } from './actions/search_actions';
+
+window.fetchTags = fetchTags;

@@ -111,24 +111,27 @@ modelQuery.findTags = function (tagQuery) {
     .lean(true)
     .exec()
     .then((foundTags) => {
-      return new Promise((resolve, reject) => {
-        let tagsWithCount = foundTags.map(() => null);
-        foundTags.forEach((tag, i) => {
-          modelQuery.countTagPosts(tag)
-            .then((count) => {
-              tagsWithCount[i] = merge({ postCount: count }, tag);
-              if (!tagsWithCount.includes(null)) resolve(tagsWithCount);
-            })
-            .catch((err) => reject(err));
-        });
-      });
+      return modelQuery.countTagPosts(foundTags);
+    })
+    .then((tags) => {
+      return tags;
     });
 };
 
-modelQuery.countTagPosts = function (tag) {
-  return Post.countDocuments({ tags: tag._id })
-    .exec();
-}
+modelQuery.countTagPosts = function (tags) {
+  return new Promise((resolve, reject) => {
+    let tagsWithCount = tags.map(() => null);
+    tags.forEach((tag, i) => {
+      Post.countDocuments({ tags: tag._id })
+        .exec()
+        .then((count) => {
+          tagsWithCount[i] = merge({ postCount: count }, tag);
+          if (!tagsWithCount.includes(null)) resolve(tagsWithCount);
+        })
+        .catch((err) => reject(err));
+    });
+  });
+};
 
 modelQuery.addTagsToPost = function (post, blog) {
   return new Promise((resolve, reject) => {
