@@ -93,6 +93,7 @@ class SearchBar extends React.Component {
 
   handleSubmit(e) {
     if (e.key !== 'Enter' || !this.state.query.length) return;
+    this.props.closePopover();
     this.props.history.push(`/search/${this.state.query}`);
   }
 
