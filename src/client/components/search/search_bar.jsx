@@ -73,9 +73,6 @@ class SearchBar extends React.Component {
   }
 
   handleFocusSearchBar(e) {
-    // if (e.type === 'blur') debugger
-    // const { popover } = this.props;
-    // if (JSON.stringify(popover) === JSON.stringify(this.searchPopover)) return; // if search popover is open, don't do anything
     let newState = { isActive: !this.state.isActive };
     this.setState(
       newState,
