@@ -1,4 +1,5 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom'; // to access this.props.history.push
 
 import SearchPopover from './search_popover';
 import { toggleClass } from '../../util/misc_util';
@@ -25,6 +26,7 @@ class SearchBar extends React.Component {
     this.toggleSearchPopover = this.toggleSearchPopover.bind(this);
     this.handleFocusSearchBar = this.handleFocusSearchBar.bind(this);
     this.handleSearchInput = this.handleSearchInput.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   render() {
@@ -54,7 +56,8 @@ class SearchBar extends React.Component {
         onFocus={this.handleFocusSearchBar}
         onBlur={this.handleFocusSearchBar}
         onChange={this.handleSearchInput}
-        onClick={(e) => e.stopPropagation() /* to prevent bubbling up to window closePopover */} />
+        onClick={(e) => e.stopPropagation() /* to prevent bubbling up to window closePopover */}
+        onKeyDown={this.handleSubmit} />
     );
   }
 
@@ -88,6 +91,11 @@ class SearchBar extends React.Component {
     );
   }
 
+  handleSubmit(e) {
+    if (e.key !== 'Enter' || !this.state.query.length) return;
+    this.props.history.push(`/search/${this.state.query}`);
+  }
+
   toggleSearchPopover() {
     const { popover, openPopover, closePopover } = this.props;
     const { isActive, query } = this.state;
@@ -100,4 +108,4 @@ class SearchBar extends React.Component {
   }
 }
 
-export default SearchBar;
+export default withRouter(SearchBar);
