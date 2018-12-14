@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import Root from './components/root';
 import configureStore from './store/store';
 
-import './public/stylesheets/styles.scss'; // to use SASS compiled by webpack
+import './public/stylesheets/main.scss'; // to use SASS compiled by webpack
 
 
 document.addEventListener('DOMContentLoaded', function () {
