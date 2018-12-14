@@ -37,11 +37,11 @@
 .search.active .fas, 
 .search.active .search-bar {
   background-color: white;
-  color: #444;
+  color: $primary-grey;
 }
 
 .search.active .search-bar::placeholder {
-  color: #8f8f8f;
+  color: $secondary-grey;
 }
 
 .search-popover {

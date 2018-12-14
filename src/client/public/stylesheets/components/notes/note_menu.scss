@@ -3,7 +3,7 @@ $note-icon-width: 20px;
 .note-menu-container {
   font-size: 14px;
   font-weight: 700;
-  color: #8f8f8f;
+  color: $secondary-grey;
   height: 45px;
   display: flex;
   justify-content: space-between;
@@ -30,7 +30,7 @@ $note-icon-width: 20px;
 }
 
 .note-menu-item i.fas.fa-heart {
-  color: #d95e40;
+  color: $red;
 }
 
 .post-edit-delete.popover {

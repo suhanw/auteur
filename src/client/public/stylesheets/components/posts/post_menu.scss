@@ -23,7 +23,7 @@
 }
 
 .post-menu-item span {
-  color: #696969;
+  color: $secondary-grey;
 }
 
 .post-menu i.fas {
@@ -39,11 +39,11 @@
 }
 
 .post-menu i.fa-font {
-  color: #444;
+  color: $primary-grey;
 }
 
 .post-menu i.fa-camera-retro {
-  color: #d95e40;
+  color: $red;
 }
 
 .post-menu i.fa-quote-left {

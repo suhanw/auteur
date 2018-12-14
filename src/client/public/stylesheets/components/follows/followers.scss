@@ -15,7 +15,7 @@ $content-width: 625px;
   font-weight: 400;
   margin-top: 2px;
   margin-bottom: 30px;
-  color: #444;
+  color: $primary-grey;
 }
 
 .followers-list {
@@ -64,7 +64,7 @@ $content-width: 625px;
 
 .follower-details-title {
   font-weight: 400;
-  color: #444;
+  color: $primary-grey;
   font-size: 13px;
   margin-top: 4px;
 }

@@ -2,7 +2,7 @@
   box-shadow: 1px 1px 5px rgba(202, 202, 202, 0.5);
   // FIX: shadow looks weird
   border-radius: 3px;
-  color: #444;
+  color: $primary-grey;
   background: white;
   font-size: 14px;
   font-weight: 400;
@@ -32,7 +32,7 @@
   font-size: 11px;
   font-weight: 700;
   text-transform: uppercase;
-  color: #8f8f8f;
+  color: $secondary-grey;
   border-bottom: rgb(231, 231, 231) 1px solid;
   line-height: 15px;
 }
@@ -50,7 +50,7 @@
 }
 
 .navbar-right-item .popover-menu-item i.fas {
-  color: #444;
+  color: $primary-grey;
   font-size: 14px;
   width: 25px;
 }
@@ -60,7 +60,7 @@
 }
 
 .popover-item-suffix {
-  color: #8f8f8f;
+  color: $secondary-grey;
   font-size: 11px;
   font-weight: 400;
   text-transform: none;

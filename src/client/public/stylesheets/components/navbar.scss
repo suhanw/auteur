@@ -8,7 +8,7 @@
   align-items: center;
   padding: 0 5%;
   border-bottom: 1px solid $divider-line-extra-white;
-  background: $bg-blue;
+  background: $primary-blue;
 }
 
 
@@ -51,7 +51,7 @@
 
 .navbar-right-item i.fas.fa-pen-square {
   font-size: 30px;
-  color: #529ecc;
+  color: $secondary-blue;
 }
 
 .navbar .btn {
@@ -84,12 +84,6 @@
     opacity: 1;
   }
 }
-
-
-
-// .navbar i.fas:hover {
-//   color: rgba(255, 255, 255, 1);
-// }
 
 
 @media screen and (max-width: 900px) {

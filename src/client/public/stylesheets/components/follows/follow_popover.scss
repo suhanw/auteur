@@ -1,4 +1,3 @@
-$blog-bg-color: rgb(250, 250, 250);
 
 .follow-popover {
   width: 280px;
@@ -80,7 +79,7 @@ $blog-bg-color: rgb(250, 250, 250);
 }
 
 .follow-popover .btn {
-  color: #4c4c4c;
+  color: $primary-grey;
 }
 
 .follow-popover-info {
@@ -89,7 +88,7 @@ $blog-bg-color: rgb(250, 250, 250);
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: $blog-bg-color;
+  background-color: $off-white;
   border-radius: 3px;
   border-top-left-radius: 0;
   border-top-right-radius: 0;

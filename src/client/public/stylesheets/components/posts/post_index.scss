@@ -71,7 +71,7 @@ $dogear-grey: rgb(208, 208, 208);
   display: inline-block;
   height: 0px;
   width: 0px;
-  background: linear-gradient(45deg, $dogear-grey 50%, $bg-blue 50%);
+  background: linear-gradient(45deg, $dogear-grey 50%, $primary-blue 50%);
   position: absolute;
   top: 0;
   right: 0;
@@ -107,13 +107,13 @@ $dogear-grey: rgb(208, 208, 208);
 }
 
 .post-header small {
-  color: #8f8f8f;
+  color: $secondary-grey;
   font-weight: 400;
   padding-right: 5px;
 }
 
 .post-header a {
-  color: #529ecc;
+  color: $secondary-blue;
   font-weight: 400;
   cursor: pointer;
   padding-left: 10px;
@@ -126,7 +126,7 @@ $dogear-grey: rgb(208, 208, 208);
 }
 
 .post-blog-name.unfollowed {
-  color: #8f8f8f;
+  color: $secondary-grey;
 }
 
 .post-main {
@@ -187,7 +187,7 @@ h1.post-quote div {
 }
 
 .post-source {
-  color: #444;
+  color: $primary-grey;
   margin-top: 15px;
 }
 
@@ -220,7 +220,7 @@ h1.post-quote div {
   position: relative;
   width: calc(100% + 40px);
   padding: 20px 20px;
-  background: #f2f2f2;
+  background: $background-grey;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -231,7 +231,7 @@ h1.post-quote div {
 .post-link-image,
 .post-link-title, 
 .post-link-desc {
-  color: #444;
+  color: $primary-grey;
   margin-bottom: 15px;
 }
 
@@ -258,7 +258,7 @@ h1.post-quote div {
 
 .tag-index {
   font-size: 13px;
-  color: #8f8f8f;
+  color: $secondary-grey;
   margin-top: 15px;
 }
 

@@ -19,5 +19,5 @@ div[contentEditable=true] {
 div[contentEditable=true]:empty:before {
   content: attr(placeholder);
   // display: block;
-  color: grey;
+  color: $secondary-grey;
 }

@@ -1,6 +1,6 @@
 .tag-form {
   font-size: 13px;
-  color: rgba(0,0,0,.3);
+  color: $secondary-grey;
   margin: 10px 0;
   width: 100%;  
   display: flex;
@@ -13,7 +13,7 @@
   display: inline-block;
   width: 50px;
   padding: 5px;
-  color: #444;
+  color: $primary-grey;
 }
 
 .tag-input::placeholder {
@@ -29,7 +29,7 @@
 
 .tag-label.hover, 
 .tag-label.active {
-  color: #529ecc;
-  background-color: #e0eef6;
+  color: $secondary-blue;
+  background-color: $background-blue;
   border-radius: 3px;
 }

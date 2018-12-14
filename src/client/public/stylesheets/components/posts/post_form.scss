@@ -85,13 +85,13 @@
 .post-form .media-input {
   width: calc(100% + 40px);
   display: flex;
-  background-color: #f2f2f2;
+  background-color: $background-grey;
   border-top: 1.5px dashed rgb(203,203, 203);
   border-bottom: 1.5px dashed rgb(203,203, 203);
 }
 
 .post-form .media-input.active {
-  background-color: #e6eff7;
+  background-color: $background-blue;
 }
 
 
@@ -106,7 +106,7 @@
   align-items: center;
   cursor: pointer;
   font-size: 14px;
-  color: #989898;
+  color: $secondary-grey;
 }
 
 .post-form .media-input .media-upload {
@@ -121,7 +121,7 @@
   width: 100%;
   font-size: 14px;
   cursor: pointer;
-  color: #989898;
+  color: $secondary-grey;
 }
 
 .post-form .media-input .media-upload-small .fas {
@@ -177,7 +177,7 @@
   right: -10px;
   height: 20px;
   width: 20px;
-  color: #d95e40;
+  color: $red;
   background: white;
   border-radius: 50%;
   transition: opacity 0.1s linear;
