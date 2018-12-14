@@ -8,6 +8,7 @@ import Modal from './modals/modal';
 import Drawer from './drawers/drawer';
 import { ErrorPage } from './errors/errors';
 import { AuthRoute, ProtectRoute } from '../util/route_util';
+import NavbarContainer from './navbar/navbar_container';
 
 class App extends React.Component {
   constructor(props) {

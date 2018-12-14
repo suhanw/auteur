@@ -1,5 +1,13 @@
 // iPhone X and older
 @media only screen and (max-width: 812px) {
+  .carousel .carousel-indicator {
+    display: none;
+  }
+
+  .carousel .intro-slide-footer {
+    display: none;
+  }
+  
   .navbar {
     padding-right: 20px;
     padding-left: 0;
@@ -13,7 +21,13 @@
     width: 100vw;
   }
 
+  .dashboard {
+    -webkit-overflow-scrolling: touch; // for momentum scrolling on mobile
+  }
+
   .dashboard-content {
+    width: 100vw;
+    min-width: 100vw;
     padding-left: 0;
     padding-right: 0;
   }
