@@ -78,6 +78,22 @@ class PostShowItem extends React.Component {
     );
   }
 
+  renderSmallAvatar() {
+    const { blog } = this.props;
+    return (
+      <picture className='avatar-container'>
+        <div className='avatar'>
+          <div
+            className='avatar-extra-small'
+            style={{ backgroundImage: `url(${blog.avatarImageUrl})` }}
+            onMouseEnter={showPopover(this, 'avatarFollowPopover')}
+            onMouseLeave={hidePopover(this, 'avatarFollowPopover')}
+            onClick={this.toggleDrawer} />
+        </div>
+      </picture>
+    )
+  }
+
   toggleDrawer(e) {
     e.preventDefault();
     const { openDrawer, blog } = this.props;
@@ -90,6 +106,7 @@ class PostShowItem extends React.Component {
 
   renderPostContent() {
     const { post, blog, currentUser, view } = this.props;
+    let smallAvatar = null;
     let suggestFollow = null;
     let followLink = null;
     let blogNameClass = '';
@@ -101,20 +118,23 @@ class PostShowItem extends React.Component {
       blogNameClass = 'unfollowed';
     }
 
-    if (view === 'searchPosts') suggestFollow = null;
+    if (view === 'searchPosts') {
+      smallAvatar = this.renderSmallAvatar();
+      // debugger
+      suggestFollow = null;
+    }
 
     return (
       <article className='post-content'>
         <div className='dogear'></div>
         <header className='post-header'>
+          {smallAvatar}
           {suggestFollow}
-          <span className={`post-blog-name ${blogNameClass}`}>
-            <span
-              onMouseEnter={showPopover(this, 'postFollowPopover')}
-              onMouseLeave={hidePopover(this, 'postFollowPopover')}
-              onClick={this.toggleDrawer} >
-              {blog.name}
-            </span>
+          <span className={`post-blog-name ${blogNameClass}`}
+            onMouseEnter={showPopover(this, 'postFollowPopover')}
+            onMouseLeave={hidePopover(this, 'postFollowPopover')}
+            onClick={this.toggleDrawer} >
+            {blog.name}
           </span>
           {followLink}
         </header>
