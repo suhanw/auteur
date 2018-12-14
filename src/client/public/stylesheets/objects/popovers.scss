@@ -4,7 +4,7 @@
   border-radius: 3px;
   color: $primary-grey;
   background: white;
-  font-size: 14px;
+  font-size: $font-size-main;
   font-weight: 400;
   line-height: 1.5;
 }
@@ -51,7 +51,7 @@
 
 .navbar-right-item .popover-menu-item i.fas {
   color: $primary-grey;
-  font-size: 14px;
+  font-size: $font-size-main;
   width: 25px;
 }
 
@@ -61,7 +61,6 @@
 
 .popover-item-suffix {
   color: $secondary-grey;
-  font-size: 11px;
   font-weight: 400;
   text-transform: none;
 }

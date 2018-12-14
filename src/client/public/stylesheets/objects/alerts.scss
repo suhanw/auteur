@@ -1,6 +1,6 @@
 .error-alert {
   background: rgba(0, 0, 0, 0.33);
-  font-size: 14px;
+  font-size: $font-size-main;
   font-weight: 400;
   border-radius: 2px;
   width: 100%;
@@ -12,7 +12,7 @@
   margin: 10px 0;
   width: auto;
   padding: 10px;
-  font-size: 13px;
+  font-size: $font-size-small;
   text-align: center;
   background-color: #f9d7da;
   color: $primary-grey;

@@ -33,7 +33,7 @@
 }
 
 .note-container h1 {
-  font-size: 13px;
+  font-size: $font-size-small;
   font-weight: 700;
   margin-right: 5px;
 }
@@ -46,7 +46,7 @@
 .note-show-like, 
 .note-show-comment {
   padding: 10px 10px;
-  font-size: 13px;
+  font-size: $font-size-small;
   line-height: 1.2;
   display: inline-flex;
 }
@@ -113,7 +113,7 @@
 
 .note-show-comment .comment-content {
   margin-top: 8px;
-  font-size: 14px;
+  font-size: $font-size-main;
   font-weight: 400;
   cursor: text;
 }
@@ -126,7 +126,7 @@
 }
 
 .note-show-comment i.fas.fa-ellipsis-h {
-  font-size: 14px;
+  font-size: $font-size-main;
   opacity: 0;
   cursor: pointer;
   margin-left: 10px;
@@ -141,7 +141,7 @@
   top: 18px;
   right: -20px;
   width: 100px;
-  font-size: 13px;
+  font-size: $font-size-small;
   z-index: 4;
 }
 

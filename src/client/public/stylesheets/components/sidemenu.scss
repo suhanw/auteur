@@ -4,7 +4,7 @@
 }
 
 .sidemenu-header {
-  font-size: 13px;
+  font-size: $font-size-small;
   padding: 7px 10px;
   border-bottom: 2px solid $divider-line-white;
 }
@@ -22,7 +22,7 @@
 
 .sidemenu-link {
   padding: 0 10px;
-  font-size: 14px;
+  font-size: $font-size-main;
   line-height: 36px;
   display: flex;
   justify-content: space-between;
@@ -51,7 +51,7 @@
 }
 
 .connect-header {
-  font-size: 12px;
+  font-size: $font-size-small;
   font-weight: 700;
   color: rgba(255, 255, 255, 0.25);
   border-bottom: 2px solid $divider-line-white;
@@ -78,12 +78,12 @@
   margin-bottom: 5px;
   margin-left: 0;
   margin-right: 10px;
-  width: 30px;
-  height: 30px;
+  width: 28px;
+  height: 28px;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 37px;
+  font-size: $font-size-title;
   transition: all 0.35s ease-in-out;
 }
 
@@ -107,7 +107,7 @@
 
 
 .connect-item .fas.fa-plus-square {
-  font-size: 26px;
+  font-size: $font-size-subtitle;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -130,7 +130,7 @@
   flex-direction: column;
   justify-content: space-evenly;
   align-items: flex-start;
-  font-size: 13px;
+  font-size: $font-size-small;
 }
 
 .connect-info strong {

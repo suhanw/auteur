@@ -1,7 +1,5 @@
 $post-content-width: 540px;
 
-$dogear-grey: rgb(208, 208, 208);
-
 .post-index {
   display: flex;
   flex-direction: column;
@@ -96,7 +94,7 @@ $dogear-grey: rgb(208, 208, 208);
 
 .post-header {
   margin-bottom: 10px;
-  font-size: 13px;
+  font-size: $font-size-small;
   font-weight: bold;
   display: flex;
   align-items: center;
@@ -150,19 +148,19 @@ $dogear-grey: rgb(208, 208, 208);
 }
 
 .post-title {
-  font-size: 36px;
+  font-size: $font-size-title;
 }
 
 .post-source, 
 .post-body {
-  font-size: 14px;
+  font-size: $font-size-main;
   font-weight: 400;
   font-stretch: 100%;
 }
 
 .post-quote {
-  font-size: 36px;
-  font-family: 'Courier New', Courier, monospace;
+  font-size: $font-size-title;
+  font-family: $font-quote;
 }
 
 div.post-quote {
@@ -192,7 +190,6 @@ h1.post-quote div {
 }
 
 .post-source::before {
-  font-family: 'Helvetica Neue';
   content: '— ';
 }
 
@@ -240,24 +237,24 @@ h1.post-quote div {
 }
 
 .post-link-url {
-  font-size: 13px;
+  font-size: $font-size-small;
   font-weight: 700;
 }
 
 .post-link-title {
-  font-size: 24px;
+  font-size: $font-size-subtitle;
   font-weight: 700;
 }
 
 .post-link-desc {
-  font-size: 14px;
+  font-size: $font-size-main;
   font-weight: 400;
   resize: none;
 }
 
 
 .tag-index {
-  font-size: 13px;
+  font-size: $font-size-small;
   color: $secondary-grey;
   margin-top: 15px;
 }

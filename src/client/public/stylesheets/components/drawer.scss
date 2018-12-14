@@ -1,6 +1,5 @@
 $drawer-width: 600px;
 
-
 .drawer {
   position: absolute;
   top: 0;
@@ -82,7 +81,7 @@ $drawer-width: 600px;
 }
 
 .blog-drawer-nav .blog-name {
-  font-size: 14px;
+  font-size: $font-size-main;
   font-weight: 600;
   padding-left: 5px;
 }
@@ -117,14 +116,14 @@ $drawer-width: 600px;
 }
 
 .blog-drawer-info .blog-title {
-  font-size: 42px;
+  font-size: $font-size-large;
   margin-bottom: 5px;
   font-family: $font-carousel;
   font-weight: 600;
 }
 
 .blog-drawer-info .blog-description {
-  font-size: 14px;
+  font-size: $font-size-main;
   font-weight: 400;
 }
 
