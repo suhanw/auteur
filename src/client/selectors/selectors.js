@@ -105,6 +105,11 @@ export const selectLoadingSearchPosts = function (state) {
   return loadingSearchPosts;
 }
 
+export const selectNavbar = function (state) {
+  const { ui: { navbar } } = state;
+  return navbar;
+}
+
 // ERROR SELECTORS=================================
 export const selectPostErrors = function (state) {
   const { errors: { postErrors } } = state;

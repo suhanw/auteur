@@ -3,6 +3,7 @@ import { Route, Redirect, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { selectCurrentUser } from '../selectors/selectors';
 import { openDrawer } from '../actions/drawer_actions';
+import { renderNavbar } from '../actions/navbar_actions';
 
 const mapStateToProps = function (state) {
   const loggedIn = selectCurrentUser(state);
@@ -14,14 +15,15 @@ const mapStateToProps = function (state) {
 const mapDispatchToProps = function (dispatch) {
   return {
     openDrawer: (drawer) => dispatch(openDrawer(drawer)), // needed by Carousel component
+    renderNavbar: (props) => dispatch(renderNavbar(props)), // for Carousel
   };
 };
 
 const Auth = function (props) {
-  const { component: Component, path, loggedIn, exact, openDrawer } = props;
+  const { component: Component, path, loggedIn, exact, openDrawer, renderNavbar } = props;
   return <Route path={path} exact={exact} render={function (props) {
     if (!loggedIn) { // if not logged in, then render the page
-      return <Component {...props} openDrawer={openDrawer} />;
+      return <Component {...props} openDrawer={openDrawer} renderNavbar={renderNavbar} />;
     } else {
       return <Redirect to='/dashboard' />;
     }
@@ -32,7 +34,7 @@ const Protect = function (props) {
   const { component: Component, loggedIn, path, exact } = props;
   return <Route path={path} exact={exact} render={function (props) {
     if (loggedIn) { // if logged in, then render the page
-      return <Component {...props} />
+      return <Component {...props} renderNavbar={renderNavbar} />
     } else {
       return <Redirect to='/' />
     }

@@ -65,9 +65,9 @@ class Carousel extends React.Component {
 
     return (
       <section className='carousel'>
-        <NavbarContainer
+        {/* <NavbarContainer
           scrollCarousel={this.scrollCarousel}
-          activeSlide={activeSlide} />
+          activeSlide={activeSlide} /> */}
 
         {this.renderWelcomeSlide()}
 
@@ -95,6 +95,14 @@ class Carousel extends React.Component {
     welcomeBg.onload = (e) => {
       this.setState({ welcomeBgLoaded: true });
     };
+
+    const { renderNavbar } = this.props;
+    const { activeSlide } = this.state;
+    renderNavbar({
+      view: 'navbarGuest',
+      activeSlide,
+      scrollCarousel: this.scrollCarousel,
+    });
   }
 
   componentDidMount() {

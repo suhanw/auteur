@@ -21,6 +21,7 @@ class App extends React.Component {
       <div>
         <Modal />
         <Drawer />
+        <NavbarContainer />
         <Switch>
           <ProtectRoute path='/search/:query' component={SearchPage} />
           <ProtectRoute path='/settings' component={Settings} />
