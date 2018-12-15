@@ -49,7 +49,7 @@ class Drawer extends React.Component {
     if (!drawer) return null; // drawer in ui state is null when there is no open drawer
     const DrawerComponent = this.drawerComponents[drawer.view];
     return (
-      <div className='background-greyout bg-fade-in'
+      <div className='drawer-wrapper background-greyout bg-fade-in'
         ref={this.greyBackgroundRef}
         onClick={this.handleClick}>
         <aside className='drawer drawer-slide-in'

@@ -118,9 +118,10 @@ class PostShowItem extends React.Component {
       blogNameClass = 'unfollowed';
     }
 
-    if (view === 'searchPosts') {
-      smallAvatar = this.renderSmallAvatar();
+    if (view === 'searchPosts' ||
+      window.innerWidth <= 812) {
       // debugger
+      smallAvatar = this.renderSmallAvatar();
       suggestFollow = null;
     }
 

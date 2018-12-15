@@ -55,8 +55,7 @@ class Dashboard extends React.Component {
             resizeTimeout = null;
             that.renderNavbarPerScreenSize()
           },
-          1000
-        );
+          1000);
       }
     };
   }
