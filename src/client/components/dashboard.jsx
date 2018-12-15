@@ -1,7 +1,6 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 
-import NavbarContainer from './navbar/navbar_container';
 import PostIndexContainer from './posts/post_index/post_index_container';
 import SidemenuContainer from './sidemenu/sidemenu_container';
 import FollowerIndex from './follows/follower_index';
@@ -15,7 +14,6 @@ class Dashboard extends React.Component {
     // FIX: add icon at viewport bottom right to get back to top
     return (
       <div className='dashboard'>
-        <NavbarContainer />
         <div className='dashboard-content'>
           <div className='main-column'>
             <Switch>
@@ -32,6 +30,10 @@ class Dashboard extends React.Component {
         </div>
       </div>
     );
+  }
+
+  componentWillMount() {
+    this.props.renderNavbar({ view: 'navbarMain' });
   }
 }
 

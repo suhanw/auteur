@@ -10,10 +10,9 @@ class AccountPopover extends React.Component {
   }
 
   render() {
-    const { popoverStyle, confirmLogout } = this.props;
+    const { confirmLogout } = this.props;
     return (
-      <div className='account-popover popover'
-        style={popoverStyle}>
+      <div className='account-popover popover'>
         <section className='popover-subsection'>
           <header className='popover-header'>
             <span>Account</span>
@@ -31,7 +30,7 @@ class AccountPopover extends React.Component {
           {this.renderBlogSection()}
 
         </section>
-      </div>
+      </ div>
     );
   }
 

@@ -81,17 +81,18 @@ class Navbar extends React.Component {
       popoverId: 'chatPopover',
       popoverType: 'chatPopover',
     };
-    let popoverStyle = { display: 'none' };
+    // let popoverStyle = { display: 'none' };
+    let chatPopoverComponent = null;
     let activeIcon = null;
     if (JSON.stringify(popover) === JSON.stringify(chatPopover)) {
-      popoverStyle = { display: 'inline-block' };
+      // popoverStyle = { display: 'inline-block' };
+      chatPopoverComponent = <ChatPopover />;
       activeIcon = { color: 'white' };
     }
     return (
       <li className='navbar-right-item' onClick={this.togglePopover(chatPopover)}>
         <i className="fas fa-comment-alt" style={activeIcon}></i>
-        <ChatPopover
-          popoverStyle={popoverStyle} />
+        {chatPopoverComponent}
       </li>
     );
   }
@@ -102,17 +103,16 @@ class Navbar extends React.Component {
       popoverId: 'notificationPopover',
       popoverType: 'notificationPopover',
     };
-    let popoverStyle = { display: 'none' };
+    let notificationPopoverComponent = null;
     let activeIcon = null;
     if (JSON.stringify(popover) === JSON.stringify(notificationPopover)) {
-      popoverStyle = { display: 'inline-block' };
+      notificationPopoverComponent = <NotificationPopover />
       activeIcon = { color: 'white' };
     }
     return (
       <li className='navbar-right-item' onClick={this.togglePopover(notificationPopover)}>
         <i className="fas fa-bell" style={activeIcon}></i>
-        <NotificationPopover
-          popoverStyle={popoverStyle} />
+        {notificationPopoverComponent}
       </li>
     );
   }
@@ -123,10 +123,15 @@ class Navbar extends React.Component {
       popoverId: 'accountPopover',
       popoverType: 'accountPopover',
     };
-    let popoverStyle = { display: 'none' };
+    let accountPopoverComponent = null;
     let activeIcon = null;
     if (JSON.stringify(popover) === JSON.stringify(accountPopover)) {
-      popoverStyle = { display: 'inline-block' };
+      accountPopoverComponent = (
+        <AccountPopover
+          confirmLogout={confirmLogout}
+          currentUser={currentUser}
+          blog={blog} />
+      );
       activeIcon = { color: 'white' };
     }
     return (
@@ -135,11 +140,12 @@ class Navbar extends React.Component {
           <i className="fas fa-user" style={activeIcon}
             onClick={this.togglePopover(accountPopover)}></i>
         </NavLink>
-        <AccountPopover
+        {accountPopoverComponent}
+        {/* <AccountPopover
           popoverStyle={popoverStyle}
           confirmLogout={confirmLogout}
           currentUser={currentUser}
-          blog={blog} />
+          blog={blog} /> */}
       </li>
     );
   }

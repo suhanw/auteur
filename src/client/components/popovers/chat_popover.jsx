@@ -6,10 +6,8 @@ class ChatPopover extends React.Component {
   }
 
   render() {
-    const { popoverStyle } = this.props;
     return (
-      <div className='chat-popover popover'
-        style={popoverStyle}>
+      <div className='chat-popover popover'>
         <span className='popover-menu-item'>
           Working on it! Stay tuned!
         </span>

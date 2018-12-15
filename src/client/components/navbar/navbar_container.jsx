@@ -47,36 +47,33 @@ class NavbarContainer extends React.Component {
       navbar,
       currentUser,
       blog,
-      // scrollCarousel,
-      // activeSlide,
       confirmLogout,
       choosePostType,
       openPopover,
       closePopover,
       popover } = this.props;
 
-    if (!navbar) return null;
-    // if (pathname === '/' || pathname === '/signup' || pathname === '/login' || pathname === '/login/demo') {
-    if (navbar.view === 'navbarGuest') {
+    if (!navbar) return null; // is null before the renderNavbar action is dispatched
+    else if (navbar.view === 'navbarGuest') {
       return (
         <NavbarGuest
           pathname={pathname}
           scrollCarousel={navbar.scrollCarousel}
           activeSlide={navbar.activeSlide} />
       );
+    } else if (navbar.view === 'navbarMain') {
+      return (
+        <Navbar
+          pathname={pathname}
+          currentUser={currentUser}
+          blog={blog}
+          confirmLogout={confirmLogout}
+          popover={popover}
+          openPopover={openPopover}
+          closePopover={closePopover}
+          choosePostType={choosePostType} />
+      );
     }
-
-    return (
-      <Navbar
-        pathname={pathname}
-        currentUser={currentUser}
-        blog={blog}
-        confirmLogout={confirmLogout}
-        popover={popover}
-        openPopover={openPopover}
-        closePopover={closePopover}
-        choosePostType={choosePostType} />
-    );
   }
 }
 

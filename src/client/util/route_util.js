@@ -31,7 +31,7 @@ const Auth = function (props) {
 };
 
 const Protect = function (props) {
-  const { component: Component, loggedIn, path, exact } = props;
+  const { component: Component, path, loggedIn, exact, renderNavbar } = props;
   return <Route path={path} exact={exact} render={function (props) {
     if (loggedIn) { // if logged in, then render the page
       return <Component {...props} renderNavbar={renderNavbar} />
@@ -51,6 +51,6 @@ export const AuthRoute = withRouter(
 
 
 export const ProtectRoute = withRouter(
-  connect(mapStateToProps, null)(Protect)
+  connect(mapStateToProps, mapDispatchToProps)(Protect)
 );
 

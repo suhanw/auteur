@@ -3,7 +3,6 @@ import { Route } from 'react-router-dom'
 import { merge } from 'lodash';
 
 import SessionFormContainer from '../session/session_form_container';
-import NavbarContainer from '../navbar/navbar_container';
 import CarouselIntro from './carousel_intro';
 import CarouselAbout from './carousel_about';
 import CarouselCreate from './carousel_create';
@@ -60,14 +59,8 @@ class Carousel extends React.Component {
   }
 
   render() {
-
-    const { activeSlide } = this.state;
-
     return (
       <section className='carousel'>
-        {/* <NavbarContainer
-          scrollCarousel={this.scrollCarousel}
-          activeSlide={activeSlide} /> */}
 
         {this.renderWelcomeSlide()}
 
@@ -96,11 +89,9 @@ class Carousel extends React.Component {
       this.setState({ welcomeBgLoaded: true });
     };
 
-    const { renderNavbar } = this.props;
-    const { activeSlide } = this.state;
-    renderNavbar({
+    this.props.renderNavbar({
       view: 'navbarGuest',
-      activeSlide,
+      activeSlide: this.state.activeSlide,
       scrollCarousel: this.scrollCarousel,
     });
   }
@@ -153,7 +144,6 @@ class Carousel extends React.Component {
         scrollCarousel={this.scrollCarousel} />
     );
   }
-
 
   renderWelcomeSlide() {
     const { activeSlide, slideClasses, welcomeBgLoaded, isScrolling } = this.state;
@@ -264,6 +254,11 @@ class Carousel extends React.Component {
       slideClasses: newSlideClasses,
       isScrolling: true,
     }, () => {
+      this.props.renderNavbar({ // to pass the latest active slide to Navbar component
+        view: 'navbarGuest',
+        activeSlide: this.state.activeSlide,
+        scrollCarousel: this.scrollCarousel,
+      });
       setTimeout(
         () => this.setState({ isScrolling: false }),
         500
