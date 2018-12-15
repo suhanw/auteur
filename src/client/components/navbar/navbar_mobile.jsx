@@ -20,8 +20,8 @@ class NavbarMobile extends React.Component {
   render() {
     return (
       <nav className='navbar-mobile'>
-        {this.renderMobileMenu()}
         {this.renderHamburger()}
+        {this.renderMobileMenu()}
         <Logo />
         {/* <i className="fas fa-search"></i> */}
       </nav>
@@ -37,7 +37,7 @@ class NavbarMobile extends React.Component {
   }
 
   toggleHamburger(e) {
-    e.stopPropagation();
+    if (e) e.stopPropagation();
     this.setState({
       activeIcon: (this.state.activeIcon !== 'hamburger') ? 'hamburger' : null,
     });
@@ -45,13 +45,14 @@ class NavbarMobile extends React.Component {
 
   renderMobileMenu() {
     const { activeIcon } = this.state;
-    if (activeIcon !== 'hamburger') return null;
     const { currentUser, blog, confirmLogout } = this.props;
     return (
       <NavbarMobileMenu
+        activeIcon={activeIcon}
         confirmLogout={confirmLogout}
         currentUser={currentUser}
-        blog={blog} />
+        blog={blog}
+        toggleHamburger={this.toggleHamburger} />
     );
   }
 }
