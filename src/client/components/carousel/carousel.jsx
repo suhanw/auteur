@@ -4,6 +4,10 @@ import { merge } from 'lodash';
 
 import SessionFormContainer from '../session/session_form_container';
 import NavbarContainer from '../navbar/navbar_container';
+import CarouselIntro from './carousel_intro';
+import CarouselAbout from './carousel_about';
+import CarouselCreate from './carousel_create';
+import CarouselWelcome from './carousel_welcome';
 
 class Carousel extends React.Component {
   constructor(props) {
@@ -47,12 +51,11 @@ class Carousel extends React.Component {
     this.renderIntroSlide = this.renderIntroSlide.bind(this);
     this.renderWelcomeSlide = this.renderWelcomeSlide.bind(this);
     this.renderAboutSlide = this.renderAboutSlide.bind(this)
-    this.renderAboutSlideGraphic = this.renderAboutSlideGraphic.bind(this);
     this.renderCreateSlide = this.renderCreateSlide.bind(this);
-    this.renderCreateSlideGraphic = this.renderCreateSlideGraphic.bind(this);
     this.scrollCarousel = this.scrollCarousel.bind(this);
     this.throttleWheel = this.throttleWheel.bind(this);
-    this.handleClick = this.handleClick.bind(this);
+    this.handleClickDot = this.handleClickDot.bind(this);
+    this.handleKeydown = this.handleKeydown.bind(this);
     this.toggleDrawer = this.toggleDrawer.bind(this);
   }
 
@@ -62,11 +65,9 @@ class Carousel extends React.Component {
 
     return (
       <section className='carousel'>
-        <Route path='/' render={(props) =>
-          <NavbarContainer {...props}
-            scrollCarousel={this.scrollCarousel}
-            activeSlide={activeSlide} />
-        } />
+        <NavbarContainer
+          scrollCarousel={this.scrollCarousel}
+          activeSlide={activeSlide} />
 
         {this.renderWelcomeSlide()}
 
@@ -96,268 +97,68 @@ class Carousel extends React.Component {
     };
   }
 
-  renderIntroSlide() {
-    const { activeSlide, slideClasses, introBgLoaded, isScrolling } = this.state;
-    const introBgImg = (introBgLoaded) ?
-      <div className='slide-bg bg-fade-in'
-        style={{ backgroundImage: `url(${this.introBg})` }} /> :
-      null;
-
-    const handleWheel = (activeSlide === 1 && !isScrolling) ? this.throttleWheel(500, this.scrollCarousel) : null;
-
-    return (
-      <div className={'intro-slide' + slideClasses[1]}
-        onWheel={handleWheel}>
-
-        {introBgImg}
-
-        <section className='intro-slide-content object-fade-in'>
-          <h1 className='logo'>auteur</h1>
-          <p className='slide-description'>
-            Come for what you love.
-          </p>
-          <p className='slide-description'>
-            Stay for what you discover.
-          </p>
-          {this.renderSessionForm()}
-
-        </section>
-
-
-        <footer className='intro-slide-footer footer-slide-up'>
-          <ul className='footer-links'>
-            <li className='footer-link'>
-              <a href='#' onClick={this.toggleDrawer}>
-                Credits
-              </a>
-            </li>
-            <li className='footer-link'>
-              <a href='https://www.linkedin.com/in/suhanwijaya/' target='_blank'>LinkedIn</a>
-            </li>
-            <li className='footer-link'>
-              <a href='https://github.com/suhanw' target='_blank'>Github</a>
-            </li>
-            <li className='footer-link'>
-              <a href='mailto:suhanw@gmail.com'>Contact Me</a>
-            </li>
-          </ul>
-          <span className='footer-next-slide'
-            onClick={this.handleClick(2)}>What is Auteur?</span>
-        </footer>
-
-      </div>
-    );
+  componentDidMount() {
+    window.addEventListener('keydown', this.handleKeydown);
   }
 
-  toggleDrawer(e) {
-    e.preventDefault();
-    const { openDrawer } = this.props;
-    let creditsDrawer = {
-      view: 'credits',
-      data: null,
-    };
-    openDrawer(creditsDrawer);
+  componentWillUnmount() {
+    window.removeEventListener('keydown', this.handleKeydown);
+  }
+
+  renderIntroSlide() {
+    const { activeSlide, slideClasses, introBgLoaded, isScrolling } = this.state;
+    return (
+      <CarouselIntro
+        introBgLoaded={introBgLoaded}
+        introBg={this.introBg}
+        activeSlide={activeSlide}
+        slideClasses={slideClasses}
+        isScrolling={isScrolling}
+        throttleWheel={this.throttleWheel}
+        scrollCarousel={this.scrollCarousel}
+        toggleDrawer={this.toggleDrawer}
+        renderSessionForm={this.renderSessionForm}
+        handleClickDot={this.handleClickDot} />
+    );
   }
 
   renderAboutSlide() {
     const { activeSlide, slideClasses, isScrolling } = this.state;
-    const handleWheel = (activeSlide === 2 && !isScrolling) ? this.throttleWheel(500, this.scrollCarousel) : null;
     return (
-      <div className={'about-slide' + slideClasses[2]}
-        onWheel={handleWheel}>
-
-        {this.renderAboutSlideGraphic()}
-
-        <section className='slide-content'>
-          <h2 className='slide-title'>Auteur is my nerd project on coding and movies. </h2>
-          <p className='slide-description'>
-            Auteur is a full-stack single-page web application inspired by Tumblr. It utilizes Node.js Express framework on the backend, a MongoDB database, React.js with Redux framework on the frontend, CSS3 and JavaScript for UI animations, and good old HTML5.
-          </p>
-        </section>
-      </div >
+      <CarouselAbout
+        activeSlide={activeSlide}
+        slideClasses={slideClasses}
+        isScrolling={isScrolling}
+        throttleWheel={this.throttleWheel}
+        scrollCarousel={this.scrollCarousel} />
     );
   }
-
-  renderAboutSlideGraphic() {
-    const { activeSlide } = this.state;
-
-    let animatedGraphic = (
-      <section className='slide-graphic'>
-        <h1 className='logo font-grow-from-center'>a</h1>
-        <div className='icon-gallery'>
-          <i className="fly-in-tl-br fab fa-js-square" style={{ top: 120, left: 110, fontSize: 110 }}></i>
-          <i className="fly-in-br-tl fab fa-node-js" style={{ top: 270, left: 350, fontSize: 120 }}></i>
-          <i className="fly-in-t-b fab fa-html5" style={{ top: 110, left: 240, fontSize: 60 }}></i>
-          <i className="fly-in-b-t fab fa-css3-alt" style={{ top: 300, left: 210, fontSize: 100 }}></i>
-          <i className="fly-in-tr-bl fab fa-react" style={{ top: 80, left: 300, fontSize: 120 }}></i>
-          <i className="fly-in-b-t fas fa-code-branch" style={{ top: 300, left: 300, fontSize: 50 }}></i>
-          <i className="fly-in-r-l devicon-mongodb-plain" style={{ top: 120, left: 410, fontSize: 60 }}></i>
-          <i className="fly-in-bl-tr devicon-amazonwebservices-original" style={{ top: 320, left: 95, fontSize: 100 }}></i>
-          <i className="fly-in-tr-bl devicon-jquery-plain" style={{ top: 180, left: 400, fontSize: 80 }}></i>
-          <i className="fly-in-t-b devicon-webpack-plain" style={{ top: 20, left: 250, fontSize: 80 }}></i>
-          <i className="fly-in-br-tl devicon-heroku-original" style={{ top: 210, left: 340, fontSize: 50, fontWeight: 'bold' }}></i>
-          <img className='fly-in-tr-bl icon' src='images/icons/arrival.png' style={{ top: 30, right: 70, height: 100 }} />
-          <img className='fly-in-l-r icon' src='images/icons/bttf.png' style={{ top: 130, left: 30, height: 65 }} />
-          <img className='fly-in-bl-tr icon' src='images/icons/d9.png' style={{ bottom: 50, left: 30, height: 60 }} />
-          <img className='fly-in-br-tl icon' src='images/icons/die-hard.png' style={{ top: 230, right: 0, height: 110 }} />
-          <img className='fly-in-tl-br icon' src='images/icons/ghosbusters.png' style={{ top: 50, left: 180, height: 65 }} />
-          <img className='fly-in-tr-bl icon' src='images/icons/gits.png' style={{ top: 120, right: 0, height: 100 }} />
-          <img className='fly-in-l-r icon' src='images/icons/jurassic-park.png' style={{ top: 210, left: 0, height: 130 }} />
-          <img className='fly-in-b-t icon' src='images/icons/nostromo.png' style={{ bottom: 5, right: 80, height: 50 }} />
-          <img className='fly-in-l-r icon' src='images/icons/blade-runner.png' style={{ top: 230, left: 140, height: 80 }} />
-          <img className='fly-in-tl-br icon' src='images/icons/weyland-yutani.png' style={{ top: 20, left: 30, height: 150 }} />
-        </div>
-      </section>
-    );
-    if (activeSlide === 2) return animatedGraphic;
-
-    return (
-      <section className='slide-graphic'>
-        <h1 className='logo'>a</h1>
-        <div className='icon-gallery'>
-          <i className="fab fa-js-square" style={{ top: 120, left: 110, fontSize: 110 }}></i>
-          <i className="fab fa-node-js" style={{ top: 270, left: 350, fontSize: 120 }}></i>
-          <i className="fab fa-html5" style={{ top: 110, left: 240, fontSize: 60 }}></i>
-          <i className="fab fa-css3-alt" style={{ top: 300, left: 210, fontSize: 100 }}></i>
-          <i className="fab fa-react" style={{ top: 80, left: 300, fontSize: 120 }}></i>
-          <i className="fas fa-code-branch" style={{ top: 300, left: 300, fontSize: 50 }}></i>
-          <i className="devicon-mongodb-plain" style={{ top: 120, left: 410, fontSize: 60 }}></i>
-          <i className="devicon-amazonwebservices-original" style={{ top: 320, left: 95, fontSize: 100 }}></i>
-          <i className="devicon-jquery-plain" style={{ top: 180, left: 400, fontSize: 80 }}></i>
-          <i className="devicon-webpack-plain" style={{ top: 20, left: 250, fontSize: 80 }}></i>
-          <i className="devicon-heroku-original" style={{ top: 210, left: 340, fontSize: 50, fontWeight: 'bold' }}></i>
-          <img className='icon' src='images/icons/arrival.png' style={{ top: 30, right: 70, height: 100 }} />
-          <img className='icon' src='images/icons/bttf.png' style={{ top: 130, left: 30, height: 65 }} />
-          <img className='icon' src='images/icons/d9.png' style={{ bottom: 50, left: 30, height: 60 }} />
-          <img className='icon' src='images/icons/die-hard.png' style={{ top: 230, right: 0, height: 110 }} />
-          <img className='icon' src='images/icons/ghosbusters.png' style={{ top: 50, left: 180, height: 65 }} />
-          <img className='icon' src='images/icons/gits.png' style={{ top: 120, right: 0, height: 100 }} />
-          <img className='icon' src='images/icons/jurassic-park.png' style={{ top: 210, left: 0, height: 130 }} />
-          <img className='icon' src='images/icons/nostromo.png' style={{ bottom: 5, right: 80, height: 50 }} />
-          <img className='icon' src='images/icons/blade-runner.png' style={{ top: 230, left: 140, height: 80 }} />
-          <img className='icon' src='images/icons/weyland-yutani.png' style={{ top: 20, left: 30, height: 150 }} />
-        </div>
-      </section>
-    );
-  }
-
 
   renderCreateSlide() {
     const { activeSlide, slideClasses, isScrolling } = this.state;
-    const handleWheel = (activeSlide === 3 && !isScrolling) ? this.throttleWheel(500, this.scrollCarousel) : null;
     return (
-      <div className={'create-slide' + slideClasses[3]}
-        onWheel={handleWheel}>
-
-        {this.renderCreateSlideGraphic()}
-
-        <section className='slide-content'>
-          <h2 className='slide-title'>Seriously, I love coding and movies. </h2>
-          <p className='slide-description'>
-            I promise to give you a callback soon. A crazy event occurred when I was in the queue to get some curry at an Indian wedding. I was almost killed by an arrow at this function, but I apply a chokehold on the assailant, bind him with some ropes and call the police. Thankfully I survived despite the context stacked against me. Now, I need this.. to find closure.
-          </p>
-        </section>
-      </div>
+      <CarouselCreate
+        activeSlide={activeSlide}
+        slideClasses={slideClasses}
+        isScrolling={isScrolling}
+        throttleWheel={this.throttleWheel}
+        scrollCarousel={this.scrollCarousel} />
     );
   }
 
-  renderCreateSlideGraphic() {
-    const { activeSlide } = this.state;
-
-    const animatedGraphic = (
-      <section className='slide-graphic'>
-        <div className='icon-gallery'>
-          <div className='first-row'>
-            <span className='icon-wrapper'>
-              <span className='icon-grow-from-center icon-bg icon-text'><i className="fas fa-font"></i></span>
-              <h3 className='object-fade-in icon-label'>Text</h3>
-            </span>
-            <span className='icon-wrapper'>
-              <span className='icon-grow-from-center icon-bg icon-photo'><i className="fas fa-camera-retro"></i></span>
-              <h3 className='object-fade-in icon-label'>Photo</h3>
-            </span>
-            <span className='icon-wrapper'>
-              <span className='icon-grow-from-center icon-bg icon-quote'><i className="fas fa-quote-left"></i></span>
-              <h3 className='object-fade-in icon-label'>Quote</h3>
-            </span>
-          </div>
-          <div className='second-row'>
-            <span className='icon-wrapper'>
-              <span className='icon-grow-from-center icon-bg icon-link'><i className="fas fa-link"></i></span>
-              <h3 className='object-fade-in icon-label'>Link</h3>
-            </span>
-            <span className='icon-wrapper'>
-              <span className='icon-grow-from-center icon-bg icon-audio'><i className="fas fa-headphones-alt"></i></span>
-              <h3 className='object-fade-in icon-label'>Audio</h3>
-            </span>
-            <span className='icon-wrapper'>
-              <span className='icon-grow-from-center icon-bg icon-video'><i className="fas fa-video"></i></span>
-              <h3 className='object-fade-in icon-label'>Video</h3>
-            </span>
-          </div>
-        </div>
-      </section>
-    );
-
-    if (activeSlide === 3) return animatedGraphic;
-
-    return (
-      <section className='slide-graphic'>
-        <div className='icon-gallery'>
-          <div className='first-row'>
-            <span className='icon-wrapper'>
-              <span className='icon-bg icon-text'><i className="fas fa-font"></i></span>
-              <h3 className='icon-label'>Text</h3>
-            </span>
-            <span className='icon-wrapper'>
-              <span className='icon-bg icon-photo'><i className="fas fa-camera-retro"></i></span>
-              <h3 className='icon-label'>Photo</h3>
-            </span>
-            <span className='icon-wrapper'>
-              <span className='icon-bg icon-quote'><i className="fas fa-quote-left"></i></span>
-              <h3 className='icon-label'>Quote</h3>
-            </span>
-          </div>
-          <div className='second-row'>
-            <span className='icon-wrapper'>
-              <span className='icon-bg icon-link'><i className="fas fa-link"></i></span>
-              <h3 className='icon-label'>Link</h3>
-            </span>
-            <span className='icon-wrapper'>
-              <span className='icon-bg icon-audio'><i className="fas fa-headphones-alt"></i></span>
-              <h3 className='icon-label'>Audio</h3>
-            </span>
-            <span className='icon-wrapper'>
-              <span className='icon-bg icon-video'><i className="fas fa-video"></i></span>
-              <h3 className='icon-label'>Video</h3>
-            </span>
-          </div>
-        </div>
-      </section>
-    );
-  }
 
   renderWelcomeSlide() {
     const { activeSlide, slideClasses, welcomeBgLoaded, isScrolling } = this.state;
-    const welcomeBgImg = (welcomeBgLoaded) ?
-      <div className='slide-bg bg-fade-in'
-        style={{ backgroundImage: `url(${this.welcomeBg})` }} /> :
-      null;
-    const handleWheel = (activeSlide === 4 && !isScrolling) ? this.throttleWheel(500, this.scrollCarousel) : null;
     return (
-      <div className={'welcome-slide' + slideClasses[4]}
-        onWheel={handleWheel}>
-
-        {welcomeBgImg}
-
-        <div className='welcome-slide-content object-fade-in'>
-          <h1 className='slide-title'>Okay, you get the point.</h1>
-          <p className='slide-description'>
-            Check this out and let me know your thoughts.
-          </p>
-          {activeSlide === 1 ? null : this.renderSessionForm() /* don't render sess form when intro slide is rendering it */}
-        </div>
-      </div>
+      <CarouselWelcome
+        welcomeBgLoaded={welcomeBgLoaded}
+        welcomeBg={this.welcomeBg}
+        activeSlide={activeSlide}
+        slideClasses={slideClasses}
+        isScrolling={isScrolling}
+        throttleWheel={this.throttleWheel}
+        scrollCarousel={this.scrollCarousel}
+        renderSessionForm={this.renderSessionForm} />
     );
   }
 
@@ -388,10 +189,10 @@ class Carousel extends React.Component {
     return (
       <div className='carousel-indicator'>
         <ul className='carousel-dots'>
-          <li className={'carousel-dot' + slideClasses[1]} onClick={this.handleClick(1)}></li>
-          <li className={'carousel-dot' + slideClasses[2]} onClick={this.handleClick(2)}></li>
-          <li className={'carousel-dot' + slideClasses[3]} onClick={this.handleClick(3)}></li>
-          <li className={'carousel-dot' + slideClasses[4]} onClick={this.handleClick(4)}></li>
+          <li className={'carousel-dot' + slideClasses[1]} onClick={this.handleClickDot(1)}></li>
+          <li className={'carousel-dot' + slideClasses[2]} onClick={this.handleClickDot(2)}></li>
+          <li className={'carousel-dot' + slideClasses[3]} onClick={this.handleClickDot(3)}></li>
+          <li className={'carousel-dot' + slideClasses[4]} onClick={this.handleClickDot(4)}></li>
         </ul>
       </div>
     );
@@ -412,7 +213,7 @@ class Carousel extends React.Component {
     }
   }
 
-  handleClick(dotNum) {
+  handleClickDot(dotNum) {
     const that = this;
     return function (e) {
       e.preventDefault();
@@ -422,17 +223,21 @@ class Carousel extends React.Component {
     }
   }
 
+  handleKeydown(e) {
+    if (e.key === 'ArrowDown') this.scrollCarousel('up');
+    if (e.key === 'ArrowUp') this.scrollCarousel('down');
+  }
+
   scrollCarousel(scrollDir, nextSlide = null) {
     // FIX: also attach listener for up and down arrows
-    const that = this;
-    const { activeSlide, slideClasses } = that.state;
+    const { activeSlide, slideClasses } = this.state;
     let newActiveSlide = nextSlide;
     let newSlideClasses = merge({}, slideClasses);
     // if user is wheeling up AND not at last slide
     if (scrollDir === 'up' && activeSlide < (Object.keys(slideClasses).length)) {
       // scroll to next slide
       newSlideClasses[activeSlide] = ' slideup';
-      // use manually passed in active slide if provided
+      // use manually passed in next active slide if provided
       newActiveSlide = !newActiveSlide ? (activeSlide + 1) : newActiveSlide;
       newSlideClasses[newActiveSlide] = ' active';
     }
@@ -440,20 +245,32 @@ class Carousel extends React.Component {
     else if (scrollDir === 'down' && activeSlide > 1) {
       // scroll to previous slide
       newSlideClasses[activeSlide] = '';
+      // use manually passed in next active slide if provided
       newActiveSlide = !newActiveSlide ? (activeSlide - 1) : newActiveSlide;
       newSlideClasses[newActiveSlide] = ' active slidedown';
-    } // when wheeling past first or last slide, don't re-render
+    }
+    // when wheeling past first or last slide, do nothing
     else return;
-    that.setState({
+    this.setState({
       activeSlide: newActiveSlide,
       slideClasses: newSlideClasses,
       isScrolling: true,
     }, () => {
       setTimeout(
-        () => that.setState({ isScrolling: false }),
+        () => this.setState({ isScrolling: false }),
         500
       );
     });
+  }
+
+  toggleDrawer(e) {
+    e.preventDefault();
+    const { openDrawer } = this.props;
+    let creditsDrawer = {
+      view: 'credits',
+      data: null,
+    };
+    openDrawer(creditsDrawer);
   }
 
 }
