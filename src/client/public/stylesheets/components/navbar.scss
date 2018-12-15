@@ -30,6 +30,14 @@
   flex-grow: 1;
 }
 
+.navbar-left .logo {
+  font-family: $font-logo;
+  font-size: 70px;
+  line-height: 1;
+  width: 60px;
+  text-align: center;
+}
+
 .navbar-right-item {
   height: 32px;
   width: 48px;
@@ -85,4 +93,108 @@
   }
 }
 
+.navbar-mobile {
+  z-index: 4;
+  position: fixed;
+  top: 0;
+  height: 40px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid $divider-line-extra-white;
+  padding: 10px;
+  background: $primary-blue;
+}
 
+.navbar-mobile .logo {
+  font-family: $font-logo;
+  font-size: $font-size-large;
+  line-height: 1;
+  width: 60px;
+  text-align: center;
+}
+
+.navbar-mobile .fas {
+  color: rgba(255, 255, 255, 0.5); 
+  cursor: pointer;
+  font-size: 20px;
+}
+
+.navbar-mobile .fas.fa-times {
+  z-index: 5;
+  color: white;
+}
+
+.navbar-mobile .background-greyout {
+  z-index: 4;
+}
+
+.mobile-menu {
+  color: white;
+  background-color: $primary-blue;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+  width: 90%;
+  height: 100vh;
+  position: absolute;
+  left: 0;
+  top: 40px;
+}
+
+.mobile-menu-header {
+  font-size: 16px;
+  // font-weight: 700;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.5);
+  // border-bottom: rgb(231, 231, 231) 1px solid;
+  line-height: 15px;
+  margin-top: 20px;
+}
+
+.mobile-menu-header,
+.mobile-menu-item {
+  padding: 5px 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.mobile-menu-item {
+  cursor:pointer;
+  padding: 15px;
+  border-bottom: 1px solid $divider-line-white;
+}
+
+.mobile-menu-item.blog {
+  background-color: rgba(0,0,0,.13);
+}
+
+.mobile-menu-item .blog-item {
+  height: auto;
+}
+
+.mobile-menu-item .blog-item-details-title {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.mobile-menu-item:active {
+  background: rgba(0,0,0,.13);
+}
+
+.mobile-item-suffix {
+  color: rgba(255, 255, 255, 0.5);
+  font-weight: 400;
+  text-transform: none;
+}
+
+.mobile-item-suffix.link {
+  cursor: pointer;
+}
+
+.mobile-menu-item i.fas {
+  color: white;
+  font-size: 16px;
+  width: 25px;
+}

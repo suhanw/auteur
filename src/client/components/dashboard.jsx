@@ -8,6 +8,9 @@ import FollowerIndex from './follows/follower_index';
 class Dashboard extends React.Component {
   constructor(props) {
     super(props);
+
+    this.renderNavbarPerScreenSize = this.renderNavbarPerScreenSize.bind(this);
+    this.throttleResizeNavbar = this.throttleResizeNavbar.bind(this);
   }
 
   render() {
@@ -33,7 +36,37 @@ class Dashboard extends React.Component {
   }
 
   componentWillMount() {
-    this.props.renderNavbar({ view: 'navbarMain' });
+    this.renderNavbarPerScreenSize();
+    window.addEventListener('resize', this.throttleResizeNavbar());
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.throttleResizeNavbar());
+  }
+
+  throttleResizeNavbar() {
+    let resizeTimeout;
+    const that = this;
+    return function (e) {
+      if (!resizeTimeout) {
+        resizeTimeout = setTimeout(
+          () => {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = null;
+            that.renderNavbarPerScreenSize()
+          },
+          1000
+        );
+      }
+    };
+  }
+
+  renderNavbarPerScreenSize() {
+    if (window.innerWidth <= 812) {
+      this.props.renderNavbar({ view: 'navbarMobile' });
+    } else {
+      this.props.renderNavbar({ view: 'navbarMain' });
+    }
   }
 }
 

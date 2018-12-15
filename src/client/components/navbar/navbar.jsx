@@ -141,11 +141,6 @@ class Navbar extends React.Component {
             onClick={this.togglePopover(accountPopover)}></i>
         </NavLink>
         {accountPopoverComponent}
-        {/* <AccountPopover
-          popoverStyle={popoverStyle}
-          confirmLogout={confirmLogout}
-          currentUser={currentUser}
-          blog={blog} /> */}
       </li>
     );
   }

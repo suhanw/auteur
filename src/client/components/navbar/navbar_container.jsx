@@ -4,6 +4,7 @@ import { withRouter } from 'react-router-dom';
 
 import NavbarGuest from './navbar_guest';
 import Navbar from './navbar';
+import NavbarMobile from './navbar_mobile';
 import { confirmLogout } from '../../actions/session_actions';
 import { closePopover, openPopover } from '../../actions/popover_actions';
 import { choosePostType } from '../../actions/post_actions';
@@ -72,6 +73,13 @@ class NavbarContainer extends React.Component {
           openPopover={openPopover}
           closePopover={closePopover}
           choosePostType={choosePostType} />
+      );
+    } else if (navbar.view === 'navbarMobile') {
+      return (
+        <NavbarMobile
+          currentUser={currentUser}
+          blog={blog}
+          confirmLogout={confirmLogout} />
       );
     }
   }
