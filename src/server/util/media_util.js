@@ -25,7 +25,7 @@ mediaUtil.uploadFiles = function (newFiles, urls, post, blog) {
 
     // otherwise, upload new files to AWS
     let path = process.env.AWS_BUCKET + `/users/${post.author}/blogs/${post.blog}/posts/${post._id}`;
-    let uploadedFiles = {};
+    let uploadedFiles = newFiles.map(() => null); // create placeholder array of nulls
 
     // iterate and upload each file
     newFiles.forEach(function (file, i) {
@@ -37,11 +37,9 @@ mediaUtil.uploadFiles = function (newFiles, urls, post, blog) {
       };
       s3bucket.upload(params, function (err, uploadedFile) {
         if (err) return reject(err);
-        uploadedFiles[i] = uploadedFile.Location;
-        if (Object.keys(uploadedFiles).length === newFiles.length) { // when all media files have been uploaded
-          for (let i = 0; i < Object.keys(uploadedFiles).length; i++) { // preserve the order of files added by user
-            post.media.push(uploadedFiles[i]); // add media URLs to be persisted
-          }
+        uploadedFiles[i] = uploadedFile.Location; // this will preserve the order of files added by user
+        if (!uploadedFiles.includes(null)) { // when all the nulls have been updated (ie, all media files have been uploaded)
+          post.media = uploadedFiles; // then update post doc
           resolve({ post, blog }); // resolve only after all media files have been uploaded
         }
       });
