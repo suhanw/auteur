@@ -16,7 +16,7 @@ const userSchema = new mongoose.Schema(
     },
     avatarImageUrl: {
       type: String,
-      default: 'images/defaultUserAvatar.svg'
+      default: 'images/defaultUserAvatar.png'
     },
     primaryBlog: {
       type: mongoose.Schema.Types.ObjectId,

@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const passport = require('passport');
-const lodash = require('lodash');
 
 const middleware = require('../middleware/middleware');
 const User = require('../models/user');
@@ -17,22 +16,6 @@ router.post('/users',
       req.body.password,
       function (err, createdUser) {
         if (err) return res.status(422).json([err.message]);
-
-        // create a primary blog when user has signed up
-        // Blog.create({
-        //   author: createdUser._id,
-        //   primary: true,
-        //   avatarImageUrl: createdUser.avatarImageUrl,
-        //   name: createdUser.username,
-        //   title: `${createdUser.username}'s blog`
-        // }, function (err, createdBlog) {
-        //   if (err) {
-        //     return res.status(422).json([err.message]);
-        //   }
-        //   createdUser.primaryBlog = createdBlog._id;
-        //   createdUser.save();
-        //   return;
-        // });
 
         Blog.create({
           author: createdUser._id,

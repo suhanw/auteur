@@ -28,7 +28,7 @@ const blogSchema = new mongoose.Schema(
     avatarImageUrl: {
       type: String,
       required: true,
-      default: 'images/defaultBlogAvatar.svg',
+      default: 'images/defaultUserAvatar.png',
     },
     backgroundImageUrl: {
       type: String,
