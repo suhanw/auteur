@@ -19,7 +19,7 @@ export const ErrorPage = function (props) {
 };
 
 export const ErrorMessage = function ({ errorArr }) {
-  if (!errorArr || errorArr.length === 0) { return null; }
+  if (!errorArr || !errorArr.length) { return null; }
   let errorLis = errorArr.map((error, idx) => (<li key={idx}>{error}</li>));
   return (
     <ul className='error-alert object-fade-in'>
