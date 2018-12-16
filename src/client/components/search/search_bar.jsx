@@ -81,7 +81,7 @@ class SearchBar extends React.Component {
   }
 
   handleSearchInput(e) {
-    let newState = { query: e.currentTarget.value };
+    let newState = { query: e.currentTarget.value.toLowerCase() };
     this.setState(
       newState,
       this.toggleSearchPopover,
