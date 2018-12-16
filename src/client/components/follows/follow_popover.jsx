@@ -68,14 +68,13 @@ class FollowPopover extends React.Component {
     let buttonText = '';
     if (blog.author === currentUser._id) {
       buttonText = 'Edit appearance';
-    } else if (currentUser.following.indexOf(blog._id) < 0) {
-      buttonText = 'Follow';
-    } else {
+    } else if (currentUser.following.includes(blog._id)) {
       buttonText = 'Unfollow';
+    } else {
+      buttonText = 'Follow';
     }
     return (
-      <button
-        className='btn btn-default btn-white'
+      <button className='btn btn-default btn-white'
         onClick={this.handleSubmit(buttonText)}>
         {buttonText}
       </button>
@@ -98,9 +97,7 @@ class FollowPopover extends React.Component {
 
   componentDidMount() {
     const { blog, fetchBlog, blogId } = this.props;
-    if (!blog) {
-      fetchBlog(blogId);
-    }
+    if (!blog) fetchBlog(blogId);
   }
 }
 
