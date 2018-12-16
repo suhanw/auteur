@@ -227,7 +227,6 @@ class Carousel extends React.Component {
   }
 
   scrollCarousel(scrollDir, nextSlide = null) {
-    // FIX: also attach listener for up and down arrows
     const { activeSlide, slideClasses } = this.state;
     let newActiveSlide = nextSlide;
     let newSlideClasses = merge({}, slideClasses);
