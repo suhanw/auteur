@@ -8,12 +8,12 @@ import PostFormLink from './post_form_link';
 import PostFormAudio from './post_form_audio';
 import PostFormVideo from './post_form_video';
 import Modal from '../../modals/modal';
+import { PostSpinner } from '../../spinners/spinners';
+import { ErrorMessage } from '../../errors/errors';
 import { fetchBlog } from '../../../actions/blog_actions';
 import { createPost, updatePost } from '../../../actions/post_actions';
 import { clearErrors } from '../../../actions/clear_actions';
 import { selectCurrentUser, selectBlog, selectLoadingPostSubmit, selectPostErrors } from '../../../selectors/selectors';
-import { PostSpinner } from '../../spinners/spinners';
-import { ErrorMessage } from '../../errors/errors';
 
 
 const mapStateToProps = function (state, ownProps) {
