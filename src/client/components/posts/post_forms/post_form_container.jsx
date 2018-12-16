@@ -113,14 +113,7 @@ class PostForm extends React.Component {
   componentDidMount() {
     const { currentUser, fetchBlog, blog } = this.props;
     //if blog not already in Redux state, fetch blog
-    if (!blog) {
-      fetchBlog(currentUser.primaryBlog).then(
-        (result) => {
-          const { payload: { _id, name, avatarImageUrl } } = result;
-          this.setState({ blog: { _id, name, avatarImageUrl } });
-        }
-      );
-    }
+    if (!blog) fetchBlog(currentUser.primaryBlog);
   }
 
   renderConfirmModal() {
@@ -140,7 +133,7 @@ class PostForm extends React.Component {
     return (
       <Modal localModal={localModal}
         closeModal={closeModal} />
-    )
+    );
   }
 
   renderPostFormType() {
