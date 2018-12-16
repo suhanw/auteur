@@ -14,14 +14,15 @@ import { fetchBlog } from '../../../actions/blog_actions';
 import { createPost, updatePost } from '../../../actions/post_actions';
 import { clearErrors } from '../../../actions/clear_actions';
 import { selectCurrentUser, selectBlog, selectLoadingPostSubmit, selectPostErrors } from '../../../selectors/selectors';
+import { toggleClass } from '../../../util/misc_util';
 
 
 const mapStateToProps = function (state, ownProps) {
-  let formType; // whether it's text, photo, video, etc
   const currentUser = selectCurrentUser(state); //this includes primaryBlog id
   const loadingPostSubmit = selectLoadingPostSubmit(state);
   const postErrors = selectPostErrors(state);
   const { edit, togglePostForm } = ownProps;
+  let formType; // whether it's text, photo, video, etc
   let blog;
   let post;
 
@@ -81,8 +82,7 @@ class PostForm extends React.Component {
   }
 
   render() {
-    const { currentUser, loadingPostSubmit, postErrors } = this.props;
-    const spinnerClass = loadingPostSubmit ? 'loading-post-submit' : null;
+    const { currentUser, loadingPostSubmit } = this.props;
     return (
       <div className='post-form-container'>
 
@@ -103,7 +103,7 @@ class PostForm extends React.Component {
           tabIndex='0'
           onKeyDown={this.closePostForm}>
           {this.renderPostFormType()}
-          <PostSpinner spinnerClass={spinnerClass} />
+          <PostSpinner spinnerClass={toggleClass(loadingPostSubmit, 'loading-post-submit', null)} />
         </div>
 
       </div>
