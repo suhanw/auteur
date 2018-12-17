@@ -61,7 +61,7 @@ class NavbarGuest extends React.Component {
   }
 
   renderSignupButton(active = '', handleClick = null) {
-    // FIX: cutout text for white button
+    // TODO: cutout text for white button
     return (
       <Link key='signup' to='/signup' onClick={handleClick}>
         <li className={`btn btn-default btn-white ${active}`}>

@@ -44,7 +44,7 @@ const postIndexReducer = function (state = defaultState, action) {
       payloadSchema = [postSchema];
       normalizedPayload = normalize(action.payload, payloadSchema);
       newState = merge({}, state);
-      // FIX: this replaces the array everytime user clicks on Following, because this array doesn't update when user unfollows a blog
+      // TODO: this replaces the array everytime user clicks on Following, because this array doesn't update when user unfollows a blog
       newState.following = normalizedPayload.result; // array of postIds
       return newState;
     case RECEIVE_USER_LIKES:

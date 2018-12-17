@@ -36,7 +36,7 @@ class NoteMenu extends React.Component {
   }
 
   shouldComponentUpdate(newProps, newState) {
-    // FIX: think about how to avoid re-rendering every single post item when popover is opened/closed
+    // TODO: think about how to avoid re-rendering every single post item when popover is opened/closed
     return true;
   }
 

@@ -18,8 +18,8 @@ class PostIndex extends React.Component {
   }
 
   render() {
-    // FIX: add error handlers!!
-    // FIX: scroll to top when changing views
+    // TODO: add error handlers!!
+    // TODO: scroll to top when changing views
     const { loadingPostIndex } = this.props;
 
     let spinnerClass = (loadingPostIndex) ? 'loading-post-index' : null;
@@ -43,7 +43,7 @@ class PostIndex extends React.Component {
         if (errAction) this.props.history.push('/404'); // if someone updates URl with non-existent blog id, redirect to dashboard
       });
 
-    if (view === 'feed') { // FIX: infinite scroll only implemented for feed now
+    if (view === 'feed') { // TODO: infinite scroll only implemented for feed now
       document.querySelector('div.dashboard') // event only fires on element that has overflow: scroll
         .addEventListener('scroll', this.handleScroll);
     }
@@ -66,7 +66,7 @@ class PostIndex extends React.Component {
 
   componentWillUnmount() {
     const { view } = this.props;
-    if (view === 'feed') { // FIX: infinite scroll only implemented for feed now
+    if (view === 'feed') { // TODO: infinite scroll only implemented for feed now
       document.querySelector('div.dashboard')
         .removeEventListener('scroll', this.handleScroll);
     }

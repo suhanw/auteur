@@ -27,7 +27,7 @@ export const receiveFollowers = function (followers) {
 }
 
 export const receiveFollowErrors = function (errors) {
-  // FIX: add follow errors reducer
+  // TODO: add follow errors reducer
   return {
     type: RECEIVE_FOLLOW_ERRORS,
     payload: errors,

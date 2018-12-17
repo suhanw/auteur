@@ -102,7 +102,7 @@ class PostFormPhoto extends React.Component {
 
     if (Object.keys(mediaPreview).length > 0) { // if user already selected some images
       if (urlInput) {
-        // FIX: when editting a post with media link, the url input does not render
+        // TODO: when editting a post with media link, the url input does not render
         return this.renderSmallUrlInput();
       } else {
         return this.renderSmallUploadDropzone();
@@ -271,7 +271,7 @@ class PostFormPhoto extends React.Component {
         that.setState({ mediaPreview, media });
       });
     }
-    // FIX: add loader for preview images
+    // TODO: add loader for preview images
   }
 
   removePreview(mediaFilename) {

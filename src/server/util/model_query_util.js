@@ -141,7 +141,7 @@ modelQuery.findTagPosts = function (tags) {
     let tagsWithPosts = tags.map(() => null); // to track that we found posts for each tag
     tags.forEach((tag, i) => {
       Post.find({ tags: tag._id })
-        .sort({ 'createdAt': 'desc' }) // FIX: think about how to sort by most notes
+        .sort({ 'createdAt': 'desc' }) // TODO: think about how to sort by most notes
         .populate({ path: 'blog', select: 'name avatarImageUrl backgroundImageUrl author' })
         .populate({ path: 'tags', select: 'label' })
         .exec()

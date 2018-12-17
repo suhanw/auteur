@@ -176,7 +176,7 @@ class PostForm extends React.Component {
   }
 
   toggleBlog() {
-    // FIX: in future, create a toggleBlog func that changes blog id in state 
+    // TODO: in future, create a toggleBlog func that changes blog id in state 
     // and pass into PostFormType. User may have multiple blogs.
   }
 }

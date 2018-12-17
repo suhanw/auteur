@@ -6,7 +6,7 @@ const Post = require('../models/post');
 const middleware = require('../middleware/middleware');
 
 // GET api/feed - Index posts for current user's feed
-// FIX: figure out criteria of what to display on feed
+// TODO: figure out criteria of what to display on feed
 // .where('blog').in(lodash.concat(
 //     [req.user.primaryBlog], // user's primary blog
 //     req.user.following, // blogs that user follows

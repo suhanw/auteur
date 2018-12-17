@@ -9,7 +9,7 @@ const mapStateToProps = function (state, ownProps) {
   const { blogId } = ownProps;
   const blog = selectBlog(state, blogId);
   const currentUser = selectCurrentUser(state);
-  // FIX: select top 3 posts with most notes
+  // TODO: select top 3 posts with most notes
   return {
     blog,
     currentUser,

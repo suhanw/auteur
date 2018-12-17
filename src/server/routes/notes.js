@@ -49,7 +49,7 @@ router.post('/notes', middleware.isLoggedIn, function (req, res) {
 
 // DELETE api/posts/:id/notes/:noteId - Destroy
 router.delete('/notes/:noteId', middleware.isLoggedIn, function (req, res) {
-  // FIX: add middleware to check for note ownership
+  // TODO: add middleware to check for note ownership
   modelQuery.findOnePost(req.params.id)
     .then((foundPost) => {
       switch (req.body.type) {

@@ -71,7 +71,7 @@ class SearchPopover extends React.Component {
   }
 
   renderBlogResults() {
-    // FIX: later..
+    // TODO: later..
   }
 
   componentDidMount() {

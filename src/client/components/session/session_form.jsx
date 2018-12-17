@@ -132,7 +132,7 @@ class SessionForm extends React.Component {
   }
 
   handleSubmit(e) {
-    // FIX: render something that says logging in
+    // TODO: render something that says logging in
     e.preventDefault();
     const user = Object.assign({}, this.state);
     this.props.submit(user);

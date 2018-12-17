@@ -14,7 +14,7 @@ class Dashboard extends React.Component {
   }
 
   render() {
-    // FIX: add icon at viewport bottom right to get back to top
+    // TODO: add icon at viewport bottom right to get back to top
     return (
       <div className='dashboard'>
         <div className='dashboard-content'>

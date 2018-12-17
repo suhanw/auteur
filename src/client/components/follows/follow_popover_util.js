@@ -38,7 +38,7 @@ export const hidePopover = function (componentContext, popoverState) {
 
 export const renderFollowPopover = function (componentContext, blogId, popoverState) {
   const popover = componentContext.state[popoverState];
-  // FIX: position popover so that it's always within viewport
+  // TODO: position popover so that it's always within viewport
   if (popover) {
     return (
       <FollowPopover blogId={blogId}

@@ -49,7 +49,7 @@ class TagForm extends React.Component {
   }
 
   renderTags() {
-    // FIX: make tags draggable
+    // TODO: make tags draggable
     const { activeTag } = this.state;
     const { tags } = this.props;
     if (!tags.length) return null;

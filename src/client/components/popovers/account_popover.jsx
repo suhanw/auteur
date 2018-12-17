@@ -55,7 +55,7 @@ class AccountPopover extends React.Component {
         <Link to='/settings'>
           <li className='popover-menu-item'>
             <span><i className="fas fa-user-cog"></i> Settings</span>
-            {/* FIX: add a page to update user account */}
+            {/* TODO: add a page to update user account */}
           </li>
         </Link>
       </ul>
