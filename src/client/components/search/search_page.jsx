@@ -42,6 +42,8 @@ class SearchPage extends React.Component {
 
     this.renderHeader = this.renderHeader.bind(this);
     this.renderSearchPosts = this.renderSearchPosts.bind(this);
+    this.throttleResizeNavbar = this.throttleResizeNavbar.bind(this);
+    this.renderNavbarPerScreenSize = this.renderNavbarPerScreenSize.bind(this);
   }
 
   render() {
@@ -102,6 +104,15 @@ class SearchPage extends React.Component {
     )
   }
 
+  componentWillMount() {
+    this.renderNavbarPerScreenSize();
+    window.addEventListener('resize', this.throttleResizeNavbar());
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.throttleResizeNavbar());
+  }
+
   componentDidMount() {
     const { query } = this.props.match.params;
     const { fetchSearchPosts } = this.props;
@@ -124,6 +135,30 @@ class SearchPage extends React.Component {
           else this.setState({ noPostResults: true });
         }
       );
+    }
+  }
+
+  throttleResizeNavbar() {
+    let resizeTimeout;
+    const that = this;
+    return function (e) {
+      if (!resizeTimeout) {
+        resizeTimeout = setTimeout(
+          () => {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = null;
+            that.renderNavbarPerScreenSize()
+          },
+          1000);
+      }
+    };
+  }
+
+  renderNavbarPerScreenSize() {
+    if (window.innerWidth <= 812) {
+      this.props.renderNavbar({ view: 'navbarMobile' });
+    } else {
+      this.props.renderNavbar({ view: 'navbarMain' });
     }
   }
 }
