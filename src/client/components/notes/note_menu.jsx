@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { GlobalContext } from '../global_ context_provider';
 import NotePopover from './note_popover';
 
 class NoteMenu extends React.Component {
@@ -14,7 +15,8 @@ class NoteMenu extends React.Component {
   }
 
   render() {
-    const { post, currentUser } = this.props;
+    const { currentUser } = this.context;
+    const { post } = this.props;
     let noteCount = null;
     if (post.likeCount + post.commentCount > 0) {
       noteCount = (post.likeCount + post.commentCount);
@@ -41,7 +43,8 @@ class NoteMenu extends React.Component {
   }
 
   renderHeart() {
-    const { post, currentUser } = this.props;
+    const { currentUser } = this.context;
+    const { post } = this.props;
     let heartIconClass = 'far fa-heart';
     let clickAction = 'createNote';
     let note = {
@@ -128,7 +131,6 @@ class NoteMenu extends React.Component {
   togglePopover(currPopover) {
     const { popover, openPopover, closePopover } = this.props;
     return function (e) {
-      // debugger
       e.stopPropagation(); // to avoid bubbling up to window handler which will close any popovers
       if (JSON.stringify(popover) === JSON.stringify(currPopover)) {
         closePopover(); // if current popover is open, then close popover
@@ -138,5 +140,7 @@ class NoteMenu extends React.Component {
     };
   }
 }
+
+NoteMenu.contextType = GlobalContext;
 
 export default NoteMenu;

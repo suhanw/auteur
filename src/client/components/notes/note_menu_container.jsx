@@ -4,14 +4,12 @@ import NoteMenu from './note_menu';
 import { confirmDeletePost } from '../../actions/post_actions';
 import { openPopover, closePopover } from '../../actions/popover_actions';
 import { createNote, deleteNote } from '../../actions/note_actions';
-import { selectCurrentUser, selectPopover } from '../../selectors/selectors';
+import { selectPopover } from '../../selectors/selectors';
 
 const mapStateToProps = function (state, ownProps) {
-  const currentUser = selectCurrentUser(state);
   const { post, view } = ownProps;
   const popover = selectPopover(state);
   return {
-    currentUser,
     post,
     popover,
     view,
