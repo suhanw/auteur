@@ -1,7 +1,7 @@
 import React from 'react';
-import { withRouter } from 'react-router-dom';
 
 import PostIndexContainer from '../posts/post_index/post_index_container';
+import { GlobalContext } from '../global_ context_provider';
 
 class BlogDrawer extends React.Component {
   constructor(props) {
@@ -57,7 +57,8 @@ class BlogDrawer extends React.Component {
   }
 
   renderFollowButton() {
-    const { data, currentUser } = this.props;
+    const { currentUser } = this.context;
+    const { data } = this.props;
     let buttonText = '';
     if (data.author === currentUser._id) {
       buttonText = 'Edit appearance';
@@ -76,7 +77,7 @@ class BlogDrawer extends React.Component {
   }
 
   handleSubmit(buttonText) {
-    const { createFollow, deleteFollow, data, history } = this.props;
+    const { createFollow, deleteFollow, data } = this.props;
     const submitActions = {
       'Follow': createFollow,
       'Unfollow': deleteFollow,
@@ -101,8 +102,9 @@ class BlogDrawer extends React.Component {
       </section>
     );
   }
-
-
 }
 
-export default withRouter(BlogDrawer);
+
+BlogDrawer.contextType = GlobalContext;
+
+export default BlogDrawer;

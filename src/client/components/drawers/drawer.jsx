@@ -3,15 +3,13 @@ import React from 'react';
 
 import CreditsDrawer from './credits_drawer';
 import BlogDrawer from '../blogs/blog_drawer';
-import { selectDrawer, selectCurrentUser } from '../../selectors/selectors';
+import { selectDrawer } from '../../selectors/selectors';
 import { closeDrawer } from '../../actions/drawer_actions';
 import { createFollow, deleteFollow } from '../../actions/follow_actions';
 
 const mapStateToProps = function (state, ownProps) {
   const drawer = selectDrawer(state);
-  const currentUser = selectCurrentUser(state);
   return {
-    currentUser,
     drawer,
   };
 };
@@ -58,7 +56,6 @@ class Drawer extends React.Component {
           onKeyDown={this.handleKeydown}>
           <DrawerComponent
             data={drawer.data}
-            currentUser={currentUser}
             createFollow={createFollow}
             deleteFollow={deleteFollow} />
         </aside>
