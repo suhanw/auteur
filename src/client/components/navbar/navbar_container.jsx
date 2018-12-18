@@ -10,7 +10,6 @@ import { closePopover, openPopover } from '../../actions/popover_actions';
 import { choosePostType } from '../../actions/post_actions';
 import { selectCurrentUser, selectBlog, selectPopover, selectNavbar } from '../../selectors/selectors';
 
-
 const mapStateToProps = function (state, ownProps) {
   const navbar = selectNavbar(state);
   const currentUser = selectCurrentUser(state);

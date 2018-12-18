@@ -9,6 +9,7 @@ import Drawer from './drawers/drawer';
 import { ErrorPage } from './errors/errors';
 import { AuthRoute, ProtectRoute } from '../util/route_util';
 import NavbarContainer from './navbar/navbar_container';
+import GlobalContextProvider from './global_ context_provider';
 
 class App extends React.Component {
   constructor(props) {
@@ -19,21 +20,24 @@ class App extends React.Component {
 
     return (
       <div>
-        <Modal />
-        <Drawer />
-        <NavbarContainer />
-        <Switch>
-          <ProtectRoute path='/search/:query' component={SearchPage} />
-          <ProtectRoute path='/settings' component={Settings} />
-          <ProtectRoute path='/dashboard' component={Dashboard} />
-          <AuthRoute path='/login' component={Carousel} />
-          <AuthRoute path='/signup' component={Carousel} />
-          <AuthRoute exact path='/' component={Carousel} />
-          <Route component={ErrorPage} />
-        </Switch>
+        <GlobalContextProvider>
+          <Modal />
+          <Drawer />
+          <NavbarContainer />
+          <Switch>
+            <ProtectRoute path='/search/:query' component={SearchPage} />
+            <ProtectRoute path='/settings' component={Settings} />
+            <ProtectRoute path='/dashboard' component={Dashboard} />
+            <AuthRoute path='/login' component={Carousel} />
+            <AuthRoute path='/signup' component={Carousel} />
+            <AuthRoute exact path='/' component={Carousel} />
+            <Route component={ErrorPage} />
+          </Switch>
+        </GlobalContextProvider>
       </div>
     );
   }
 }
+
 
 export default App;
