@@ -1,5 +1,4 @@
 import React from 'react';
-import { Route, Switch } from 'react-router-dom';
 import PostMenu from './post_menu';
 import PostFormContainer from '../post_forms/post_form_container';
 
@@ -15,7 +14,6 @@ class PostIndexHeader extends React.Component {
   }
 
   render() {
-    const { currentUser } = this.props;
     let headerComponent;
     if (this.state.showPostForm) {
       headerComponent = (
@@ -24,8 +22,7 @@ class PostIndexHeader extends React.Component {
       );
     } else {
       headerComponent = (
-        <PostMenu currentUser={currentUser}
-          togglePostForm={this.togglePostForm} />
+        <PostMenu togglePostForm={this.togglePostForm} />
       );
     }
     return (

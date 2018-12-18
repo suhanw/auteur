@@ -73,12 +73,12 @@ class PostIndex extends React.Component {
   }
 
   renderPostIndexHeader() {
-    const { currentUser, view } = this.props;
+    const { view } = this.props;
     if (view === 'likes' ||
       view === 'following' ||
       view === 'blogDrawer') return null;
     return (
-      <PostIndexHeader currentUser={currentUser} />
+      <PostIndexHeader />
     )
   }
 
@@ -117,7 +117,6 @@ class PostIndex extends React.Component {
             view={view}
             post={post}
             blog={blog}
-            currentUser={currentUser}
             createFollow={createFollow}
             openDrawer={openDrawer} />
         </div>

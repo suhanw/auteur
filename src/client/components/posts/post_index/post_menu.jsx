@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { GlobalContext } from '../../global_ context_provider';
+
 class PostMenu extends React.Component {
   constructor(props) {
     super(props);
@@ -8,7 +10,7 @@ class PostMenu extends React.Component {
   }
 
   render() {
-    const { currentUser } = this.props;
+    const { currentUser } = this.context;
     return (
       <div className='post-menu-container'>
         <picture className='avatar-container'>
@@ -52,5 +54,7 @@ class PostMenu extends React.Component {
     }
   }
 }
+
+PostMenu.contextType = GlobalContext;
 
 export default PostMenu;

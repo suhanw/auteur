@@ -6,6 +6,7 @@ import PostShowLink from './post_show_link';
 import PostFormContainer from '../post_forms/post_form_container';
 import NoteMenuContainer from '../../notes/note_menu_container';
 import TagIndex from '../../tags/tag_index';
+import { GlobalContext } from '../../global_ context_provider';
 import { showPopover, hidePopover, renderFollowPopover } from '../../follows/follow_popover_util';
 
 class PostShowItem extends React.Component {
@@ -105,7 +106,8 @@ class PostShowItem extends React.Component {
   }
 
   renderPostContent() {
-    const { post, blog, currentUser, view } = this.props;
+    const { post, blog, view } = this.props;
+    const { currentUser } = this.context;
     let smallAvatar = null;
     let suggestFollow = null;
     let followLink = null;
@@ -174,5 +176,7 @@ class PostShowItem extends React.Component {
     this.setState({ showPostForm: newValue });
   }
 }
+
+PostShowItem.contextType = GlobalContext;
 
 export default PostShowItem;
