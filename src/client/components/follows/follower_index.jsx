@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import FollowerItem from './follower_item';
-import { selectUsers, selectCurrentUser, selectBlog, selectBlogs } from '../../selectors/selectors';
+import { selectUsers, selectBlog, selectBlogs } from '../../selectors/selectors';
 import { fetchFollowers, createFollow } from '../../actions/follow_actions';
 import { openDrawer } from '../../actions/drawer_actions';
 import { pluralize } from '../../util/misc_util';
@@ -10,12 +10,10 @@ import { pluralize } from '../../util/misc_util';
 const mapStateToProps = function (state, ownProps) {
   const { blogId } = ownProps.match.params;
   const currentBlog = selectBlog(state, blogId);
-  const currentUser = selectCurrentUser(state);
   const users = selectUsers(state);
   const blogs = selectBlogs(state);
   return {
     currentBlog,
-    currentUser,
     blogs,
     users,
   };
@@ -59,7 +57,7 @@ class FollowerIndex extends React.Component {
   }
 
   renderFollowers() {
-    const { currentUser, currentBlog, users, blogs, createFollow, openDrawer } = this.props;
+    const { currentBlog, users, blogs, createFollow, openDrawer } = this.props;
 
     let followers = currentBlog.followers.map((followerId) => {
       let follower = users[followerId];
@@ -67,19 +65,17 @@ class FollowerIndex extends React.Component {
       return <FollowerItem key={follower._id}
         follower={follower}
         followerPrimaryBlog={followerPrimaryBlog}
-        currentUser={currentUser}
         createFollow={createFollow}
         openDrawer={openDrawer} />
     });
     return followers;
   }
 
-
   componentDidMount() {
     const { fetchFollowers } = this.props;
     fetchFollowers(this.props.match.params.blogId)
       .then((errAction) => {
-        if (errAction) this.props.history.push('/404'); // if someone updates URl with non-existent blog id, redirect to dashboard
+        if (errAction) this.props.history.push('/404'); // if someone updates URl with non-existent blog id, redirect to 404
       });
   }
 
@@ -88,7 +84,7 @@ class FollowerIndex extends React.Component {
       const { fetchFollowers } = this.props;
       fetchFollowers(newProps.match.params.blogId)
         .then((errAction) => {
-          if (errAction) this.props.history.push('/404'); // if someone updates URl with non-existent blog id, redirect to dashboard
+          if (errAction) this.props.history.push('/404'); // if someone updates URl with non-existent blog id, redirect to 404
         });
     }
   }

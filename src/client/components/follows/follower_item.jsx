@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { GlobalContext } from '../global_ context_provider';
 import { showPopover, hidePopover, renderFollowPopover } from './follow_popover_util';
 
 class FollowerItem extends React.Component {
@@ -41,8 +42,7 @@ class FollowerItem extends React.Component {
   }
 
   renderFollowButton(followerPrimaryBlogId) {
-    const { currentUser } = this.props;
-
+    const { currentUser } = this.context;
     if (currentUser.following.includes(followerPrimaryBlogId)) return null;
     return (
       <button className='btn btn-default btn-blue' onClick={this.handleClick(followerPrimaryBlogId)}>
@@ -69,5 +69,7 @@ class FollowerItem extends React.Component {
     };
   }
 }
+
+FollowerItem.contextType = GlobalContext;
 
 export default FollowerItem;
