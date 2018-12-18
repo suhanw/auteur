@@ -36,14 +36,13 @@ class PostIndexMasonry extends React.Component {
   }
 
   renderBrick(post) {
-    const { view, blogs, currentUser, createFollow, openDrawer } = this.props;
+    const { view, blogs, createFollow, openDrawer } = this.props;
     let blog = blogs[post.blog];
     return (
       <PostShowItem key={post._id}
         view={view}
         post={post}
         blog={blog}
-        currentUser={currentUser}
         createFollow={createFollow}
         openDrawer={openDrawer} />
     );

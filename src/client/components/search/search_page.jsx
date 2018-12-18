@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import NavbarContainer from '../navbar/navbar_container';
 import PostIndexMasonry from '../posts/post_index/post_index_masonry';
 import { PostSpinner } from '../spinners/spinners';
-import { selectPosts, selectCurrentUser, selectBlogs, selectLoadingSearchPosts } from '../../selectors/selectors';
+import { selectPosts, selectBlogs, selectLoadingSearchPosts } from '../../selectors/selectors';
 import { fetchSearchPosts, clearSearchPosts } from '../../actions/search_actions';
 import { createFollow } from '../../actions/follow_actions';
 import { openDrawer } from '../../actions/drawer_actions';
@@ -13,12 +13,10 @@ import { toggleClass } from '../../util/misc_util';
 const mapStateToProps = (state, ownProps) => {
   const postsArr = selectPosts(state, 'searchPosts');
   const blogs = selectBlogs(state);
-  const currentUser = selectCurrentUser(state);
   const loadingSearchPosts = selectLoadingSearchPosts(state);
   return {
     postsArr,
     blogs,
-    currentUser,
     loadingSearchPosts,
   };
 };
@@ -87,7 +85,7 @@ class SearchPage extends React.Component {
       );
     }
 
-    const { postsArr, blogs, currentUser, createFollow, openDrawer } = this.props;
+    const { postsArr, blogs, createFollow, openDrawer } = this.props;
     const view = 'searchPosts';
 
     return (
@@ -97,21 +95,10 @@ class SearchPage extends React.Component {
           view={view}
           postsArr={postsArr}
           blogs={blogs}
-          currentUser={currentUser}
           createFollow={createFollow}
           openDrawer={openDrawer} />
       </section>
     )
-  }
-
-  componentWillMount() {
-    // this.renderNavbarPerScreenSize();
-    // window.addEventListener('resize', this.throttleResizeNavbar());
-  }
-
-  componentWillUnmount() {
-    this.props.renderNavbar(null); // to remove navbar when unmounting
-    window.removeEventListener('resize', this.throttleResizeNavbar());
   }
 
   componentDidMount() {
@@ -126,6 +113,11 @@ class SearchPage extends React.Component {
 
     this.renderNavbarPerScreenSize();
     window.addEventListener('resize', this.throttleResizeNavbar());
+  }
+
+  componentWillUnmount() {
+    this.props.renderNavbar(null); // to remove navbar when unmounting
+    window.removeEventListener('resize', this.throttleResizeNavbar());
   }
 
   componentWillReceiveProps(newProps) {
