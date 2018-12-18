@@ -105,11 +105,12 @@ class SearchPage extends React.Component {
   }
 
   componentWillMount() {
-    this.renderNavbarPerScreenSize();
-    window.addEventListener('resize', this.throttleResizeNavbar());
+    // this.renderNavbarPerScreenSize();
+    // window.addEventListener('resize', this.throttleResizeNavbar());
   }
 
   componentWillUnmount() {
+    this.props.renderNavbar(null); // to remove navbar when unmounting
     window.removeEventListener('resize', this.throttleResizeNavbar());
   }
 
@@ -122,6 +123,9 @@ class SearchPage extends React.Component {
         else this.setState({ noPostResults: true });
       }
     );
+
+    this.renderNavbarPerScreenSize();
+    window.addEventListener('resize', this.throttleResizeNavbar());
   }
 
   componentWillReceiveProps(newProps) {

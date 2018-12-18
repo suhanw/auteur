@@ -88,7 +88,10 @@ class Carousel extends React.Component {
     welcomeBg.onload = (e) => {
       this.setState({ welcomeBgLoaded: true });
     };
+  }
 
+  componentDidMount() {
+    window.addEventListener('keydown', this.handleKeydown);
     this.props.renderNavbar({
       view: 'navbarGuest',
       activeSlide: this.state.activeSlide,
@@ -96,12 +99,9 @@ class Carousel extends React.Component {
     });
   }
 
-  componentDidMount() {
-    window.addEventListener('keydown', this.handleKeydown);
-  }
-
   componentWillUnmount() {
     window.removeEventListener('keydown', this.handleKeydown);
+    this.props.renderNavbar(null);
   }
 
   renderIntroSlide() {

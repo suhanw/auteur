@@ -35,12 +35,13 @@ class Dashboard extends React.Component {
     );
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.renderNavbarPerScreenSize();
     window.addEventListener('resize', this.throttleResizeNavbar());
   }
 
   componentWillUnmount() {
+    this.props.renderNavbar(null); // to remove navbar when unmounting
     window.removeEventListener('resize', this.throttleResizeNavbar());
   }
 
