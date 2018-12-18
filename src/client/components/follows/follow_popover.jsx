@@ -3,16 +3,15 @@ import { connect } from 'react-redux';
 
 import { fetchBlog } from '../../actions/blog_actions';
 import { createFollow, deleteFollow } from '../../actions/follow_actions';
-import { selectBlog, selectCurrentUser } from '../../selectors/selectors';
+import { selectBlog } from '../../selectors/selectors';
+import { GlobalContext } from '../global_ context_provider';
 
 const mapStateToProps = function (state, ownProps) {
   const { blogId } = ownProps;
   const blog = selectBlog(state, blogId);
-  const currentUser = selectCurrentUser(state);
   // TODO: select top 3 posts with most notes
   return {
     blog,
-    currentUser,
   }
 };
 
@@ -64,7 +63,8 @@ class FollowPopover extends React.Component {
   }
 
   renderButton() {
-    const { blog, currentUser } = this.props;
+    const { currentUser } = this.context;
+    const { blog } = this.props;
     let buttonText = '';
     if (blog.author === currentUser._id) {
       buttonText = 'Edit appearance';
@@ -100,5 +100,7 @@ class FollowPopover extends React.Component {
     if (!blog) fetchBlog(blogId);
   }
 }
+
+FollowPopover.contextType = GlobalContext;
 
 export default connect(mapStateToProps, mapDispatchToProps)(FollowPopover);

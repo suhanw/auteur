@@ -43,7 +43,7 @@ class Drawer extends React.Component {
   }
 
   render() {
-    const { drawer, currentUser, createFollow, deleteFollow } = this.props;
+    const { drawer, createFollow, deleteFollow } = this.props;
     if (!drawer) return null; // drawer in ui state is null when there is no open drawer
     const DrawerComponent = this.drawerComponents[drawer.view];
     return (
