@@ -81,6 +81,7 @@ class SearchBar extends React.Component {
   }
 
   handleSearchInput(e) {
+    // TODO: when clicking on a suggested tag, the search input should update to the selected suggestion
     let newState = { query: e.currentTarget.value.toLowerCase() };
     this.setState(
       newState,

@@ -17,7 +17,6 @@ class GlobalContextProvider extends React.Component {
   }
 
   render() {
-    console.log('rendering GLobalContextProvider');
     const { children, currentUser } = this.props;
     return (
       <GlobalContext.Provider value={{ currentUser: currentUser }} >
