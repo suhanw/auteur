@@ -48,8 +48,9 @@ class PostIndex extends React.Component {
         if (errAction) this.props.history.push('/404'); // if someone updates URl with non-existent blog id, redirect to 404
       });
 
-    document.querySelector('div.dashboard') // event only fires on element that has overflow: scroll
-      .addEventListener('scroll', this.handleScroll);
+    const dashboard = document.querySelector('div.dashboard');
+    // event only fires on element that has overflow: scroll
+    if (dashboard) dashboard.addEventListener('scroll', this.handleScroll); // dashboard is null in BlogDrawer
   }
 
   componentWillReceiveProps(newProps) {
@@ -70,8 +71,8 @@ class PostIndex extends React.Component {
 
   componentWillUnmount() {
     const { view } = this.props;
-    document.querySelector('div.dashboard')
-      .removeEventListener('scroll', this.handleScroll);
+    const dashboard = document.querySelector('div.dashboard');
+    if (dashboard) dashboard.removeEventListener('scroll', this.handleScroll);
   }
 
   renderBackToTop() {
