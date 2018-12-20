@@ -19,7 +19,6 @@ class PostIndex extends React.Component {
 
   render() {
     // TODO: add error handlers!!
-    // TODO: scroll to top when changing views
     const { loadingPostIndex } = this.props;
 
     let spinnerClass = (loadingPostIndex) ? 'loading-post-index' : null;
@@ -40,7 +39,7 @@ class PostIndex extends React.Component {
     if (!currentUser.likedPosts) fetchUserLikes(currentUser._id); // to fetch only when it's not populated
     fetchPosts()
       .then((errAction) => {
-        if (errAction) this.props.history.push('/404'); // if someone updates URl with non-existent blog id, redirect to dashboard
+        if (errAction) this.props.history.push('/404'); // if someone updates URl with non-existent blog id, redirect to 404
       });
 
     if (view === 'feed') { // TODO: infinite scroll only implemented for feed now
@@ -56,6 +55,7 @@ class PostIndex extends React.Component {
     const oldBlogId = (this.props.match) ? this.props.match.params.blogId : 0;
     const newBlogId = (newProps.match) ? newProps.match.params.blogId : 0;
     if (newView !== oldView || oldBlogId !== newBlogId) { // to fetch posts when view changes
+      document.querySelector('div.dashboard').scrollTo(0, 0); // scroll to top when view changes
       if (!currentUser.likedPosts) fetchUserLikes(currentUser._id); // to fetch current user likes only when it's not populated
       fetchPosts()
         .then((errAction) => {
