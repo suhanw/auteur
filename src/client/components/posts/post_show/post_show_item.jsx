@@ -122,7 +122,6 @@ class PostShowItem extends React.Component {
 
     if (view === 'searchPosts' ||
       window.innerWidth <= 812) {
-      // debugger
       smallAvatar = this.renderSmallAvatar();
       suggestFollow = null;
     }

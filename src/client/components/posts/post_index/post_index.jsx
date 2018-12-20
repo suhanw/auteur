@@ -9,12 +9,17 @@ class PostIndex extends React.Component {
   constructor(props) {
     super(props);
 
+    this.state = {
+      backToTopActive: false,
+    };
+
     this.lastPost;
 
     this.renderPostIndexHeader = this.renderPostIndexHeader.bind(this);
     this.renderPostShowItems = this.renderPostShowItems.bind(this);
     this.handleScroll = this.handleScroll.bind(this);
     this.scrollFetch = this.scrollFetch.bind(this);
+    this.renderBackToTop = this.renderBackToTop.bind(this);
   }
 
   render() {
@@ -30,6 +35,7 @@ class PostIndex extends React.Component {
           {this.renderPostShowItems()}
         </ul>
         <PostSpinner spinnerClass={spinnerClass} />
+        {this.renderBackToTop()}
       </div>
     );
   }
@@ -42,10 +48,8 @@ class PostIndex extends React.Component {
         if (errAction) this.props.history.push('/404'); // if someone updates URl with non-existent blog id, redirect to 404
       });
 
-    if (view === 'feed') { // TODO: infinite scroll only implemented for feed now
-      document.querySelector('div.dashboard') // event only fires on element that has overflow: scroll
-        .addEventListener('scroll', this.handleScroll);
-    }
+    document.querySelector('div.dashboard') // event only fires on element that has overflow: scroll
+      .addEventListener('scroll', this.handleScroll);
   }
 
   componentWillReceiveProps(newProps) {
@@ -66,10 +70,21 @@ class PostIndex extends React.Component {
 
   componentWillUnmount() {
     const { view } = this.props;
-    if (view === 'feed') { // TODO: infinite scroll only implemented for feed now
-      document.querySelector('div.dashboard')
-        .removeEventListener('scroll', this.handleScroll);
-    }
+    document.querySelector('div.dashboard')
+      .removeEventListener('scroll', this.handleScroll);
+  }
+
+  renderBackToTop() {
+    const dashboard = document.querySelector('div.dashboard');
+    if (!this.state.backToTopActive) return null;
+    return (
+      <i className="back-to-top fas fa-arrow-up"
+        onClick={() => dashboard.scrollTo({
+          top: 0,
+          left: 0,
+          behavior: 'smooth'
+        })}></i>
+    );
   }
 
   renderPostIndexHeader() {
@@ -129,7 +144,7 @@ class PostIndex extends React.Component {
     const scrollHeight = e.currentTarget.scrollHeight; // full length of the feed currently rendered
     const clientHeight = e.currentTarget.clientHeight; // visible height of feed
     const scrollTop = e.currentTarget.scrollTop; // distance from the top measured from top of window viewport
-
+    this.setState({ backToTopActive: (scrollTop > 1000) }); // render back to top arrow when user scrolls down
     if (scrollTop + clientHeight >= scrollHeight - 1000) { // when user hits bottom of feed
       this.scrollFetch(10);
     }

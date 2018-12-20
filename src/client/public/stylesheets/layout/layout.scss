@@ -49,3 +49,12 @@ body {
   background: rgba(54, 70, 93, 0.9);
   z-index: 5;
 }
+
+.back-to-top {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  margin: 20px;
+  color: hsla(0,0%,100%,.6);
+  cursor: pointer;
+}

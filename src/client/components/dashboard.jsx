@@ -45,6 +45,7 @@ class Dashboard extends React.Component {
     window.removeEventListener('resize', this.throttleResizeNavbar());
   }
 
+
   throttleResizeNavbar() {
     let resizeTimeout;
     const that = this;
