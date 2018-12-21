@@ -1,0 +1,21 @@
+.chat-drawer {
+  position: fixed;
+  right: 20px;
+  bottom: 0px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.active-chat {
+  border: 1px solid red;
+  width: 280px;
+  height: 450px;
+  background-color: $background-grey;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+}
+
+.minimized-chats {
+  border: 1px solid green;
+  width: 75px;
+} 

@@ -90,6 +90,11 @@ export const selectDrawer = function (state) {
   return drawer;
 };
 
+export const selectChatDrawers = function (state) {
+  const { ui: { chatDrawers } } = state;
+  return chatDrawers;
+}
+
 export const selectLoadingPostSubmit = function (state) {
   const { ui: { loading: { loadingPostSubmit } } } = state;
   return loadingPostSubmit;

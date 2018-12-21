@@ -5,6 +5,7 @@ import Carousel from './carousel/carousel';
 import Settings from './settings/settings';
 import SearchPage from './search/search_page';
 import Modal from './modals/modal';
+import ChatDrawer from './chats/chat_drawer';
 import Drawer from './drawers/drawer';
 import { ErrorPage } from './errors/errors';
 import { AuthRoute, ProtectRoute } from '../util/route_util';
@@ -33,11 +34,11 @@ class App extends React.Component {
             <AuthRoute exact path='/' component={Carousel} />
             <Route component={ErrorPage} />
           </Switch>
+          <ChatDrawer />
         </GlobalContextProvider>
       </div>
     );
   }
 }
-
 
 export default App;

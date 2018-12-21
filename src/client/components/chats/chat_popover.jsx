@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { GlobalContext } from '../global_ context_provider';
 import { selectBlogs } from '../../selectors/selectors';
 import { fetchUserFollowing } from '../../actions/user_actions';
+import { openChatDrawer } from '../../actions/chat_actions';
 
 const mapStateToProps = (state, _) => {
   const blogs = selectBlogs(state);
@@ -15,6 +16,7 @@ const mapStateToProps = (state, _) => {
 const mapDispatchToProps = (dispatch, _) => {
   return {
     fetchUserFollowing: (userId, queryParams) => dispatch(fetchUserFollowing(userId, queryParams)),
+    openChatDrawer: (chatDrawer) => dispatch(openChatDrawer(chatDrawer)),
   }
 };
 
@@ -24,6 +26,7 @@ class ChatPopover extends React.Component {
 
     this.state = {
       showChatForm: false,
+      newChatWith: '',
     };
 
     this.renderHeader = this.renderHeader.bind(this);
@@ -32,6 +35,8 @@ class ChatPopover extends React.Component {
     this.renderRecentlyFollowedSection = this.renderRecentlyFollowedSection.bind(this);
     this.renderBlogItem = this.renderBlogItem.bind(this);
     this.handleClick = this.handleClick.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleChange = this.handleChange.bind(this);
     this.toggleChatForm = this.toggleChatForm.bind(this);
   }
 
@@ -79,11 +84,14 @@ class ChatPopover extends React.Component {
 
   renderChatForm() {
     return (
-      <form className='chat-form'>
+      <form className='chat-form'
+        onSubmit={this.handleSubmit}>
         <span>To: </span>
         <input type='text'
-          name='chatPartner'
+          name='newChatWith'
           autoFocus={true}
+          value={this.state.newChatWith}
+          onChange={this.handleChange('newChatWith')}
           onClick={(e) => e.stopPropagation() /* stop bubbling to window closePopover */} />
       </form>
     )
@@ -142,6 +150,22 @@ class ChatPopover extends React.Component {
 
   handleClick(clickAction) {
     if (clickAction === 'newChat') return this.toggleChatForm;
+  }
+
+  handleChange(inputField) {
+    const that = this;
+    return function (e) {
+      let newState = {};
+      newState[inputField] = e.target.value;
+      that.setState(newState);
+    }
+  }
+
+  handleSubmit(e) {
+    // TODO: only allow submit if user exists
+    e.preventDefault();
+    const { openChatDrawer } = this.props;
+    openChatDrawer({ _id: this.state.newChatWith });
   }
 
   toggleChatForm(e) {
