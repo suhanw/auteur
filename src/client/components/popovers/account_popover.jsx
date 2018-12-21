@@ -7,6 +7,7 @@ class AccountPopover extends React.Component {
 
     this.renderAccountSection = this.renderAccountSection.bind(this);
     this.renderBlogSection = this.renderBlogSection.bind(this);
+    this.renderBlogItem = this.renderBlogItem.bind(this);
   }
 
   render() {
@@ -67,21 +68,27 @@ class AccountPopover extends React.Component {
     if (!blog) return null;
     return (
       <ul>
-        <Link to={`/dashboard/blog/${blog._id}`}>
-          <li className='popover-menu-item'>
-            <div className='blog-item'>
-              <div className='blog-item-info'>
-                <div className='avatar avatar-small'
-                  style={{ backgroundImage: `url(${blog.avatarImageUrl})` }} />
-                <div className='blog-item-details'>
-                  <span className='blog-item-details-name'>{blog.name}</span>
-                  <span className='blog-item-details-title'>{blog.title}</span>
-                </div>
+        {this.renderBlogItem(blog)}
+      </ul>
+    );
+  }
+
+  renderBlogItem(blog) {
+    return (
+      <Link to={`/dashboard/blog/${blog._id}`}>
+        <li className='popover-menu-item'>
+          <div className='blog-item'>
+            <div className='blog-item-info'>
+              <div className='avatar avatar-small'
+                style={{ backgroundImage: `url(${blog.avatarImageUrl})` }} />
+              <div className='blog-item-details'>
+                <span className='blog-item-details-name'>{blog.name}</span>
+                <span className='blog-item-details-title'>{blog.title}</span>
               </div>
             </div>
-          </li>
-        </Link>
-      </ul>
+          </div>
+        </li>
+      </Link>
     );
   }
 }

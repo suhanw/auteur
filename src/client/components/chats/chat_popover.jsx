@@ -23,14 +23,15 @@ class ChatPopover extends React.Component {
     super(props);
 
     this.renderHeader = this.renderHeader.bind(this);
-    this.renderRecentlyFollowed = this.renderRecentlyFollowed.bind(this);
+    this.renderRecentlyFollowedSection = this.renderRecentlyFollowedSection.bind(this);
+    this.renderBlogItem = this.renderBlogItem.bind(this);
   }
 
   render() {
     return (
       <div className='chat-popover popover'>
         {this.renderHeader()}
-        {this.renderRecentlyFollowed()}
+        {this.renderRecentlyFollowedSection()}
       </div>
     );
   }
@@ -59,10 +60,18 @@ class ChatPopover extends React.Component {
     )
   }
 
-  renderRecentlyFollowed() {
-    let followedBlogs = <li className='popover-menu-item'>Blog</li>;
+  renderRecentlyFollowedSection() {
+    const { currentUser } = this.context;
+    const { blogs } = this.props;
+    let recentlyFollowed = currentUser.following.slice(-5).reverse();
+    if (!blogs || Object.keys(blogs).length < recentlyFollowed.length || // account for when blogs are not yet fetched
+      !recentlyFollowed || !recentlyFollowed.length) return null; // when user has not followed any blogs
+    let followedBlogs = recentlyFollowed.map((blogId) => {
+      const blog = blogs[blogId];
+      return this.renderBlogItem(blog);
+    });
     return (
-      <section className='popover-subsection'>
+      <section className='popover-subsection' >
         <header className='popover-header'>
           <span>Recently Followed</span>
         </header>
@@ -73,6 +82,23 @@ class ChatPopover extends React.Component {
     );
   }
 
+  renderBlogItem(blog) {
+    return (
+      <li key={blog._id}
+        className='popover-menu-item'>
+        <div className='blog-item'>
+          <div className='blog-item-info'>
+            <div className='avatar avatar-small'
+              style={{ backgroundImage: `url(${blog.avatarImageUrl})` }} />
+            <div className='blog-item-details'>
+              <span className='blog-item-details-name'>{blog.name}</span>
+              <span className='blog-item-details-title'>{blog.title}</span>
+            </div>
+          </div>
+        </div>
+      </li>
+    );
+  }
 }
 
 ChatPopover.contextType = GlobalContext;

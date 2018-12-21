@@ -29,3 +29,11 @@
   color: $secondary-blue;
   cursor: pointer;
 }
+
+.chat-popover .popover-menu-item {
+  border-bottom: rgb(231, 231, 231) 1px solid;
+}
+
+.chat-popover .popover-menu-item:last-of-type {
+  border-bottom: none;
+}

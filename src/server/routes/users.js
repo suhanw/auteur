@@ -52,8 +52,9 @@ router.get('/users/:id/following', middleware.isLoggedIn, function (req, res) {
     .then((foundUser) => {
       const followedBlogs = foundUser.following;
       if (req.query.entity === 'blogs') {
+        const recentlyFollowed = followedBlogs.slice(-5); // get the most recent 5 follows in desc order
         return Blog.find()
-          .where('_id').in(followedBlogs)
+          .where('_id').in(recentlyFollowed)
           .select('_id avatarImageUrl backgroundImageUrl name title')
           .exec()
       } else {
