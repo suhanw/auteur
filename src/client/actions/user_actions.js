@@ -58,7 +58,7 @@ export const fetchUserLikes = function (userId, queryParams) {
 
 export const fetchUserFollowing = function (userId, queryParams = null) {
   return function (dispatch) {
-    dispatch(loadPostIndex());
+    if (!queryParams) dispatch(loadPostIndex()); // render spinner only when fetching posts, not blogs
     return APIUtil.fetchUserFollowing(userId, queryParams).then(
       (response) => {
         if (queryParams && queryParams.entity === 'blogs') {
