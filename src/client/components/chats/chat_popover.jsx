@@ -22,18 +22,31 @@ class ChatPopover extends React.Component {
   constructor(props) {
     super(props);
 
+    this.state = {
+      showChatForm: false,
+    };
+
     this.renderHeader = this.renderHeader.bind(this);
-    this.renderChatsSection = this.renderChatsSection.bind(this);
+    this.renderChatForm = this.renderChatForm.bind(this);
+    this.renderChatIndex = this.renderChatIndex.bind(this);
     this.renderRecentlyFollowedSection = this.renderRecentlyFollowedSection.bind(this);
     this.renderBlogItem = this.renderBlogItem.bind(this);
+    this.handleClick = this.handleClick.bind(this);
+    this.toggleChatForm = this.toggleChatForm.bind(this);
   }
 
   render() {
+    let chatSection;
+    if (this.state.showChatForm) {
+      chatSection = this.renderChatForm();
+    } else {
+      chatSection = this.renderChatIndex();
+    }
     return (
       <div className='chat-popover popover'>
         {this.renderHeader()}
         <div className='scrolling-container'>
-          {this.renderChatsSection()}
+          {chatSection}
           {this.renderRecentlyFollowedSection()}
         </div>
       </div>
@@ -57,14 +70,26 @@ class ChatPopover extends React.Component {
         <h1>
           {currentUser.username}
         </h1>
-        <a>
-          New Message
+        <a onClick={this.handleClick('newChat')}>
+          {(this.state.showChatForm) ? 'Nevermind' : 'New Message'}
         </a>
       </section>
     )
   }
 
-  renderChatsSection() {
+  renderChatForm() {
+    return (
+      <form className='chat-form'>
+        <span>To: </span>
+        <input type='text'
+          name='chatPartner'
+          autoFocus={true}
+          onClick={(e) => e.stopPropagation() /* stop bubbling to window closePopover */} />
+      </form>
+    )
+  }
+
+  renderChatIndex() {
     return (
       <section className='popover-subsection'>
         <div className='popover-menu-item'>
@@ -113,6 +138,16 @@ class ChatPopover extends React.Component {
         </div>
       </li>
     );
+  }
+
+  handleClick(clickAction) {
+    if (clickAction === 'newChat') return this.toggleChatForm;
+  }
+
+  toggleChatForm(e) {
+    e.stopPropagation(); // to stop bubbling up to window closePopover
+    e.preventDefault();
+    this.setState({ showChatForm: !this.state.showChatForm });
   }
 }
 
