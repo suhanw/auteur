@@ -1,20 +1,15 @@
+import { createQueryString } from '../misc_util';
+
 export const fetchUserLikes = function (userId, queryParams) {
-  let queryString = '';
-  if (queryParams) {
-    queryString += '?';
-    for (let key in queryParams) {
-      queryString += `${key}=${queryParams[key]}&`
-    }
-  }
   return $.ajax({
     method: 'GET',
-    url: `/api/users/${userId}/likes/${queryString}`,
+    url: `/api/users/${userId}/likes/${createQueryString(queryParams)}`,
   });
 };
 
-export const fetchUserFollowing = function (userId) {
+export const fetchUserFollowing = function (userId, queryParams) {
   return $.ajax({
     method: 'GET',
-    url: `/api/users/${userId}/following`,
+    url: `/api/users/${userId}/following/${createQueryString(queryParams)}`,
   });
 };

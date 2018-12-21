@@ -1,8 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { selectBlogs } from '../../selectors/selectors';
 import { GlobalContext } from '../global_ context_provider';
+import { selectBlogs } from '../../selectors/selectors';
+import { fetchUserFollowing } from '../../actions/user_actions';
 
 const mapStateToProps = (state, _) => {
   const blogs = selectBlogs(state);
@@ -12,13 +13,16 @@ const mapStateToProps = (state, _) => {
 };
 
 const mapDispatchToProps = (dispatch, _) => {
-
+  return {
+    fetchUserFollowing: (userId, queryParams) => dispatch(fetchUserFollowing(userId, queryParams)),
+  }
 };
 
 class ChatPopover extends React.Component {
   constructor(props) {
     super(props);
 
+    this.renderHeader = this.renderHeader.bind(this);
     this.renderRecentlyFollowed = this.renderRecentlyFollowed.bind(this);
   }
 
@@ -31,11 +35,18 @@ class ChatPopover extends React.Component {
     );
   }
 
+  componentDidMount() {
+    const { currentUser } = this.context;
+    const { fetchUserFollowing } = this.props;
+    fetchUserFollowing(currentUser._id, { entity: 'blogs' });
+  }
+
   renderHeader() {
     const { currentUser } = this.context;
 
     return (
       <section className='chat-popover-header'>
+        {/* TODO: create Avatar component */}
         <div className='avatar avatar-extra-small'
           style={{ backgroundImage: `url(${currentUser.avatarImageUrl})` }}></div>
         <h1>

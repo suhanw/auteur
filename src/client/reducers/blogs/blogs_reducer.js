@@ -1,6 +1,6 @@
 import { normalize, schema } from 'normalizr';
 import { merge, mergeWith, union } from 'lodash';
-import { RECEIVE_BLOG } from '../../actions/blog_actions';
+import { RECEIVE_BLOGS, RECEIVE_BLOG } from '../../actions/blog_actions';
 import { RECEIVE_POSTS, RECEIVE_POST, REMOVE_POST } from '../../actions/post_actions';
 import { REMOVE_CURRENT_USER } from '../../actions/session_actions';
 import { RECEIVE_USERS } from '../../actions/user_actions';
@@ -44,6 +44,19 @@ const blogsReducer = function (state = defaultState, action) {
     let blogId = '';
     let blogPostsArr = [];
     switch (action.type) {
+        case RECEIVE_BLOGS:
+            payloadSchema = [blogSchema];
+            normalizedPayload = normalize(action.payload, payloadSchema);
+            newState.byId = mergeWith(
+                {},
+                state.byId,
+                normalizedPayload.entities.blogs,
+            );
+            newState.allIds = union(
+                state.allIds,
+                normalizedPayload.result,
+            );
+            return newState;
         case RECEIVE_BLOG:
             normalizedPayload = normalize(action.payload, blogSchema);
             newState.byId = mergeWith(

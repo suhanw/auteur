@@ -65,3 +65,14 @@ export const toggleClass = function (condition, whenTrue, whenFalse) {
   if (condition) return whenTrue;
   return whenFalse;
 };
+
+export const createQueryString = function (queryParams) {
+  let queryString = '';
+  if (queryParams) {
+    queryString += '?';
+    for (let key in queryParams) {
+      queryString += `${key}=${queryParams[key]}&`
+    }
+  }
+  return queryString;
+};

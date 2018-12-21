@@ -1,5 +1,6 @@
 import * as APIUtil from '../util/api_util/user_api_util';
 import { loadPostIndex } from '../actions/loading_actions';
+import { receiveBlogs } from '../actions/blog_actions';
 import { receivePosts } from '../actions/post_actions';
 
 export const RECEIVE_USERS = 'RECEIVE_USERS';
@@ -55,13 +56,17 @@ export const fetchUserLikes = function (userId, queryParams) {
   };
 };
 
-export const fetchUserFollowing = function (userId) {
+export const fetchUserFollowing = function (userId, queryParams = null) {
   return function (dispatch) {
     dispatch(loadPostIndex());
-    return APIUtil.fetchUserFollowing(userId).then(
-      (followedPosts) => {
-        dispatch(receivePosts(followedPosts));
-        dispatch(receiveUserFollowing(followedPosts));
+    return APIUtil.fetchUserFollowing(userId, queryParams).then(
+      (response) => {
+        if (queryParams && queryParams.entity === 'blogs') {
+          dispatch(receiveBlogs(response));
+        } else {
+          dispatch(receivePosts(response));
+          dispatch(receiveUserFollowing(response));
+        }
       },
       (err) => dispatch(receiveUserErrors(err.responseJSON))
     );

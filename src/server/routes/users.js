@@ -51,15 +51,22 @@ router.get('/users/:id/following', middleware.isLoggedIn, function (req, res) {
     .select('following')
     .then((foundUser) => {
       const followedBlogs = foundUser.following;
-      return Post.find()
-        .where('blog').in(followedBlogs)
-        .sort({ 'createdAt': 'desc' })
-        .populate({ path: 'blog', select: '_id avatarImageUrl backgroundImageUrl name title' })
-        .populate({ path: 'tags', select: 'label' })
-        .exec()
+      if (req.query.entity === 'blogs') {
+        return Blog.find()
+          .where('_id').in(followedBlogs)
+          .select('_id avatarImageUrl backgroundImageUrl name title')
+          .exec()
+      } else {
+        return Post.find()
+          .where('blog').in(followedBlogs)
+          .sort({ 'createdAt': 'desc' })
+          .populate({ path: 'blog', select: '_id avatarImageUrl backgroundImageUrl name title' })
+          .populate({ path: 'tags', select: 'label' })
+          .exec()
+      }
     })
-    .then((foundPosts) => {
-      return res.json(foundPosts);
+    .then((foundEntities) => {
+      return res.json(foundEntities);
     })
     .catch((err) => res.status(404).json([err.message]));
 });
