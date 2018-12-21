@@ -225,15 +225,6 @@ class NotePopover extends React.Component {
     }
   }
 
-  handleClick(clickAction, payload) {
-    const executeAction = this.props[clickAction];
-    const that = this;
-    return function (e) {
-      e.stopPropagation();
-      executeAction(payload);
-    };
-  }
-
   renderCommentForm() {
     const { body } = this.state;
     let readyToSubmit = (body.length > 0) ? true : false;
@@ -274,6 +265,7 @@ class NotePopover extends React.Component {
   }
 
   handleSubmit(e) {
+    // TODO: scroll to bottom when new comment added
     e.preventDefault();
     e.stopPropagation(); //to stop event from bubbling up to window closePopover
     if (this.state.body.length === 0) return; // don't submit if no comment text
