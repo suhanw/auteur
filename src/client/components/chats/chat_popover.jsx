@@ -31,7 +31,9 @@ class ChatPopover extends React.Component {
     return (
       <div className='chat-popover popover'>
         {this.renderHeader()}
-        {this.renderRecentlyFollowedSection()}
+        <div className='scrolling-container'>
+          {this.renderRecentlyFollowedSection()}
+        </div>
       </div>
     );
   }
@@ -64,8 +66,7 @@ class ChatPopover extends React.Component {
     const { currentUser } = this.context;
     const { blogs } = this.props;
     let recentlyFollowed = currentUser.following.slice(-5).reverse();
-    if (!blogs || Object.keys(blogs).length < recentlyFollowed.length || // account for when blogs are not yet fetched
-      !recentlyFollowed || !recentlyFollowed.length) return null; // when user has not followed any blogs
+    if (!recentlyFollowed || !recentlyFollowed.length) return null; // when user has not followed any blogs
     let followedBlogs = recentlyFollowed.map((blogId) => {
       const blog = blogs[blogId];
       return this.renderBlogItem(blog);
@@ -83,6 +84,7 @@ class ChatPopover extends React.Component {
   }
 
   renderBlogItem(blog) {
+    if (!blog) return null; // account for when blogs are not yet fetched
     return (
       <li key={blog._id}
         className='popover-menu-item'>

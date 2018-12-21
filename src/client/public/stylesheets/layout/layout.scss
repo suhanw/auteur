@@ -58,3 +58,8 @@ body {
   color: hsla(0,0%,100%,.6);
   cursor: pointer;
 }
+
+.scrolling-container {
+  max-height: 300px;
+  overflow-y: auto;
+}
