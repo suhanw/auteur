@@ -2,6 +2,7 @@ require('dotenv').config(); // environment variables
 
 const express = require('express');
 const app = express();
+const httpServer = require('http').Server(app);
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const methodOverride = require('method-override');
@@ -67,6 +68,7 @@ app.use(require('./controllers/controllers'));
 // API ROUTES==============================
 
 
-app.listen(process.env.PORT, function () {
+// app.listen(process.env.PORT, function () {
+httpServer.listen(process.env.PORT, function () {
   console.log('Server started');
 });

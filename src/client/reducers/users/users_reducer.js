@@ -11,22 +11,17 @@ const defaultState = {
   allIds: [],
 };
 
-const userSchema = new schema.Entity(
-  'users',
-  {
-    primaryBlog: new schema.Entity(
-      'blogs',
-      { author: userSchema },
-      { idAttribute: '_id' }
-    ),
-    // likedPosts: [postSchema],
-  },
-  { idAttribute: '_id' }
-);
-
 const blogSchema = new schema.Entity(
   'blogs',
   { author: userSchema },
+  { idAttribute: '_id' }
+);
+
+const userSchema = new schema.Entity(
+  'users',
+  {
+    primaryBlog: blogSchema,
+  },
   { idAttribute: '_id' }
 );
 
@@ -117,9 +112,9 @@ const usersReducer = function (state = defaultState, action) {
       );
       return newState;
     case RECEIVE_CURRENT_USER:
-      newCurrentUser = { [action.payload._id]: action.payload };
+      normalizedPayload = normalize(action.payload, userSchema);
       newState = {
-        byId: mergeWith({}, state.byId, newCurrentUser, replaceArray),
+        byId: mergeWith({}, state.byId, normalizedPayload.entities.users, replaceArray),
         allIds: union(state.allIds, [action.payload._id]),
       };
       return newState;

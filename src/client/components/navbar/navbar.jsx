@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom';
 import Logo from '../logo/logo';
 import SearchBar from '../search/search_bar';
 import AccountPopover from '../popovers/account_popover';
-import ChatPopover from '../popovers/chat_popover';
+import ChatPopover from '../chats/chat_popover';
 import NotificationPopover from '../popovers/notification_popover';
 
 class Navbar extends React.Component {
@@ -81,11 +81,9 @@ class Navbar extends React.Component {
       popoverId: 'chatPopover',
       popoverType: 'chatPopover',
     };
-    // let popoverStyle = { display: 'none' };
     let chatPopoverComponent = null;
     let activeIcon = null;
     if (JSON.stringify(popover) === JSON.stringify(chatPopover)) {
-      // popoverStyle = { display: 'inline-block' };
       chatPopoverComponent = <ChatPopover />;
       activeIcon = { color: 'white' };
     }

@@ -15,7 +15,7 @@ const defaultState = {
 const userSchema = new schema.Entity(
     'users',
     {
-        primaryBlog: new schema.Entity('blogs', { author: userSchema }, { idAttribute: '_id' })
+        primaryBlog: new schema.Entity('blogs', { author: userSchema }, { idAttribute: '_id' }),
     },
     { idAttribute: '_id' }
 );
@@ -101,8 +101,6 @@ const blogsReducer = function (state = defaultState, action) {
                 Object.keys(normalizedPayload.entities.blogs)
             );
             return newState;
-        case REMOVE_CURRENT_USER:
-            return defaultState;
         case RECEIVE_FOLLOWERS:
             payloadSchema = [userSchema];
             normalizedPayload = normalize(action.payload.followers, payloadSchema);
@@ -123,6 +121,8 @@ const blogsReducer = function (state = defaultState, action) {
                 [action.payload.blog._id], // current blogId
             );
             return newState;
+        case REMOVE_CURRENT_USER:
+            return defaultState;
         default:
             return state;
     };
