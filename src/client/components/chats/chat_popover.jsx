@@ -23,6 +23,7 @@ class ChatPopover extends React.Component {
     super(props);
 
     this.renderHeader = this.renderHeader.bind(this);
+    this.renderChatsSection = this.renderChatsSection.bind(this);
     this.renderRecentlyFollowedSection = this.renderRecentlyFollowedSection.bind(this);
     this.renderBlogItem = this.renderBlogItem.bind(this);
   }
@@ -32,6 +33,7 @@ class ChatPopover extends React.Component {
       <div className='chat-popover popover'>
         {this.renderHeader()}
         <div className='scrolling-container'>
+          {this.renderChatsSection()}
           {this.renderRecentlyFollowedSection()}
         </div>
       </div>
@@ -60,6 +62,16 @@ class ChatPopover extends React.Component {
         </a>
       </section>
     )
+  }
+
+  renderChatsSection() {
+    return (
+      <section className='popover-subsection'>
+        <div className='popover-menu-item'>
+          Working on chat feature! Stay tuned!
+        </div>
+      </section>
+    );
   }
 
   renderRecentlyFollowedSection() {
@@ -95,6 +107,7 @@ class ChatPopover extends React.Component {
             <div className='blog-item-details'>
               <span className='blog-item-details-name'>{blog.name}</span>
               <span className='blog-item-details-title'>{blog.title}</span>
+              <a>Send a message</a>
             </div>
           </div>
         </div>

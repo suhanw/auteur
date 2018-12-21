@@ -17,9 +17,8 @@
   cursor: default;
 }
 
-.note-scrolling-container {
+.note-index .scrolling-container {
   max-height: 400px;
-  overflow-y: scroll; // to render scrollbar beyond max-height
 }
 
 .note-container {

@@ -23,11 +23,15 @@
   flex-grow: 1;
 }
 
-.chat-popover-header a {
+.chat-popover a {
   font-size: 12px;
   font-weight: 700;
   color: $secondary-blue;
   cursor: pointer;
+}
+
+.chat-popover .scrolling-container {
+  max-height: 300px;
 }
 
 .chat-popover .popover-menu-item {
@@ -36,4 +40,8 @@
 
 .chat-popover .popover-menu-item:last-of-type {
   border-bottom: none;
+}
+
+.chat-popover .popover-menu-item a {
+  margin-top: 3px;
 }

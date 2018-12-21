@@ -95,7 +95,7 @@ class NotePopover extends React.Component {
             {noteCount}
           </span>
         </header>
-        <div className='note-scrolling-container'
+        <div className='scrolling-container'
           ref={this.noteScrollingContainerRef}>
           <ul className='note-container'>
 
