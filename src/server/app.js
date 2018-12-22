@@ -70,11 +70,15 @@ app.use(require('./controllers/controllers'));
 
 // CHAT CONFIG=============================
 const io = require('socket.io')(httpServer);
-io.on('connection', function (socket) {
+const chatNamespace = io.of('/chat');
+chatNamespace.on('connection', function (socket) {
   console.log('connected');
+  socket.on('chatMessage', function (data) {
+    console.log(data.message);
+  })
   socket.on('disconnect', function (reason) {
     console.log(reason);
-  })
+  });
 });
 // CHAT CONFIG=============================
 

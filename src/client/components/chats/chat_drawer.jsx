@@ -35,6 +35,7 @@ class ChatDrawer extends React.Component {
     this.renderChatMessages = this.renderChatMessages.bind(this);
     this.renderChatMessage = this.renderChatMessage.bind(this);
     this.renderChatMessageForm = this.renderChatMessageForm.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
     this.renderMinimizedChats = this.renderMinimizedChats.bind(this);
     this.renderMinimizedChatAvatar = this.renderMinimizedChatAvatar.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -52,7 +53,7 @@ class ChatDrawer extends React.Component {
   }
 
   componentDidMount() {
-    this.socket = io.connect('http://localhost:3000');
+    this.socket = io.connect('http://localhost:3000/chat'); // connect to the chat namespace
   }
 
   componentWillUnmount() {
@@ -117,14 +118,16 @@ class ChatDrawer extends React.Component {
 
   renderChatMessageForm() {
     return (
-      <form className='chat-message-form'>
+      <form className='chat-message-form'
+        onSubmit={this.handleSubmit}>
         <div className='chat-message-input'>
           <textarea type='text'
             name='message'
             placeholder='Say your thing'
             autoFocus={true}
             value={this.state.newChatMessage}
-            onChange={this.handleChange} />
+            onChange={this.handleChange}
+            onKeyDown={(e) => { if (e.key === 'Enter') this.handleSubmit(e) } /* to prevent creating new line in textarea */} />
         </div>
         <div className='chat-message-submit'>
           <button type='submit'
@@ -132,6 +135,12 @@ class ChatDrawer extends React.Component {
         </div>
       </form>
     )
+  }
+
+  handleSubmit(e) {
+    e.preventDefault();
+    this.socket.emit('chatMessage', { message: this.state.newChatMessage });
+    this.setState({ newChatMessage: '' });
   }
 
   renderMinimizedChats() {
