@@ -67,6 +67,12 @@ passport.deserializeUser(User.deserializeUser()); // method provided by passport
 app.use(require('./controllers/controllers'));
 // API ROUTES==============================
 
+// CHAT CONFIG=============================
+// const io = require('socket.io')(httpServer);
+// io.on('connection', function (socket) {
+//   console.log('connected');
+// });
+// CHAT CONFIG=============================
 
 // app.listen(process.env.PORT, function () {
 httpServer.listen(process.env.PORT, function () {

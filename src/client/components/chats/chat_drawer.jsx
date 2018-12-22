@@ -48,6 +48,10 @@ class ChatDrawer extends React.Component {
     );
   }
 
+  componentDidMount() {
+
+  }
+
   renderActiveChat() {
     // if (!this.props.chatDrawers.activeChat) return null;
     const { currentUser } = this.context;
