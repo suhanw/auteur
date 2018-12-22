@@ -1,7 +1,7 @@
 .chat-drawer {
   position: fixed;
   top: auto;
-  right: 20px;
+  right: 40px;
   bottom: 0px;
   display: flex;
   justify-content: space-between;
@@ -65,7 +65,12 @@
   border-bottom: rgb(231, 231, 231) 1px solid;
 }
 
+.active-chat-header span {
+  flex-grow: 1;
+}
+
 .active-chat-header .fas {
+  margin-left: 5px;
   cursor: pointer;
 }
 

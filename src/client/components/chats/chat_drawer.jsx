@@ -33,7 +33,7 @@ class ChatDrawer extends React.Component {
     this.renderChatMessage = this.renderChatMessage.bind(this);
     this.renderChatMessageForm = this.renderChatMessageForm.bind(this);
     this.renderMinimizedChats = this.renderMinimizedChats.bind(this);
-    this.renderChatAvatar = this.renderChatAvatar.bind(this);
+    this.renderMinimizedChatAvatar = this.renderMinimizedChatAvatar.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.resizeChatMessageInput = this.resizeChatMessageInput.bind(this);
     this.closeActiveChat = this.closeActiveChat.bind(this);
@@ -49,14 +49,17 @@ class ChatDrawer extends React.Component {
   }
 
   renderActiveChat() {
-    if (!this.props.chatDrawers.activeChat) return null;
+    // if (!this.props.chatDrawers.activeChat) return null;
     const { currentUser } = this.context;
     if (!currentUser) return null; // delete later
     return (
       <section className='active-chat chat-slide-up'
         ref={this.activeChatRef}>
         <header className='active-chat-header'>
-          {currentUser.username}
+          <span>
+            {currentUser.username}
+          </span>
+          <i className="fas fa-chevron-circle-down"></i>
           <i className="fas fa-times"
             onClick={this.closeActiveChat}></i>
         </header>
@@ -127,8 +130,8 @@ class ChatDrawer extends React.Component {
     }
     // TESTING
     let minimizedChatAvatars = [
-      this.renderChatAvatar(chatPartner),
-      this.renderChatAvatar(chatPartner),
+      this.renderMinimizedChatAvatar(chatPartner),
+      this.renderMinimizedChatAvatar(chatPartner),
     ];
     return (
       <ul className='minimized-chats'>
@@ -137,7 +140,7 @@ class ChatDrawer extends React.Component {
     );
   }
 
-  renderChatAvatar(chatPartner) {
+  renderMinimizedChatAvatar(chatPartner) {
     return (
       <li className='avatar avatar-small'
         style={{ backgroundImage: `url(${chatPartner.avatarImageUrl})` }}>
