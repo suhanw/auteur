@@ -26,7 +26,7 @@ class ChatPopover extends React.Component {
 
     this.state = {
       showChatForm: false,
-      newChatWith: '',
+      newChatPartner: '',
     };
 
     this.renderHeader = this.renderHeader.bind(this);
@@ -88,10 +88,10 @@ class ChatPopover extends React.Component {
         onSubmit={this.handleSubmit}>
         <span>To: </span>
         <input type='text'
-          name='newChatWith'
+          name='newChatPartner'
           autoFocus={true}
-          value={this.state.newChatWith}
-          onChange={this.handleChange('newChatWith')}
+          value={this.state.newChatPartner}
+          onChange={this.handleChange('newChatPartner')}
           onClick={(e) => e.stopPropagation() /* stop bubbling to window closePopover */} />
       </form>
     )
@@ -165,7 +165,7 @@ class ChatPopover extends React.Component {
     // TODO: only allow submit if user exists
     e.preventDefault();
     const { openChatDrawer } = this.props;
-    openChatDrawer({ _id: this.state.newChatWith });
+    openChatDrawer({ _id: this.state.newChatPartner });
   }
 
   toggleChatForm(e) {
