@@ -38,6 +38,7 @@ app.use(express.static(path.join(__dirname + '/../client/public')));
 const store = new MongoDBStore({
   uri: process.env.DATABASEURL,
   collection: 'sessions',
+  clear_interval: (1000 * 60 * 60) // delete expired sessions every hour
 });
 
 const sessionOptions = {
@@ -68,13 +69,15 @@ app.use(require('./controllers/controllers'));
 // API ROUTES==============================
 
 // CHAT CONFIG=============================
-// const io = require('socket.io')(httpServer);
-// io.on('connection', function (socket) {
-//   console.log('connected');
-// });
+const io = require('socket.io')(httpServer);
+io.on('connection', function (socket) {
+  console.log('connected');
+  socket.on('disconnect', function (reason) {
+    console.log(reason);
+  })
+});
 // CHAT CONFIG=============================
 
-// app.listen(process.env.PORT, function () {
 httpServer.listen(process.env.PORT, function () {
   console.log('Server started');
-});
+}); 

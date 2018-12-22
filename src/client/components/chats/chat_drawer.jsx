@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import io from 'socket.io-client';
 
 import { GlobalContext } from '../global_ context_provider';
 import { selectChatDrawers } from '../../selectors/selectors';
@@ -26,6 +27,8 @@ class ChatDrawer extends React.Component {
       newChatMessage: '',
     };
 
+    this.socket = null;
+
     this.activeChatRef = React.createRef();
 
     this.renderActiveChat = this.renderActiveChat.bind(this);
@@ -49,7 +52,11 @@ class ChatDrawer extends React.Component {
   }
 
   componentDidMount() {
+    this.socket = io.connect('http://localhost:3000');
+  }
 
+  componentWillUnmount() {
+    this.socket.disconnect(true);
   }
 
   renderActiveChat() {
