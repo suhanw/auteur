@@ -10,9 +10,8 @@ const followRoutes = require('../routes/follows');
 const noteRoutes = require('../routes/notes');
 const searchRoutes = require('../routes/search');
 const chatRoutes = require('../routes/chats');
-const linkPreviewRoute = require('../routes/link_preview');
 
-const User = require('../models/user');
+const linkPreviewRoute = require('../routes/link_preview');
 
 router.get(
     "/",

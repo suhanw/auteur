@@ -37,4 +37,23 @@ router.post('/chats', middleware.isLoggedIn, function (req, res) {
     .catch((err) => res.status(422).json([err.message]));
 });
 
+// POST api/chats/:id/messages - to create new message
+router.post('/chats/:id/messages', middleware.isLoggedIn, function (req, res) {
+  const chatMessage = req.body;
+  modelQuery.createChatMessage(chatMessage)
+    .then((newChatMessage) => {
+      res.json(newChatMessage);
+    })
+    .catch((err) => res.status(422).json([err.message]));
+});
+
+// GET api/chats/:id/messages - to pull the last message
+router.get('/chats/:id/messages', middleware.isLoggedIn, function (req, res) {
+  modelQuery.findLastChatMessage(req.params.id)
+    .then((chatMessage) => {
+      res.json(chatMessage);
+    })
+    .catch((err) => res.status(404).json([err.message]));
+});
+
 module.exports = router;

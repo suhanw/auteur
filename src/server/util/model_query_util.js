@@ -249,4 +249,27 @@ const populateChatMessages = function (chatRoom) {
   });
 };
 
+modelQuery.createChatMessage = function (chatMessage) {
+  return findOneChatRoomById(chatMessage.chatRoomId)
+    .then((foundChatRoom) => {
+      return ChatMessage.create(chatMessage);
+    });
+};
+
+modelQuery.findLastChatMessage = function (chatRoomId) {
+  return findOneChatRoomById(chatRoomId)
+    .then((foundChatRoom) => {
+      return ChatMessage.findOne({ chatRoomId: foundChatRoom._id })
+        .sort({ 'createdAt': 'desc' });
+    });
+};
+
+const findOneChatRoomById = function (id) {
+  return ChatRoom.findOne({ _id: id })
+    .then((foundChatRoom) => {
+      if (!foundChatRoom) throw { message: 'Chat room does not exist. ' };
+      return foundChatRoom;
+    });
+}
+
 module.exports = modelQuery;
