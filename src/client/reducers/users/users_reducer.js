@@ -4,6 +4,7 @@ import { RECEIVE_CURRENT_USER, REMOVE_CURRENT_USER } from '../../actions/session
 import { FOLLOW_BLOG, UNFOLLOW_BLOG, RECEIVE_FOLLOWERS } from '../../actions/follow_actions';
 import { RECEIVE_USERS, RECEIVE_USER_LIKES, RECEIVE_USER_FOLLOWING } from '../../actions/user_actions';
 import { RECEIVE_NOTES } from '../../actions/note_actions';
+import { RECEIVE_CHAT_ROOM } from '../../actions/chat_actions';
 import { replaceArray } from '../../util/misc_util';
 
 const defaultState = {
@@ -36,6 +37,13 @@ const noteSchema = new schema.Entity('notes',
   },
   { idAttribute: '_id' });
 
+const chatRoomSchema = new schema.Entity('chatRooms',
+  {
+    participants: [userSchema],
+    // messages: [messageSchema] TODO: add this later
+  },
+  { idAttribute: '_id' });
+
 let payloadSchema;
 let normalizedPayload;
 
@@ -43,7 +51,18 @@ const usersReducer = function (state = defaultState, action) {
   Object.freeze(state);
   let newState = {};
   let newCurrentUser = {};
+  let userIdsArr = [];
   switch (action.type) {
+    case RECEIVE_CHAT_ROOM:
+      normalizedPayload = normalize(action.payload, chatRoomSchema);
+      newState.byId = merge(
+        {},
+        state.byId,
+        normalizedPayload.entities.users,
+      );
+      userIdsArr = Object.keys(normalizedPayload.entities.users)
+      newState.allIds = union(state.allIds, userIdsArr);
+      return newState;
     case RECEIVE_NOTES:
       if (action.payload.notes.length === 0) return state; //when the post has no notes
       payloadSchema = [noteSchema];
@@ -53,7 +72,7 @@ const usersReducer = function (state = defaultState, action) {
         state.byId,
         normalizedPayload.entities.users
       );
-      let userIdsArr = Object.keys(normalizedPayload.entities.users)
+      userIdsArr = Object.keys(normalizedPayload.entities.users)
       newState.allIds = union(state.allIds, userIdsArr);
       return newState;
     case FOLLOW_BLOG:

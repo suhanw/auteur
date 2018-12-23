@@ -20,7 +20,7 @@ modelQuery.getCurrentUserLikes = function (userId) {
 };
 
 modelQuery.findOneUser = function (username) {
-  return User.find({ username: username })
+  return User.findOne({ username: username })
     .select('username')
     .exec()
     .then((foundUser) => {
@@ -202,7 +202,7 @@ modelQuery.createChatRoom = function (participants) {
       // populate participants
       return chatRoom.populate({
         path: 'participants',
-        select: 'username avatarImageUrl backgroundImageUrl',
+        select: 'username avatarImageUrl',
       })
         .execPopulate();
     })

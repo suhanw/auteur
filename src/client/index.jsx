@@ -31,5 +31,14 @@ document.addEventListener('DOMContentLoaded', function () {
   const rootDOM = document.querySelector('#root');
   ReactDOM.render(<Root store={store} />, rootDOM);
 
+  // REMOVE IN PROD
+  window.dispatch = store.dispatch;
+  // REMOVE IN PROD
+
 });
 
+// REMOVE IN PROD
+// import { createChatRoom } from './util/api_util/chat_api_util';
+import { createChatRoom } from './actions/chat_actions';
+window.createChatRoom = createChatRoom;
+// REMOVE IN PROD
