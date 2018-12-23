@@ -64,23 +64,15 @@ passport.serializeUser(User.serializeUser()); // method provided by passport-loc
 passport.deserializeUser(User.deserializeUser()); // method provided by passport-local-mongoose
 // AUTH CONFIG============================
 
+// CHAT CONFIG=============================
+const io = require('socket.io')(httpServer);
+const chatWebsocket = require('./websockets/chats');
+chatWebsocket(io);
+// CHAT CONFIG=============================
+
 // API ROUTES==============================
 app.use(require('./controllers/controllers'));
 // API ROUTES==============================
-
-// CHAT CONFIG=============================
-const io = require('socket.io')(httpServer);
-const chatNamespace = io.of('/chat');
-chatNamespace.on('connection', function (socket) {
-  console.log('connected');
-  socket.on('chatMessage', function (data) {
-    console.log(data.message);
-  })
-  socket.on('disconnect', function (reason) {
-    console.log(reason);
-  });
-});
-// CHAT CONFIG=============================
 
 httpServer.listen(process.env.PORT, function () {
   console.log('Server started');

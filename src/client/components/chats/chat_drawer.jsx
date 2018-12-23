@@ -25,6 +25,7 @@ class ChatDrawer extends React.Component {
 
     this.state = {
       newChatMessage: '',
+      messages: [{ _id: 'test', body: 'test' }],
     };
 
     this.socket = null;
@@ -53,7 +54,15 @@ class ChatDrawer extends React.Component {
   }
 
   componentDidMount() {
-    this.socket = io.connect('http://localhost:3000/chat'); // connect to the chat namespace
+    this.socket = io('/chat'); // connect to the chat namespace
+    this.socket.on('connect', () => {
+      console.log(this.socket.id);
+    });
+    this.socket.on('chatMessage', (data) => {
+      let newMessages = this.state.messages.slice();
+      newMessages.push(data);
+      this.setState({ messages: newMessages }, () => console.log(this.state));
+    });
   }
 
   componentWillUnmount() {
@@ -61,7 +70,7 @@ class ChatDrawer extends React.Component {
   }
 
   renderActiveChat() {
-    // if (!this.props.chatDrawers.activeChat) return null;
+    if (!this.props.chatDrawers.activeChat) return null;
     const { currentUser } = this.context;
     if (!currentUser) return null; // delete later
     return (
@@ -83,15 +92,12 @@ class ChatDrawer extends React.Component {
 
   renderChatMessages() {
     // TESTING
-    let author = {
-      username: 'suhan',
-      avatarImageUrl: 'https://res.cloudinary.com/allamerican/image/fetch/t_face_s270/https://speakerdata2.s3.amazonaws.com/photo/image/884111/2f72417d5d6a580ab37a4d925c9e3a8d.jpg'
-    };
-    let message = { _id: 'test', body: 'test' };
+    let author = this.context.currentUser;
+    // let message = { _id: 'test', body: 'test' };
     // TESTING
-    let chatMessages = [
-      this.renderChatMessage(author, message),
-    ];
+    let chatMessages = this.state.messages.map((message) => {
+      return this.renderChatMessage(author, message);
+    })
     return (
       <div className='scrolling-container'>
         <ul className='active-chat-messages'>
@@ -139,7 +145,11 @@ class ChatDrawer extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    this.socket.emit('chatMessage', { message: this.state.newChatMessage });
+    let newMessage = {
+      _id: 'test2',
+      body: this.state.newChatMessage,
+    };
+    this.socket.emit('chatMessage', newMessage);
     this.setState({ newChatMessage: '' });
   }
 
