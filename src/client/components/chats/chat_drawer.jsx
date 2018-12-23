@@ -31,7 +31,6 @@ class ChatDrawer extends React.Component {
 
     this.state = {
       newChatMessage: '',
-      messages: [{ _id: 'test', body: 'test' }],
     };
 
     this.socket = null;
@@ -62,25 +61,22 @@ class ChatDrawer extends React.Component {
 
   componentDidMount() {
     // TODO: 
-    // 1. if activeChatPartner is not null, either fetch an existing chat, or create a new chat
-    // 2. send the chat Id to server when connecting thru websocket, that serves as the chat 'room' on the server
-    // 3. fetch and render messages linked to chatId in desc order
     // 4. in handleSubmit, post new message, which is attached to the socket event
     // 5. on the socket event occuring, fetch and render the latest message
 
-    this.socket = io('/chat', {
-      query: {
-        room: 'test room'
-      }
-    }); // connect to the chat namespace
-    this.socket.on('connect', () => {
-      console.log(this.socket.id);
-    });
-    this.socket.on('chatMessage', (data) => {
-      let newMessages = this.state.messages.slice();
-      newMessages.push(data);
-      this.setState({ messages: newMessages }, () => console.log(this.state));
-    });
+    // this.socket = io('/chat', {
+    //   query: {
+    //     room: 'test room'
+    //   }
+    // }); // connect to the chat namespace
+    // this.socket.on('connect', () => {
+    //   console.log(this.socket.id);
+    // });
+    // this.socket.on('chatMessage', (data) => {
+    //   let newMessages = this.state.messages.slice();
+    //   newMessages.push(data);
+    //   this.setState({ messages: newMessages }, () => console.log(this.state));
+    // });
   }
 
   componentWillReceiveProps(newProps) {
@@ -88,23 +84,41 @@ class ChatDrawer extends React.Component {
     let oldActiveChatPartner = this.props.chatDrawers.activeChatPartner;
     if (newActiveChatPartner && newActiveChatPartner !== oldActiveChatPartner) {
       // 1. if activeChatPartner is not null, either fetch an existing chat room, 
-      this.props.fetchChatRoom(newActiveChatPartner).then(
-        (errAction) => {
+      this.props.fetchChatRoom(newActiveChatPartner)
+        .then((action) => {
           // or create a new chat room
-          if (errAction) this.props.createChatRoom(newActiveChatPartner);
-        },
-      );
+          if (action.type === 'RECEIVE_CHAT_ERRORS') return this.props.createChatRoom(newActiveChatPartner);
+          return action;
+        })
+        .then((action) => {
+          // 2. send the chat Id to server when connecting thru websocket, that serves as the chat 'room' on the server
+          if (action.type === 'RECEIVE_CHAT_ROOM') {
+            let options = { query: { chatRoom: action.payload._id } } // payload will be the ChatRoom document
+            this.socket = io('/chat', options); // connect to the chat namespace and create a room based on ChatRoom._id on the server-side
+            this.socket.on('connect', () => {
+              console.log(`${this.socket.id} joined room ${action.payload._id}`);
+            });
+            this.socket.on('chatMessage', (data) => {
+              // let newMessages = this.state.messages.slice();
+              // newMessages.push(data);
+              // this.setState({ messages: newMessages }, () => console.log(this.state));
+              console.log(data);
+            });
+          }
+        });
       this.animateChatTransition();
     }
   }
 
   componentWillUnmount() {
-    this.socket.disconnect(true);
+    // disconnect any open websockets
+    if (this.socket) this.socket.disconnect(true);
   }
 
   renderActiveChat() {
     const { activeChatPartner } = this.props.chatDrawers;
     if (!activeChatPartner) return null;
+
     return (
       <section className='active-chat chat-slide-up'
         ref={this.activeChatRef}>
@@ -130,6 +144,7 @@ class ChatDrawer extends React.Component {
     //   return this.renderChatMessage(author, message);
     // })
     // TESTING
+    // 3. fetch and render messages linked to chatId in desc order
     const { activeChatPartner } = this.props.chatDrawers;
     const chatRoom = this.props.chatRooms[activeChatPartner];
     if (!chatRoom) return null; // when chatRoom hasn't been fetched
@@ -183,16 +198,6 @@ class ChatDrawer extends React.Component {
     )
   }
 
-  handleSubmit(e) {
-    e.preventDefault();
-    let newMessage = {
-      _id: 'test2',
-      body: this.state.newChatMessage,
-    };
-    this.socket.emit('chatMessage', newMessage);
-    this.setState({ newChatMessage: '' });
-  }
-
   renderMinimizedChats() {
     let minimizedChatAvatars = null;
     // TESTING
@@ -223,6 +228,16 @@ class ChatDrawer extends React.Component {
     this.setState({ newChatMessage: e.currentTarget.value });
     e.persist();
     this.resizeChatMessageInput(e);
+  }
+
+  handleSubmit(e) {
+    e.preventDefault();
+    let newMessage = {
+      _id: 'test2',
+      body: this.state.newChatMessage,
+    };
+    this.socket.emit('chatMessage', newMessage);
+    this.setState({ newChatMessage: '' });
   }
 
   resizeChatMessageInput(e) {

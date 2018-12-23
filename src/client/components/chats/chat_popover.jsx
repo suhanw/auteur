@@ -134,6 +134,7 @@ class ChatPopover extends React.Component {
     if (!blog) return null; // account for when blogs are not yet fetched
     const { users } = this.props;
     let author = users[blog.author];
+    if (!author) return null; // account for when the author is not yet fetched
     return (
       <li key={author._id}
         className='popover-menu-item'

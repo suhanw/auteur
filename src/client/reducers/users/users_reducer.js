@@ -63,6 +63,7 @@ const usersReducer = function (state = defaultState, action) {
       newState.allIds = union(state.allIds, userIdsArr);
       return newState;
     case RECEIVE_BLOGS:
+      if (action.payload.length === 0) return state; // when user has not followed any blogs
       payloadSchema = [blogSchema];
       normalizedPayload = normalize(action.payload, payloadSchema);
       newState.byId = mergeWith(
