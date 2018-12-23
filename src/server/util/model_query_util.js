@@ -237,7 +237,7 @@ modelQuery.createChatRoom = function (participants) {
 
 const populateChatMessages = function (chatRoom) {
   return new Promise((resolve, reject) => {
-    ChatMessage.find({ chatRoomId: chatRoom._id })
+    ChatMessage.find({ chatRoom: chatRoom._id })
       .sort({ 'createdAt': 'desc' })
       .exec()
       .then((foundMessages) => {
@@ -250,16 +250,20 @@ const populateChatMessages = function (chatRoom) {
 };
 
 modelQuery.createChatMessage = function (chatMessage) {
-  return findOneChatRoomById(chatMessage.chatRoomId)
+  return findOneChatRoomById(chatMessage.chatRoom)
     .then((foundChatRoom) => {
       return ChatMessage.create(chatMessage);
+    })
+    .then((chatMessage) => {
+      return chatMessage.toObject();
     });
 };
 
 modelQuery.findLastChatMessage = function (chatRoomId) {
   return findOneChatRoomById(chatRoomId)
     .then((foundChatRoom) => {
-      return ChatMessage.findOne({ chatRoomId: foundChatRoom._id })
+      return ChatMessage.findOne({ chatRoom: foundChatRoom._id })
+        .lean(true)
         .sort({ 'createdAt': 'desc' });
     });
 };

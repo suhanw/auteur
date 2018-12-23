@@ -83,10 +83,12 @@
 
 .active-chat-messages {
   padding: 15px;
+  display: flex;
+  flex-direction: column-reverse;
 }
 
 .chat-message {
-  margin: 15px 0;
+  margin: 7.5px 0;
   display: flex;
   justify-content: space-between;
   align-items: flex-start;

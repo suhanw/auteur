@@ -38,20 +38,25 @@ router.post('/chats', middleware.isLoggedIn, function (req, res) {
 });
 
 // POST api/chats/:id/messages - to create new message
-router.post('/chats/:id/messages', middleware.isLoggedIn, function (req, res) {
-  const chatMessage = req.body;
+router.post('/chats/:chatPartner/messages', middleware.isLoggedIn, function (req, res) {
+  const { chatMessage } = req.body;
   modelQuery.createChatMessage(chatMessage)
     .then((newChatMessage) => {
-      res.json(newChatMessage);
+      let responseJSON = merge({}, newChatMessage);
+      responseJSON.chatPartner = req.params.chatPartner;
+      res.json(responseJSON);
     })
     .catch((err) => res.status(422).json([err.message]));
 });
 
 // GET api/chats/:id/messages - to pull the last message
-router.get('/chats/:id/messages', middleware.isLoggedIn, function (req, res) {
-  modelQuery.findLastChatMessage(req.params.id)
+// TODO: do we need this?
+router.get('/chats/:chatPartner/messages', middleware.isLoggedIn, function (req, res) {
+  modelQuery.findLastChatMessage(req.query.chatRoomId)
     .then((chatMessage) => {
-      res.json(chatMessage);
+      let responseJSON = merge({}, chatMessage);
+      responseJSON.chatPartner = req.params.chatPartner;
+      res.json(responseJSON);
     })
     .catch((err) => res.status(404).json([err.message]));
 });

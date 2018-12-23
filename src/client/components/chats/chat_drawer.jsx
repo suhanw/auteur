@@ -3,16 +3,18 @@ import { connect } from 'react-redux';
 import io from 'socket.io-client';
 
 import { GlobalContext } from '../global_ context_provider';
-import { selectChatDrawers, selectChatRooms, selectUsers } from '../../selectors/selectors';
+import { selectChatDrawers, selectChatRooms, selectChatMessages, selectUsers } from '../../selectors/selectors';
 import { closeChatDrawer, fetchChatRoom, createChatRoom } from '../../actions/chat_actions';
 
 const mapStateToProps = (state, _) => {
   const chatDrawers = selectChatDrawers(state);
   const chatRooms = selectChatRooms(state);
+  const chatMessages = selectChatMessages(state);
   const users = selectUsers(state);
   return {
     chatDrawers,
     chatRooms,
+    chatMessages,
     users,
   };
 };
@@ -145,22 +147,24 @@ class ChatDrawer extends React.Component {
     // })
     // TESTING
     // 3. fetch and render messages linked to chatId in desc order
-    const { activeChatPartner } = this.props.chatDrawers;
-    const chatRoom = this.props.chatRooms[activeChatPartner];
+    const { chatDrawers, chatMessages } = this.props;
+    const chatRoom = this.props.chatRooms[chatDrawers.activeChatPartner];
     if (!chatRoom) return null; // when chatRoom hasn't been fetched
-    let chatMessages = chatRoom.messages.map((message) => {
+    let chatMessageElements = chatRoom.messages.map((messageId) => {
+      let message = chatMessages[messageId];
       return this.renderChatMessage(message);
-    })
+    });
     return (
       <div className='scrolling-container'>
         <ul className='active-chat-messages'>
-          {chatMessages}
+          {chatMessageElements}
         </ul>
       </div>
     );
   }
 
   renderChatMessage(message) {
+    if (!message) return null;
     const { users } = this.props;
     let author = users[message.author];
     return (

@@ -17,21 +17,24 @@ const chatRoomSchema = new schema.Entity('chatRooms',
 let payloadSchema;
 let normalizedPayload;
 
-const chatRoomsReducer = function (state = {}, action) {
+const chatMessagesReducer = function (state = {}, action) {
   Object.freeze(state);
   let newState = {};
   switch (action.type) {
     case RECEIVE_CHAT_MESSAGE:
-      newState = merge({}, state); // corresponding chatRoom should already be fetched
-      const chatMessage = action.payload;
-      newState[chatMessage.chatPartner].messages.unshift(chatMessage._id);
+      normalizedPayload = normalize(action.payload, chatMessageSchema);
+      newState = merge(
+        {},
+        state,
+        normalizedPayload.entities.chatMessages,
+      );
       return newState;
     case RECEIVE_CHAT_ROOM:
       normalizedPayload = normalize(action.payload, chatRoomSchema);
       newState = merge(
         {},
         state,
-        normalizedPayload.entities.chatRooms,
+        normalizedPayload.entities.chatMessages,
       );
       return newState;
     case REMOVE_CURRENT_USER:
@@ -41,4 +44,4 @@ const chatRoomsReducer = function (state = {}, action) {
   }
 };
 
-export default chatRoomsReducer;
+export default chatMessagesReducer;

@@ -79,6 +79,11 @@ export const selectChatRooms = function (state) {
   return chatRooms;
 }
 
+export const selectChatMessages = function (state) {
+  const { entities: { chatMessages } } = state;
+  return chatMessages;
+}
+
 // UI SELECTORS=================================
 export const selectModal = function (state) {
   const { ui: { modal } } = state;

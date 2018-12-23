@@ -38,8 +38,9 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 // REMOVE IN PROD
-// import { createChatRoom } from './util/api_util/chat_api_util';
-// import { createChatRoom, fetchChatRoom } from './actions/chat_actions';
-// window.fetchChatRoom = fetchChatRoom;
-// window.createChatRoom = createChatRoom;
+// import { fetchChatMessage, createChatMessage } from './util/api_util/chat_api_util';
+import { fetchChatMessage, createChatMessage } from './actions/chat_actions';
+
+window.fetchChatMessage = fetchChatMessage;
+window.createChatMessage = createChatMessage;
 // REMOVE IN PROD
