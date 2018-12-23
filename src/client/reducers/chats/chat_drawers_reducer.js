@@ -3,7 +3,7 @@ import { REMOVE_CURRENT_USER } from '../../actions/session_actions';
 import { merge } from 'lodash';
 
 const defaultState = {
-  activeChat: null, // this will appear as chat drawer
+  activeChatPartner: null, // this will appear as chat drawer
   minimizedChats: [], // this will appear as avatar(s) on the side
 };
 
@@ -13,11 +13,11 @@ const chatDrawersReducer = function (state = defaultState, action) {
   switch (action.type) {
     case OPEN_CHAT_DRAWER:
       newState = merge({}, state);
-      newState.activeChat = action.payload._id;
+      newState.activeChatPartner = action.payload;
       return newState;
     case CLOSE_CHAT_DRAWER:
       newState = merge({}, state);
-      newState.activeChat = null;
+      newState.activeChatPartner = null;
       return newState;
     case REMOVE_CURRENT_USER:
       return defaultState;

@@ -3,19 +3,24 @@ import { connect } from 'react-redux';
 import io from 'socket.io-client';
 
 import { GlobalContext } from '../global_ context_provider';
-import { selectChatDrawers } from '../../selectors/selectors';
-import { closeChatDrawer } from '../../actions/chat_actions';
+import { selectChatDrawers, selectChatRooms, selectUsers } from '../../selectors/selectors';
+import { closeChatDrawer, createChatRoom } from '../../actions/chat_actions';
 
 const mapStateToProps = (state, _) => {
   const chatDrawers = selectChatDrawers(state);
+  const chatRooms = selectChatRooms(state);
+  const users = selectUsers(state);
   return {
     chatDrawers,
+    chatRooms,
+    users,
   };
 };
 
 const mapDispatchToProps = (dispatch, _) => {
   return {
     closeChatDrawer: (chatDrawer) => dispatch(closeChatDrawer(chatDrawer)),
+    createChatRoom: (chatPartner) => dispatch(createChatRoom(chatPartner)),
   };
 };
 
@@ -54,7 +59,7 @@ class ChatDrawer extends React.Component {
   }
 
   componentDidMount() {
-    // 1. if activeChat is not null, either fetch an existing chat, or create a new chat
+    // 1. if activeChatPartner is not null, either fetch an existing chat, or create a new chat
     // 2. send the chat Id to server when connecting thru websocket, that serves as the chat 'room' on the server
     // 3. fetch and render messages linked to chatId in desc order
     // 4. in handleSubmit, post new message, which is attached to the socket event
@@ -75,20 +80,29 @@ class ChatDrawer extends React.Component {
     });
   }
 
+  componentWillReceiveProps(newProps) {
+    let newActiveChatPartner = newProps.chatDrawers.activeChatPartner;
+    let oldActiveChatPartner = this.props.chatDrawers.activeChatPartner;
+    if (newActiveChatPartner !== oldActiveChatPartner) {
+      // 1. if activeChatPartner is not null, either fetch an existing chat, 
+      // or create a new chat
+      this.props.createChatRoom(newActiveChatPartner);
+    }
+  }
+
   componentWillUnmount() {
     this.socket.disconnect(true);
   }
 
   renderActiveChat() {
-    if (!this.props.chatDrawers.activeChat) return null;
-    const { currentUser } = this.context;
-    if (!currentUser) return null; // delete later
+    const { activeChatPartner } = this.props.chatDrawers;
+    if (!activeChatPartner) return null;
     return (
       <section className='active-chat chat-slide-up'
         ref={this.activeChatRef}>
         <header className='active-chat-header'>
           <span>
-            {currentUser.username}
+            {activeChatPartner}
           </span>
           <i className="fas fa-chevron-circle-down"></i>
           <i className="fas fa-times"
@@ -102,11 +116,17 @@ class ChatDrawer extends React.Component {
 
   renderChatMessages() {
     // TESTING
-    let author = this.context.currentUser;
+    // let author = this.context.currentUser;
     // let message = { _id: 'test', body: 'test' };
+    // let chatMessages = this.state.messages.map((message) => {
+    //   return this.renderChatMessage(author, message);
+    // })
     // TESTING
-    let chatMessages = this.state.messages.map((message) => {
-      return this.renderChatMessage(author, message);
+    const { activeChatPartner } = this.props.chatDrawers;
+    const chatRoom = this.props.chatRooms[activeChatPartner];
+    if (!chatRoom) return null; // when chatRoom hasn't been fetched
+    let chatMessages = chatRoom.messages.map((message) => {
+      return this.renderChatMessage(message);
     })
     return (
       <div className='scrolling-container'>
@@ -117,7 +137,9 @@ class ChatDrawer extends React.Component {
     );
   }
 
-  renderChatMessage(author, message) {
+  renderChatMessage(message) {
+    const { users } = this.props;
+    let author = users[message.author];
     return (
       <li key={message._id} className='chat-message'>
         <div className='chat-message-avatar'>
@@ -205,7 +227,7 @@ class ChatDrawer extends React.Component {
 
   closeActiveChat(e) {
     this.activeChatRef.current.classList.add('chat-slide-down');
-    // setTimeout to dispatch redux action to nullify activeChat
+    // setTimeout to dispatch redux action to nullify activeChatPartner
     let animateCloseChatDrawerTimer = setTimeout(
       () => {
         clearTimeout(animateCloseChatDrawerTimer);

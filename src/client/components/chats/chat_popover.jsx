@@ -162,10 +162,10 @@ class ChatPopover extends React.Component {
   }
 
   handleSubmit(e) {
-    // TODO: only allow submit if user exists
+    // TODO: ONLY ALLOW SUBMIT FOR EXISTING USER
     e.preventDefault();
     const { openChatDrawer } = this.props;
-    openChatDrawer({ _id: this.state.newChatPartner });
+    openChatDrawer(this.state.newChatPartner);
   }
 
   toggleChatForm(e) {

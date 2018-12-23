@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router({ mergeParams: true });
+const { merge } = require('lodash');
 
 const middleware = require('../middleware/middleware');
 const modelQuery = require('../util/model_query_util');
@@ -13,7 +14,9 @@ router.post('/chats', middleware.isLoggedIn, function (req, res) {
       return modelQuery.createChatRoom(participants);
     })
     .then((chatRoom) => {
-      res.json(chatRoom);
+      let responseJSON = merge({}, chatRoom);
+      responseJSON.chatPartner = chatPartner;
+      res.json(responseJSON);
     })
     .catch((err) => res.status(422).json([err.message]));
 });
