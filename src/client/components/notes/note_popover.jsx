@@ -82,6 +82,10 @@ class NotePopover extends React.Component {
     );
   }
 
+  componentDidUpdate() {
+    this.scrollToBottom();
+  }
+
   renderNoteIndex() {
     const { notesArr, blogs, post } = this.props;
     const postBlog = blogs[post.blog];

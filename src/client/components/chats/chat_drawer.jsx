@@ -40,6 +40,7 @@ class ChatDrawer extends React.Component {
     this.socket = null;
 
     this.activeChatRef = React.createRef();
+    this.scrollingContainerRef = React.createRef();
 
     this.renderActiveChat = this.renderActiveChat.bind(this);
     this.renderChatMessages = this.renderChatMessages.bind(this);
@@ -53,6 +54,7 @@ class ChatDrawer extends React.Component {
     this.closeActiveChat = this.closeActiveChat.bind(this);
     this.animateChatTransition = this.animateChatTransition.bind(this);
     this.createChatWebsocket = this.createChatWebsocket.bind(this);
+    this.scrollToBottom = this.scrollToBottom.bind(this);
   }
 
   render() {
@@ -89,7 +91,7 @@ class ChatDrawer extends React.Component {
   }
 
   componentDidUpdate() {
-    // TODO: scroll to bottom when rendering chat messages, and after new message
+    this.scrollToBottom();
   }
 
   componentWillUnmount() {
@@ -98,12 +100,14 @@ class ChatDrawer extends React.Component {
   }
 
   renderActiveChat() {
+    // TODO: attach listener for Esc key
     const { activeChatPartner } = this.props.chatDrawers;
     if (!activeChatPartner) return null;
 
     return (
       <section className='active-chat chat-slide-up'
-        ref={this.activeChatRef}>
+        ref={this.activeChatRef}
+        onKeyDown={this.closeActiveChat}>
         <header className='active-chat-header'>
           <span>
             {activeChatPartner}
@@ -128,7 +132,8 @@ class ChatDrawer extends React.Component {
       return this.renderChatMessage(message);
     });
     return (
-      <div className='scrolling-container'>
+      <div className='scrolling-container'
+        ref={this.scrollingContainerRef}>
         <ul className='active-chat-messages'>
           {chatMessageElements}
         </ul>
@@ -224,6 +229,7 @@ class ChatDrawer extends React.Component {
   }
 
   closeActiveChat(e) {
+    if (e.type === 'keydown' && e.key !== 'Escape') return; // do nothing if key pressed is not Esc
     this.activeChatRef.current.classList.add('chat-slide-down');
     // setTimeout to dispatch redux action to nullify activeChatPartner
     let animateCloseChatDrawerTimer = setTimeout(
@@ -263,6 +269,12 @@ class ChatDrawer extends React.Component {
     this.socket.on('disconnect', (reason) => {
       console.log(this.socket.id, reason);
     });
+  }
+
+  scrollToBottom() {
+    if (this.scrollingContainerRef.current) {
+      this.scrollingContainerRef.current.scrollTop = this.scrollingContainerRef.current.scrollHeight;
+    }
   }
 }
 
