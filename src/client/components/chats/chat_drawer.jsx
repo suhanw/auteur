@@ -4,7 +4,7 @@ import io from 'socket.io-client';
 
 import { GlobalContext } from '../global_ context_provider';
 import { selectChatDrawers, selectChatRooms, selectChatMessages, selectUsers } from '../../selectors/selectors';
-import { closeChatDrawer, fetchChatRoom, createChatRoom } from '../../actions/chat_actions';
+import { closeChatDrawer, fetchChatRoom, createChatRoom, fetchChatMessage, createChatMessage } from '../../actions/chat_actions';
 
 const mapStateToProps = (state, _) => {
   const chatDrawers = selectChatDrawers(state);
@@ -24,6 +24,8 @@ const mapDispatchToProps = (dispatch, _) => {
     closeChatDrawer: (chatDrawer) => dispatch(closeChatDrawer(chatDrawer)),
     fetchChatRoom: (chatPartner) => dispatch(fetchChatRoom(chatPartner)),
     createChatRoom: (chatPartner) => dispatch(createChatRoom(chatPartner)),
+    fetchChatMessage: (chatPartner, chatRoomId) => dispatch(fetchChatMessage(chatPartner, chatRoomId)),
+    createChatMessage: (chatPartner, chatMessage) => dispatch(createChatMessage(chatPartner, chatMessage)),
   };
 };
 
@@ -50,6 +52,7 @@ class ChatDrawer extends React.Component {
     this.resizeChatMessageInput = this.resizeChatMessageInput.bind(this);
     this.closeActiveChat = this.closeActiveChat.bind(this);
     this.animateChatTransition = this.animateChatTransition.bind(this);
+    this.createChatWebsocket = this.createChatWebsocket.bind(this);
   }
 
   render() {
@@ -59,26 +62,6 @@ class ChatDrawer extends React.Component {
         {this.renderMinimizedChats()}
       </aside>
     );
-  }
-
-  componentDidMount() {
-    // TODO: 
-    // 4. in handleSubmit, post new message, which is attached to the socket event
-    // 5. on the socket event occuring, fetch and render the latest message
-
-    // this.socket = io('/chat', {
-    //   query: {
-    //     room: 'test room'
-    //   }
-    // }); // connect to the chat namespace
-    // this.socket.on('connect', () => {
-    //   console.log(this.socket.id);
-    // });
-    // this.socket.on('chatMessage', (data) => {
-    //   let newMessages = this.state.messages.slice();
-    //   newMessages.push(data);
-    //   this.setState({ messages: newMessages }, () => console.log(this.state));
-    // });
   }
 
   componentWillReceiveProps(newProps) {
@@ -95,21 +78,24 @@ class ChatDrawer extends React.Component {
         .then((action) => {
           // 2. send the chat Id to server when connecting thru websocket, that serves as the chat 'room' on the server
           if (action.type === 'RECEIVE_CHAT_ROOM') {
-            let options = { query: { chatRoom: action.payload._id } } // payload will be the ChatRoom document
-            this.socket = io('/chat', options); // connect to the chat namespace and create a room based on ChatRoom._id on the server-side
-            this.socket.on('connect', () => {
-              console.log(`${this.socket.id} joined room ${action.payload._id}`);
-            });
-            this.socket.on('chatMessage', (data) => {
-              // let newMessages = this.state.messages.slice();
-              // newMessages.push(data);
-              // this.setState({ messages: newMessages }, () => console.log(this.state));
-              console.log(data);
-            });
+            const chatRoomId = action.payload._id; // payload will be the ChatRoom document
+            this.createChatWebsocket(newActiveChatPartner, chatRoomId);
           }
         });
       this.animateChatTransition();
     }
+  }
+
+  createChatWebsocket(activeChatPartner, chatRoomId) {
+    const options = { query: { chatRoom: chatRoomId } }
+    this.socket = io('/chat', options); // connect to the chat namespace and create a room based on ChatRoom._id on the server-side
+    this.socket.on('connect', () => {
+      console.log(`${this.socket.id} joined room ${chatRoomId}`);
+      this.socket.on('chatMessage', () => {
+        // 5. on the socket event occuring, fetch the latest message
+        this.props.fetchChatMessage(activeChatPartner, chatRoomId);
+      });
+    });
   }
 
   componentWillUnmount() {
@@ -139,13 +125,6 @@ class ChatDrawer extends React.Component {
   }
 
   renderChatMessages() {
-    // TESTING
-    // let author = this.context.currentUser;
-    // let message = { _id: 'test', body: 'test' };
-    // let chatMessages = this.state.messages.map((message) => {
-    //   return this.renderChatMessage(author, message);
-    // })
-    // TESTING
     // 3. fetch and render messages linked to chatId in desc order
     const { chatDrawers, chatMessages } = this.props;
     const chatRoom = this.props.chatRooms[chatDrawers.activeChatPartner];
@@ -236,11 +215,16 @@ class ChatDrawer extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    let newMessage = {
-      _id: 'test2',
+    const { chatRooms, createChatMessage } = this.props;
+    const { activeChatPartner } = this.props.chatDrawers;
+    let newChatMessage = {
+      chatRoom: chatRooms[activeChatPartner]._id,
+      author: this.context.currentUser._id,
       body: this.state.newChatMessage,
     };
-    this.socket.emit('chatMessage', newMessage);
+    // 4. in handleSubmit, post new message, which is attached to the socket event
+    createChatMessage(activeChatPartner, newChatMessage);
+    this.socket.emit('chatMessage');
     this.setState({ newChatMessage: '' });
   }
 

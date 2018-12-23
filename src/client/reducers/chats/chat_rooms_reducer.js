@@ -1,5 +1,5 @@
 import { schema, normalize } from 'normalizr';
-import { merge } from 'lodash';
+import { merge, union } from 'lodash';
 import { RECEIVE_CHAT_ROOM, RECEIVE_CHAT_MESSAGE } from '../../actions/chat_actions';
 import { REMOVE_CURRENT_USER } from '../../actions/session_actions';
 
@@ -24,7 +24,7 @@ const chatRoomsReducer = function (state = {}, action) {
     case RECEIVE_CHAT_MESSAGE:
       newState = merge({}, state); // corresponding chatRoom should already be fetched
       const chatMessage = action.payload;
-      newState[chatMessage.chatPartner].messages.unshift(chatMessage._id);
+      newState[chatMessage.chatPartner].messages = union([chatMessage._id], state[chatMessage.chatPartner].messages);
       return newState;
     case RECEIVE_CHAT_ROOM:
       normalizedPayload = normalize(action.payload, chatRoomSchema);
