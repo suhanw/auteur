@@ -196,6 +196,40 @@ modelQuery.findOrCreateTags = function (tags) {
   });
 };
 
+modelQuery.findRecentChatMessages = function (currentUserId) {
+  return ChatRoom.find()
+    .where('participants')
+    .in(currentUserId)
+    .select('_id')
+    .then((chatRooms) => {
+      let chatRoomCount = chatRooms.length;
+      let recentChatMessages = [];
+      return new Promise((resolve, reject) => {
+        chatRooms.forEach((chatRoom) => {
+          modelQuery.findLastChatMessage(chatRoom._id)
+            .then((lastChatMessage) => {
+              if (!lastChatMessage) return null;
+              return lastChatMessage.populate({ path: 'author', select: 'username avatarImageUrl' })
+                .execPopulate();
+            })
+            .then((lastChatMessage) => {
+              chatRoomCount--;
+              if (lastChatMessage) recentChatMessages.push(lastChatMessage);
+              if (!chatRoomCount) resolve(recentChatMessages);
+            })
+            .catch((err) => reject(err));
+        });
+      });
+    })
+    .then((recentChatMessages) => {
+      return recentChatMessages.sort((a, b) => { // sort by most recent
+        if (a.createdAt < b.createdAt) return 1;
+        if (a.createdAt > b.createdAt) return -1;
+        return 0;
+      });
+    });
+};
+
 modelQuery.findOneChatRoom = function (participants) {
   return ChatRoom.findOne()
     .where('participants')
@@ -254,16 +288,12 @@ modelQuery.createChatMessage = function (chatMessage) {
     .then((foundChatRoom) => {
       return ChatMessage.create(chatMessage);
     })
-    .then((chatMessage) => {
-      return chatMessage.toObject();
-    });
 };
 
 modelQuery.findLastChatMessage = function (chatRoomId) {
   return findOneChatRoomById(chatRoomId)
     .then((foundChatRoom) => {
       return ChatMessage.findOne({ chatRoom: foundChatRoom._id })
-        .lean(true)
         .sort({ 'createdAt': 'desc' });
     });
 };

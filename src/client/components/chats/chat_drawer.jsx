@@ -83,19 +83,13 @@ class ChatDrawer extends React.Component {
           }
         });
       this.animateChatTransition();
+    } else if (!newActiveChatPartner) { // disconnect websocket when chat drawer is closed
+      if (this.socket) this.socket.disconnect(true);
     }
   }
 
-  createChatWebsocket(activeChatPartner, chatRoomId) {
-    const options = { query: { chatRoom: chatRoomId } }
-    this.socket = io('/chat', options); // connect to the chat namespace and create a room based on ChatRoom._id on the server-side
-    this.socket.on('connect', () => {
-      console.log(`${this.socket.id} joined room ${chatRoomId}`);
-      this.socket.on('chatMessage', () => {
-        // 5. on the socket event occuring, fetch the latest message
-        this.props.fetchChatMessage(activeChatPartner, chatRoomId);
-      });
-    });
+  componentDidUpdate() {
+    // TODO: scroll to bottom when rendering chat messages, and after new message
   }
 
   componentWillUnmount() {
@@ -114,7 +108,7 @@ class ChatDrawer extends React.Component {
           <span>
             {activeChatPartner}
           </span>
-          <i className="fas fa-chevron-circle-down"></i>
+          {/* <i className="fas fa-chevron-circle-down"></i> */}
           <i className="fas fa-times"
             onClick={this.closeActiveChat}></i>
         </header>
@@ -182,16 +176,8 @@ class ChatDrawer extends React.Component {
   }
 
   renderMinimizedChats() {
+    // TODO
     let minimizedChatAvatars = null;
-    // TESTING
-    // let chatPartner = {
-    //   avatarImageUrl: 'https://res.cloudinary.com/allamerican/image/fetch/t_face_s270/https://speakerdata2.s3.amazonaws.com/photo/image/884111/2f72417d5d6a580ab37a4d925c9e3a8d.jpg'
-    // }
-    // minimizedChatAvatars = [
-    //   this.renderMinimizedChatAvatar(chatPartner),
-    //   this.renderMinimizedChatAvatar(chatPartner),
-    // ];
-    // TESTING
     return (
       <ul className='minimized-chats'>
         {minimizedChatAvatars}
@@ -200,6 +186,7 @@ class ChatDrawer extends React.Component {
   }
 
   renderMinimizedChatAvatar(chatPartner) {
+    // TODO
     return (
       <li className='avatar avatar-small'
         style={{ backgroundImage: `url(${chatPartner.avatarImageUrl})` }}>
@@ -261,6 +248,21 @@ class ChatDrawer extends React.Component {
         100
       );
     }
+  }
+
+  createChatWebsocket(activeChatPartner, chatRoomId) {
+    const options = { query: { chatRoom: chatRoomId } }
+    this.socket = io('/chat', options); // connect to the chat namespace and create a room based on ChatRoom._id on the server-side
+    this.socket.on('connect', () => {
+      console.log(`${this.socket.id} joined room ${chatRoomId}`);
+      this.socket.on('chatMessage', () => {
+        // 5. on the socket event occuring, fetch the latest message
+        this.props.fetchChatMessage(activeChatPartner, chatRoomId);
+      });
+    });
+    this.socket.on('disconnect', (reason) => {
+      console.log(this.socket.id, reason);
+    });
   }
 }
 

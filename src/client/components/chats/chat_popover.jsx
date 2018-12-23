@@ -100,6 +100,7 @@ class ChatPopover extends React.Component {
   }
 
   renderChatIndex() {
+    // TODO: render most recent chats
     return (
       <section className='popover-subsection'>
         <div className='popover-menu-item'>

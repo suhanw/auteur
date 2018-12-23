@@ -13,7 +13,6 @@ export const createChatRoom = function (chatPartner) {
   });
 };
 
-// TODO: do we need this?
 export const fetchChatMessage = function (chatPartner, chatRoomId) {
   return $.ajax({
     method: 'get',
