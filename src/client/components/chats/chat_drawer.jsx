@@ -4,7 +4,7 @@ import io from 'socket.io-client';
 
 import { GlobalContext } from '../global_ context_provider';
 import { selectChatDrawers, selectChatRooms, selectUsers } from '../../selectors/selectors';
-import { closeChatDrawer, createChatRoom } from '../../actions/chat_actions';
+import { closeChatDrawer, fetchChatRoom, createChatRoom } from '../../actions/chat_actions';
 
 const mapStateToProps = (state, _) => {
   const chatDrawers = selectChatDrawers(state);
@@ -20,6 +20,7 @@ const mapStateToProps = (state, _) => {
 const mapDispatchToProps = (dispatch, _) => {
   return {
     closeChatDrawer: (chatDrawer) => dispatch(closeChatDrawer(chatDrawer)),
+    fetchChatRoom: (chatPartner) => dispatch(fetchChatRoom(chatPartner)),
     createChatRoom: (chatPartner) => dispatch(createChatRoom(chatPartner)),
   };
 };
@@ -47,6 +48,7 @@ class ChatDrawer extends React.Component {
     this.handleChange = this.handleChange.bind(this);
     this.resizeChatMessageInput = this.resizeChatMessageInput.bind(this);
     this.closeActiveChat = this.closeActiveChat.bind(this);
+    this.animateChatTransition = this.animateChatTransition.bind(this);
   }
 
   render() {
@@ -86,19 +88,13 @@ class ChatDrawer extends React.Component {
     let oldActiveChatPartner = this.props.chatDrawers.activeChatPartner;
     if (newActiveChatPartner && newActiveChatPartner !== oldActiveChatPartner) {
       // 1. if activeChatPartner is not null, either fetch an existing chat room, 
-      // or create a new chat room
-      this.props.createChatRoom(newActiveChatPartner)
-      if (this.activeChatRef.current) {
-        this.activeChatRef.current.classList.remove('chat-slide-up');
-        let activeChatTimer = setTimeout(
-          () => {
-            clearTimeout(activeChatTimer);
-            activeChatTimer = null;
-            this.activeChatRef.current.classList.add('chat-slide-up');
-          },
-          100
-        );
-      }
+      this.props.fetchChatRoom(newActiveChatPartner).then(
+        (errAction) => {
+          // or create a new chat room
+          if (errAction) this.props.createChatRoom(newActiveChatPartner);
+        },
+      );
+      this.animateChatTransition();
     }
   }
 
@@ -248,6 +244,20 @@ class ChatDrawer extends React.Component {
       },
       200
     );
+  }
+
+  animateChatTransition() {
+    if (this.activeChatRef.current) {
+      this.activeChatRef.current.classList.remove('chat-slide-up');
+      let activeChatTimer = setTimeout(
+        () => {
+          clearTimeout(activeChatTimer);
+          activeChatTimer = null;
+          this.activeChatRef.current.classList.add('chat-slide-up');
+        },
+        100
+      );
+    }
   }
 }
 

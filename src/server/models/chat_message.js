@@ -15,6 +15,11 @@ const chatMessageSchema = new mongoose.Schema(
     body: {
       type: String,
       required: true,
+    },
+    unread: {
+      type: Boolean,
+      required: true,
+      default: true,
     }
   },
   { timestamps: { createdAt: 'createdAt' } }

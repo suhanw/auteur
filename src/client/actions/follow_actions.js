@@ -57,6 +57,7 @@ export const fetchFollowers = function (blogId) {
     return APIUtil.fetchFollowers(blogId).then(
       (response) => {
         dispatch(receiveFollowers(response));
+        // if resolve runs, does not return any value, so only time this promise returns a value is when there is an error
       },
       (err) => dispatch(receiveFollowErrors(err.responseJSON)),
     );

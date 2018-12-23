@@ -65,6 +65,7 @@ export const fetchPostsByBlog = function (blogId) {
             (posts) => {
                 dispatch(receivePosts(posts));
                 dispatch(receiveBlog({ _id: blogId, posts })); // to add posts array to blog slice of state
+                // if resolve runs, does not return anything, so only time this promise returns a value is when there is an error
             },
             (err) => dispatch(receivePostErrors(err.responseJSON)),
         );

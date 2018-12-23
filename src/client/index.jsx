@@ -39,6 +39,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 // REMOVE IN PROD
 // import { createChatRoom } from './util/api_util/chat_api_util';
-import { createChatRoom } from './actions/chat_actions';
-window.createChatRoom = createChatRoom;
+// import { createChatRoom, fetchChatRoom } from './actions/chat_actions';
+// window.fetchChatRoom = fetchChatRoom;
+// window.createChatRoom = createChatRoom;
 // REMOVE IN PROD

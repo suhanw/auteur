@@ -196,6 +196,26 @@ modelQuery.findOrCreateTags = function (tags) {
   });
 };
 
+modelQuery.findOneChatRoom = function (participants) {
+  return ChatRoom.findOne()
+    .where('participants')
+    .all(participants)
+    .then((foundChatRoom) => {
+      if (!foundChatRoom) throw { message: 'Chat room does not exist. ' };
+      return foundChatRoom.populate({
+        path: 'participants',
+        select: 'username avatarImageUrl',
+      })
+        .execPopulate();
+    })
+    .then((chatRoom) => {
+      return populateChatMessages(chatRoom);
+    })
+    .then((chatRoom) => {
+      return chatRoom;
+    });
+};
+
 modelQuery.createChatRoom = function (participants) {
   return ChatRoom.create({ participants })
     .then((chatRoom) => {

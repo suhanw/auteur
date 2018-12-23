@@ -33,11 +33,30 @@ export const receiveChatErrors = function (errors) {
   };
 };
 
+export const fetchChatRoom = function (chatPartner) {
+  return function (dispatch) {
+    return APIUtil.fetchChatRoom(chatPartner).then(
+      (chatRoom) => {
+        dispatch(receiveChatRoom(chatRoom));
+        // doesn't return any value
+      },
+      (err) => {
+        return dispatch(receiveChatErrors(err.responseJSON));
+      }
+    );
+  };
+};
+
 export const createChatRoom = function (chatPartner) {
   return function (dispatch) {
     return APIUtil.createChatRoom(chatPartner).then(
-      (chatRoom) => dispatch(receiveChatRoom(chatRoom)),
-      (err) => dispatch(receiveChatErrors(err.responseJSON)),
+      (chatRoom) => {
+        dispatch(receiveChatRoom(chatRoom));
+        // doesn't return any value
+      },
+      (err) => {
+        return dispatch(receiveChatErrors(err.responseJSON));
+      }
     );
   };
 };
