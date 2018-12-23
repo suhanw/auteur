@@ -2,6 +2,7 @@ const chatWebsocket = function (io) {
   const chatNamespace = io.of('/chat');
   chatNamespace.on('connection', function (socket) {
     console.log('connected ', socket.id);
+    console.log(socket.handshake.query.room);
     socket.join('room', () => {
       console.log('joined room');
     })

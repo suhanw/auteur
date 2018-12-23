@@ -54,7 +54,17 @@ class ChatDrawer extends React.Component {
   }
 
   componentDidMount() {
-    this.socket = io('/chat'); // connect to the chat namespace
+    // 1. if activeChat is not null, either fetch an existing chat, or create a new chat
+    // 2. send the chat Id to server when connecting thru websocket, that serves as the chat 'room' on the server
+    // 3. fetch and render messages linked to chatId in desc order
+    // 4. in handleSubmit, post new message, which is attached to the socket event
+    // 5. on the socket event occuring, fetch and render the latest message
+
+    this.socket = io('/chat', {
+      query: {
+        room: 'test room'
+      }
+    }); // connect to the chat namespace
     this.socket.on('connect', () => {
       console.log(this.socket.id);
     });
@@ -154,15 +164,16 @@ class ChatDrawer extends React.Component {
   }
 
   renderMinimizedChats() {
+    let minimizedChatAvatars = null;
     // TESTING
-    let chatPartner = {
-      avatarImageUrl: 'https://res.cloudinary.com/allamerican/image/fetch/t_face_s270/https://speakerdata2.s3.amazonaws.com/photo/image/884111/2f72417d5d6a580ab37a4d925c9e3a8d.jpg'
-    }
+    // let chatPartner = {
+    //   avatarImageUrl: 'https://res.cloudinary.com/allamerican/image/fetch/t_face_s270/https://speakerdata2.s3.amazonaws.com/photo/image/884111/2f72417d5d6a580ab37a4d925c9e3a8d.jpg'
+    // }
+    // minimizedChatAvatars = [
+    //   this.renderMinimizedChatAvatar(chatPartner),
+    //   this.renderMinimizedChatAvatar(chatPartner),
+    // ];
     // TESTING
-    let minimizedChatAvatars = [
-      this.renderMinimizedChatAvatar(chatPartner),
-      this.renderMinimizedChatAvatar(chatPartner),
-    ];
     return (
       <ul className='minimized-chats'>
         {minimizedChatAvatars}

@@ -66,7 +66,7 @@ passport.deserializeUser(User.deserializeUser()); // method provided by passport
 
 // CHAT CONFIG=============================
 const io = require('socket.io')(httpServer);
-const chatWebsocket = require('./websockets/chats');
+const chatWebsocket = require('./websockets/chatWebsocket');
 chatWebsocket(io);
 // CHAT CONFIG=============================
 
