@@ -2,14 +2,16 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import { GlobalContext } from '../global_ context_provider';
-import { selectBlogs } from '../../selectors/selectors';
+import { selectBlogs, selectUsers } from '../../selectors/selectors';
 import { fetchUserFollowing } from '../../actions/user_actions';
 import { openChatDrawer } from '../../actions/chat_actions';
 
 const mapStateToProps = (state, _) => {
   const blogs = selectBlogs(state);
+  const users = selectUsers(state);
   return {
     blogs,
+    users,
   };
 };
 
@@ -130,15 +132,18 @@ class ChatPopover extends React.Component {
 
   renderBlogItem(blog) {
     if (!blog) return null; // account for when blogs are not yet fetched
+    const { users } = this.props;
+    let author = users[blog.author];
     return (
-      <li key={blog._id}
-        className='popover-menu-item'>
+      <li key={author._id}
+        className='popover-menu-item'
+        onClick={this.handleClick(author.username)}>
         <div className='blog-item'>
           <div className='blog-item-info'>
             <div className='avatar avatar-small'
               style={{ backgroundImage: `url(${blog.avatarImageUrl})` }} />
             <div className='blog-item-details'>
-              <span className='blog-item-details-name'>{blog.name}</span>
+              <span className='blog-item-details-name'>{author.username}</span>
               <span className='blog-item-details-title'>{blog.title}</span>
               <a>Send a message</a>
             </div>
@@ -150,6 +155,8 @@ class ChatPopover extends React.Component {
 
   handleClick(clickAction) {
     if (clickAction === 'newChat') return this.toggleChatForm;
+    // to handle clicks on recently followed, clickAction will be populated with chat partner's username
+    else return (e) => { this.props.openChatDrawer(clickAction) };
   }
 
   handleChange(inputField) {

@@ -56,6 +56,7 @@ router.get('/users/:id/following', middleware.isLoggedIn, function (req, res) {
         return Blog.find()
           .where('_id').in(recentlyFollowed)
           .select('_id avatarImageUrl backgroundImageUrl name title')
+          .populate({ path: 'author', select: 'username' })
           .exec()
       } else {
         return Post.find()

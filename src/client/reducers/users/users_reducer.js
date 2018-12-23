@@ -4,6 +4,7 @@ import { RECEIVE_CURRENT_USER, REMOVE_CURRENT_USER } from '../../actions/session
 import { FOLLOW_BLOG, UNFOLLOW_BLOG, RECEIVE_FOLLOWERS } from '../../actions/follow_actions';
 import { RECEIVE_USERS, RECEIVE_USER_LIKES, RECEIVE_USER_FOLLOWING } from '../../actions/user_actions';
 import { RECEIVE_NOTES } from '../../actions/note_actions';
+import { RECEIVE_BLOGS } from '../../actions/blog_actions';
 import { RECEIVE_CHAT_ROOM } from '../../actions/chat_actions';
 import { replaceArray } from '../../util/misc_util';
 
@@ -14,15 +15,13 @@ const defaultState = {
 
 const blogSchema = new schema.Entity(
   'blogs',
-  { author: userSchema },
+  { author: new schema.Entity('users', {}, { idAttribute: '_id' }) },
   { idAttribute: '_id' }
 );
 
 const userSchema = new schema.Entity(
   'users',
-  {
-    primaryBlog: blogSchema,
-  },
+  { primaryBlog: blogSchema },
   { idAttribute: '_id' }
 );
 
@@ -56,6 +55,17 @@ const usersReducer = function (state = defaultState, action) {
     case RECEIVE_CHAT_ROOM:
       normalizedPayload = normalize(action.payload, chatRoomSchema);
       newState.byId = merge(
+        {},
+        state.byId,
+        normalizedPayload.entities.users,
+      );
+      userIdsArr = Object.keys(normalizedPayload.entities.users)
+      newState.allIds = union(state.allIds, userIdsArr);
+      return newState;
+    case RECEIVE_BLOGS:
+      payloadSchema = [blogSchema];
+      normalizedPayload = normalize(action.payload, payloadSchema);
+      newState.byId = mergeWith(
         {},
         state.byId,
         normalizedPayload.entities.users,
