@@ -9,6 +9,7 @@ const postRoutes = require('../routes/posts');
 const followRoutes = require('../routes/follows');
 const noteRoutes = require('../routes/notes');
 const searchRoutes = require('../routes/search');
+const chatRoutes = require('../routes/chats');
 const linkPreviewRoute = require('../routes/link_preview');
 
 const User = require('../models/user');
@@ -24,6 +25,7 @@ router.use('/api', sessionRoutes);
 router.use('/api', feedRoutes);
 router.use('/api', blogRoutes);
 router.use('/api', searchRoutes);
+router.use('/api', chatRoutes);
 router.use('/api/blogs/:id', postRoutes);
 router.use('/api/blogs/:id', followRoutes);
 router.use('/api/posts/:id', noteRoutes);

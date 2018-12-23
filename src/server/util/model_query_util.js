@@ -1,9 +1,12 @@
 let modelQuery = {};
 const { merge, union } = require('lodash');
+const User = require('../models/user');
 const Blog = require('../models/blog');
 const Post = require('../models/post');
 const Note = require('../models/note');
 const Tag = require('../models/tag');
+const ChatRoom = require('../models/chat_room');
+const ChatMessage = require('../models/chat_message');
 
 modelQuery.getCurrentUserLikes = function (userId) {
   return Note.find({ type: 'like', author: userId })
@@ -13,6 +16,16 @@ modelQuery.getCurrentUserLikes = function (userId) {
       if (!likes) throw { message: 'Error.' }
       let likedPosts = likes.map((like) => like.post);
       return likedPosts;
+    });
+};
+
+modelQuery.findOneUser = function (username) {
+  return User.find({ username: username })
+    .select('username')
+    .exec()
+    .then((foundUser) => {
+      if (!foundUser) throw { message: 'The user does not exist.' };
+      return foundUser;
     });
 };
 
@@ -105,7 +118,6 @@ modelQuery.deleteComment = function (commentId) {
 }
 
 modelQuery.findTags = function (tagQuery, limit = 5) {
-  // debugger
   return Tag.$where(`this.label.includes('${tagQuery}')`)
     .select('label postCount')
     .limit(limit)
@@ -181,6 +193,39 @@ modelQuery.findOrCreateTags = function (tags) {
         })
         .catch((err) => reject(err));
     });
+  });
+};
+
+modelQuery.createChatRoom = function (participants) {
+  return ChatRoom.create({ participants })
+    .then((chatRoom) => {
+      // populate participants
+      return chatRoom.populate({
+        path: 'participants',
+        select: 'username avatarImageUrl backgroundImageUrl',
+      })
+        .execPopulate();
+    })
+    .then((chatRoom) => {
+      // populate messages
+      return populateChatMessages(chatRoom);
+    })
+    .then((chatRoom) => {
+      return chatRoom;
+    });
+};
+
+const populateChatMessages = function (chatRoom) {
+  return new Promise((resolve, reject) => {
+    ChatMessage.find({ chatRoomId: chatRoom._id })
+      .sort({ 'createdAt': 'desc' })
+      .exec()
+      .then((foundMessages) => {
+        let chatRoomObj = chatRoom.toObject(); // Cannot add new properties to MongoDB Documents
+        chatRoomObj.messages = foundMessages;
+        resolve(chatRoomObj);
+      })
+      .catch((err) => reject(err));
   });
 };
 
