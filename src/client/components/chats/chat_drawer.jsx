@@ -59,6 +59,7 @@ class ChatDrawer extends React.Component {
   }
 
   componentDidMount() {
+    // TODO: 
     // 1. if activeChatPartner is not null, either fetch an existing chat, or create a new chat
     // 2. send the chat Id to server when connecting thru websocket, that serves as the chat 'room' on the server
     // 3. fetch and render messages linked to chatId in desc order
@@ -83,10 +84,21 @@ class ChatDrawer extends React.Component {
   componentWillReceiveProps(newProps) {
     let newActiveChatPartner = newProps.chatDrawers.activeChatPartner;
     let oldActiveChatPartner = this.props.chatDrawers.activeChatPartner;
-    if (newActiveChatPartner !== oldActiveChatPartner) {
-      // 1. if activeChatPartner is not null, either fetch an existing chat, 
-      // or create a new chat
-      this.props.createChatRoom(newActiveChatPartner);
+    if (newActiveChatPartner && newActiveChatPartner !== oldActiveChatPartner) {
+      // 1. if activeChatPartner is not null, either fetch an existing chat room, 
+      // or create a new chat room
+      this.props.createChatRoom(newActiveChatPartner)
+      if (this.activeChatRef.current) {
+        this.activeChatRef.current.classList.remove('chat-slide-up');
+        let activeChatTimer = setTimeout(
+          () => {
+            clearTimeout(activeChatTimer);
+            activeChatTimer = null;
+            this.activeChatRef.current.classList.add('chat-slide-up');
+          },
+          100
+        );
+      }
     }
   }
 
