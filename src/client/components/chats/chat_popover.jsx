@@ -51,7 +51,8 @@ class ChatPopover extends React.Component {
     if (this.state.showChatForm) {
       chatSection = this.renderChatForm();
     } else {
-      chatSection = this.renderChatIndex();
+      // chatSection = this.renderChatIndex();
+      chatSection = null;
     }
     return (
       <div className='chat-popover popover'>

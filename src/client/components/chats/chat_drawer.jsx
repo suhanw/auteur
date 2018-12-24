@@ -259,12 +259,14 @@ class ChatDrawer extends React.Component {
     const options = { query: { chatRoom: chatRoomId } }
     this.socket = io('/chat', options); // connect to the chat namespace and create a room based on ChatRoom._id on the server-side
     this.socket.on('connect', () => {
+      // REMOVE IN PROD
       console.log(`${this.socket.id} joined room ${chatRoomId}`);
       this.socket.on('chatMessage', () => {
         // 5. on the socket event occuring, fetch the latest message
         this.props.fetchChatMessage(activeChatPartner, chatRoomId);
       });
     });
+    // REMOVE IN PROD
     this.socket.on('disconnect', (reason) => {
       console.log(this.socket.id, reason);
     });

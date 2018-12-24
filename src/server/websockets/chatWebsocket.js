@@ -4,6 +4,7 @@ const chatWebsocket = function (io) {
     const { chatRoom } = socket.handshake.query;
 
     socket.join(chatRoom, () => {
+      // REMOVE IN PROD
       console.log(`${socket.id} joined room ${chatRoom}`);
       socket.on('chatMessage', function (data) {
         // console.log(data.body);
@@ -12,6 +13,7 @@ const chatWebsocket = function (io) {
       })
     });
 
+    // REMOVE IN PROD
     socket.on('disconnect', function (reason) {
       console.log(socket.id, reason);
     });

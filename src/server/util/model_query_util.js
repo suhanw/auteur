@@ -210,24 +210,7 @@ modelQuery.findRecentChatMessages = function (currentUserId) {
     .in(currentUserId)
     .select('_id')
     .then((chatRooms) => {
-      let chatRoomCount = chatRooms.length;
-      let recentChatMessages = [];
-      return new Promise((resolve, reject) => {
-        chatRooms.forEach((chatRoom) => {
-          modelQuery.findLastChatMessage(chatRoom._id)
-            .then((lastChatMessage) => {
-              if (!lastChatMessage) return null;
-              return lastChatMessage.populate({ path: 'author', select: 'username avatarImageUrl' })
-                .execPopulate();
-            })
-            .then((lastChatMessage) => {
-              chatRoomCount--;
-              if (lastChatMessage) recentChatMessages.push(lastChatMessage);
-              if (!chatRoomCount) resolve(recentChatMessages);
-            })
-            .catch((err) => reject(err));
-        });
-      });
+      return findLastChatRoomActivity(chatRooms);
     })
     .then((recentChatMessages) => {
       return recentChatMessages.sort((a, b) => { // sort by most recent
@@ -236,6 +219,27 @@ modelQuery.findRecentChatMessages = function (currentUserId) {
         return 0;
       });
     });
+};
+
+const findLastChatRoomActivity = function (chatRooms) {
+  let chatRoomCount = chatRooms.length;
+  let recentChatMessages = [];
+  return new Promise((resolve, reject) => {
+    chatRooms.forEach((chatRoom) => {
+      modelQuery.findLastChatMessage(chatRoom._id)
+        .then((lastChatMessage) => {
+          if (!lastChatMessage) return null;
+          return lastChatMessage.populate({ path: 'author', select: 'username avatarImageUrl' })
+            .execPopulate();
+        })
+        .then((lastChatMessage) => {
+          chatRoomCount--;
+          if (lastChatMessage) recentChatMessages.push(lastChatMessage);
+          if (!chatRoomCount) resolve(recentChatMessages);
+        })
+        .catch((err) => reject(err));
+    });
+  });
 };
 
 modelQuery.findOneChatRoom = function (participants) {
