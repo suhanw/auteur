@@ -29,6 +29,14 @@ modelQuery.findOneUser = function (username) {
     });
 };
 
+modelQuery.findUsers = function (userQuery, currentUserId) {
+  return User.$where(`this.username.includes('${userQuery}')`)
+    .where('_id').ne(currentUserId) // exclude current user who's doiing the search
+    .select('username avatarImageUrl')
+    .lean(true)
+    .exec()
+};
+
 modelQuery.findOneBlog = function (blogId) {
   return Blog.findOne({ _id: blogId })
     .exec()

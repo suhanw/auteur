@@ -2,22 +2,26 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import { GlobalContext } from '../global_ context_provider';
-import { selectBlogs, selectUsers } from '../../selectors/selectors';
+import { selectBlogs, selectUsers, selectSearchUsers } from '../../selectors/selectors';
 import { fetchUserFollowing } from '../../actions/user_actions';
+import { fetchSearchUsers } from '../../actions/search_actions';
 import { openChatDrawer } from '../../actions/chat_actions';
 
 const mapStateToProps = (state, _) => {
   const blogs = selectBlogs(state);
   const users = selectUsers(state);
+  const searchUsers = selectSearchUsers(state);
   return {
     blogs,
     users,
+    searchUsers,
   };
 };
 
 const mapDispatchToProps = (dispatch, _) => {
   return {
     fetchUserFollowing: (userId, queryParams) => dispatch(fetchUserFollowing(userId, queryParams)),
+    fetchSearchUsers: (userQuery) => dispatch(fetchSearchUsers(userQuery)),
     openChatDrawer: (chatDrawer) => dispatch(openChatDrawer(chatDrawer)),
   }
 };
@@ -33,11 +37,11 @@ class ChatPopover extends React.Component {
 
     this.renderHeader = this.renderHeader.bind(this);
     this.renderChatForm = this.renderChatForm.bind(this);
+    this.renderPotentialChatPartners = this.renderPotentialChatPartners.bind(this);
     this.renderChatIndex = this.renderChatIndex.bind(this);
     this.renderRecentlyFollowedSection = this.renderRecentlyFollowedSection.bind(this);
     this.renderBlogItem = this.renderBlogItem.bind(this);
     this.handleClick = this.handleClick.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.toggleChatForm = this.toggleChatForm.bind(this);
   }
@@ -86,17 +90,49 @@ class ChatPopover extends React.Component {
 
   renderChatForm() {
     return (
-      <form className='chat-form'
-        onSubmit={this.handleSubmit}>
-        <span>To: </span>
-        <input type='text'
-          name='newChatPartner'
-          autoFocus={true}
-          value={this.state.newChatPartner}
-          onChange={this.handleChange('newChatPartner')}
-          onClick={(e) => e.stopPropagation() /* stop bubbling to window closePopover */} />
-      </form>
+      <section className='popover-subsection'>
+        <form className='chat-form'
+          onSubmit={(e) => e.preventDefault() /* force current user to select from search user results */}>
+          <span>To: </span>
+          <input type='text'
+            name='newChatPartner'
+            autoFocus={true}
+            value={this.state.newChatPartner}
+            onChange={this.handleChange}
+            onClick={(e) => e.stopPropagation() /* stop bubbling to window closePopover */} />
+        </form>
+        {this.renderPotentialChatPartners()}
+      </section>
     )
+  }
+
+  renderPotentialChatPartners() {
+    const { newChatPartner } = this.state;
+    const { users, searchUsers } = this.props;
+    if (!newChatPartner.length) return null; // if no text in input field, render nothing
+    let potentialChatPartners = searchUsers.map((userId) => {
+      let user = users[userId];
+      if (!user) return null; // if user hasn't been fetched yet
+      return (
+        <li key={`search_${user._id}`}
+          className='popover-menu-item'
+          tabIndex='0'
+          onClick={this.handleClick(user.username)}>
+          <div className='blog-item'>
+            <div className='avatar avatar-small'
+              style={{ backgroundImage: `url(${user.avatarImageUrl})` }} />
+            <div className='blog-item-details'>
+              <span className='blog-item-details-name'>{user.username}</span>
+            </div>
+          </div>
+        </li>
+      );
+    });
+    return (
+      <ul>
+        {potentialChatPartners}
+      </ul>
+    );
   }
 
   renderChatIndex() {
@@ -137,18 +173,16 @@ class ChatPopover extends React.Component {
     let author = users[blog.author];
     if (!author) return null; // account for when the author is not yet fetched
     return (
-      <li key={author._id}
+      <li key={`blog_${author._id}`}
         className='popover-menu-item'
         onClick={this.handleClick(author.username)}>
         <div className='blog-item'>
-          <div className='blog-item-info'>
-            <div className='avatar avatar-small'
-              style={{ backgroundImage: `url(${blog.avatarImageUrl})` }} />
-            <div className='blog-item-details'>
-              <span className='blog-item-details-name'>{author.username}</span>
-              <span className='blog-item-details-title'>{blog.title}</span>
-              <a>Send a message</a>
-            </div>
+          <div className='avatar avatar-small'
+            style={{ backgroundImage: `url(${blog.avatarImageUrl})` }} />
+          <div className='blog-item-details'>
+            <span className='blog-item-details-name'>{author.username}</span>
+            <span className='blog-item-details-title'>{blog.title}</span>
+            <a>Send a message</a>
           </div>
         </div>
       </li>
@@ -161,20 +195,11 @@ class ChatPopover extends React.Component {
     else return (e) => { this.props.openChatDrawer(clickAction) };
   }
 
-  handleChange(inputField) {
-    const that = this;
-    return function (e) {
-      let newState = {};
-      newState[inputField] = e.target.value;
-      that.setState(newState);
-    }
-  }
-
-  handleSubmit(e) {
-    // TODO: ONLY ALLOW SUBMIT FOR EXISTING USER
-    e.preventDefault();
-    const { openChatDrawer } = this.props;
-    openChatDrawer(this.state.newChatPartner);
+  handleChange(e) {
+    this.setState({ newChatPartner: e.target.value }, () => {
+      const { newChatPartner } = this.state;
+      if (newChatPartner.length) this.props.fetchSearchUsers(newChatPartner); // only search when query is not blank
+    });
   }
 
   toggleChatForm(e) {

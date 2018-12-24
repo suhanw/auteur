@@ -8,7 +8,7 @@ const Blog = require('../models/blog');
 const Post = require('../models/post');
 const Note = require('../models/note');
 
-// POST api/users
+// POST api/users - create new user account
 router.post('/users',
   function (req, res) {
     User.register( // method provided by passport-local-mongoose

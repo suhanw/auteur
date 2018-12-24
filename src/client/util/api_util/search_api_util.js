@@ -8,6 +8,13 @@ export const fetchTags = function (tagQuery) {
 export const fetchSearchPosts = function (tagQuery) {
   return $.ajax({
     method: 'GET',
-    url: `/api/search?q=${tagQuery}`,
+    url: `/api/search/posts?q=${tagQuery}`,
+  });
+};
+
+export const fetchSearchUsers = function (userQuery) {
+  return $.ajax({
+    method: 'GET',
+    url: `/api/search/users?q=${userQuery}`,
   });
 };

@@ -76,6 +76,7 @@
 }
 
 .active-chat .scrolling-container {
+  max-height: 328px;
   background-color: $background-grey;
   flex-grow: 1;
   border-bottom: rgb(231, 231, 231) 1px solid;
@@ -134,7 +135,6 @@
 }
 
 .chat-message-submit {
-  height: 60px;
   width: 100%;
   display: flex;
   justify-content: flex-end;

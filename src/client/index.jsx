@@ -39,8 +39,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
 // REMOVE IN PROD
 // import { fetchChatMessage, createChatMessage } from './util/api_util/chat_api_util';
-import { fetchChatMessage, createChatMessage } from './actions/chat_actions';
+// import { fetchChatMessage, createChatMessage } from './actions/chat_actions';
+// import { fetchSearchUsers } from './actions/search_actions';
 
-window.fetchChatMessage = fetchChatMessage;
-window.createChatMessage = createChatMessage;
+// window.fetchSearchUsers = fetchSearchUsers;
+// window.fetchChatMessage = fetchChatMessage;
+// window.createChatMessage = createChatMessage;
 // REMOVE IN PROD

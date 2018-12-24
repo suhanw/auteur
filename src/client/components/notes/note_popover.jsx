@@ -77,9 +77,7 @@ class NotePopover extends React.Component {
 
   componentDidMount() {
     const { fetchNotes, post } = this.props;
-    fetchNotes(post._id).then(
-      () => this.scrollToBottom()
-    );
+    fetchNotes(post._id);
   }
 
   componentDidUpdate() {
@@ -269,7 +267,6 @@ class NotePopover extends React.Component {
   }
 
   handleSubmit(e) {
-    // TODO: scroll to bottom when new comment added
     e.preventDefault();
     e.stopPropagation(); //to stop event from bubbling up to window closePopover
     if (this.state.body.length === 0) return; // don't submit if no comment text

@@ -100,7 +100,6 @@ class ChatDrawer extends React.Component {
   }
 
   renderActiveChat() {
-    // TODO: attach listener for Esc key
     const { activeChatPartner } = this.props.chatDrawers;
     if (!activeChatPartner) return null;
 

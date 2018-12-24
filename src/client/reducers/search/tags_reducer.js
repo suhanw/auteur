@@ -1,6 +1,6 @@
-import { merge, union } from 'lodash';
 import { schema, normalize } from 'normalizr';
 import { RECEIVE_TAGS } from '../../actions/search_actions';
+import { REMOVE_CURRENT_USER } from '../../actions/session_actions';
 
 const defaultState = {
   byId: {},
@@ -23,11 +23,11 @@ const tagsReducer = function (state = defaultState, action) {
     case RECEIVE_TAGS:
       payloadSchema = [tagSchema];
       normalizedPayload = normalize(action.payload, payloadSchema);
-      // newState.byId = merge({}, normalizedPayload.entities.tags, state.byId);
-      // newState.allIds = union(normalizedPayload.result, state.allIds);
       newState.byId = normalizedPayload.entities.tags;
       newState.allIds = normalizedPayload.result;
       return newState;
+    case REMOVE_CURRENT_USER:
+      return defaultState;
     default:
       return state;
   }

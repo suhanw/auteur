@@ -125,6 +125,11 @@ export const selectNavbar = function (state) {
   return navbar;
 }
 
+export const selectSearchUsers = function (state) {
+  const { ui: { search: { users } } } = state;
+  return users;
+};
+
 // ERROR SELECTORS=================================
 export const selectPostErrors = function (state) {
   const { errors: { postErrors } } = state;

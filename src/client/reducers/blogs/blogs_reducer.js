@@ -104,6 +104,7 @@ const blogsReducer = function (state = defaultState, action) {
         case RECEIVE_USERS:
             payloadSchema = [userSchema];
             normalizedPayload = normalize(action.payload, payloadSchema);
+            if (!normalizedPayload.entities.blogs) return state; // blogs not populated when searching for users
             newState.byId = merge(
                 {},
                 state.byId,

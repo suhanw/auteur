@@ -70,6 +70,7 @@ const usersReducer = function (state = defaultState, action) {
         {},
         state.byId,
         normalizedPayload.entities.users,
+        replaceArray,
       );
       userIdsArr = Object.keys(normalizedPayload.entities.users)
       newState.allIds = union(state.allIds, userIdsArr);
@@ -128,6 +129,7 @@ const usersReducer = function (state = defaultState, action) {
       newState.byId[action.payload.userId].likedPosts = action.payload.likedPosts;
       return newState;
     case RECEIVE_USERS:
+      if (!action.payload.length) return state; // searching for users may return empty array
       payloadSchema = [userSchema];
       normalizedPayload = normalize(action.payload, payloadSchema);
       newState.byId = mergeWith(

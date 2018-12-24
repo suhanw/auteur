@@ -48,8 +48,16 @@
 
 .chat-form {
   padding: 15px;
+  border-bottom: rgb(231, 231, 231) 1px solid;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .chat-form span {
   margin-right: 5px;
+}
+
+.chat-form input {
+  flex-grow: 1;
 }
