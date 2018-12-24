@@ -44,14 +44,13 @@ class SearchPopover extends React.Component {
       let tagLabel = tags.byId[tagId].label;
       let tagRegex = new RegExp(`(.*)(${query})(.*)`); // to underline the query string that matches the tag label
       let tagLabelArr = tagLabel.match(tagRegex);
-      if (!tagLabelArr) return null;
+      if (!tagLabelArr) return null; // if tags haven't been updated on change of query term
       return (
         <Link to={`/search/${tagLabel}`}
           key={tagId}
           onMouseDown={(e) => e.preventDefault() /* prevent default on mouse down will block the popover from stealing focus (i.e., trigger blur event on the search input) */}
           onClick={() => closePopover()}>
           <li className='popover-menu-item'>
-            {/* {tagLabel} */}
             {tagLabelArr[1]}
             <u>{tagLabelArr[2]}</u>
             {tagLabelArr[3]}

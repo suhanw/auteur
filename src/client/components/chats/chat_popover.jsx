@@ -113,6 +113,10 @@ class ChatPopover extends React.Component {
     let potentialChatPartners = searchUsers.map((userId) => {
       let user = users[userId];
       if (!user) return null; // if user hasn't been fetched yet
+      let username = user.username;
+      let userQueryRegex = new RegExp(`(.*)(${newChatPartner})(.*)`); // to underline the query string that matches the tag label
+      let usernameArr = username.match(userQueryRegex);
+      if (!usernameArr) return null; // if users haven't been updated on change of query term
       return (
         <li key={`search_${user._id}`}
           className='popover-menu-item'
@@ -122,7 +126,11 @@ class ChatPopover extends React.Component {
             <div className='avatar avatar-small'
               style={{ backgroundImage: `url(${user.avatarImageUrl})` }} />
             <div className='blog-item-details'>
-              <span className='blog-item-details-name'>{user.username}</span>
+              <span className='blog-item-details-name'>
+                {usernameArr[1]}
+                <u>{usernameArr[2]}</u>
+                {usernameArr[3]}
+              </span>
             </div>
           </div>
         </li>
