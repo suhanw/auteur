@@ -53,7 +53,7 @@ class ChatDrawer extends React.Component {
     this.resizeChatMessageInput = this.resizeChatMessageInput.bind(this);
     this.closeActiveChat = this.closeActiveChat.bind(this);
     this.animateChatTransition = this.animateChatTransition.bind(this);
-    this.createChatWebsocket = this.createChatWebsocket.bind(this);
+    this.createChatSocket = this.createChatSocket.bind(this);
     this.scrollToBottom = this.scrollToBottom.bind(this);
   }
 
@@ -86,7 +86,7 @@ class ChatDrawer extends React.Component {
       .then((action) => {
         // 2. send the chat Id to server when connecting thru websocket, that serves as the chat 'room' on the server
         const chatRoomId = action.payload._id; // payload will be the ChatRoom document
-        this.createChatWebsocket(newActiveChatPartner, chatRoomId);
+        this.createChatSocket(newActiveChatPartner, chatRoomId);
       });
     this.animateChatTransition();
   }
@@ -216,6 +216,7 @@ class ChatDrawer extends React.Component {
       body: this.state.newChatMessage,
     };
     // 4. in handleSubmit, post new message, which is attached to the socket event
+    // TODO: need to know if the chat partner is online, so can set the 'unread' to true or false
     createChatMessage(activeChatPartner, newChatMessage);
     this.socket.emit('chatMessage');
     this.setState({ newChatMessage: '' });
@@ -246,17 +247,17 @@ class ChatDrawer extends React.Component {
   animateChatTransition() {
     if (!this.activeChatRef.current) return;
     this.activeChatRef.current.classList.remove('chat-slide-up');
-    let activeChatTimer = setTimeout(
+    let animateChatTransitionTimer = setTimeout(
       () => {
-        clearTimeout(activeChatTimer);
-        activeChatTimer = null;
+        clearTimeout(animateChatTransitionTimer);
+        animateChatTransitionTimer = null;
         this.activeChatRef.current.classList.add('chat-slide-up');
       },
       100
     );
   }
 
-  createChatWebsocket(activeChatPartner, chatRoomId) {
+  createChatSocket(activeChatPartner, chatRoomId) {
     const options = { query: { chatRoom: chatRoomId } }
     this.socket = io('/chat', options); // connect to the chat namespace and create a room based on ChatRoom._id on the server-side
     this.socket.on('connect', (err) => {
@@ -270,7 +271,7 @@ class ChatDrawer extends React.Component {
     });
     // REMOVE IN PROD
     this.socket.on('disconnect', (reason) => {
-      console.log(this.socket.id, reason);
+      console.log(reason);
     });
     // REMOVE IN PROD
   }
