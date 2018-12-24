@@ -27,6 +27,8 @@ class NoteMenu extends React.Component {
         <span>{noteCount}</span>
         <ul className='note-menu'>
 
+          {/* TODO: render the chat icon */}
+
           {this.renderCommentBubble()}
 
           {/* render cog if the post belongs to current user, else render heart */}
