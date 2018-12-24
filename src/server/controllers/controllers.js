@@ -13,11 +13,9 @@ const chatRoutes = require('../routes/chats');
 
 const linkPreviewRoute = require('../routes/link_preview');
 
-router.get(
-    "/",
-    function (req, res) {
-        return res.render('index', { currentUser: req.user });
-    });
+router.get("/", function (req, res) {
+    return res.render('index', { currentUser: req.user });
+});
 
 router.use('/api', userRoutes);
 router.use('/api', sessionRoutes);

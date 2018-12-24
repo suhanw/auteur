@@ -6,17 +6,17 @@ const chatWebsocket = function (io) {
     socket.join(chatRoom, () => {
       // REMOVE IN PROD
       console.log(`${socket.id} joined room ${chatRoom}`);
-      socket.on('chatMessage', function (data) {
-        // console.log(data.body);
+      // REMOVE IN PROD
+      socket.on('chatMessage', function () {
         chatNamespace.in(chatRoom).emit('chatMessage');
-        // io.in('room').emit('chatMessage', data);
-      })
+      });
     });
 
     // REMOVE IN PROD
     socket.on('disconnect', function (reason) {
       console.log(socket.id, reason);
     });
+    // REMOVE IN PROD
   });
 };
 
