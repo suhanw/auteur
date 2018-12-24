@@ -31,18 +31,4 @@ document.addEventListener('DOMContentLoaded', function () {
   const rootDOM = document.querySelector('#root');
   ReactDOM.render(<Root store={store} />, rootDOM);
 
-  // REMOVE IN PROD
-  window.dispatch = store.dispatch;
-  // REMOVE IN PROD
-
 });
-
-// REMOVE IN PROD
-// import { fetchChatMessage, createChatMessage } from './util/api_util/chat_api_util';
-// import { fetchChatMessage, createChatMessage } from './actions/chat_actions';
-// import { fetchSearchUsers } from './actions/search_actions';
-
-// window.fetchSearchUsers = fetchSearchUsers;
-// window.fetchChatMessage = fetchChatMessage;
-// window.createChatMessage = createChatMessage;
-// REMOVE IN PROD
