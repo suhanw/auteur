@@ -206,6 +206,7 @@ class ChatDrawer extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
+    if (!this.state.newChatMessage.length) return; // do nothing if user tries to submit empty input
     const { chatRooms, createChatMessage } = this.props;
     const { activeChatPartner } = this.props.chatDrawers;
     let newChatMessage = {
@@ -261,6 +262,7 @@ class ChatDrawer extends React.Component {
     this.socket.on('connect', () => {
       // REMOVE IN PROD
       console.log(`${this.socket.id} joined room ${chatRoomId}`);
+      // REMOVE IN PROD
       this.socket.on('chatMessage', () => {
         // 5. on the socket event occuring, fetch the latest message
         this.props.fetchChatMessage(activeChatPartner, chatRoomId);
@@ -270,6 +272,7 @@ class ChatDrawer extends React.Component {
     this.socket.on('disconnect', (reason) => {
       console.log(this.socket.id, reason);
     });
+    // REMOVE IN PROD
   }
 
   scrollToBottom() {
