@@ -66,8 +66,8 @@ passport.deserializeUser(User.deserializeUser()); // method provided by passport
 
 // CHAT CONFIG=============================
 const io = require('socket.io')(httpServer); // create a Server
-const chatWebsocket = require('./websockets/chatWebsocket');
-chatWebsocket(io); // this module will create a Namespace
+const chatNamespace = require('./sockets/chat_namespace');
+chatNamespace(io); // this module will create a Namespace
 // CHAT CONFIG=============================
 
 // API ROUTES==============================

@@ -69,25 +69,26 @@ class ChatDrawer extends React.Component {
   componentWillReceiveProps(newProps) {
     let newActiveChatPartner = newProps.chatDrawers.activeChatPartner;
     let oldActiveChatPartner = this.props.chatDrawers.activeChatPartner;
-    if (newActiveChatPartner && newActiveChatPartner !== oldActiveChatPartner) {
-      // 1. if activeChatPartner is not null, either fetch an existing chat room, 
-      this.props.fetchChatRoom(newActiveChatPartner)
-        .then((action) => {
-          // or create a new chat room
-          if (action.type === 'RECEIVE_CHAT_ERRORS') return this.props.createChatRoom(newActiveChatPartner);
-          return action;
-        })
-        .then((action) => {
-          // 2. send the chat Id to server when connecting thru websocket, that serves as the chat 'room' on the server
-          if (action.type === 'RECEIVE_CHAT_ROOM') {
-            const chatRoomId = action.payload._id; // payload will be the ChatRoom document
-            this.createChatWebsocket(newActiveChatPartner, chatRoomId);
-          }
-        });
-      this.animateChatTransition();
-    } else if (!newActiveChatPartner) { // disconnect websocket when chat drawer is closed
+    if (!newActiveChatPartner) { // disconnect socket when chat drawer is closed
       if (this.socket) this.socket.disconnect(true);
+      return;
+    } else if (newActiveChatPartner === oldActiveChatPartner) { // continue only when user selects a different chat partner
+      return;
     }
+
+    // 1. if activeChatPartner is not null, either fetch an existing chat room, 
+    this.props.fetchChatRoom(newActiveChatPartner)
+      .then((action) => {
+        // or create a new chat room
+        if (action.type === 'RECEIVE_CHAT_ERRORS') return this.props.createChatRoom(newActiveChatPartner);
+        return action;
+      })
+      .then((action) => {
+        // 2. send the chat Id to server when connecting thru websocket, that serves as the chat 'room' on the server
+        const chatRoomId = action.payload._id; // payload will be the ChatRoom document
+        this.createChatWebsocket(newActiveChatPartner, chatRoomId);
+      });
+    this.animateChatTransition();
   }
 
   componentDidUpdate() {
@@ -95,7 +96,7 @@ class ChatDrawer extends React.Component {
   }
 
   componentWillUnmount() {
-    // disconnect any open websockets
+    // disconnect any open sockets
     if (this.socket) this.socket.disconnect(true);
   }
 
@@ -243,23 +244,22 @@ class ChatDrawer extends React.Component {
   }
 
   animateChatTransition() {
-    if (this.activeChatRef.current) {
-      this.activeChatRef.current.classList.remove('chat-slide-up');
-      let activeChatTimer = setTimeout(
-        () => {
-          clearTimeout(activeChatTimer);
-          activeChatTimer = null;
-          this.activeChatRef.current.classList.add('chat-slide-up');
-        },
-        100
-      );
-    }
+    if (!this.activeChatRef.current) return;
+    this.activeChatRef.current.classList.remove('chat-slide-up');
+    let activeChatTimer = setTimeout(
+      () => {
+        clearTimeout(activeChatTimer);
+        activeChatTimer = null;
+        this.activeChatRef.current.classList.add('chat-slide-up');
+      },
+      100
+    );
   }
 
   createChatWebsocket(activeChatPartner, chatRoomId) {
     const options = { query: { chatRoom: chatRoomId } }
     this.socket = io('/chat', options); // connect to the chat namespace and create a room based on ChatRoom._id on the server-side
-    this.socket.on('connect', () => {
+    this.socket.on('connect', (err) => {
       // REMOVE IN PROD
       console.log(`${this.socket.id} joined room ${chatRoomId}`);
       // REMOVE IN PROD

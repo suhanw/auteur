@@ -1,6 +1,6 @@
-const chatWebsocket = function (io) {
-  const chatNamespace = io.of('/chat');
-  chatNamespace.on('connection', function (socket) {
+const chatNamespace = function (io) {
+  const chatNsp = io.of('/chat');
+  chatNsp.on('connection', function (socket) {
     const { chatRoom } = socket.handshake.query;
 
     socket.join(chatRoom, () => {
@@ -8,7 +8,7 @@ const chatWebsocket = function (io) {
       console.log(`${socket.id} joined room ${chatRoom}`);
       // REMOVE IN PROD
       socket.on('chatMessage', function () {
-        chatNamespace.in(chatRoom).emit('chatMessage');
+        chatNsp.in(chatRoom).emit('chatMessage');
       });
     });
 
@@ -20,5 +20,4 @@ const chatWebsocket = function (io) {
   });
 };
 
-
-module.exports = chatWebsocket;
+module.exports = chatNamespace;
