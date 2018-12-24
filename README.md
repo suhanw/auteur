@@ -2,7 +2,7 @@
 
 [Auteur](https://auteur-nodejs.herokuapp.com)
 
-Auteur is a full-stack web application inspired by Tumblr. It utilizes Express Node.js on the backend, a MongoDB database, and React.js with a Redux architectural framework on the frontend.
+Auteur is a full-stack web application inspired by Tumblr. It utilizes Node.js on the backend, a MongoDB database, and React.js with a Redux architectural framework on the frontend.
 
 ## Features and Implementation
 
@@ -49,8 +49,8 @@ Enabled selective rendering and responsive layout for mobile devices via CSS med
 
 ### Design Patterns
 
-- Designed modular React components & normalized Redux state for a seamless single page experience
-- Used React Context to pass global data to nested components without manually threading props
+- Designed modular React components & normalized Redux state for a seamless single page experience.
+- Used React Context to pass global data to nested components without manually threading props.
 ```javascript
 // global_context_provider.jsx
 export const GlobalContext = React.createContext(null);
@@ -91,7 +91,7 @@ class PostShowItem extends React.Component {
 PostShowItem.contextType = GlobalContext;
 ```
 
-- Utilized Promises to simplify async code and minimize 'callback hell' on the Express back-end
+- Utilized Promises to simplify async code and minimize 'callback hell' on the NodeJS back-end.
 
 ```javascript
 // posts.js - API endpoint to create new post
