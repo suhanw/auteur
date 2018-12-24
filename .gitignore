@@ -4,7 +4,6 @@ seeds/
 bundle.*
 
 credentials.csv
-masonry_test.html
 
 .vscode
 .env
