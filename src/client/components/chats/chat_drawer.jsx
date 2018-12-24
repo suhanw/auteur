@@ -225,7 +225,7 @@ class ChatDrawer extends React.Component {
       body: this.state.newChatMessage,
     };
     // 4. in handleSubmit, post new message, which is attached to the socket event
-    // TODO: need to know if the chat partner is online, so can set the 'unread' to true or false
+    // TODO CHAT: need to know if the chat partner is online, so can set the 'unread' to true or false
     createChatMessage(activeChatPartner, newChatMessage);
     this.socket.emit('chatMessage');
     this.setState({ newChatMessage: '' });
