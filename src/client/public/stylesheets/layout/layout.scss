@@ -12,7 +12,8 @@ body {
   bottom: 0;
   left: 0;
   right: 0;
-  overflow: scroll; // to allow scrolling thru content in div.dashboard-content even though body is set to overflow: hidden.
+  overflow-y: scroll; // to allow scrolling thru content in div.dashboard-content even though body is set to overflow: hidden.
+  overflow-x: hidden;
 }
 
 .settings-content, 
