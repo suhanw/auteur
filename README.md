@@ -9,6 +9,12 @@ Auteur is a full-stack web application inspired by Tumblr. It utilizes Node.js o
 ### Single Page
 Auteur is a single page app that allows for quick navigation between its various components. As data is fetched from NodeJS, components are only updated when necessary.
 
+### Carousel
+Integrated React stateful components, CSS keyframe animations, and DOM events to create a carousel that responds to arrow keys, strokes on the touchpad, and mouse clicks.
+
+![Carousel](readme/carousel.gif)
+
+
 ### Posts
 To keep code DRY, leveraged Higher Order Components and component composition to render different types of posts and new/edit forms. 
 
