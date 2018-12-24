@@ -28,8 +28,6 @@ class NoteMenu extends React.Component {
         <span>{noteCount}</span>
         <ul className='note-menu'>
 
-          {/* TODO: render the chat icon */}
-
           {this.renderPaperPlane()}
           {this.renderCommentBubble()}
 
