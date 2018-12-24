@@ -18,12 +18,13 @@
 }
 
 .note-index .scrolling-container {
+  background-color: $background-grey;
   max-height: 400px;
 }
 
 .note-container {
   width: 100%;
-  background: $background-grey;
+  background-color: $background-grey;
   border-radius: 0;
   display: flex;
   flex-direction: column-reverse;

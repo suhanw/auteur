@@ -63,3 +63,13 @@ body {
 .scrolling-container {
   overflow-y: auto;
 }
+
+::-webkit-scrollbar {
+  opacity: 0;
+  width: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-color: $secondary-grey;
+}
