@@ -148,6 +148,7 @@ class PostShowItem extends React.Component {
             tags={post.tags} />
           <NoteMenuContainer
             view={view}
+            blog={blog}
             post={post}
             togglePostForm={this.togglePostForm}
             postShowItemRef={this.postShowItemRef} />

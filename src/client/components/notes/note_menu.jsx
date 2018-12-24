@@ -12,6 +12,7 @@ class NoteMenu extends React.Component {
     this.renderCommentBubble = this.renderCommentBubble.bind(this);
     this.renderHeart = this.renderHeart.bind(this);
     this.renderCog = this.renderCog.bind(this);
+    this.renderPaperPlane = this.renderPaperPlane.bind(this);
   }
 
   render() {
@@ -29,6 +30,7 @@ class NoteMenu extends React.Component {
 
           {/* TODO: render the chat icon */}
 
+          {this.renderPaperPlane()}
           {this.renderCommentBubble()}
 
           {/* render cog if the post belongs to current user, else render heart */}
@@ -42,30 +44,6 @@ class NoteMenu extends React.Component {
   shouldComponentUpdate(newProps, newState) {
     // TODO: think about how to avoid re-rendering every single post item when popover is opened/closed
     return true;
-  }
-
-  renderHeart() {
-    const { currentUser } = this.context;
-    const { post } = this.props;
-    let heartIconClass = 'far fa-heart';
-    let clickAction = 'createNote';
-    let note = {
-      type: 'like',
-      post: post._id,
-      author: currentUser._id,
-    };
-    // check if current user liked this post
-    if (currentUser.likedPosts && currentUser.likedPosts[post._id]) {
-      heartIconClass = 'fas fa-heart';
-      clickAction = 'deleteNote';
-      note._id = currentUser.likedPosts[post._id];
-    }
-    return (
-      <li className='note-menu-item'>
-        <i className={heartIconClass}
-          onClick={this.handleClick(clickAction, note)}></i>
-      </li>
-    );
   }
 
   renderCommentBubble() {
@@ -84,6 +62,30 @@ class NoteMenu extends React.Component {
         <i className="far fa-comment"
           onClick={this.togglePopover(notePopover)}></i>
         {notePopoverComponent}
+      </li>
+    );
+  }
+
+  renderHeart() {
+    const { currentUser } = this.context;
+    const { post } = this.props;
+    let heartIconClass = 'far fa-heart';
+    let clickAction = 'createNote';
+    let note = {
+      type: 'like',
+      post: post._id,
+      author: currentUser._id,
+    };
+
+    if (currentUser.likedPosts && currentUser.likedPosts[post._id]) { // render solid heart icon if current user liked this post
+      heartIconClass = 'fas fa-heart';
+      clickAction = 'deleteNote';
+      note._id = currentUser.likedPosts[post._id];
+    }
+    return (
+      <li className='note-menu-item'>
+        <i className={heartIconClass}
+          onClick={this.handleClick(clickAction, note)}></i>
       </li>
     );
   }
@@ -118,6 +120,18 @@ class NoteMenu extends React.Component {
         </div>
       </li>
     );
+  }
+
+  renderPaperPlane() {
+    const { blog } = this.props;
+    const { currentUser } = this.context;
+    if (blog.author === currentUser._id) return null;
+    return (
+      <li className='note-menu-item'>
+        <i className="far fa-paper-plane"
+          onClick={this.handleClick('openChatDrawer', blog.name)}></i>
+      </li>
+    )
   }
 
   handleClick(clickAction, payload) {

@@ -29,6 +29,11 @@ $note-icon-width: 20px;
   font-size: $note-icon-width;
 }
 
+.note-menu-item i.far.fa-paper-plane {
+  font-size: 18px;
+  margin-right: 3px;
+}
+
 .note-menu-item i.fas.fa-heart {
   color: $red;
 }
