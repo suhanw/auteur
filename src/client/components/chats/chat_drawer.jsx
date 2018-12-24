@@ -35,6 +35,7 @@ class ChatDrawer extends React.Component {
 
     this.state = {
       newChatMessage: '',
+      chatPartnerIsOnline: false,
     };
 
     this.socket = null;
@@ -103,6 +104,7 @@ class ChatDrawer extends React.Component {
   renderActiveChat() {
     const { activeChatPartner } = this.props.chatDrawers;
     if (!activeChatPartner) return null;
+    let onlineIndicator = (this.state.chatPartnerIsOnline) ? <div className='online-indicator' /> : null;
 
     return (
       <section className='active-chat chat-slide-up'
@@ -111,6 +113,7 @@ class ChatDrawer extends React.Component {
         <header className='active-chat-header'>
           <span>
             {activeChatPartner}
+            {onlineIndicator}
           </span>
           {/* <i className="fas fa-chevron-circle-down"></i> */}
           <i className="fas fa-times"
@@ -131,12 +134,18 @@ class ChatDrawer extends React.Component {
       let message = chatMessages[messageId];
       return this.renderChatMessage(message);
     });
+    let onlineIndicator = (this.state.chatPartnerIsOnline) ? <div className='online-indicator' /> : null;
+    let onlineIndicatorText = (this.state.chatPartnerIsOnline) ? `${chatDrawers.activeChatPartner} is online` : null;
     return (
       <div className='scrolling-container'
         ref={this.scrollingContainerRef}>
         <ul className='active-chat-messages'>
           {chatMessageElements}
         </ul>
+        <span className='status-text'>
+          {onlineIndicator}
+          {onlineIndicatorText}
+        </span>
       </div>
     );
   }
@@ -258,28 +267,40 @@ class ChatDrawer extends React.Component {
   }
 
   createChatSocket(activeChatPartner, chatRoomId) {
-    const options = { query: { chatRoom: chatRoomId } }
+    const { currentUser } = this.context;
+    const options = {
+      query: {
+        chatRoom: chatRoomId,
+        activeChatPartner,
+        currentUsername: currentUser.username, // to broadcast that current user is online
+      },
+    };
     this.socket = io('/chat', options); // connect to the chat namespace and create a room based on ChatRoom._id on the server-side
     this.socket.on('connect', (err) => {
-      // REMOVE IN PROD
-      console.log(`${this.socket.id} joined room ${chatRoomId}`);
-      // REMOVE IN PROD
+
+      console.log(`${this.socket.id} joined room ${chatRoomId}`); // REMOVE IN PROD
+
+      // toggle online indicator based on whether chat partner is online
+      this.socket.on(`${activeChatPartner} online`, () => {
+        this.setState({ chatPartnerIsOnline: true });
+      });
+      this.socket.on(`${activeChatPartner} offline`, () => {
+        this.setState({ chatPartnerIsOnline: false });
+      });
+
       this.socket.on('chatMessage', () => {
         // 5. on the socket event occuring, fetch the latest message
         this.props.fetchChatMessage(activeChatPartner, chatRoomId);
       });
     });
-    // REMOVE IN PROD
-    this.socket.on('disconnect', (reason) => {
-      console.log(reason);
-    });
-    // REMOVE IN PROD
+
+    this.socket.on('disconnect', (reason) => console.log(reason)); // REMOVE IN PROD
+
   }
 
   scrollToBottom() {
-    if (this.scrollingContainerRef.current) {
-      this.scrollingContainerRef.current.scrollTop = this.scrollingContainerRef.current.scrollHeight;
-    }
+    if (!this.scrollingContainerRef.current) return;
+    this.scrollingContainerRef.current.scrollTop = this.scrollingContainerRef.current.scrollHeight;
   }
 }
 

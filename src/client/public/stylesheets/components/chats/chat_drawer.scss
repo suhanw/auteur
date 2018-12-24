@@ -159,3 +159,16 @@
   margin: 20px;
   margin-top: 0;
 }
+
+.status-text {
+  color: $primary-grey;
+  font-size: 11px;
+  font-weight: 400;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.status-text .online-indicator {
+  margin-right: 5px;
+}

@@ -49,6 +49,7 @@ router.post('/chats', middleware.isLoggedIn, function (req, res) {
 // POST api/chats/:id/messages - to create new message
 router.post('/chats/:chatPartner/messages', middleware.isLoggedIn, function (req, res) {
   const { chatMessage } = req.body;
+  // TODO: if unread is true, emit a socket event to 'notify' the chat partner
   modelQuery.createChatMessage(chatMessage)
     .then((newChatMessage) => {
       newChatMessage = newChatMessage.toObject();

@@ -13,7 +13,7 @@ body {
   left: 0;
   right: 0;
   overflow-y: scroll; // to allow scrolling thru content in div.dashboard-content even though body is set to overflow: hidden.
-  overflow-x: hidden;
+  overflow-x: auto;
 }
 
 .settings-content, 
@@ -66,8 +66,10 @@ body {
 
 ::-webkit-scrollbar {
   opacity: 0;
-  width: 5px;
+  width: 5px; // size of vertical scrollbar
+  height: 5px; // size of horizontal scrollbar
 }
+
 
 ::-webkit-scrollbar-thumb {
   border-radius: 10px;
