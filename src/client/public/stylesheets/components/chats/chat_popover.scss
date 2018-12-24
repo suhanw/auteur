@@ -46,6 +46,10 @@
   margin-top: 3px;
 }
 
+.chat-popover .popover-menu-item.blog-item {
+  align-items: flex-start;
+}
+
 .chat-form {
   padding: 15px;
   border-bottom: rgb(231, 231, 231) 1px solid;

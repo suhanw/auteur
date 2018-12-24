@@ -71,10 +71,10 @@
 
 .blog-item {
   width: 100%;
-  height: 57px;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  padding: 15px;
 }
 
 .blog-item-details {
@@ -93,6 +93,7 @@
 
 .blog-item-details-title {
   font-weight: 400;
+  font-size: $font-size-small;
   color: $secondary-grey;
   margin-top: 3px;
 }

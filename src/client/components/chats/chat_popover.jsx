@@ -114,24 +114,22 @@ class ChatPopover extends React.Component {
       let user = users[userId];
       if (!user) return null; // if user hasn't been fetched yet
       let username = user.username;
-      let userQueryRegex = new RegExp(`(.*)(${newChatPartner})(.*)`); // to underline the query string that matches the tag label
+      let userQueryRegex = new RegExp(`(.*)(${newChatPartner})(.*)`); // to underline the part of username that matches query string
       let usernameArr = username.match(userQueryRegex);
       if (!usernameArr) return null; // if users haven't been updated on change of query term
       return (
         <li key={`search_${user._id}`}
-          className='popover-menu-item'
+          className='popover-menu-item blog-item'
           tabIndex='0'
           onClick={this.handleClick(user.username)}>
-          <div className='blog-item'>
-            <div className='avatar avatar-small'
-              style={{ backgroundImage: `url(${user.avatarImageUrl})` }} />
-            <div className='blog-item-details'>
-              <span className='blog-item-details-name'>
-                {usernameArr[1]}
-                <u>{usernameArr[2]}</u>
-                {usernameArr[3]}
-              </span>
-            </div>
+          <div className='avatar avatar-small'
+            style={{ backgroundImage: `url(${user.avatarImageUrl})` }} />
+          <div className='blog-item-details'>
+            <span className='blog-item-details-name'>
+              {usernameArr[1]}
+              <u>{usernameArr[2]}</u>
+              {usernameArr[3]}
+            </span>
           </div>
         </li>
       );
@@ -182,16 +180,14 @@ class ChatPopover extends React.Component {
     if (!author) return null; // account for when the author is not yet fetched
     return (
       <li key={`blog_${author._id}`}
-        className='popover-menu-item'
+        className='popover-menu-item blog-item'
         onClick={this.handleClick(author.username)}>
-        <div className='blog-item'>
-          <div className='avatar avatar-small'
-            style={{ backgroundImage: `url(${blog.avatarImageUrl})` }} />
-          <div className='blog-item-details'>
-            <span className='blog-item-details-name'>{author.username}</span>
-            <span className='blog-item-details-title'>{blog.title}</span>
-            <a>Send a message</a>
-          </div>
+        <div className='avatar avatar-small'
+          style={{ backgroundImage: `url(${blog.avatarImageUrl})` }} />
+        <div className='blog-item-details'>
+          <span className='blog-item-details-name'>{author.username}</span>
+          <span className='blog-item-details-title'>{blog.title}</span>
+          <a>Send a message</a>
         </div>
       </li>
     );

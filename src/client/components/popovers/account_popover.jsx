@@ -76,14 +76,12 @@ class AccountPopover extends React.Component {
   renderBlogItem(blog) {
     return (
       <Link to={`/dashboard/blog/${blog._id}`}>
-        <li className='popover-menu-item'>
-          <div className='blog-item'>
-            <div className='avatar avatar-small'
-              style={{ backgroundImage: `url(${blog.avatarImageUrl})` }} />
-            <div className='blog-item-details'>
-              <span className='blog-item-details-name'>{blog.name}</span>
-              <span className='blog-item-details-title'>{blog.title}</span>
-            </div>
+        <li className='popover-menu-item blog-item'>
+          <div className='avatar avatar-small'
+            style={{ backgroundImage: `url(${blog.avatarImageUrl})` }} />
+          <div className='blog-item-details'>
+            <span className='blog-item-details-name'>{blog.name}</span>
+            <span className='blog-item-details-title'>{blog.title}</span>
           </div>
         </li>
       </Link>
