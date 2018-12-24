@@ -41,6 +41,10 @@ Leveraged WebSockets to implement the chat feature.
 
 ![Chat](readme/chat.gif)
 
+Implemented online indicator. 
+
+![Online Indicator](readme/online_indicator.gif)
+
 ### Responsive Layout
 
 Enabled selective rendering and responsive layout for mobile devices via CSS media query.
