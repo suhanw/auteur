@@ -11,6 +11,7 @@ class NoteMenu extends React.Component {
     this.togglePopover = this.togglePopover.bind(this);
     this.renderCommentBubble = this.renderCommentBubble.bind(this);
     this.renderHeart = this.renderHeart.bind(this);
+    this.renderHeartLikeAction = this.renderHeartLikeAction.bind(this);
     this.renderCog = this.renderCog.bind(this);
     this.renderPaperPlane = this.renderPaperPlane.bind(this);
   }
@@ -67,6 +68,7 @@ class NoteMenu extends React.Component {
   renderHeart() {
     const { currentUser } = this.context;
     const { post } = this.props;
+    let heartLikeAction = null;
     let heartIconClass = 'far fa-heart';
     let clickAction = 'createNote';
     let note = {
@@ -76,15 +78,25 @@ class NoteMenu extends React.Component {
     };
 
     if (currentUser.likedPosts && currentUser.likedPosts[post._id]) { // render solid heart icon if current user liked this post
+      heartLikeAction = this.renderHeartLikeAction();
       heartIconClass = 'fas fa-heart';
       clickAction = 'deleteNote';
       note._id = currentUser.likedPosts[post._id];
     }
     return (
       <li className='note-menu-item'>
-        <i className={heartIconClass}
-          onClick={this.handleClick(clickAction, note)}></i>
+        <div className='heart-icon-container'>
+          {heartLikeAction}
+          <i className={heartIconClass}
+            onClick={this.handleClick(clickAction, note)}></i>
+        </div>
       </li>
+    );
+  }
+
+  renderHeartLikeAction() {
+    return (
+      <i className={`fas fa-heart like-action`} />
     );
   }
 

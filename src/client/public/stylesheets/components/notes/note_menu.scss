@@ -13,6 +13,8 @@ $note-icon-width: 20px;
 .note-menu {
   display: flex;
   justify-content: space-evenly;
+  align-items: center;
+  max-height: 20px;
 }
 
 .note-menu-item {
@@ -22,6 +24,7 @@ $note-icon-width: 20px;
   position: relative;
   display: flex;
   align-items: center;
+  align-self: flex-end;
 }
 
 .note-menu-item i.fas, 
@@ -34,8 +37,67 @@ $note-icon-width: 20px;
   margin-right: 3px;
 }
 
+.note-menu-item .heart-icon-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+}
+
 .note-menu-item i.fas.fa-heart {
   color: $red;
+  
+}
+
+.note-menu-item i.fas.fa-heart.like-action {
+  position: relative;
+  font-size: 50px;
+  height: 20px;
+  width: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  animation-name: yAxisHeart;
+  animation-duration: 0.75s;
+  animation-iteration-count: 1;
+  animation-timing-function: ease-out;
+  animation-fill-mode: both;
+}
+
+@keyframes yAxisHeart {
+  0% {
+    transform: translate(0, 0);
+  }
+
+  100% {
+    transform: translate(0, -50px);
+  }
+}
+
+.note-menu-item i.fas.fa-heart.like-action::before {
+  position: absolute;
+  animation-name: xAxisHeart;
+  animation-duration: 0.75s;
+  animation-iteration-count: 1;
+  animation-timing-function: ease-out;
+  animation-fill-mode: both;
+}
+
+@keyframes xAxisHeart {
+  0% {
+    transform: rotate(0);
+    opacity: 1;
+  }
+
+  50% {
+    transform: rotate(-20deg) translate(-5px, 0);
+    opacity: 0.8;
+  }
+  
+  100% {
+    transform: rotate(20deg) translate(5px, 0);
+    opacity: 0;
+  }
 }
 
 .post-edit-delete.popover {
