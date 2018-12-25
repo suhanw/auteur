@@ -75,14 +75,12 @@
     display: none;
   }
 
-  .note-menu-item .fas.fa-cog {
+  .note-menu-item .fas.fa-cog,
+  .note-menu-item .far.fa-comment,
+  .note-menu-item .far.fa-paper-plane {
     display: none;
-  }
+  } 
 
-  .note-menu-item .far.fa-comment {
-    display: none;
-  }
-  
   .back-to-top {
     display: none;
   }
