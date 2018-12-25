@@ -7,11 +7,17 @@ class NoteMenu extends React.Component {
   constructor(props) {
     super(props);
 
+    this.state = {
+      isLiked: false,
+      isUnliked: false,
+    };
+
     this.handleClick = this.handleClick.bind(this);
     this.togglePopover = this.togglePopover.bind(this);
     this.renderCommentBubble = this.renderCommentBubble.bind(this);
     this.renderHeart = this.renderHeart.bind(this);
-    this.renderHeartLikeAction = this.renderHeartLikeAction.bind(this);
+    this.renderLikeAction = this.renderLikeAction.bind(this);
+    this.renderUnlikeAction = this.renderUnlikeAction.bind(this);
     this.renderCog = this.renderCog.bind(this);
     this.renderPaperPlane = this.renderPaperPlane.bind(this);
   }
@@ -68,7 +74,6 @@ class NoteMenu extends React.Component {
   renderHeart() {
     const { currentUser } = this.context;
     const { post } = this.props;
-    let heartLikeAction = null;
     let heartIconClass = 'far fa-heart';
     let clickAction = 'createNote';
     let note = {
@@ -78,7 +83,6 @@ class NoteMenu extends React.Component {
     };
 
     if (currentUser.likedPosts && currentUser.likedPosts[post._id]) { // render solid heart icon if current user liked this post
-      heartLikeAction = this.renderHeartLikeAction();
       heartIconClass = 'fas fa-heart';
       clickAction = 'deleteNote';
       note._id = currentUser.likedPosts[post._id];
@@ -86,7 +90,8 @@ class NoteMenu extends React.Component {
     return (
       <li className='note-menu-item'>
         <div className='heart-icon-container'>
-          {heartLikeAction}
+          {this.state.isLiked ? this.renderLikeAction() : null}
+          {this.state.isUnliked ? this.renderUnlikeAction() : null}
           <i className={heartIconClass}
             onClick={this.handleClick(clickAction, note)}></i>
         </div>
@@ -94,9 +99,15 @@ class NoteMenu extends React.Component {
     );
   }
 
-  renderHeartLikeAction() {
+  renderLikeAction() {
     return (
       <i className={`fas fa-heart like-action`} />
+    );
+  }
+
+  renderUnlikeAction() {
+    return (
+      <i className="fas fa-sad-tear unlike-action"></i>
     );
   }
 
@@ -147,10 +158,23 @@ class NoteMenu extends React.Component {
   handleClick(clickAction, payload) {
     const executeAction = this.props[clickAction];
     const { popover, closePopover } = this.props;
-    return function (e) {
+    return (e) => {
       e.stopPropagation();
-      executeAction(payload);
       if (popover) closePopover();
+      if (['createNote', 'deleteNote'].includes(clickAction)) {
+        let stateKey = (clickAction === 'createNote') ? 'isLiked' : 'isUnliked';
+        this.setState({ [stateKey]: true }, () => {
+          let timer = setTimeout(
+            () => {
+              clearTimeout(timer);
+              timer = null;
+              this.setState({ [stateKey]: false });
+            },
+            750
+          );
+        });
+      }
+      executeAction(payload);
     };
   }
 

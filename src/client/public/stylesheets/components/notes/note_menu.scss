@@ -46,10 +46,10 @@ $note-icon-width: 20px;
 
 .note-menu-item i.fas.fa-heart {
   color: $red;
-  
 }
 
-.note-menu-item i.fas.fa-heart.like-action {
+.note-menu-item i.fas.fa-heart.like-action,
+.note-menu-item i.fas.fa-sad-tear.unlike-action {
   position: relative;
   font-size: 50px;
   height: 20px;
@@ -57,6 +57,29 @@ $note-icon-width: 20px;
   display: flex;
   justify-content: center;
   align-items: flex-end;
+}
+
+.note-menu-item i.fas.fa-sad-tear.unlike-action {
+  animation-name: yAxisSadFace;
+  animation-duration: 0.4s;
+  animation-iteration-count: 1;
+  animation-timing-function: cubic-bezier(.53,.01,.86,.16);
+  animation-fill-mode: both;
+}
+
+@keyframes yAxisSadFace {
+  0% {
+    transform: translate(0, -50px);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translate(0, 0);
+    opacity: 0;
+  }
+}
+
+.note-menu-item i.fas.fa-heart.like-action {
   animation-name: yAxisHeart;
   animation-duration: 0.75s;
   animation-iteration-count: 1;
