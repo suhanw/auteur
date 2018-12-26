@@ -5,7 +5,7 @@ import Logo from '../logo/logo';
 import SearchBar from '../search/search_bar';
 import AccountPopover from '../popovers/account_popover';
 import ChatPopover from '../chats/chat_popover';
-import NotificationPopover from '../popovers/notification_popover';
+import NotificationPopover from '../notifications/notification_popover';
 
 class Navbar extends React.Component {
   constructor(props) {

@@ -52,6 +52,11 @@ export const selectNotes = function (state, postId) {
   return notesArr;
 };
 
+export const selectNote = function (state, noteId) {
+  const { entities: { notes } } = state;
+  return notes.byId[noteId];
+}
+
 export const selectUsers = function (state) {
   const { entities: { users } } = state;
   let usersObj = users.byId;
@@ -72,17 +77,23 @@ export const selectBlog = function (state, blogId) {
 export const selectTags = function (state) {
   const { entities: { tags } } = state;
   return tags;
-}
+};
 
 export const selectChatRooms = function (state) {
   const { entities: { chatRooms } } = state;
   return chatRooms;
-}
+};
 
 export const selectChatMessages = function (state) {
   const { entities: { chatMessages } } = state;
   return chatMessages;
-}
+};
+
+export const selectNotifiable = function (state, notification) {
+  if (notification.type === 'like' || notification.type === 'comment') {
+    return selectNote(state, notification.notifiable);
+  }
+};
 
 // UI SELECTORS=================================
 export const selectModal = function (state) {

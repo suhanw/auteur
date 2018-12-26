@@ -1,0 +1,24 @@
+.notification-popover {
+  width: 380px;
+  position: absolute;
+  top: 40px;
+  right: -10px;
+}
+
+.notification-popover-header {
+  padding: 10px 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: rgb(231, 231, 231) 1px solid;
+}
+
+.notification-popover-header .avatar {
+  margin-right: 10px;
+}
+
+.notification-popover-header h1 {
+  font-size: $font-size-main;
+  font-weight: 700;
+  flex-grow: 1;
+}
