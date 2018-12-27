@@ -15,7 +15,9 @@ class NotificationPopover extends React.Component {
 
     this.renderHeader = this.renderHeader.bind(this);
     this.renderNotifications = this.renderNotifications.bind(this);
+    this.renderNotification = this.renderNotification.bind(this);
     this.renderDateSubheader = this.renderDateSubheader.bind(this);
+    this.renderEmpty = this.renderEmpty.bind(this);
   }
 
   render() {
@@ -23,6 +25,7 @@ class NotificationPopover extends React.Component {
     return (
       <div className='notification-popover popover'>
         {this.renderHeader()}
+        {this.renderEmpty()}
         <div className='scrolling-container'>
           {this.renderNotifications()}
         </div>
@@ -90,6 +93,17 @@ class NotificationPopover extends React.Component {
         <span>TODAY</span>
         <span className='popover-item-suffix'>Wednesday, December 26</span>
       </header>
+    );
+  }
+
+  renderEmpty() {
+    return (
+      <section className='notification-empty'>
+        <i className='fas fa-bell' />
+        <div>
+          Check out this tab when you make a post to see likes, comments, and new followers.
+        </div>
+      </section>
     );
   }
 }

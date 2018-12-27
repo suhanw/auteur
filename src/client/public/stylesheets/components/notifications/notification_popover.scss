@@ -27,6 +27,28 @@
   flex-grow: 1;
 }
 
+.notification-empty {
+  font-size: 12px;
+  font-weight: 700;
+  color: $secondary-grey;
+  background-color: $off-white;
+  padding: 20px 55px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.notification-empty i.fas.fa-bell {
+  color: $secondary-grey;
+  cursor: default;
+  text-align: center;
+  margin-bottom: 5px;
+}
+
+.notification-empty div {
+  text-align: center;
+}
+
 .notif-like, 
 .notif-comment {
   display: flex;
