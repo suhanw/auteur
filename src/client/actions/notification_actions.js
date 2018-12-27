@@ -42,3 +42,12 @@ export const fetchUnreadNotificationCount = function () {
     );
   };
 };
+
+export const createNotification = function (notification) {
+  return function (dispatch) {
+    return APIUtil.createNotification(notification).then(
+      (notification) => dispatch({ type: 'RECEIVE_NOTIFICATION', payload: notification }), // no response needed for the person likeing or commenting
+      (err) => dispatch(receiveNotificationErrors(err.responseJSON)),
+    );
+  };
+};
