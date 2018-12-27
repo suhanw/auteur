@@ -186,6 +186,11 @@
 
 .mobile-menu-item .blog-item {
   height: auto;
+  padding: 5px;
+}
+
+.mobile-menu-item .blog-item-info {
+  display: flex;
 }
 
 .mobile-menu-item .blog-item-details-title {
