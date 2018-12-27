@@ -28,7 +28,18 @@ document.addEventListener('DOMContentLoaded', function () {
     store = configureStore();
   }
 
+  // REMOVE IN PROD
+  window.dispatch = store.dispatch;
+  // REMOVE IN PROD
+
+
   const rootDOM = document.querySelector('#root');
   ReactDOM.render(<Root store={store} />, rootDOM);
 
 });
+
+// REMOVE IN PROD
+import { createNotification } from './util/api_util/notification_api_util';
+
+window.createNotification = createNotification;
+// REMOVE IN PROD
