@@ -39,7 +39,8 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 // REMOVE IN PROD
-import { createNotification } from './util/api_util/notification_api_util';
+// import { createNotification, fetchNotifications } from './util/api_util/notification_api_util';
 
-window.createNotification = createNotification;
+// window.createNotification = createNotification;
+// window.fetchNotifications = fetchNotifications;
 // REMOVE IN PROD
