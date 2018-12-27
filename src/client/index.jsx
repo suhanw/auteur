@@ -40,9 +40,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
 // REMOVE IN PROD
 // import { createNotification, fetchNotifications } from './util/api_util/notification_api_util';
-import { createNotification, fetchUnreadNotificationCount } from './actions/notification_actions';
+import { fetchNotifications, fetchUnreadNotificationCount } from './actions/notification_actions';
 
-window.createNotification = createNotification;
-// window.fetchNotifications = fetchNotifications;
-// window.fetchUnreadNotificationCount = fetchUnreadNotificationCount;
+// window.createNotification = createNotification;
+window.fetchNotifications = fetchNotifications;
+window.fetchUnreadNotificationCount = fetchUnreadNotificationCount;
 // REMOVE IN PROD
