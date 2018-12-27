@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { GlobalContext } from '../global_ context_provider';
-import { LikeNotification } from './notifications.jsx';
+import { LikeNotification, CommentNotification } from './notifications.jsx';
 
 class NotificationPopover extends React.Component {
   constructor(props) {
@@ -9,7 +9,7 @@ class NotificationPopover extends React.Component {
 
     this.notifComponents = {
       'like': LikeNotification,
-      // 'comment': CommentNotification,
+      'comment': CommentNotification,
       // 'follow': FollowNotification,
     };
 
@@ -42,18 +42,45 @@ class NotificationPopover extends React.Component {
   }
 
   renderNotifications() {
+    // TESTING
+    let notification = {
+      type: 'comment', // this is either like, comment, or follow
+    };
+    // TESTING
 
     return (
       <section className='popover-subsection'>
         {this.renderDateSubheader()}
+        <ul>
+          {this.renderNotification(notification)}
+          {this.renderNotification(notification)}
+        </ul>
       </section>
     );
   }
 
   renderNotification(notification) {
+    // TESTING
+    let author = {
+      username: 'ian',
+      avatarImageUrl: "https://www.syfy.com/sites/syfy/files/styles/1200x1200/public/syfywire_blog_post/2018/09/jurassicParkJeffGoldblumShirtless.jpg?itok=Ktt3LJrf&timestamp=1536081511",
+    };
+    let notifiable = {
+      type: 'comment',
+      body: 'Adipisicing nostrud occaecat deserunt eiusmod ut sint dolore mollit excepteur veniam dolor esse reprehenderit non. Elit est id veniam reprehenderit aliqua ut duis anim commodo dolor. Exercitation nisi consequat sint nulla tempor.',
+    };
+    let entity = { // this is post, or blog
+      type: 'text',
+      title: 'lorem'
+    };
+    // TESTING
+
     const NotifComponent = this.notifComponents[notification.type];
     return (
-      <NotifComponent notification={notification} />
+      <NotifComponent
+        author={author}
+        notifiable={notifiable}
+        entity={entity} />
     );
   }
 

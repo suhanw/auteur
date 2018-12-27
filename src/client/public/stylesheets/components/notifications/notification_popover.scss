@@ -5,6 +5,10 @@
   right: -10px;
 }
 
+.notification-popover .scrolling-container {
+  max-height: 300px;
+}
+
 .notification-popover-header {
   padding: 10px 15px;
   display: flex;
@@ -21,4 +25,121 @@
   font-size: $font-size-main;
   font-weight: 700;
   flex-grow: 1;
+}
+
+.notif-like, 
+.notif-comment {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+  padding: 15px 0;
+  border-bottom: rgb(231, 231, 231) 1px solid;
+  background-color: $off-white;
+}
+
+.notif-comment {
+  align-items: flex-start;
+}
+
+.notif-author {
+  font-weight: 700;
+}
+
+.notif-message {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  white-space: nowrap;
+  overflow: hidden;
+  position: relative;
+}
+
+.notif-message-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: linear-gradient(to right, rgba(255,255,255,0) 65%,white);
+}
+
+.notif-message-container {
+  padding: 5px;
+  background-color: white;
+  overflow: hidden;
+}
+
+.notif-message-container .comment-body {
+  color: $secondary-grey;
+}
+
+
+.notif-avatar {
+  position: relative;
+  margin: 0 12.5px;
+}
+
+.notif-like-icon, 
+.notif-comment-icon {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  bottom: -3px;
+  right: -3px;
+  padding: 0;
+}
+
+.notif-like-icon {
+  background: $red;
+}
+
+.notif-comment-icon {
+  background: #4f9dce;
+  
+}
+
+.notif-like-icon i.fas.fa-heart,
+.notif-comment-icon i.fas.fa-comment {
+  color: white;
+  font-size: 7.5px; 
+  margin-top: 1px;
+  margin-left: 1px;
+}
+
+.notif-entity-icon i.fas {
+  margin: 0 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 36px;
+  height: 36px;
+  font-size: 15px;
+  color: white;
+}
+
+.notif-entity-icon i.fas.fa-font {
+  background-color: $primary-grey;
+}
+
+.notif-entity-icon i.fas.fa-camera-retro {
+  font-size: 20px;  
+  background-color: $red;
+}
+
+.notif-entity-icon i.fas.fa-quote-left {
+  background-color: #f2992e;
+}
+
+.notif-entity-icon i.fas.fa-link {
+  background-color: #56bc8a;
+}
+
+.notif-entity-message {
+  color: $secondary-grey;
 }
