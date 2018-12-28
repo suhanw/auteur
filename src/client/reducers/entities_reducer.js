@@ -6,6 +6,7 @@ import notesReducer from './notes/notes_reducer';
 import tagsReducer from './search/tags_reducer';
 import chatRoomsReducer from './chats/chat_rooms_reducer';
 import chatMessagesReducer from './chats/chat_messages_reducer';
+import notificationsReducer from './notifications/notifications_reducer';
 
 const entitiesReducer = combineReducers({
   users: usersReducer,
@@ -15,6 +16,7 @@ const entitiesReducer = combineReducers({
   tags: tagsReducer,
   chatRooms: chatRoomsReducer,
   chatMessages: chatMessagesReducer,
+  notifications: notificationsReducer,
 });
 
 export default entitiesReducer;

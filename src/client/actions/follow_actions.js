@@ -1,4 +1,5 @@
 import * as APIUtil from '../util/api_util/follow_api_util';
+import { createNotification } from '../actions/notification_actions';
 
 export const FOLLOW_BLOG = 'FOLLOW_BLOG';
 export const UNFOLLOW_BLOG = 'UNFOLLOW_BLOG';
@@ -37,7 +38,16 @@ export const receiveFollowErrors = function (errors) {
 export const createFollow = function (blogId) {
   return function (dispatch) {
     return APIUtil.createFollow(blogId).then(
-      (currentUser) => { dispatch(followBlog(currentUser)) },
+      (currentUser) => {
+        // const notification = {
+        //   type: 'follow',
+        //   notify: , // TODO: TO CREATE NOTIFICATION, NEED BLOG.AUTHOR
+        //   notifiable: currentUser,
+        //   notifiableModel: 'User',
+        // };
+        // dispatch(createNotification(notification));
+        dispatch(followBlog(currentUser))
+      },
       (err) => dispatch(receiveFollowErrors(err.responseJSON)),
     );
   };

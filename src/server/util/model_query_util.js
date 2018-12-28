@@ -7,6 +7,7 @@ const Note = require('../models/note');
 const Tag = require('../models/tag');
 const ChatRoom = require('../models/chat_room');
 const ChatMessage = require('../models/chat_message');
+const Notification = require('../models/notification');
 
 modelQuery.getCurrentUserLikes = function (userId) {
   return Note.find({ type: 'like', author: userId })
@@ -66,7 +67,7 @@ modelQuery.createLike = function (likeBody) {
     .then((newLike) => {
       return newLike.populate({
         path: 'post',
-        select: 'likeCount',
+        select: 'likeCount author',
       }).execPopulate();
     })
     .then((newLike) => {
@@ -77,8 +78,11 @@ modelQuery.createLike = function (likeBody) {
 };
 
 modelQuery.deleteLike = function (likeId) {
-  return Note.findOneAndDelete({ _id: likeId })
+  return Note.findOne({ _id: likeId })
     .exec()
+    .then((foundLike) => {
+      return foundLike.remove();
+    })
     .then((deletedLike) => {
       if (!deletedLike) throw { message: 'You never liked this post to be able to unlike it. ' };
       return deletedLike.populate({
@@ -98,7 +102,7 @@ modelQuery.createComment = function (commentBody) {
     .then((newComment) => {
       return newComment.populate({
         path: 'post',
-        select: 'commentCount',
+        select: 'commentCount author',
       }).execPopulate();
     })
     .then((newComment) => {
@@ -109,8 +113,11 @@ modelQuery.createComment = function (commentBody) {
 }
 
 modelQuery.deleteComment = function (commentId) {
-  return Note.findOneAndDelete({ _id: commentId })
+  return Note.findOne({ _id: commentId })
     .exec()
+    .then((foundComment) => {
+      return foundComment.remove();
+    })
     .then((deletedComment) => {
       if (!deletedComment) throw { message: 'This comment does not exist. ' };
       return deletedComment.populate({
@@ -317,5 +324,54 @@ const findOneChatRoomById = function (id) {
       return foundChatRoom;
     });
 }
+
+modelQuery.findNotifications = function (user) {
+  return Notification.find({ notify: user._id })
+    .select('type notify notifiable notifiableModel unread createdAt')
+    .populate({ path: 'notifiable' })
+    .sort({ 'createdAt': 'desc' })
+    .exec()
+    .then((foundNotifications) => {
+      if (!foundNotifications) throw { message: 'Error' }
+      return populateNotifiables(foundNotifications);
+    });
+};
+
+const populateNotifiables = function (notifications) {
+  return new Promise((resolve, reject) => {
+    if (!notifications.length) resolve([]);
+    let popNotifs = notifications.map(() => null);
+    notifications.forEach((notification, i) => {
+
+      // depending on the notification type, notifiable might be different models (Note, User, etc)
+      let paths;
+      if (notification.notifiableModel === 'Note') {
+        paths = [
+          { path: 'notifiable.author', select: 'username avatarImageUrl' },
+          { path: 'notifiable.post', select: 'type title media' },
+        ];
+      } else if (notification.notifiableModel === 'User') {
+        paths = [
+          { path: 'notifiable', select: 'username avatarImageUrl' },
+        ];
+      }
+
+      Notification.populate(notification, paths)
+        .then((popNotif) => {
+          popNotifs[i] = popNotif;
+          if (!popNotifs.includes(null)) resolve(popNotifs);
+        })
+        .catch((err) => reject(err));
+    });
+  });
+};
+
+modelQuery.markNotificationsAsRead = function (user) {
+  return Notification.updateMany(
+    { notify: user._id, unread: true },
+    { unread: false },
+  )
+    .exec();
+};
 
 module.exports = modelQuery;

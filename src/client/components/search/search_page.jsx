@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import NavbarContainer from '../navbar/navbar_container';
 import PostIndexMasonry from '../posts/post_index/post_index_masonry';
 import { PostSpinner } from '../spinners/spinners';
 import { selectPosts, selectBlogs, selectLoadingSearchPosts } from '../../selectors/selectors';
@@ -49,7 +48,6 @@ class SearchPage extends React.Component {
 
     return (
       <div className='search-page'>
-        <NavbarContainer />
         <div className='search-page-content'>
           {this.renderHeader()}
 

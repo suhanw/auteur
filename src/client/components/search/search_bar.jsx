@@ -39,6 +39,13 @@ class SearchBar extends React.Component {
     );
   }
 
+  componentWillReceiveProps(newProps) {
+    if (newProps.location.pathname !== this.props.location.pathname) {
+      this.setState({ query: '' });
+      this.searchBarRef.current.blur();
+    }
+  }
+
   renderSearchIcon() {
     return (
       <i className="fas fa-search"
@@ -52,6 +59,7 @@ class SearchBar extends React.Component {
         className='search-bar'
         name='query'
         placeholder='Search Auteur'
+        value={this.state.query}
         ref={this.searchBarRef}
         onFocus={this.handleFocusSearchBar}
         onBlur={this.handleFocusSearchBar}

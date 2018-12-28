@@ -33,7 +33,7 @@ router.post('/follows', middleware.isLoggedIn, function (req, res) {
   modelQuery.findOneBlog(req.params.id)
     .then((foundBlog) => {
       const currentUser = req.user; // only currentUser can 'follow' a blog
-      if (currentUser.following.indexOf(foundBlog._id) > -1) {
+      if (currentUser.following.includes(foundBlog._id)) {
         throw { message: 'You are already following this blog. ' };
       } else if (foundBlog.author.equals(currentUser._id)) {
         throw { message: 'You cannot follow your own blog. ' };

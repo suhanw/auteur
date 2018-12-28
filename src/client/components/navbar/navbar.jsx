@@ -1,15 +1,18 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import io from 'socket.io-client';
 
 import Logo from '../logo/logo';
 import SearchBar from '../search/search_bar';
 import AccountPopover from '../popovers/account_popover';
 import ChatPopover from '../chats/chat_popover';
-import NotificationPopover from '../popovers/notification_popover';
+import NotificationPopover from '../notifications/notification_popover';
 
 class Navbar extends React.Component {
   constructor(props) {
     super(props);
+
+    this.socket = null;
 
     this.dynamicClosePopover = this.dynamicClosePopover.bind(this);
     this.renderHomeIcon = this.renderHomeIcon.bind(this);
@@ -17,7 +20,9 @@ class Navbar extends React.Component {
     this.renderChatIcon = this.renderChatIcon.bind(this);
     this.renderNotificationIcon = this.renderNotificationIcon.bind(this);
     this.renderPostIcon = this.renderPostIcon.bind(this);
+    this.renderBadgeIcon = this.renderBadgeIcon.bind(this);
     this.togglePopover = this.togglePopover.bind(this);
+    this.createNotificationSocket = this.createNotificationSocket.bind(this);
   }
 
   render() {
@@ -49,11 +54,23 @@ class Navbar extends React.Component {
     // clicking anywhere else on the window should close any/all popovers
     window.addEventListener('click', this.dynamicClosePopover);
     window.addEventListener('keydown', this.dynamicClosePopover);
+
+    this.props.fetchUnreadNotificationCount();
+    this.createNotificationSocket();
+  }
+
+  createNotificationSocket() {
+    const { currentUser, fetchUnreadNotificationCount } = this.props;
+    this.socket = io('/notifications');
+    this.socket.on(`notify ${currentUser._id}`, (err) => {
+      fetchUnreadNotificationCount();
+    })
   }
 
   componentWillUnmount() {
     window.removeEventListener('click', this.dynamicClosePopover);
     window.removeEventListener('keydown', this.dynamicClosePopover);
+    if (this.socket) this.socket.disconnect(true);
   }
 
   dynamicClosePopover(e) {
@@ -96,7 +113,7 @@ class Navbar extends React.Component {
   }
 
   renderNotificationIcon() {
-    const { popover } = this.props;
+    const { popover, unreadNotificationCount } = this.props;
     const notificationPopover = {
       popoverId: 'notificationPopover',
       popoverType: 'notificationPopover',
@@ -104,12 +121,13 @@ class Navbar extends React.Component {
     let notificationPopoverComponent = null;
     let activeIcon = null;
     if (JSON.stringify(popover) === JSON.stringify(notificationPopover)) {
-      notificationPopoverComponent = <NotificationPopover />
+      notificationPopoverComponent = <NotificationPopover />;
       activeIcon = { color: 'white' };
     }
     return (
       <li className='navbar-right-item' onClick={this.togglePopover(notificationPopover)}>
         <i className="fas fa-bell" style={activeIcon}></i>
+        {(unreadNotificationCount) ? this.renderBadgeIcon(unreadNotificationCount) : null}
         {notificationPopoverComponent}
       </li>
     );
@@ -149,6 +167,14 @@ class Navbar extends React.Component {
       <li className='navbar-right-item' onClick={choosePostType}>
         <i className="fas fa-pen-square"></i>
       </li>
+    );
+  }
+
+  renderBadgeIcon(num) {
+    return (
+      <div className='navbar-badge-icon'>
+        {num}
+      </div>
     );
   }
 

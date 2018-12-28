@@ -37,6 +37,7 @@ router.get('/search/tags', middleware.isLoggedIn, function (req, res) {
   let tagQuery = req.query.q;
   modelQuery.findTags(tagQuery)
     .then((foundTags) => {
+      // TODO: do not return tags with no posts
       res.json(foundTags);
     })
     .catch((err) => res.status(404).json([err.message]));

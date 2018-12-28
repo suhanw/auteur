@@ -85,7 +85,13 @@ router.delete('/posts/:postId',
         return Post.findOneAndDelete({ _id: post._id })
           .then((deletedPost) => {
             if (!deletedPost) throw { message: 'Post does not exist. ' };
-            Note.deleteMany({ post: deletedPost._id }, (err) => { if (err) throw err });
+            // TODO: replace this with middleware 'pre' hook
+            Note.find({ post: deletedPost._id })
+              .then((notes) => {
+                return notes.forEach((note) => {
+                  note.remove();
+                });
+              });
             blog.postCount -= 1;
             blog.save();
             return res.json(deletedPost);
@@ -93,7 +99,6 @@ router.delete('/posts/:postId',
       })
       .catch((err) => res.status(422).json([err.message]));
   });
-
 
 // PUT api/blogs/:id/posts/:id (Update)
 router.put('/posts/:postId',

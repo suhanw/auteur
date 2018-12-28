@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const uniqueValidator = require('mongoose-unique-validator');
 
 const tagSchema = new mongoose.Schema(
   {
@@ -8,6 +9,11 @@ const tagSchema = new mongoose.Schema(
       unique: true,
     },
   }
+);
+
+tagSchema.plugin(
+  uniqueValidator,
+  { message: 'Tag already exists.' }
 );
 
 module.exports = mongoose.model('Tag', tagSchema);

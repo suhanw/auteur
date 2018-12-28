@@ -8,13 +8,15 @@ import NavbarMobile from './navbar_mobile';
 import { confirmLogout } from '../../actions/session_actions';
 import { closePopover, openPopover } from '../../actions/popover_actions';
 import { choosePostType } from '../../actions/post_actions';
-import { selectCurrentUser, selectBlog, selectPopover, selectNavbar } from '../../selectors/selectors';
+import { fetchUnreadNotificationCount } from '../../actions/notification_actions';
+import { selectCurrentUser, selectBlog, selectPopover, selectNavbar, selectUnreadNotificationCount } from '../../selectors/selectors';
 
 const mapStateToProps = function (state, ownProps) {
   const navbar = selectNavbar(state);
   const currentUser = selectCurrentUser(state);
   const blog = (!currentUser) ? null : selectBlog(state, currentUser.primaryBlog); // currentUser doesn't exist when not logged in
   const popover = selectPopover(state);
+  const unreadNotificationCount = selectUnreadNotificationCount(state);
   const { scrollCarousel, activeSlide } = ownProps;
   return {
     navbar,
@@ -23,6 +25,7 @@ const mapStateToProps = function (state, ownProps) {
     scrollCarousel,
     activeSlide,
     popover,
+    unreadNotificationCount,
   };
 };
 
@@ -32,6 +35,7 @@ const mapDispatchToProps = function (dispatch, ownProps) {
     closePopover: () => dispatch(closePopover()),
     confirmLogout: () => dispatch(confirmLogout()),
     choosePostType: () => dispatch(choosePostType()),
+    fetchUnreadNotificationCount: () => dispatch(fetchUnreadNotificationCount()),
   };
 };
 
@@ -51,7 +55,10 @@ class NavbarContainer extends React.Component {
       choosePostType,
       openPopover,
       closePopover,
-      popover } = this.props;
+      popover,
+      fetchUnreadNotificationCount,
+      unreadNotificationCount,
+    } = this.props;
 
     if (!navbar) return null; // is null before the renderNavbar action is dispatched
     else if (navbar.view === 'navbarGuest') {
@@ -71,7 +78,9 @@ class NavbarContainer extends React.Component {
           popover={popover}
           openPopover={openPopover}
           closePopover={closePopover}
-          choosePostType={choosePostType} />
+          choosePostType={choosePostType}
+          fetchUnreadNotificationCount={fetchUnreadNotificationCount}
+          unreadNotificationCount={unreadNotificationCount} />
       );
     } else if (navbar.view === 'navbarMobile') {
       return (
@@ -84,4 +93,6 @@ class NavbarContainer extends React.Component {
   }
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(NavbarContainer));
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(NavbarContainer)
+);

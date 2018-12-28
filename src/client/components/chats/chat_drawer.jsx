@@ -73,7 +73,7 @@ class ChatDrawer extends React.Component {
     if (!newActiveChatPartner) { // disconnect socket when chat drawer is closed
       if (this.socket) this.socket.disconnect(true);
       return;
-    } else if (newActiveChatPartner === oldActiveChatPartner) { // continue only when user selects a different chat partner
+    } else if (newActiveChatPartner === oldActiveChatPartner) { // proceed only when user selects a different chat partner
       return;
     }
 

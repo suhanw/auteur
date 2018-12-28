@@ -93,6 +93,25 @@
   }
 }
 
+.navbar-badge-icon {
+  height: 20px;
+  width: 20px;
+  padding: 0 3px;
+  color: #36465d;
+  background-color: $secondary-blue;
+  border: 2px solid rgb(54, 70, 93);
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 700;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  right: 0;
+  cursor: pointer;
+}
+
 .navbar-mobile {
   z-index: 4;
   position: fixed;
