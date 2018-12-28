@@ -28,21 +28,7 @@ document.addEventListener('DOMContentLoaded', function () {
     store = configureStore();
   }
 
-  // REMOVE IN PROD
-  window.dispatch = store.dispatch;
-  // REMOVE IN PROD
-
-
   const rootDOM = document.querySelector('#root');
   ReactDOM.render(<Root store={store} />, rootDOM);
 
 });
-
-// REMOVE IN PROD
-// import { createNotification, fetchNotifications } from './util/api_util/notification_api_util';
-// import { createNotification, fetchNotifications, fetchUnreadNotificationCount } from './actions/notification_actions';
-
-// window.createNotification = createNotification;
-// window.fetchNotifications = fetchNotifications;
-// window.fetchUnreadNotificationCount = fetchUnreadNotificationCount;
-// REMOVE IN PROD
