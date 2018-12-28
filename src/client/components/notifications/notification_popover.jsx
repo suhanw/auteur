@@ -82,7 +82,7 @@ class NotificationPopover extends React.Component {
   renderNotification(notification) {
     const NotifComponent = this.notifComponents[notification.type];
     return (
-      <NotifComponent
+      <NotifComponent key={notification._id}
         notifiable={notification.notifiable}
       />
     );
@@ -98,6 +98,8 @@ class NotificationPopover extends React.Component {
   }
 
   renderEmpty() {
+    const { notifications } = this.props;
+    if (notifications.allIds.length) return null; // only render when there are no notifs
     return (
       <section className='notification-empty'>
         <i className='fas fa-bell' />
