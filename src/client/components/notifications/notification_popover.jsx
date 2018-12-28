@@ -66,12 +66,20 @@ class NotificationPopover extends React.Component {
   renderNotifications() {
     const { notifications } = this.props;
     if (!notifications.allIds.length) return null;
-    let notificationElements = notifications.allIds.map((notifId) => {
-      return this.renderNotification(notifications.byId[notifId]);
-    })
+    let notificationElements = [];
+    for (let i = 0; i < notifications.allIds.length; i++) {
+      let notifId = notifications.allIds[i];
+      let prevNotifId = notifications.allIds[i - 1];
+      let notification = notifications.byId[notifId];
+      let currDate = (new Date(notification.createdAt)).toDateString();
+      let prevDate = (i !== 0) ? (new Date(notifications.byId[prevNotifId].createdAt)).toDateString() : null;
+      if (currDate !== prevDate) {
+        notificationElements.push(this.renderDateSubheader(notification.createdAt));
+      }
+      notificationElements.push(this.renderNotification(notification));
+    }
     return (
       <section className='popover-subsection'>
-        {this.renderDateSubheader()}
         <ul>
           {notificationElements}
         </ul>
@@ -88,11 +96,18 @@ class NotificationPopover extends React.Component {
     );
   }
 
-  renderDateSubheader() {
+  renderDateSubheader(UTCdate) {
+    let date = new Date(UTCdate);
+    let dateString = date.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+    let today = new Date();
+    let daysAgo = null;
+    if (today.toDateString() === date.toDateString()) {
+      daysAgo = 'TODAY';
+    }
     return (
       <header className='popover-header'>
-        <span>TODAY</span>
-        <span className='popover-item-suffix'>Wednesday, December 26</span>
+        <span>{daysAgo}</span>
+        <span className='popover-item-suffix'>{dateString}</span>
       </header>
     );
   }
