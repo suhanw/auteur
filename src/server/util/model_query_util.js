@@ -366,4 +366,12 @@ const populateNotifiables = function (notifications) {
   });
 };
 
+modelQuery.markNotificationsAsRead = function (user) {
+  return Notification.updateMany(
+    { notify: user._id, unread: true },
+    { unread: false },
+  )
+    .exec();
+};
+
 module.exports = modelQuery;

@@ -19,8 +19,12 @@ function returnRouter(io) { // wrap router in a func, so that we can pass in io 
         })
         .catch((err) => res.status(404).json([err.message]));
     } else { // to get all notifs for the notification popover
-      // TODO: UPDATE UNREAD TO FALSE????
-      return modelQuery.findNotifications(req.user)
+      // the only time this endpoint is hit is when user opens notif popover, therefore all notifs should be marked as read
+      return modelQuery.markNotificationsAsRead(req.user)
+        .then((updatedNotifs) => {
+          if (updatedNotifs.n > 0) notificationNsp.emit(`notify ${req.user._id}`);
+          return modelQuery.findNotifications(req.user)
+        })
         .then((notifications) => {
           res.json(notifications);
         })
@@ -31,9 +35,9 @@ function returnRouter(io) { // wrap router in a func, so that we can pass in io 
   // POST api/notifications 
   router.post('/notifications', middleware.isLoggedIn, function (req, res) {
     const newNotif = req.body;
+    if (req.user._id.equals(newNotif.notify)) return res.status(200); // don't create notif when user comments on own post
     return Notification.create(newNotif)
       .then((createdNotif) => {
-        // TODO: emit a socket for notif
         notificationNsp.emit(`notify ${createdNotif.notify}`);
         res.status(200).json(createdNotif);
       })

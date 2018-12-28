@@ -55,8 +55,7 @@ class Navbar extends React.Component {
     window.addEventListener('click', this.dynamicClosePopover);
     window.addEventListener('keydown', this.dynamicClosePopover);
 
-    const { fetchUnreadNotificationCount } = this.props;
-    fetchUnreadNotificationCount();
+    this.props.fetchUnreadNotificationCount();
     this.createNotificationSocket();
   }
 

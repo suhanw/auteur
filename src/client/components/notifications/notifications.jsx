@@ -42,7 +42,8 @@ export const CommentNotification = (props) => {
           <span>commented on your</span>&nbsp;
           {entityMessage(post)}
         </div>
-        <div className='comment-body'>{props.notifiable.body}</div>
+        <div className='comment-body'
+          dangerouslySetInnerHTML={{ __html: props.notifiable.body }}></div>
       </div>
       {entityIcon(post)}
     </li>
