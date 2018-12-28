@@ -85,6 +85,7 @@ router.delete('/posts/:postId',
         return Post.findOneAndDelete({ _id: post._id })
           .then((deletedPost) => {
             if (!deletedPost) throw { message: 'Post does not exist. ' };
+            // TODO: replace this with middleware 'pre' hook
             Note.deleteMany({ post: deletedPost._id }, (err) => { if (err) throw err });
             blog.postCount -= 1;
             blog.save();
