@@ -342,7 +342,7 @@ const populateNotifiables = function (notifications) {
       if (notification.notifiableModel === 'Note') {
         paths = [
           { path: 'notifiable.author', select: 'username avatarImageUrl' },
-          { path: 'notifiable.post', select: 'type title' },
+          { path: 'notifiable.post', select: 'type title media' },
         ];
       } else if (notification.notifiableModel === 'User') {
         paths = [

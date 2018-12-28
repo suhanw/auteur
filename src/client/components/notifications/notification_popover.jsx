@@ -73,9 +73,7 @@ class NotificationPopover extends React.Component {
       let notification = notifications.byId[notifId];
       let currDate = (new Date(notification.createdAt)).toDateString();
       let prevDate = (i !== 0) ? (new Date(notifications.byId[prevNotifId].createdAt)).toDateString() : null;
-      if (currDate !== prevDate) {
-        notificationElements.push(this.renderDateSubheader(notification.createdAt));
-      }
+      if (currDate !== prevDate) notificationElements.push(this.renderDateSubheader(notification.createdAt));
       notificationElements.push(this.renderNotification(notification));
     }
     return (

@@ -76,7 +76,7 @@ const entityMessage = (entity) => {
 const entityIcon = (entity) => {
   const entityIcons = {
     'text': <i className="fas fa-font"></i>,
-    'photo': <i className="fas fa-camera-retro"></i>,
+    'photo': <div className='photo' style={{ backgroundImage: `url(${entity.media[0]})` }} />,
     'quote': <i className="fas fa-quote-left"></i>,
     'link': <i className="fas fa-link"></i>,
   };

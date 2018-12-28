@@ -135,7 +135,8 @@
   margin-left: 1px;
 }
 
-.notif-entity-icon i.fas {
+.notif-entity-icon i.fas,
+.notif-entity-icon div.photo {
   margin: 0 15px;
   display: flex;
   justify-content: center;
@@ -146,13 +147,13 @@
   color: white;
 }
 
-.notif-entity-icon i.fas.fa-font {
-  background-color: $primary-grey;
+.notif-entity-icon div.photo {
+  background-size: cover;
+  background-position: center;
 }
 
-.notif-entity-icon i.fas.fa-camera-retro {
-  font-size: 20px;  
-  background-color: $red;
+.notif-entity-icon i.fas.fa-font {
+  background-color: $primary-grey;
 }
 
 .notif-entity-icon i.fas.fa-quote-left {
@@ -162,6 +163,7 @@
 .notif-entity-icon i.fas.fa-link {
   background-color: #56bc8a;
 }
+
 
 .notif-entity-message {
   color: $secondary-grey;
