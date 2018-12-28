@@ -30,8 +30,6 @@ class SearchBar extends React.Component {
   }
 
   render() {
-    console.log((this.state.query));
-
     return (
       <div className={`search ${toggleClass(this.state.isActive, 'active', '')}`}>
         {this.renderSearchIcon()}
