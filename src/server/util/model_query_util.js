@@ -78,8 +78,11 @@ modelQuery.createLike = function (likeBody) {
 };
 
 modelQuery.deleteLike = function (likeId) {
-  return Note.findOneAndDelete({ _id: likeId })
+  return Note.findOne({ _id: likeId })
     .exec()
+    .then((foundLike) => {
+      return foundLike.remove();
+    })
     .then((deletedLike) => {
       if (!deletedLike) throw { message: 'You never liked this post to be able to unlike it. ' };
       return deletedLike.populate({
@@ -110,8 +113,11 @@ modelQuery.createComment = function (commentBody) {
 }
 
 modelQuery.deleteComment = function (commentId) {
-  return Note.findOneAndDelete({ _id: commentId })
+  return Note.findOne({ _id: commentId })
     .exec()
+    .then((foundComment) => {
+      return foundComment.remove();
+    })
     .then((deletedComment) => {
       if (!deletedComment) throw { message: 'This comment does not exist. ' };
       return deletedComment.populate({

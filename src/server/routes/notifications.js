@@ -36,6 +36,4 @@ router.post('/notifications', middleware.isLoggedIn, function (req, res) {
     .catch((err) => res.status(422).json(err.message));
 });
 
-// DELETE api/notifications - in case someone unlikes?
-
 module.exports = router;
