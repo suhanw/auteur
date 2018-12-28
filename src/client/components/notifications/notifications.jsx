@@ -1,8 +1,8 @@
 import React from 'react';
 
 export const LikeNotification = (props) => {
-  const { author, entity } = props;
-  const notifMessageLength = author.username.length + 'liked your'.length + entity.type.length + entity.title.length;
+  const { author, post } = props.notifiable;
+  const notifMessageLength = author.username.length + 'liked your'.length + post.type.length + post.title.length;
   return (
     <li className='notif-like'>
       <div className='notif-avatar'>
@@ -16,16 +16,16 @@ export const LikeNotification = (props) => {
         {(notifMessageLength > 35) ? <div className='notif-message-overlay' /> : null}
         <h1 className='notif-author'>{author.username}</h1>&nbsp;
         <span>liked your</span>&nbsp;
-        {entityMessage(entity)}
+        {entityMessage(post)}
       </div>
-      {entityIcon(entity)}
+      {entityIcon(post)}
     </li>
   );
 };
 
 export const CommentNotification = (props) => {
-  const { author, notifiable, entity } = props;
-  const notifMessageLength = author.username.length + 'commented on your'.length + entity.type.length + entity.title.length;
+  const { author, post } = props.notifiable;
+  const notifMessageLength = author.username.length + 'commented on your'.length + post.type.length + post.title.length;
   return (
     <li className='notif-comment'>
       <div className='notif-avatar'>
@@ -40,11 +40,11 @@ export const CommentNotification = (props) => {
           {(notifMessageLength > 35) ? <div className='notif-message-overlay' /> : null}
           <h1 className='notif-author'>{author.username}</h1>&nbsp;
           <span>commented on your</span>&nbsp;
-          {entityMessage(entity)}
+          {entityMessage(post)}
         </div>
-        <div className='comment-body'>{notifiable.body}</div>
+        <div className='comment-body'>{props.notifiable.body}</div>
       </div>
-      {entityIcon(entity)}
+      {entityIcon(post)}
     </li>
   )
 };

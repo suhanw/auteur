@@ -16,6 +16,7 @@ router.get('/notifications', middleware.isLoggedIn, function (req, res) {
       })
       .catch((err) => res.status(404).json([err.message]));
   } else { // to get all notifs for the notification popover
+    // TODO: UPDATE UNREAD TO FALSE????
     return modelQuery.findNotifications(req.user)
       .then((notifications) => {
         res.json(notifications);

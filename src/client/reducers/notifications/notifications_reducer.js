@@ -1,5 +1,5 @@
 import { normalize, schema } from 'normalizr';
-import { merge } from 'lodash';
+import { merge, union } from 'lodash';
 
 import { RECEIVE_UNREAD_NOTIFICATION_COUNT, RECEIVE_NOTIFICATIONS } from '../../actions/notification_actions';
 import { REMOVE_CURRENT_USER } from '../../actions/session_actions';
@@ -10,19 +10,23 @@ const defaultState = {
   allIds: [],
 };
 
-const userSchema = new schema.Entity('users',
-  {},
-  { idAttribute: '_id' });
+// const userSchema = new schema.Entity('users',
+//   {},
+//   { idAttribute: '_id' });
 
-const postSchema = new schema.Entity('posts',
-  {},
-  { idAttribute: '_id' });
+// const postSchema = new schema.Entity('posts',
+//   {},
+//   { idAttribute: '_id' });
 
-const noteSchema = new schema.Entity('notes',
-  {
-    post: postSchema,
-    author: userSchema,
-  },
+// const noteSchema = new schema.Entity('notes',
+//   {
+//     post: postSchema,
+//     author: userSchema,
+//   },
+//   { idAttribute: '_id' });
+
+const notificationSchema = new schema.Entity('notifications',
+  {},
   { idAttribute: '_id' });
 
 let payloadSchema;
@@ -36,9 +40,13 @@ const notificationsReducer = function (state = defaultState, action) {
       newState = merge({}, state);
       newState.unreadCount = action.payload;
       return newState;
-    // case RECEIVE_NOTIFICATIONS:
-    //   newState = merge({}, state);
-
+    case RECEIVE_NOTIFICATIONS:
+      payloadSchema = [notificationSchema];
+      normalizedPayload = normalize(action.payload, payloadSchema);
+      newState = merge({}, state);
+      newState.byId = merge(newState.byId, normalizedPayload.entities.notifications);
+      newState.allIds = union(normalizedPayload.result, newState.allIds);
+      return newState;
     case REMOVE_CURRENT_USER:
       return defaultState;
     default:

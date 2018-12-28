@@ -1,7 +1,22 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 import { GlobalContext } from '../global_ context_provider';
 import { LikeNotification, CommentNotification } from './notifications.jsx';
+import { selectNotifications } from '../../selectors/selectors';
+import { fetchNotifications } from '../../actions/notification_actions';
+
+const mapStateToProps = (state, _) => {
+  return {
+    notifications: selectNotifications(state),
+  };
+};
+
+const mapDispatchToProps = (dispatch, _) => {
+  return {
+    fetchNotifications: () => dispatch(fetchNotifications()),
+  };
+};
 
 class NotificationPopover extends React.Component {
   constructor(props) {
@@ -33,6 +48,10 @@ class NotificationPopover extends React.Component {
     );
   }
 
+  componentDidMount() {
+    this.props.fetchNotifications();
+  }
+
   renderHeader() {
     const { currentUser } = this.context;
     return (
@@ -45,45 +64,27 @@ class NotificationPopover extends React.Component {
   }
 
   renderNotifications() {
-    // TESTING
-    let notification = {
-      type: 'comment', // this is either like, comment, or follow
-    };
-    // TESTING
-
+    const { notifications } = this.props;
+    if (!notifications.allIds.length) return null;
+    let notificationElements = notifications.allIds.map((notifId) => {
+      return this.renderNotification(notifications.byId[notifId]);
+    })
     return (
       <section className='popover-subsection'>
         {this.renderDateSubheader()}
         <ul>
-          {this.renderNotification(notification)}
-          {this.renderNotification(notification)}
+          {notificationElements}
         </ul>
       </section>
     );
   }
 
   renderNotification(notification) {
-    // TESTING
-    let author = {
-      username: 'ian',
-      avatarImageUrl: "https://www.syfy.com/sites/syfy/files/styles/1200x1200/public/syfywire_blog_post/2018/09/jurassicParkJeffGoldblumShirtless.jpg?itok=Ktt3LJrf&timestamp=1536081511",
-    };
-    let notifiable = {
-      type: 'comment',
-      body: 'Adipisicing nostrud occaecat deserunt eiusmod ut sint dolore mollit excepteur veniam dolor esse reprehenderit non. Elit est id veniam reprehenderit aliqua ut duis anim commodo dolor. Exercitation nisi consequat sint nulla tempor.',
-    };
-    let entity = { // this is post, or blog
-      type: 'text',
-      title: 'lorem'
-    };
-    // TESTING
-
     const NotifComponent = this.notifComponents[notification.type];
     return (
       <NotifComponent
-        author={author}
-        notifiable={notifiable}
-        entity={entity} />
+        notifiable={notification.notifiable}
+      />
     );
   }
 
@@ -110,4 +111,4 @@ class NotificationPopover extends React.Component {
 
 NotificationPopover.contextType = GlobalContext;
 
-export default NotificationPopover;
+export default connect(mapStateToProps, mapDispatchToProps)(NotificationPopover);
