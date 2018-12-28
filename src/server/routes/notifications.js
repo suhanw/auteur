@@ -2,27 +2,28 @@ const express = require('express');
 const router = new express.Router({ mergeParams: true });
 
 const middleware = require('../middleware/middleware');
+const modelQuery = require('../util/model_query_util');
 const Notification = require('../models/notification');
 
+// GET api/notifications
 router.get('/notifications', middleware.isLoggedIn, function (req, res) {
   const { countUnread } = req.query;
-  if (countUnread === 'true') {
+  if (countUnread === 'true') { // to get unread notif count for navbar, or 
     return Notification.countDocuments({ unread: true })
-      .exec()
       .then((unreadCount) => {
         res.json(unreadCount);
-      });
-  } else {
-    return Notification.find({ notify: req.user._id })
-      .select('type notify notifiable notifiableModel unread createdAt')
-      .populate({ path: 'notifiable' })
-      .exec()
-      .then((foundNotifications) => {
-        res.json(foundNotifications);
-      });
+      })
+      .catch((err) => res.status(404).json([err.message]));
+  } else { // to get all notifs for the notification popover
+    return modelQuery.findNotifications(req.user)
+      .then((notifications) => {
+        res.json(notifications);
+      })
+      .catch((err) => res.status(404).json([err.message]));
   }
 });
 
+// POST api/notifications 
 router.post('/notifications', middleware.isLoggedIn, function (req, res) {
   const newNotif = req.body;
   return Notification.create(newNotif)

@@ -7,6 +7,7 @@ const Note = require('../models/note');
 const Tag = require('../models/tag');
 const ChatRoom = require('../models/chat_room');
 const ChatMessage = require('../models/chat_message');
+const Notification = require('../models/notification');
 
 modelQuery.getCurrentUserLikes = function (userId) {
   return Note.find({ type: 'like', author: userId })
@@ -317,5 +318,45 @@ const findOneChatRoomById = function (id) {
       return foundChatRoom;
     });
 }
+
+modelQuery.findNotifications = function (user) {
+  return Notification.find({ notify: user._id })
+    .select('type notify notifiable notifiableModel unread createdAt')
+    .populate({ path: 'notifiable' })
+    .exec()
+    .then((foundNotifications) => {
+      if (!foundNotifications) throw { message: 'Error' }
+      return populateNotifiables(foundNotifications);
+    });
+};
+
+const populateNotifiables = function (notifications) {
+  return new Promise((resolve, reject) => {
+    if (!notifications.length) resolve([]);
+    let popNotifs = notifications.map(() => null);
+    notifications.forEach((notification, i) => {
+
+      // depending on the notification type, notifiable might be different models (Note, User, etc)
+      let paths;
+      if (notification.notifiableModel === 'Note') {
+        paths = [
+          { path: 'notifiable.author', select: 'username avatarImageUrl' },
+          { path: 'notifiable.post', select: 'type title' },
+        ];
+      } else if (notification.notifiableModel === 'User') {
+        paths = [
+          { path: 'notifiable', select: 'username avatarImageUrl' },
+        ];
+      }
+
+      Notification.populate(notification, paths)
+        .then((popNotif) => {
+          popNotifs[i] = popNotif;
+          if (!popNotifs.includes(null)) resolve(popNotifs);
+        })
+        .catch((err) => reject(err));
+    });
+  });
+};
 
 module.exports = modelQuery;
