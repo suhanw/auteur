@@ -67,7 +67,7 @@ modelQuery.createLike = function (likeBody) {
     .then((newLike) => {
       return newLike.populate({
         path: 'post',
-        select: 'likeCount',
+        select: 'likeCount author',
       }).execPopulate();
     })
     .then((newLike) => {
@@ -99,7 +99,7 @@ modelQuery.createComment = function (commentBody) {
     .then((newComment) => {
       return newComment.populate({
         path: 'post',
-        select: 'commentCount',
+        select: 'commentCount author',
       }).execPopulate();
     })
     .then((newComment) => {
@@ -323,6 +323,7 @@ modelQuery.findNotifications = function (user) {
   return Notification.find({ notify: user._id })
     .select('type notify notifiable notifiableModel unread createdAt')
     .populate({ path: 'notifiable' })
+    .sort({ 'createdAt': 'desc' })
     .exec()
     .then((foundNotifications) => {
       if (!foundNotifications) throw { message: 'Error' }

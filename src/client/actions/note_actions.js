@@ -1,6 +1,6 @@
 import * as APIUtil from '../util/api_util/note_api_util';
-import { fetchPost } from '../actions/post_actions';
 import { fetchUserLikes } from '../actions/user_actions';
+import { createNotification } from '../actions/notification_actions';
 
 export const RECEIVE_NOTE = 'RECEIVE_NOTE';
 export const RECEIVE_NOTES = 'RECEIVE_NOTES';
@@ -59,6 +59,13 @@ export const createNote = function (note) {
   return function (dispatch) {
     return APIUtil.createNote(note).then(
       (note) => {
+        let notification = {
+          type: note.type,
+          notify: note.post.author,
+          notifiable: note._id,
+          notifiableModel: 'Note',
+        };
+        dispatch(createNotification(notification));
         dispatch(receiveNote(note));
         if (note.type === 'like') dispatch(fetchUserLikes(note.author));
       },

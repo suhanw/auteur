@@ -26,6 +26,7 @@ const notificationSchema = new mongoose.Schema(
     unread: {
       type: Boolean,
       required: true,
+      default: true,
     },
   }, { timestamps: { createdAt: 'createdAt' } }
 );

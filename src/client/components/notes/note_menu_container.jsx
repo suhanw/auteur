@@ -26,7 +26,7 @@ const mapDispatchToProps = function (dispatch, ownProps) {
     createNote: (note) => dispatch(createNote(note)),
     deleteNote: (note) => dispatch(deleteNote(note)),
     openChatDrawer: (chatDrawer) => dispatch(openChatDrawer(chatDrawer)),
-  }
+  };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(NoteMenu);
