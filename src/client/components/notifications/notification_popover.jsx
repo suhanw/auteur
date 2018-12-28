@@ -103,7 +103,7 @@ class NotificationPopover extends React.Component {
       daysAgo = 'TODAY';
     }
     return (
-      <header className='popover-header'>
+      <header className='popover-header' key={dateString}>
         <span>{daysAgo}</span>
         <span className='popover-item-suffix'>{dateString}</span>
       </header>

@@ -95,7 +95,6 @@ router.delete('/posts/:postId',
       .catch((err) => res.status(422).json([err.message]));
   });
 
-
 // PUT api/blogs/:id/posts/:id (Update)
 router.put('/posts/:postId',
   middleware.checkPostOwnership,

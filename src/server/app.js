@@ -3,6 +3,7 @@ require('dotenv').config(); // environment variables
 const express = require('express');
 const app = express();
 const httpServer = require('http').Server(app);
+const io = require('socket.io')(httpServer); // create a Server for sockets
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const methodOverride = require('method-override');
@@ -65,10 +66,14 @@ passport.deserializeUser(User.deserializeUser()); // method provided by passport
 // AUTH CONFIG============================
 
 // CHAT CONFIG=============================
-const io = require('socket.io')(httpServer); // create a Server
 const chatNamespace = require('./sockets/chat_namespace');
 chatNamespace(io); // this module will create a Namespace
 // CHAT CONFIG=============================
+
+// NOTIFICATION CONFIG=====================
+const notificationRoutes = require('./routes/notifications');
+app.use('/api', notificationRoutes(io));
+// NOTIFICATION CONFIG=====================
 
 // API ROUTES==============================
 app.use(require('./controllers/controllers'));

@@ -1,5 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import io from 'socket.io-client';
 
 import Logo from '../logo/logo';
 import SearchBar from '../search/search_bar';
@@ -11,6 +12,8 @@ class Navbar extends React.Component {
   constructor(props) {
     super(props);
 
+    this.socket = null;
+
     this.dynamicClosePopover = this.dynamicClosePopover.bind(this);
     this.renderHomeIcon = this.renderHomeIcon.bind(this);
     this.renderAccountIcon = this.renderAccountIcon.bind(this);
@@ -19,6 +22,7 @@ class Navbar extends React.Component {
     this.renderPostIcon = this.renderPostIcon.bind(this);
     this.renderBadgeIcon = this.renderBadgeIcon.bind(this);
     this.togglePopover = this.togglePopover.bind(this);
+    this.createNotificationSocket = this.createNotificationSocket.bind(this);
   }
 
   render() {
@@ -53,11 +57,21 @@ class Navbar extends React.Component {
 
     const { fetchUnreadNotificationCount } = this.props;
     fetchUnreadNotificationCount();
+    this.createNotificationSocket();
+  }
+
+  createNotificationSocket() {
+    const { currentUser, fetchUnreadNotificationCount } = this.props;
+    this.socket = io('/notifications');
+    this.socket.on(`notify ${currentUser._id}`, (err) => {
+      fetchUnreadNotificationCount();
+    })
   }
 
   componentWillUnmount() {
     window.removeEventListener('click', this.dynamicClosePopover);
     window.removeEventListener('keydown', this.dynamicClosePopover);
+    if (this.socket) this.socket.disconnect(true);
   }
 
   dynamicClosePopover(e) {

@@ -78,7 +78,6 @@ export const deleteNote = function (note) {
   return function (dispatch) {
     return APIUtil.deleteNote(note).then(
       (note) => {
-        // TODO: also delete corresponding notification?
         dispatch(removeNote(note));
         if (note.type === 'like') dispatch(fetchUserLikes(note.author));
       },
