@@ -89,11 +89,15 @@ export const selectChatMessages = function (state) {
   return chatMessages;
 };
 
-export const selectNotifiable = function (state, notification) {
-  if (notification.type === 'like' || notification.type === 'comment') {
-    return selectNote(state, notification.notifiable);
-  }
+export const selectNotifications = function (state) {
+  const { entities: { notifications } } = state;
+  return notifications;
 };
+
+export const selectUnreadNotificationCount = function (state) {
+  let notifications = selectNotifications(state);
+  return notifications.unreadCount;
+}
 
 // UI SELECTORS=================================
 export const selectModal = function (state) {

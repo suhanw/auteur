@@ -10,6 +10,7 @@ router.get('/notifications', middleware.isLoggedIn, function (req, res) {
   const { countUnread } = req.query;
   if (countUnread === 'true') { // to get unread notif count for navbar, or 
     return Notification.countDocuments({ unread: true })
+      .where('notify').equals(req.user._id)
       .then((unreadCount) => {
         res.json(unreadCount);
       })

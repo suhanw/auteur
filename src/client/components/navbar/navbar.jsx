@@ -17,6 +17,7 @@ class Navbar extends React.Component {
     this.renderChatIcon = this.renderChatIcon.bind(this);
     this.renderNotificationIcon = this.renderNotificationIcon.bind(this);
     this.renderPostIcon = this.renderPostIcon.bind(this);
+    this.renderBadgeIcon = this.renderBadgeIcon.bind(this);
     this.togglePopover = this.togglePopover.bind(this);
   }
 
@@ -49,6 +50,9 @@ class Navbar extends React.Component {
     // clicking anywhere else on the window should close any/all popovers
     window.addEventListener('click', this.dynamicClosePopover);
     window.addEventListener('keydown', this.dynamicClosePopover);
+
+    const { fetchUnreadNotificationCount } = this.props;
+    fetchUnreadNotificationCount();
   }
 
   componentWillUnmount() {
@@ -96,7 +100,7 @@ class Navbar extends React.Component {
   }
 
   renderNotificationIcon() {
-    const { popover } = this.props;
+    const { popover, unreadNotificationCount } = this.props;
     const notificationPopover = {
       popoverId: 'notificationPopover',
       popoverType: 'notificationPopover',
@@ -104,12 +108,13 @@ class Navbar extends React.Component {
     let notificationPopoverComponent = null;
     let activeIcon = null;
     if (JSON.stringify(popover) === JSON.stringify(notificationPopover)) {
-      notificationPopoverComponent = <NotificationPopover />
+      notificationPopoverComponent = <NotificationPopover />;
       activeIcon = { color: 'white' };
     }
     return (
       <li className='navbar-right-item' onClick={this.togglePopover(notificationPopover)}>
         <i className="fas fa-bell" style={activeIcon}></i>
+        {(unreadNotificationCount) ? this.renderBadgeIcon(unreadNotificationCount) : null}
         {notificationPopoverComponent}
       </li>
     );
@@ -149,6 +154,14 @@ class Navbar extends React.Component {
       <li className='navbar-right-item' onClick={choosePostType}>
         <i className="fas fa-pen-square"></i>
       </li>
+    );
+  }
+
+  renderBadgeIcon(num) {
+    return (
+      <div className='navbar-badge-icon'>
+        {num}
+      </div>
     );
   }
 
