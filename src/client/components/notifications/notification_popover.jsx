@@ -87,6 +87,7 @@ class NotificationPopover extends React.Component {
 
   renderNotification(notification) {
     const NotifComponent = this.notifComponents[notification.type];
+    // TODO: add link to liked/commented post
     return (
       <NotifComponent key={notification._id}
         notifiable={notification.notifiable}
