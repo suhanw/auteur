@@ -51,6 +51,13 @@ Implemented online indicator.
 
 ![Online Indicator](readme/online_indicator.gif)
 
+### Notifications
+
+Leveraged WebSockets to implement the notifications feature. Likes and comments will create real-time in-app notifications for the relevant user. 
+
+![Notifications](readme/notifications.gif)
+
+
 ### Responsive Layout
 
 Enabled selective rendering and responsive layout for mobile devices via CSS media query.
