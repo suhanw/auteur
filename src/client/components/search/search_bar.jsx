@@ -30,6 +30,8 @@ class SearchBar extends React.Component {
   }
 
   render() {
+    console.log((this.state.query));
+
     return (
       <div className={`search ${toggleClass(this.state.isActive, 'active', '')}`}>
         {this.renderSearchIcon()}
@@ -37,6 +39,13 @@ class SearchBar extends React.Component {
         {this.renderSearchPopover()}
       </div>
     );
+  }
+
+  componentWillReceiveProps(newProps) {
+    if (newProps.location.pathname !== this.props.location.pathname) {
+      this.setState({ query: '' });
+      this.searchBarRef.current.blur();
+    }
   }
 
   renderSearchIcon() {
@@ -52,6 +61,7 @@ class SearchBar extends React.Component {
         className='search-bar'
         name='query'
         placeholder='Search Auteur'
+        value={this.state.query}
         ref={this.searchBarRef}
         onFocus={this.handleFocusSearchBar}
         onBlur={this.handleFocusSearchBar}
