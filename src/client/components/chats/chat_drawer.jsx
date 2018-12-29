@@ -7,15 +7,11 @@ import { selectChatDrawers, selectChatRooms, selectChatMessages, selectUsers } f
 import { closeChatDrawer, fetchChatRoom, createChatRoom, fetchChatMessage, createChatMessage } from '../../actions/chat_actions';
 
 const mapStateToProps = (state, _) => {
-  const chatDrawers = selectChatDrawers(state);
-  const chatRooms = selectChatRooms(state);
-  const chatMessages = selectChatMessages(state);
-  const users = selectUsers(state);
   return {
-    chatDrawers,
-    chatRooms,
-    chatMessages,
-    users,
+    chatDrawers: selectChatDrawers(state),
+    chatRooms: selectChatRooms(state),
+    chatMessages: selectChatMessages(state),
+    users: selectUsers(state),
   };
 };
 
