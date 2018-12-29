@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 class TagIndex extends React.Component {
   constructor(props) {
@@ -13,7 +14,9 @@ class TagIndex extends React.Component {
       return (
         <li key={`${postId}_${tagLabel}`}
           className='tag-label'>
-          {`#${tagLabel}`}
+          <Link to={`/search/${tagLabel}`}>
+            {`#${tagLabel}`}
+          </Link>
         </li>
       )
     });

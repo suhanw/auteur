@@ -8,7 +8,7 @@ class PostIndexMasonry extends React.Component {
   }
 
   render() {
-    let n = 4;
+    let n = this.props.masonryCols;
     return (
       <div className='masonry-wall'>
         {this.renderColumns(n)}

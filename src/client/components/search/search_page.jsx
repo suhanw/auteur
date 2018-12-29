@@ -35,12 +35,13 @@ class SearchPage extends React.Component {
 
     this.state = {
       noPostResults: false,
+      masonryCols: 5,
     };
 
     this.renderHeader = this.renderHeader.bind(this);
     this.renderSearchPosts = this.renderSearchPosts.bind(this);
     this.throttleResizeNavbar = this.throttleResizeNavbar.bind(this);
-    this.renderNavbarPerScreenSize = this.renderNavbarPerScreenSize.bind(this);
+    this.renderPerScreenSize = this.renderPerScreenSize.bind(this);
   }
 
   render() {
@@ -90,6 +91,7 @@ class SearchPage extends React.Component {
       <section className='search-posts-container'>
         {/* <div className='search-posts-controls'></div> */}
         <PostIndexMasonry
+          masonryCols={this.state.masonryCols}
           view={view}
           postsArr={postsArr}
           blogs={blogs}
@@ -109,7 +111,7 @@ class SearchPage extends React.Component {
       }
     );
 
-    this.renderNavbarPerScreenSize();
+    this.renderPerScreenSize();
     window.addEventListener('resize', this.throttleResizeNavbar());
   }
 
@@ -141,18 +143,26 @@ class SearchPage extends React.Component {
           () => {
             clearTimeout(resizeTimeout);
             resizeTimeout = null;
-            that.renderNavbarPerScreenSize()
+            that.renderPerScreenSize()
           },
           1000);
       }
     };
   }
 
-  renderNavbarPerScreenSize() {
+  renderPerScreenSize() {
     if (window.innerWidth <= 812) {
       this.props.renderNavbar({ view: 'navbarMobile' });
+      this.setState({ masonryCols: 1 });
+    } else if (window.innerWidth <= 960) {
+      this.props.renderNavbar({ view: 'navbarMain' });
+      this.setState({ masonryCols: 2 });
+    } else if (window.innerWidth <= 1280) {
+      this.props.renderNavbar({ view: 'navbarMain' });
+      this.setState({ masonryCols: 3 });
     } else {
       this.props.renderNavbar({ view: 'navbarMain' });
+      this.setState({ masonryCols: 4 });
     }
   }
 }
