@@ -31,10 +31,7 @@ const postIndexReducer = function (state = defaultState, action) {
       payloadSchema = [postSchema];
       normalizedPayload = normalize(action.payload, payloadSchema);
       newState = merge({}, state);
-      newState.searchPosts = union( // union will remove duplicate posts that have more than 1 matching tag
-        state.searchPosts,
-        normalizedPayload.result, // array of postIds
-      );
+      newState.searchPosts = union(normalizedPayload.result); // union will remove duplicate post IDs that have more than 1 matching tag
       return newState;
     case CLEAR_SEARCH_POSTS:
       newState = merge({}, state);
