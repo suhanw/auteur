@@ -21,7 +21,7 @@ class PostFormVideo extends React.Component {
   }
 
   render() {
-    const { blog, closePostForm, errorMessage } = this.props;
+    const { blog, confirmDiscardPost, errorMessage } = this.props;
     const { title, body } = this.state;
     const readyToSubmit = (title === '' && body === '') ? false : true;
     return (
@@ -38,7 +38,7 @@ class PostFormVideo extends React.Component {
         {errorMessage}
 
         <PostFormFooter
-          closePostForm={closePostForm}
+          confirmDiscardPost={confirmDiscardPost}
           readyToSubmit={readyToSubmit} />
 
       </form>
@@ -60,8 +60,8 @@ class PostFormVideo extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    e.persist(); // to prevent React synthetic event from nullified, and be able to be passed into closePostForm
-    const { currentUser, blog, submitAction, closePostForm } = this.props;
+    e.persist(); // to prevent React synthetic event from nullified, and be able to be passed into confirmDiscardPost
+    const { currentUser, blog, submitAction, confirmDiscardPost } = this.props;
     let newPost = new FormData();
     for (let key in this.state) {
       newPost.append(key, this.state[key]);
@@ -74,7 +74,7 @@ class PostFormVideo extends React.Component {
     submitAction(newPost).then( // invoke AJAX to create new post or edit post
       (errAction) => {
         if (errAction) return; // if a post error is received, do nothing
-        closePostForm(e); // otherwise, close form after posting
+        confirmDiscardPost(e); // otherwise, close form after posting
       }
     );
   }
