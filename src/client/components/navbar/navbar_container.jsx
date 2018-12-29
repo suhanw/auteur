@@ -12,24 +12,19 @@ import { fetchUnreadNotificationCount } from '../../actions/notification_actions
 import { selectCurrentUser, selectBlog, selectPopover, selectNavbar, selectUnreadNotificationCount } from '../../selectors/selectors';
 
 const mapStateToProps = function (state, ownProps) {
-  const navbar = selectNavbar(state);
   const currentUser = selectCurrentUser(state);
-  const blog = (!currentUser) ? null : selectBlog(state, currentUser.primaryBlog); // currentUser doesn't exist when not logged in
-  const popover = selectPopover(state);
-  const unreadNotificationCount = selectUnreadNotificationCount(state);
-  const { scrollCarousel, activeSlide } = ownProps;
   return {
-    navbar,
-    currentUser,
-    blog,
-    scrollCarousel,
-    activeSlide,
-    popover,
-    unreadNotificationCount,
+    navbar: selectNavbar(state),
+    currentUser: currentUser,
+    blog: (!currentUser) ? null : selectBlog(state, currentUser.primaryBlog), // currentUser doesn't exist when not logged in,
+    popover: selectPopover(state),
+    unreadNotificationCount: selectUnreadNotificationCount(state),
+    scrollCarousel: ownProps.scrollCarousel,
+    activeSlide: ownProps.activeSlide,
   };
 };
 
-const mapDispatchToProps = function (dispatch, ownProps) {
+const mapDispatchToProps = function (dispatch, _) {
   return {
     openPopover: (popover) => dispatch(openPopover(popover)),
     closePopover: () => dispatch(closePopover()),

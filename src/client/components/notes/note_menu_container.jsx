@@ -13,12 +13,12 @@ const mapStateToProps = function (state, ownProps) {
   return {
     blog,
     post,
-    popover,
     view,
+    popover,
   };
 };
 
-const mapDispatchToProps = function (dispatch, ownProps) {
+const mapDispatchToProps = function (dispatch, _) {
   return {
     confirmDeletePost: (post) => dispatch(confirmDeletePost(post)),
     closePopover: () => dispatch(closePopover()),

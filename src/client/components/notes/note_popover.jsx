@@ -8,20 +8,16 @@ import { closePopover } from '../../actions/popover_actions';
 
 const mapStateToProps = function (state, ownProps) {
   const { post } = ownProps;
-  const notesArr = selectNotes(state, post._id);
-  const users = selectUsers(state);
-  const blogs = selectBlogs(state);
-  const currentUser = selectCurrentUser(state);
   return {
     post,
-    notesArr,
-    users,
-    blogs,
-    currentUser,
+    notesArr: selectNotes(state, post._id),
+    users: selectUsers(state),
+    blogs: selectBlogs(state),
+    currentUser: selectCurrentUser(state),
   };
 };
 
-const mapDispatchToProps = function (dispatch, ownProps) {
+const mapDispatchToProps = function (dispatch, _) {
 
   return {
     fetchNotes: (postId) => dispatch(fetchNotes(postId)),

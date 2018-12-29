@@ -4,7 +4,7 @@ import { deletePost } from '../../actions/post_actions';
 import { deleteNote } from '../../actions/note_actions';
 import { logout } from '../../actions/session_actions';
 
-export const mapStateToProps = function (state, ownProps) {
+export const mapStateToProps = function (_, ownProps) {
   const { action, data, localAction } = ownProps;
   return {
     action,
@@ -13,7 +13,7 @@ export const mapStateToProps = function (state, ownProps) {
   }
 };
 
-export const mapDispatchToProps = function (dispatch, ownProps) {
+export const mapDispatchToProps = function (dispatch, _) {
   return {
     logout: () => dispatch(logout()),
     deletePost: (post) => dispatch(deletePost(post)),
@@ -71,7 +71,7 @@ class ConfirmModal extends React.Component {
     if (action === 'confirmDeletePost') {
       data.postShowItemRef.current.classList.add('bg-fade-out');
       delete data.postShowItemRef;
-      let animateDeletePostTimer = setTimeout( // dispatch action only after animation ends
+      let animateDeletePostTimer = setTimeout( // dispatch action only after fadeout
         () => {
           clearTimeout(animateDeletePostTimer);
           animateDeletePostTimer = null;
@@ -86,7 +86,7 @@ class ConfirmModal extends React.Component {
 
   handleClickCancel(e) {
     e.preventDefault();
-    e.stopPropagation(); // to prevent bubbling up to close popover
+    e.stopPropagation();
     this.props.closeModal();
   }
 }
