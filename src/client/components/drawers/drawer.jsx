@@ -7,14 +7,13 @@ import { selectDrawer } from '../../selectors/selectors';
 import { closeDrawer } from '../../actions/drawer_actions';
 import { createFollow, deleteFollow } from '../../actions/follow_actions';
 
-const mapStateToProps = function (state, ownProps) {
-  const drawer = selectDrawer(state);
+const mapStateToProps = function (state, _) {
   return {
-    drawer,
+    drawer: selectDrawer(state),
   };
 };
 
-const mapDispatchToProps = function (dispatch, ownProps) {
+const mapDispatchToProps = function (dispatch, _) {
   return {
     closeDrawer: () => dispatch(closeDrawer()),
     createFollow: (blogId) => dispatch(createFollow(blogId)),

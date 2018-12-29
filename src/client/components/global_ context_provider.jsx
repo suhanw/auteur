@@ -3,9 +3,8 @@ import React from 'react';
 import { selectCurrentUser } from '../selectors/selectors';
 
 const mapStateToProps = (state, _) => {
-  const currentUser = selectCurrentUser(state);
   return {
-    currentUser,
+    currentUser: selectCurrentUser(state),
   };
 };
 

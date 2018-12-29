@@ -8,13 +8,10 @@ import { fetchSearchUsers } from '../../actions/search_actions';
 import { openChatDrawer } from '../../actions/chat_actions';
 
 const mapStateToProps = (state, _) => {
-  const blogs = selectBlogs(state);
-  const users = selectUsers(state);
-  const searchUsers = selectSearchUsers(state);
   return {
-    blogs,
-    users,
-    searchUsers,
+    blogs: selectBlogs(state),
+    users: selectUsers(state),
+    searchUsers: selectSearchUsers(state),
   };
 };
 

@@ -9,13 +9,10 @@ import { pluralize } from '../../util/misc_util';
 
 const mapStateToProps = function (state, ownProps) {
   const { blogId } = ownProps.match.params;
-  const currentBlog = selectBlog(state, blogId);
-  const users = selectUsers(state);
-  const blogs = selectBlogs(state);
   return {
-    currentBlog,
-    blogs,
-    users,
+    currentBlog: selectBlog(state, blogId),
+    blogs: selectBlogs(state),
+    users: selectUsers(state),
   };
 };
 
@@ -40,9 +37,7 @@ class FollowerIndex extends React.Component {
 
   render() {
     const { currentBlog } = this.props;
-    if (!currentBlog || !currentBlog.followers) { // the blog or blog.followers may not have been fetched yet
-      return null;
-    }
+    if (!currentBlog || !currentBlog.followers) return null; // the blog or blog.followers may not have been fetched yet
 
     return (
       <div className='followers'>

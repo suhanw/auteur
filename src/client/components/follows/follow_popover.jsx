@@ -7,11 +7,9 @@ import { selectBlog } from '../../selectors/selectors';
 import { GlobalContext } from '../global_ context_provider';
 
 const mapStateToProps = function (state, ownProps) {
-  const { blogId } = ownProps;
-  const blog = selectBlog(state, blogId);
   // TODO: select top 3 posts with most notes
   return {
-    blog,
+    blog: selectBlog(state, ownProps.blogId),
   }
 };
 
