@@ -8,26 +8,19 @@ import { fetchUserFollowing, fetchUserLikes } from '../../../actions/user_action
 import { openDrawer } from '../../../actions/drawer_actions';
 
 const mapStateToProps = function (state, ownProps) {
-  const blogs = selectBlogs(state);
-  const currentUser = selectCurrentUser(state);
-  const loadingPostIndex = selectLoadingPostIndex(state);
-
   // LOGIC FOR SELECTING THE RIGHT POSTS TO RENDER
   const { view } = ownProps;
   let blogId;
   if (view === 'currentBlog') blogId = ownProps.match.params.blogId;
   else if (view === 'blogDrawer') blogId = ownProps.blogId;
-  let postsArr = [];
-
-  postsArr = selectPosts(state, view, blogId);
 
   return {
     view,
-    postsArr,
-    blogs,
-    currentUser,
-    loadingPostIndex,
     blogId,
+    postsArr: selectPosts(state, view, blogId),
+    blogs: selectBlogs(state),
+    currentUser: selectCurrentUser(state),
+    loadingPostIndex: selectLoadingPostIndex(state),
   };
 };
 

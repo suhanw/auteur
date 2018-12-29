@@ -5,16 +5,15 @@ import { fetchUserLikes } from '../../actions/user_actions';
 import { fetchBlog } from '../../actions/blog_actions';
 import Sidemenu from './sidemenu';
 
-const mapStateToProps = function (state, ownProps) {
+const mapStateToProps = function (state, _) {
   const currentUser = selectCurrentUser(state);
-  const blog = selectBlog(state, currentUser.primaryBlog);
   return {
     currentUser,
-    blog,
+    blog: selectBlog(state, currentUser.primaryBlog),
   };
 };
 
-const mapDispatchToProps = function (dispatch, ownProps) {
+const mapDispatchToProps = function (dispatch, _) {
   return {
     fetchBlog: (blogId) => dispatch(fetchBlog(blogId)),
     fetchUserLikes: (userId) => dispatch(fetchUserLikes(userId)),

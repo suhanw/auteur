@@ -6,9 +6,8 @@ import { openDrawer } from '../actions/drawer_actions';
 import { renderNavbar } from '../actions/navbar_actions';
 
 const mapStateToProps = function (state) {
-  const loggedIn = selectCurrentUser(state);
   return {
-    loggedIn,
+    loggedIn: selectCurrentUser(state),
   };
 };
 

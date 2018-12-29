@@ -6,15 +6,13 @@ import { selectTags } from '../../selectors/selectors';
 import { fetchTags } from '../../actions/search_actions';
 
 const mapStateToProps = (state, ownProps) => {
-  const tags = selectTags(state);
-  const { query } = ownProps;
   return {
-    tags,
-    query,
-  }
-}
+    query: ownProps.query,
+    tags: selectTags(state),
+  };
+};
 
-const mapDispatchToProps = (dispatch, ownProps) => {
+const mapDispatchToProps = (dispatch, _) => {
   return {
     fetchTags: (tagQuery) => dispatch(fetchTags(tagQuery)),
   };

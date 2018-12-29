@@ -5,16 +5,10 @@ import { signup, login } from '../../actions/session_actions';
 import { clearErrors } from '../../actions/clear_actions';
 
 const mapStateToProps = function (state, ownProps) {
-  const path = ownProps.path;
-  const pathname = ownProps.pathname;
-
-  const errors = selectSessionErrors(state);
-  const sessionId = state.session.id;
   return {
-    path,
-    pathname,
-    errors,
-    sessionId,
+    path: ownProps.path,
+    pathname: ownProps.pathname,
+    errors: selectSessionErrors(state),
   };
 };
 

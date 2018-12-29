@@ -19,10 +19,8 @@ import { toggleClass } from '../../../util/misc_util';
 
 const mapStateToProps = function (state, ownProps) {
   const currentUser = selectCurrentUser(state); //this includes primaryBlog id
-  const loadingPostSubmit = selectLoadingPostSubmit(state);
-  const postErrors = selectPostErrors(state);
-  const { edit, togglePostForm } = ownProps;
-  let formType; // whether it's text, photo, video, etc
+  const { edit } = ownProps;
+  let formType; // whether it's text, photo, link, etc
   let blog;
   let post;
 
@@ -41,9 +39,8 @@ const mapStateToProps = function (state, ownProps) {
     formType,
     blog,
     post,
-    loadingPostSubmit,
-    postErrors,
-    togglePostForm,
+    loadingPostSubmit: selectLoadingPostSubmit(state),
+    postErrors: selectPostErrors(state),
   }
 };
 

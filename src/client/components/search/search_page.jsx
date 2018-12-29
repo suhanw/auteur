@@ -9,18 +9,15 @@ import { createFollow } from '../../actions/follow_actions';
 import { openDrawer } from '../../actions/drawer_actions';
 import { toggleClass } from '../../util/misc_util';
 
-const mapStateToProps = (state, ownProps) => {
-  const postsArr = selectPosts(state, 'searchPosts');
-  const blogs = selectBlogs(state);
-  const loadingSearchPosts = selectLoadingSearchPosts(state);
+const mapStateToProps = (state, _) => {
   return {
-    postsArr,
-    blogs,
-    loadingSearchPosts,
+    postsArr: selectPosts(state, 'searchPosts'),
+    blogs: selectBlogs(state),
+    loadingSearchPosts: selectLoadingSearchPosts(state),
   };
 };
 
-const mapDispatchToProps = (dispatch, ownProps) => {
+const mapDispatchToProps = (dispatch, _) => {
   return {
     fetchSearchPosts: (query) => dispatch(fetchSearchPosts(query)),
     clearSearchPosts: () => dispatch(clearSearchPosts()),
