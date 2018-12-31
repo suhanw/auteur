@@ -68,7 +68,6 @@ class PostIndex extends React.Component {
   }
 
   componentWillUnmount() {
-    const { view } = this.props;
     const dashboard = document.querySelector('div.dashboard');
     if (dashboard) dashboard.removeEventListener('scroll', this.handleScroll);
   }
