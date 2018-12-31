@@ -14,7 +14,6 @@ import { fetchBlog } from '../../../actions/blog_actions';
 import { createPost, updatePost } from '../../../actions/post_actions';
 import { clearErrors } from '../../../actions/clear_actions';
 import { selectCurrentUser, selectBlog, selectLoadingPostSubmit, selectPostErrors } from '../../../selectors/selectors';
-import { toggleClass } from '../../../util/misc_util';
 
 
 const mapStateToProps = function (state, ownProps) {
@@ -100,7 +99,7 @@ class PostForm extends React.Component {
           tabIndex='0'
           onKeyDown={this.closePostForm}>
           {this.renderPostFormType()}
-          <PostSpinner spinnerClass={toggleClass(loadingPostSubmit, 'loading-post-submit', null)} />
+          {loadingPostSubmit && <PostSpinner spinnerClass='loading-post-submit' />}
         </div>
 
       </div>

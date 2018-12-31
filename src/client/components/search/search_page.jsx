@@ -52,7 +52,7 @@ class SearchPage extends React.Component {
           {/* {this.renderSearchBlogs()} */}
           {this.renderSearchPosts()}
 
-          <PostSpinner spinnerClass={toggleClass(loadingSearchPosts, 'loading-search-posts', null)} />
+          {loadingSearchPosts && <PostSpinner spinnerClass='loading-search-posts' />}
 
         </div>
       </div>

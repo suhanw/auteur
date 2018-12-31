@@ -26,15 +26,13 @@ class PostIndex extends React.Component {
     // TODO: add error handlers!!
     const { loadingPostIndex } = this.props;
 
-    let spinnerClass = (loadingPostIndex) ? 'loading-post-index' : null;
-
     return (
       <div className='post-index'>
         {this.renderPostIndexHeader()}
         <ul className='post-container'>
           {this.renderPostShowItems()}
         </ul>
-        <PostSpinner spinnerClass={spinnerClass} />
+        {loadingPostIndex && <PostSpinner spinnerClass='loading-post-index' />}
         {this.renderBackToTop()}
       </div>
     );
