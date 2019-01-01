@@ -42,6 +42,7 @@ class Carousel extends React.Component {
       'https://wallpapers.moviemania.io/desktop/movie/1417/3ab2d6/pans-labyrinth-desktop-wallpaper.jpg?w=1920&h=1200',
       'https://wallpapers.moviemania.io/desktop/tv/1396/7f0992/breaking-bad-desktop-wallpaper.jpg?w=1920&h=1200',
       'https://wallpapers.moviemania.io/desktop/movie/18/7f652d/the-fifth-element-desktop-wallpaper.jpg?w=1920&h=1200',
+      'https://fogsmoviereviews.files.wordpress.com/2012/10/se7en_road_to_final_scenes_power_lines.png',
     ];
 
 
