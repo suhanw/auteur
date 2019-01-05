@@ -76,40 +76,47 @@ router.get('/users/:id/following', middleware.isLoggedIn, function (req, res) {
 
 // GET api/users/:id/likes - fetch current user's liked posts
 router.get('/users/:id/likes', middleware.isLoggedIn, function (req, res) {
-  Note.find({ type: 'like', author: req.user._id })
-    .sort({ '_id': 'desc' }) // latest likes first
-    .select('post')
-    .populate('post')
-    .then((likes) => {
-      if (!likes) throw { message: 'Error.' }
-      return Note.populate( // Model.populate() returns a promise
-        likes,
-        [
-          { path: 'post.blog', select: '_id avatarImageUrl backgroundImageUrl name title' },
-          { path: 'post.tags', select: 'label' }
-        ],
-      );
+  let likeQuery = Note.find({ type: 'like', author: req.user._id })
+    .sort({ '_id': 'desc' }) // ordered by most recent likes
+    .select('post');
 
-    })
-    .then((likes) => {
-      let likedPosts = {};
-      let posts = [];
-      likes.forEach((like) => {
-        likedPosts[like.post._id] = like._id;
-        posts.push(like.post);
+  let promise;
+
+  if (req.query.populate === 'true') { // case when user is on Likes page where actual posts need to be fetched
+    promise = likeQuery.populate('post')
+      .exec()
+      .then((likes) => {
+        if (!likes) throw { message: 'Error.' }
+        return Note.populate( // Model.populate() returns a promise
+          likes,
+          [
+            { path: 'post.blog', select: '_id avatarImageUrl backgroundImageUrl name title' },
+            { path: 'post.tags', select: 'label' }
+          ],
+        );
       });
-      let responseJSON = { // this will be added to Redux 'users' state
-        userId: req.params.id,
-        likedPosts: likedPosts,
-        likeCount: likes.length,
-      };
-      if (req.query.populate === 'true') {
-        responseJSON['posts'] = posts;
-      }
-      return res.json(responseJSON);
-    })
+  } else {
+    promise = likeQuery.exec();
+  }
+
+  promise.then((likes) => {
+    let likedPosts = {};
+    let posts = [];
+    likes.forEach((like) => {
+      likedPosts[like.post._id] = like._id;
+      posts.push(like.post);
+    });
+    let responseJSON = { // this will be added to Redux 'users' state
+      userId: req.params.id,
+      likedPosts: likedPosts,
+      likeCount: likes.length,
+    };
+    if (req.query.populate === 'true') {
+      responseJSON['posts'] = posts;
+    }
+    return res.json(responseJSON);
+  })
     .catch((err) => res.status(404).json([err.message]));
 });
-
 
 module.exports = router;
