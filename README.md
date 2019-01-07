@@ -62,6 +62,8 @@ Leveraged WebSockets to implement the notifications feature. Likes and comments 
 Enabled selective rendering and responsive layout for mobile devices via CSS media query.
 
 ![Responsive](readme/responsive.gif)
+![Responsive Masonry](readme/responsive_masonry.gif)
+
 
 ### Design Patterns
 
