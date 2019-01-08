@@ -67,7 +67,7 @@ passport.deserializeUser(User.deserializeUser()); // method provided by passport
 
 // CHAT CONFIG=============================
 const chatNamespace = require('./sockets/chat_namespace');
-chatNamespace(io); // this module will create a Namespace
+chatNamespace(io); // this module will create the Chat namespace
 // CHAT CONFIG=============================
 
 // NOTIFICATION CONFIG=====================
