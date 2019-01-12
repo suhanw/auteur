@@ -195,7 +195,7 @@ modelQuery.addTagsToPost = function (post, blog) {
 modelQuery.findOrCreateTags = function (tags) {
   return new Promise((resolve, reject) => {
     if (!tags.length) return resolve([]);
-    let tagObjIds = tags.map(() => null); // create a placeholder array with same num of elements
+    let tagObjIds = new Array(tags.length); // create a placeholder array with same num of elements
     tags.forEach((tagLabel, i) => {
       Tag.findOne({ label: tagLabel })
         .then((foundTag) => {
@@ -204,7 +204,7 @@ modelQuery.findOrCreateTags = function (tags) {
         })
         .then((tag) => {
           tagObjIds[i] = tag._id; // to preserve the order in which user entered tags
-          if (!tagObjIds.includes(null)) return resolve(tagObjIds); // only resolve after all tags are either found or created
+          if (!tagObjIds.includes(undefined)) return resolve(tagObjIds); // only resolve after all tags are either found or created
         })
         .catch((err) => reject(err));
     });
