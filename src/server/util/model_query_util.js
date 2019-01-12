@@ -165,7 +165,7 @@ modelQuery.countTagPosts = function (tags) {
 
 modelQuery.findTagPosts = function (tags) {
   return new Promise((resolve, reject) => {
-    let tagsWithPosts = tags.map(() => null); // to track that we found posts for each tag
+    let tagsWithPosts = new Array(tags.length); // to track that we found posts for each tag
     tags.forEach((tag, i) => {
       Post.find({ tags: tag._id })
         .sort({ 'createdAt': 'desc' }) // TODO: think about how to sort by most notes
