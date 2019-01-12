@@ -174,7 +174,7 @@ modelQuery.findTagPosts = function (tags) {
         .exec()
         .then((foundPosts) => {
           tagsWithPosts[i] = merge({ posts: foundPosts }, tag);
-          if (!tagsWithPosts.includes(null)) resolve(tagsWithPosts);
+          if (!tagsWithPosts.includes(undefined)) resolve(tagsWithPosts);
         })
         .catch((err) => reject(err));
     });
