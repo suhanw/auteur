@@ -150,13 +150,13 @@ modelQuery.findTags = function (tagQuery, limit = 5) {
 
 modelQuery.countTagPosts = function (tags) {
   return new Promise((resolve, reject) => {
-    let tagsWithCount = tags.map(() => null);
+    let tagsWithCount = new Array(tags.length);
     tags.forEach((tag, i) => {
       Post.countDocuments({ tags: tag._id })
         .exec()
         .then((count) => {
           tagsWithCount[i] = merge({ postCount: count }, tag);
-          if (!tagsWithCount.includes(null)) resolve(tagsWithCount);
+          if (!tagsWithCount.includes(undefined)) resolve(tagsWithCount);
         })
         .catch((err) => reject(err));
     });
