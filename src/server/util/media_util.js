@@ -39,7 +39,7 @@ mediaUtil.uploadFiles = function (newFiles, urls, post, blog) {
         if (err) return reject(err);
         uploadedFiles[i] = uploadedFile.Location; // this will preserve the order of files added by user
         if (!uploadedFiles.includes(undefined)) { // when all the nulls have been updated (ie, all media files have been uploaded)
-          post.media = uploadedFiles; // then update post doc
+          post.media = lodash.union(post.media, uploadedFiles); // then update post doc
           resolve({ post, blog }); // resolve only after all media files have been uploaded
         }
       });
