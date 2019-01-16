@@ -76,6 +76,14 @@ class PostFormPhoto extends React.Component {
     );
   }
 
+  componentDidMount() {
+    if (this.mediaInputRef.current) { // for new form
+      this.mediaInputRef.current.focus();
+    } else if (this.bodyInputRef.current.getEl()) { // for edit form or when there are preview images
+      this.bodyInputRef.current.getEl().focus();
+    }
+  }
+
   renderBodyInput() {
     const { mediaPreview, body } = this.state;
     if (Object.keys(mediaPreview).length > 0) { // only render when images have been selected
@@ -139,14 +147,6 @@ class PostFormPhoto extends React.Component {
 
       </div>
     );
-  }
-
-  componentDidMount() {
-    if (this.mediaInputRef.current) { // for new form
-      this.mediaInputRef.current.focus();
-    } else if (this.bodyInputRef.current.getEl()) { // for edit form or when there are preview images
-      this.bodyInputRef.current.getEl().focus();
-    }
   }
 
   renderUrlInput() {
