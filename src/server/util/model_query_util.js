@@ -340,7 +340,7 @@ modelQuery.findNotifications = function (user) {
 const populateNotifiables = function (notifications) {
   return new Promise((resolve, reject) => {
     if (!notifications.length) resolve([]);
-    let popNotifs = notifications.map(() => null);
+    let popNotifs = new Array(notifications.length);
     notifications.forEach((notification, i) => {
 
       // depending on the notification type, notifiable might be different models (Note, User, etc)
@@ -359,7 +359,7 @@ const populateNotifiables = function (notifications) {
       Notification.populate(notification, paths)
         .then((popNotif) => {
           popNotifs[i] = popNotif;
-          if (!popNotifs.includes(null)) resolve(popNotifs);
+          if (!popNotifs.includes(undefined)) resolve(popNotifs);
         })
         .catch((err) => reject(err));
     });
