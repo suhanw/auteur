@@ -299,7 +299,7 @@ class PostFormPhoto extends React.Component {
   }
 
   renderMediaPreview() { // to show preview when user selects file
-    const { media, mediaPreview } = this.state;
+    const { mediaPreview } = this.state;
     let mediaPreviewImgs = [];
     for (let mediaFilename in mediaPreview) {
       mediaPreviewImgs.push(
@@ -344,7 +344,7 @@ class PostFormPhoto extends React.Component {
     if (this.state.filesToDelete) { // if there were files to delete
       this.state.filesToDelete.forEach(function (file) { // appending file one by one will keep the array structure in FormData
         newPost.append('filesToDelete', file);
-      })
+      });
     }
     // invoke AJAX to create new post or edit post
     submitAction(newPost).then(
