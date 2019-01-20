@@ -201,7 +201,7 @@ class Carousel extends React.Component {
 
   throttleWheel(delay, handleWheel) {
     let start = Date.now();
-    return function (e) {
+    return (e) => {
       e.stopPropagation();
       let currTime = Date.now();
       let timeElapsed = currTime - start;
@@ -215,12 +215,10 @@ class Carousel extends React.Component {
   }
 
   handleClickDot(dotNum) {
-    const that = this;
-    return function (e) {
+    return (e) => {
       e.preventDefault();
-      const { activeSlide } = that.state;
-      const scrollDir = activeSlide < dotNum ? 'up' : 'down';
-      that.scrollCarousel(scrollDir, dotNum);
+      const scrollDir = this.state.activeSlide < dotNum ? 'up' : 'down';
+      this.scrollCarousel(scrollDir, dotNum);
     }
   }
 
@@ -270,14 +268,12 @@ class Carousel extends React.Component {
 
   toggleDrawer(e) {
     e.preventDefault();
-    const { openDrawer } = this.props;
     let creditsDrawer = {
       view: 'credits',
       data: null,
     };
-    openDrawer(creditsDrawer);
+    this.props.openDrawer(creditsDrawer);
   }
-
 }
 
 export default Carousel;
