@@ -15,7 +15,6 @@ router.get('/search/posts', middleware.isLoggedIn, function (req, res) {
   // 2a. find tags that match query string
   Tag.findOne({ label: tagQuery }) // if user clicks on a tag result, then find that one tag
     .then((foundTag) => {
-      // debugger
       if (!foundTag) return modelQuery.findTags(tagQuery, 0); // if no exact match, then find tags that contain the query string
       return [foundTag];
     })
