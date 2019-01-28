@@ -32,7 +32,7 @@ class SearchPage extends React.Component {
 
     this.state = {
       noPostResults: false,
-      masonryCols: 5,
+      masonryCols: 4,
     };
 
     this.renderHeader = this.renderHeader.bind(this);
