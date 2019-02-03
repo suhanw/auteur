@@ -34,8 +34,6 @@ export const deletePost = function (post) {
         method: 'DELETE',
         url: `/api/blogs/${post.blog}/posts/${post._id}`,
         data: post,
-        // contentType: false,
-        // processData: false,
     });
 };
 
