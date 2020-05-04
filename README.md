@@ -37,7 +37,7 @@ Integrated React and CSS3 keyframes to animate page elements and improve user ex
 
 ### Tags and Search
 
-Built a search feature with a popover that suggests hashtags ranked by popularity. Integrated React and CSS3 Flexbox to accomplish a ‘masonry’ layout for search results.
+Built a search feature with autocomplete that suggests hashtags ranked by popularity. Integrated React and CSS3 Flexbox to accomplish a ‘masonry’ layout for search results.
 
 ![Search](readme/search.gif)
 
