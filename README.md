@@ -155,9 +155,7 @@ router.post('/posts',
 ```
 
 
-### Future Directions
-
-I am currently working on the following features: 
-- In-app notifications
-- Audio and video posts
-
+### Notes
+To run locally: 
+- Start local MongoDB `mongod --config /usr/local/etcongod.conf`
+- Start app `npm run dev`
