@@ -157,5 +157,5 @@ router.post('/posts',
 
 ### Notes
 To run locally: 
-- Start local MongoDB `mongod --config /usr/local/etcongod.conf`
+- Start local MongoDB `mongod --config /usr/local/etc/mongod.conf`
 - Start app `npm run dev`
