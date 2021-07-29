@@ -133,7 +133,7 @@ modelQuery.deleteComment = function (commentId) {
 }
 
 modelQuery.findTags = function (tagQuery, limit = 5) {
-  return Tag.$where(`this.label.includes('${tagQuery}')`)
+  return Tag.find({ label: new RegExp(`^.*${tagQuery}.*$`) }) // https://stackoverflow.com/questions/48742640/how-to-write-regex-line-contains-string
     .select('label postCount')
     .limit(limit)
     .lean(true)
