@@ -8,3 +8,4 @@ credentials.csv
 
 .vscode
 .env
+.DS_Store
