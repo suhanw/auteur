@@ -2,6 +2,7 @@ services:
   - type: web
     name: auteur-app
     plan: free
+    region: singapore
     runtime: docker
     dockerfilePath: ./Dockerfile
     envVars:
