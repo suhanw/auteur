@@ -80,5 +80,5 @@ app.use(require('./controllers/controllers'));
 // API ROUTES==============================
 
 httpServer.listen(process.env.PORT, function () {
-  console.log('Server started');
-}); 
+  console.log("Server started", httpServer.address());
+});
