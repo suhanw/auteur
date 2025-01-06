@@ -1,11 +1,11 @@
 const path = require('path');
 // const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
-const LiveReloadPlugin = require('webpack-livereload-plugin'); // to delete in PROD
+// const LiveReloadPlugin = require('webpack-livereload-plugin'); // to delete in PROD
 
 let plugins = [];
 
 const devPlugins = [
-  new LiveReloadPlugin({ port: 8080, hostname: 'localhost' })
+  // new LiveReloadPlugin({ port: 8080, hostname: 'localhost' })
 ];
 
 const prodPlugins = [];
