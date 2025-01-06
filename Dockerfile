@@ -30,7 +30,7 @@ COPY --from=dependencies /usr/src/app/node_modules ./node_modules
 # Copy the rest of the source files into the image.
 COPY . .
 
-RUN npm run webpack
+RUN npm run clientProd
 
 #Production image
 FROM base AS production
@@ -51,4 +51,4 @@ ENV PORT=${PORT}
 EXPOSE ${PORT}
 
 # Start command
-CMD node src/server/app.js
+CMD ["node", "src/server/app.js"]

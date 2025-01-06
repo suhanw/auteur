@@ -11,7 +11,7 @@
     "start": "docker compose -f compose.yaml up -d --build",
     "stop": "docker compose down -v",
     "webpack": "webpack --mode=production --watch",
-    "postinstall": "webpack",
+    "clientProd": "webpack --mode=production",
     "clientDev": "webpack --mode=development --watch",
     "serverDev": "nodemon --inspect src/server/app.js --watch src/server",
     "dev": "concurrently \"npm run serverDev\" \"npm run clientDev\""
