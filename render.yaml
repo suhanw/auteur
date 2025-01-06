@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: auteur-app
+    plan: free
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 80
+      - key: DATABASEURL
+        sync: false # get value from dashboard
+      - key: SESSION_SECRET
+        sync: false
+      - key: AWS_ACCESS_KEY_ID
+        sync: false
+      - key: AWS_SECRET_ACCESS_KEY
+        sync: false
+      - key: AWS_BUCKET
+        sync: false
+      - key: AWS_REGION
+        sync: false
