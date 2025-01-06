@@ -27,7 +27,7 @@ class Carousel extends React.Component {
 
     const backgroundImages = [
       "/images/wallpapers/blade-runner-2049.jpg",
-      "/images/wallpapers/se7en.png",
+      "/images/wallpapers/se7en.jpg",
       "/images/wallpapers/back-to-the-future.jpg",
       "/images/wallpapers/arrival.jpg",
       "/images/wallpapers/interstellar.jpg",
