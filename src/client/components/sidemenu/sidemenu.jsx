@@ -98,7 +98,7 @@ class Sidemenu extends React.Component {
           </div>
           <i className="fas fa-plus-square"></i>
         </a>
-        <a className='connect-item'
+        {/* <a className='connect-item'
           href='https://www.suhanwijaya.com/assets/suhan_wijaya_resume.pdf'
           target='_blank'>
           <i className="fas fa-file-download"></i>
@@ -107,7 +107,7 @@ class Sidemenu extends React.Component {
             <span>download</span>
           </div>
           <i className="fas fa-plus-square"></i>
-        </a>
+        </a> */}
       </section>
     );
   }
