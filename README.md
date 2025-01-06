@@ -157,6 +157,5 @@ router.post('/posts',
 
 ### Notes
 To run locally: 
-- Use Node v8
-- Start local MongoDB `mongod --config /usr/local/etc/mongod.conf`
-- Start app `npm run dev`
+- Install Docker, run `npm start` to start containers. 
+- Run `npm stop` to tear down containers. 
