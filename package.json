@@ -8,11 +8,12 @@
   "main": "src/server/app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node src/server/app.js",
+    "start": "docker compose -f compose.yaml up -d --build",
+    "stop": "docker compose down -v",
     "webpack": "webpack --mode=production --watch",
     "postinstall": "webpack",
     "clientDev": "webpack --mode=development --watch",
-    "serverDev": "nodemon --inspect src/server/app.js",
+    "serverDev": "nodemon --inspect src/server/app.js --watch src/server",
     "dev": "concurrently \"npm run serverDev\" \"npm run clientDev\""
   },
   "repository": {

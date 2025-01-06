@@ -1,0 +1,29 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+      target: dependencies
+      args:
+        NODE_ENV: development
+    volumes:
+      - ./src:/usr/src/app/src
+    ports:
+      - 3000:3000
+      - 8080:8080 # for client-side live reload
+    environment:
+      PORT: 3000
+      NODE_ENV: development
+      DATABASEURL: mongodb://mongodb:27017/auteur
+      SESSION_SECRET: my-session-secret
+    depends_on:
+      mongodb:
+        condition: service_started
+    command: npm run dev
+
+  mongodb:
+    image: mongo:4
+    ports:
+      - 27017:27017
+    volumes:
+      - ./mongodb_data:/data/db
