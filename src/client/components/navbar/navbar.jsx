@@ -62,7 +62,7 @@ class Navbar extends React.Component {
   createNotificationSocket() {
     const { currentUser, fetchUnreadNotificationCount } = this.props;
     this.socket = io('/notifications');
-    this.socket.on(`notify ${currentUser._id}`, (err) => {
+    this.socket.on(`notify ${currentUser?._id}`, (err) => {
       fetchUnreadNotificationCount();
     })
   }
