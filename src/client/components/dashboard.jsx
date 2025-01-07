@@ -10,7 +10,7 @@ class Dashboard extends React.Component {
     super(props);
 
     this.renderNavbarPerScreenSize = this.renderNavbarPerScreenSize.bind(this);
-    this.throttleResizeNavbar = this.throttleResizeNavbar.bind(this);
+    this.throttleResizeNavbar = this.throttleResizeNavbar.call(this);
   }
 
   render() {
@@ -36,12 +36,12 @@ class Dashboard extends React.Component {
 
   componentDidMount() {
     this.renderNavbarPerScreenSize();
-    window.addEventListener('resize', this.throttleResizeNavbar());
+    window.addEventListener("resize", this.throttleResizeNavbar);
   }
 
   componentWillUnmount() {
     this.props.renderNavbar(null); // to remove navbar when unmounting
-    window.removeEventListener('resize', this.throttleResizeNavbar());
+    window.removeEventListener("resize", this.throttleResizeNavbar);
   }
 
 
