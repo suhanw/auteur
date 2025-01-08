@@ -32,11 +32,7 @@ app.set('views', path.join(__dirname, '/views'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(methodOverride());
-app.use(express.static(path.join(__dirname + '/../client/public'), {
-  setHeaders: function(res) {
-    res.set("Access-Control-Allow-Origin", "*"); 
-  }
-}));
+app.use(express.static(path.join(__dirname + '/../client/public')));
 // APP CONFIG=============================
 
 // AUTH CONFIG============================
@@ -81,6 +77,10 @@ app.use('/api', notificationRoutes(io));
 
 // API ROUTES==============================
 app.use(require('./controllers/controllers'));
+app.get("/health", (_, res) => {
+  res.set("Access-Control-Allow-Origin", "*");
+  res.send("ok");
+});
 // API ROUTES==============================
 
 httpServer.listen(process.env.PORT, function () {
